@@ -82,3 +82,12 @@ When an element is manually positioned, you can shift its layout with `top`, `le
 Elements with a higher `z-index` value will appear to be layered on top of elements with a lower `z-index` value
 
 `border-radius: 50%`; to make more circular
+
+
+to add multiple classes to an element: <div class="class1 class2 class3"></div>
+
+meta tag ends />
+
+The `::before` selector creates a pseudo-element which is the first child of the selected element, while the `::after` selector creates a pseudo-element which is the last child of the selected element.
+
+The `@media` at-rule, also known as a media query, is used to conditionally apply CSS. Media queries are commonly used to apply CSS based on the viewport width using the `max-width` and `min-width` properties.
