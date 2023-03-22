@@ -39,3 +39,7 @@ element they're inside of (e.g. h1 etc.)
 - ``<i>`` wrapped around makes text italic
 - ``<em>`` wrapped around denotes text as emphasised, usually displayed as italic
 
+- To click on nav bar to get to one section, set <a href="#sectionid">, where section id is the id set for that section. also for the a elements, set to ``cursor:pointer;`` in CSS. 
+
+
+See also [[Media queries notes]]
