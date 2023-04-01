@@ -124,3 +124,17 @@ Here are some of the most common values for `justify-content`:
 Each of these values can be used with the `justify-content` property in CSS to achieve different horizontal alignment styles for flex items within a flex container.
 
 When "flex-wrap: wrap" is applied to a flex container, it allows the flex items to wrap onto multiple lines if there is not enough space within the container to fit them all on one line.
+
+The `loading` attribute on an `img` element can be set to `lazy` to tell the browser not to fetch the image resource until it is needed
+
+meta and img self closing, end in /> v important! 
+
+
+use the minmax function to set minimum and maximum sizes
+
+
+The `object-fit` property tells the browser how to position the element within its container. In this case, `cover` will set the image to fill the container, cropping as needed to avoid changing the aspect ratio.
+
+CSS Grid: this game is fun: https://cssgridgarden.com/ 
+
+CSS Grid you can align the content of grid items with `align-items` and `justify-items`. `align-items` will align child elements along the column axis, and `justify-items` will align child elements along the row axis.
