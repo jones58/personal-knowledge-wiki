@@ -140,3 +140,17 @@ CSS Grid: this game is fun: https://cssgridgarden.com/
 CSS Grid you can align the content of grid items with `align-items` and `justify-items`. `align-items` will align child elements along the column axis, and `justify-items` will align child elements along the row axis.
 
 Often use ``box-sizing: border-box;`` to make boxes work better. Can also do ``border: 1px solid black;`` to make it more obvious where boxes are, then remove this towards end. 
+
+
+To make video or image fill whole page: ``
+ ``display: block;
+  ``width: 100%;``
+
+To make a form's input say "submit" instead of submit query, add this to input: 
+``value="Submit"``
+
+
+
+
+
+
