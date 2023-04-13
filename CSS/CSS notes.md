@@ -149,8 +149,6 @@ To make video or image fill whole page: ``
 To make a form's input say "submit" instead of submit query, add this to input: 
 ``value="Submit"``
 
-
-
-
+Remove horizontal and vertical scrollbars with: ``overflow:hidden;``
 
 
