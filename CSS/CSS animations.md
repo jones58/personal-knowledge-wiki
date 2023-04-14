@@ -9,3 +9,9 @@ The `animation-iteration-count` property is used to show how many times an anima
 The `animation-timing-function` property is used to set rate at which animation should run. Usually ``linear`` but there are other options too, like ``ease-in-out``
 
 Can also use ``animation`` property to set these all at once: the `animation-name`, `animation-duration`, `animation-timing-function`, and `animation-iteration-count` properties in that order.
+
+There are also transitions, for example with :active selectors, can set the following values in a similar way. Doesn't use keyframes at rule. 
+e.g. 
+``transition-duration: 1s;``
+``transition-timing-function:ease-in-out;``
+``transition-delay: 0ms;``

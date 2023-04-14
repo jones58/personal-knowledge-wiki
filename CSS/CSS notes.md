@@ -151,4 +151,32 @@ To make a form's input say "submit" instead of submit query, add this to input:
 
 Remove horizontal and vertical scrollbars with: ``overflow:hidden;``
 
+to target all descendents of an element ``.element * { }
 
+
+empty string: `` '' ''`` which can be used as a value, e.g. color. 
+
+
+The `:root` selector is used to define global CSS variables, also known as CSS custom properties. Global variables defined with `:root` are available throughout the entire document, making it easy to set and modify values that apply to the entire page.
+
+For example, if you wanted to define a global variable for the primary color of your website, you could use the `:root` selector like this:
+```css
+:root {
+  --primary-color: #007bff;
+}
+```
+
+
+flip the x-axis when rotating an element: ``scaleX(-1)
+
+border-radius shorthand = top left, top right, bottom right, bottom left
+
+for other four value shorthand, like margin and padding = top value, right value, bottom value, left value
+
+the `:active` selector is a pseudo-class that targets an element while it is being activated by the user. This typically refers to the moment when a user clicks on a link or a button, but it can also apply to other types of user interactions, such as when a user taps on an element on a touchscreen device.
+
+indicate can't move something/use cursor on it: ``cursor:not-allowed;``
+
+
+other notes: 
+[[CSS animations]]
