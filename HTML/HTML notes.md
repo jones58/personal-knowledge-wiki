@@ -41,5 +41,10 @@ element they're inside of (e.g. h1 etc.)
 
 - To click on nav bar to get to one section, set `<a href="#sectionid">`, where section id is the id set for that section. also for the a elements, set to ``cursor:pointer;`` in CSS. 
 
+- HTML uses ``<abbr>`` for abbreviations - written as ``<abbr title="World Health Organisation">WHO</abbr>``
+
+HTML comments: ``<!-- This is a comment -->`` - NB you can use comments to hide things temporarily, e.g. for debugging. 
+
+To use an image as a link, just put the `<img>` tag inside the `<a>` tag. 
 
 See also [[Media queries notes]]

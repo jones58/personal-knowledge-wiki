@@ -177,6 +177,10 @@ the `:active` selector is a pseudo-class that targets an element while it is bei
 
 indicate can't move something/use cursor on it: ``cursor:not-allowed;``
 
+Using margin can tend to look strange when scrolling, best to use padding. 
+
+Use css float property to let image float to left or right. 
+
 
 other notes: 
 [[CSS animations]]
