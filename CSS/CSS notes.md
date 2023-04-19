@@ -1,4 +1,8 @@
 
+- Three main ways to format content with CSS: 
+	- [[CSS Flexbox]]
+	- [[CSS Grid]]
+	- [[CSS Float]]
 - /\*  \*/  is a CSS comment
 - Two classes selected: .class, .class not .class .class
 - Notes:” flex-end is a value that can be assigned to the justify-content property and will align all the flex items to the right end of the container”
@@ -89,7 +93,6 @@ meta tag ends />
 
 The `::before` selector creates a pseudo-element which is the first child of the selected element, while the `::after` selector creates a pseudo-element which is the last child of the selected element.
 
-The `@media` at-rule, also known as a media query, is used to conditionally apply CSS. Media queries are commonly used to apply CSS based on the viewport width using the `max-width` and `min-width` properties.
 
 
 
@@ -184,3 +187,7 @@ Use css float property to let image float to left or right.
 
 other notes: 
 [[CSS animations]]
+[[common-css-properties.pdf]]
+[[CSS Grid]]
+[[CSS Float]]
+[[CSS Flexbox]]

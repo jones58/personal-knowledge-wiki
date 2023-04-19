@@ -1,4 +1,4 @@
- - <!--  --> is an **HTML comment**.
+
  - href= hypertext reference
 - Syntax for the For attribute in label, <label for = “”> text </label>
 - Don’t need required=”yes” attribute in input, just put required. 
@@ -47,4 +47,26 @@ HTML comments: ``<!-- This is a comment -->`` - NB you can use comments to hide 
 
 To use an image as a link, just put the `<img>` tag inside the `<a>` tag. 
 
-See also [[Media queries notes]]
+With [HTML image maps](https://www.w3schools.com/html/html_images_imagemap.asp) you can define clickable areas on an image.
+
+Use HTML ``<picture>`` tag to set different images for different screen sizes. This can save data and make images load quicker, especially where they're not needed in high resolution (e.g. mobile phone)
+
+The `<param>` tag is used to define parameters for an ``[<object>]`` element. Can do things like autoplay videos or audio.  
+
+
+## HTML lists 
+- ul for unordered lists, ol for ordered lists. 
+- dl for descriptions lists, with dt and dd for define term and define description
+
+## block vs inline 
+- Block is a full width element that starts on new line. E.g. ``<div>``
+- Inline element doesn't do that, and just fits in with other elements on same line. E.g. ``<span>``
+
+## head elements 
+- ``<base>`` used to set the base url for links on a page, use with href and/or target. 
+
+Use a ``<figure>`` element to mark up a photo in a document, and a ``<figcaption>`` element to define a caption for the photo
+
+Can easily create buttons, use: ``<button type="button">Click Me!</button>`` and then style them with CSS. 
+
+``<audio>`` elements - use mp3 is best for compatibility
