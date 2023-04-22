@@ -1,4 +1,4 @@
-To run javascript in vs code  (using code runner extension) - just do cmd-shift-p and type run code and it will come up in output 
+To run javascript in vs code  (using code runner extension) - just do ``cmd-shift-p`` and type run code and it will come up in output 
 
 8 types of variable in Javascript:
 - `undefined`
@@ -116,7 +116,45 @@ But it does not do this with the strict equality operator (``===``) - there they
 
 Can use ``typeof`` operator to get type of a variable - like 1 is number and '1' is string. 
 
+The inequality operator (``!=``)
+The strict inequality operator (`!==`)
+``>`` greater than operator
+``>=`` greater than or equal to operator
+``<`` less than operator
+`<=` The less than or equal to operator 
 
+The logical and operator (`&&`) returns `true` if and only if the operands to the left and right of it are true.
+
+The logical or operator (`||`) returns `true` if either of the operands is `true`.
+
+
+
+
+
+
+
+
+
+
+
+**floating point** number is a decimal
+when try to add/multiply etc. any two strings together you get ``NaN`` (not a number)
+
+in javascript everything is case-sensitive, and for variable names we use camelCase - thisIsCamelCase. First word is lowercase and all subsequent words start with uppercase. Look like camel humps. kebab-case and other examples for other coding languages. 
+
+Naming variables: 
+
+Good to be specific with variable names, especially if you want it to be clear that a boolean is expected, e.g.  saying ``isLightOn`` rather than ``light``. Easier when reading back code or showing to others. Some basic rules: 
+-   makes clear what **data type** is being held
+-   conveys the purpose of the value being held
+-   is descriptive without being too long and difficult to read
+
+An **expression** is any code that resolves to a single value
+
+A piece of data used by an operator is called an **operand** - e.g. ``4*5``,  4 and 5 are operands. 
+using operators to get a calculation is an example of evaluation. 
+
+**exponentiation** operator, `**` - 2**3 = 2 to power of three 
 
 
 `example.replace` to change the variable, then ('x', 'y') after to change part of  the string x to y. 
@@ -143,7 +181,7 @@ with objects,  example.pizza  and  example['pizza']  are the same thing
 
 
 
-in javascript everything is case-sensitive - use camelCase - thisIsCamelCase. First word is lowercase and all subsequent words start with uppercase
+
 
 
 
