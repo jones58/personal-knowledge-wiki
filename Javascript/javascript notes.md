@@ -78,6 +78,12 @@ written like ``var1.shift(var2 here)``
 where var1 is variable to change and var2 is variable to add
 
 
+`example.replace` to change the variable, then ('x', 'y') after to change part of  the string x to y. 
+`Math.round()` rounds to nearest integer
+`example.toString()` makes number a string
+
+
+
 can write reusable code called functions, 
 e.g. ``function functionName() {console.log("Hello World");}``
 invoke function by writing: ``functionName()``
@@ -114,28 +120,27 @@ many comparison operators, like equality operator (``==``) which compares two th
 Javascript can compare two different data types (for example, `numbers` and `strings`) with the equality operator, using type conversion. 
 But it does not do this with the strict equality operator (``===``) - there they have to be exact
 
-Can use ``typeof`` operator to get type of a variable - like 1 is number and '1' is string. 
+Relying on loose equality, which uses the `==` operator, is risky and can make our code behave unpredictably - always use the strict equality operator `===` 
 
-The inequality operator (``!=``)
-The strict inequality operator (`!==`)
+
 ``>`` greater than operator
 ``>=`` greater than or equal to operator
 ``<`` less than operator
 `<=` The less than or equal to operator 
 
-The logical and operator (`&&`) returns `true` if and only if the operands to the left and right of it are true.
+The logical and operator (`&&`) returns `true` if and only if the operands to the left and right of it are true, otherwise resolves to false. 
 
 The logical or operator (`||`) returns `true` if either of the operands is `true`.
 
+logical not operator ``!`` or bang operator 
+``! true = false
+``! false = true
 
 
 
 
-
-
-
-
-
+The inequality operator (``!=``)
+The strict inequality operator (`!==`) - nb one equals missing compared to others 
 
 **floating point** number is a decimal
 when try to add/multiply etc. any two strings together you get ``NaN`` (not a number)
@@ -154,35 +159,39 @@ An **expression** is any code that resolves to a single value
 A piece of data used by an operator is called an **operand** - e.g. ``4*5``,  4 and 5 are operands. 
 using operators to get a calculation is an example of evaluation. 
 
-**exponentiation** operator, `**` - 2**3 = 2 to power of three 
+**exponentiation** operator, `**` - ``2**3`` = 2 to power of three 
 
+String literal - adding different strings together easily 
+variables inside expressed with `${}` and all converted to strings. 
+for string literals, encased in backticks 
 
-`example.replace` to change the variable, then ('x', 'y') after to change part of  the string x to y. 
-`Math.round()` rounds to nearest integer
-`example.toString()` makes number a string
+String property to access more info about a variable
+e.g length, we use dot syntax
+const exampleLength = example.length
 
-``total += i`` adds i to total in forLoop
+``const lastCharacter = blogPost[blogPost.length - 1]`` often use length to get last value in a string
 
-forLoop is 3 expressions that run over and over
+String methods - things that can be performed on data
+ie. `.toUpperCase()` and `.toLowerCase()` (as they're functions, you need brackets)
 
-``for (_expression 1_; _expression 2_; _expression 3_) {  
-  // _code block to be executed_  
-}``
-where expression 1 is first statement, expression 2 is conditional statement, such as x>y, and expression 3 is executed every time after code block executed (often incremental)
+always remember to use let or const when defining variable for first time
 
+Can use ``Console.log()`` for debugging
+Can use ``typeof`` operator to get type of a variable - like 1 is number and '1' is string.  Combine with ``console.log()`` to print to console
 
+if want to calculate within console.log with type of  (typeof (variable one + variable two)) - note extra brackets. 
 
-when doing array filtering, syntax is important! Can often change values and use an existing function
+single line comment in javascript - ``//``
+multuple line comment - ``/* comment here */
 
-index number for arrays - 0,1,2 etc. for a, b and c in array. 
+right click, run code in vscodium
 
-with objects,  example.pizza  and  example['pizza']  are the same thing
+in javascript, pseudocode is plain english writing in comments that breaks down the steps needed to code
 
-
-
-
-
-
+error messages help to debug
+- syntax error - something written wrong, like forgotten speech marks around a string. 
+- reference error - trying to reference a variable that isn't available, ie not declared
+- type error - trying to do something which isn't right for that type of value - i.e. change number to uppercase
 
 
 
