@@ -196,6 +196,23 @@ truthy values are not true but evaluate as true in boolean contexts - any number
 falsy values evaluate to false - -   `false` , `0`, an empty **string** `''`, `NaN`,   `undefined`, ``null``
 
 if else statements generate fork - if can't evaluate first statement as true,  ``else``... next one
+syntax is ``if...else if...else``
+
+ternary statement -
+``condition ? expressionIfTrue : expressionIfFalse``
+
+switch statements - 
+```switch (expression) {
+  case value1:
+    // code to execute if expression matches value1
+    break;
+  case value2:
+    // code to execute if expression matches value2
+    break;
+  default:
+    // code to execute if expression does not match any of the cases
+}
+```
 
 
-
+if using lots of expressions and && operators etc, and it's not working, then put them in () so it's clear what's happening and nothing gets processed wrong. 
