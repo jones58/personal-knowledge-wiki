@@ -216,3 +216,58 @@ switch statements -
 
 
 if using lots of expressions and && operators etc, and it's not working, then put them in () so it's clear what's happening and nothing gets processed wrong. 
+
+with slices: 
+If a negative **number** is used as an index, then the index is counted from the _end_ of the array - `-1` would be the position of the _last_ item in the array.
+
+The first argument is the array **index** that the slice should start; the second argument is the array index the slice should go up to, but not include. ie, .slice(0, 3) - is 1st - 3rd but not 4th value. 
+
+
+## Other Array Methods
+
+- .splice () - The **`splice()`** method changes the contents of an array by removing or replacing existing elements and/or adding new elements [in place](https://en.wikipedia.org/wiki/In-place_algorithm).
+- .flat () - The **`flat()`** method creates a new array with all sub-array elements concatenated into it, in effect flattening all nested arrays into a single array. 
+- .includes() - determines whether an array includes a certain value, gives `true` or `false`
+- .indexOf() - returns first index at which a value is present, or -1 if it's not present 
+- .reverse () - reverses the order of elements in array
+
+
+## For loops
+
+```
+for (start; stop; step) {
+  // code to execute
+}
+```
+
+start expression, e.g let i=10; 
+stop expression, e.g. i <3; - when this is no longer true, loop stops. 
+step expression, eg. i++ , i+1, add one each time loop is run 
+code could be console log
+
+NB. the step expression runs at the end of the step, when the code has executed. 
+
+for loops can be used with arrays, giving one example of iteration 
+
+can use if statements within for loops
+
+even numbers: 
+```
+let numbers = [2, 4, 5, 6, 9, 10, 11, 12]
+
+// Start writing your code below
+
+for (let i=0;i<numbers.length; i++){
+
+if (numbers[i]%2===0)
+
+console.log(numbers[i])
+
+}
+```
+
+Can't use .length property on numbers - so have to convert it to string first: so instead of ``.toString``, write as ``.toString().length``
+
+
+
+
