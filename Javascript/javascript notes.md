@@ -136,9 +136,6 @@ logical not operator ``!`` or bang operator
 ``! true = false
 ``! false = true
 
-
-
-
 The inequality operator (``!=``)
 The strict inequality operator (`!==`) - nb one equals missing compared to others 
 
@@ -193,6 +190,12 @@ error messages help to debug
 - reference error - trying to reference a variable that isn't available, ie not declared
 - type error - trying to do something which isn't right for that type of value - i.e. change number to uppercase
 
+
+truthy values are not true but evaluate as true in boolean contexts - any number (except 0), any string, objects and arrays 
+
+falsy values evaluate to false - -   `false` , `0`, an empty **string** `''`, `NaN`,   `undefined`, ``null``
+
+if else statements generate fork - if can't evaluate first statement as true,  ``else``... next one
 
 
 
