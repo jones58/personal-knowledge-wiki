@@ -269,5 +269,54 @@ console.log(numbers[i])
 Can't use .length property on numbers - so have to convert it to string first: so instead of ``.toString``, write as ``.toString().length``
 
 
+## Objects 
+
+``const variable = { key : value } ``
+often called key value pair. common between them. e.g. key:value, key:value. 
+
+can use dot notation to search, e.g. ``variable.key``
+
+if it has spaces, then have to use bracket notation as variable ``["key"]``
+
+sometimes the key is stored in a variable - ie not predetermined. this is a dynamic key
+
+can assign properties to objects and reassign, e.g. ``variable.key = "something"``
+if using dynamic key, use bracket notation
+nb don't use let ... for this 
+
+as well as assigning and reassigning values to properties can delete. e.g. ``delete variable.key`` or set value to ``null`` 
+
+objects can be nested within other objects, using ``{ }`` inside followed by usual ``key : value``  then access as ``variable.key.key``
+
+#### for in loops in objects 
+
+``for (const key in variableName) { code to be executed}
+
+We can use variable keys and bracket notation to dynamically access the value of keys: 
+``for (const key in tree) { const value = tree[key]}``
+nb must have the const in for in loops
+
+nb you can have for loops inside for in loops
+
+when accessing a property in objects, got to write is as string, " " "
+remember escape keys!  'Anne's' written as 'Anne\'s'
+
+#### functions
+ invoke a function by writing ``functionName()``
+ functions can have more than one parameter 
+ use ``return`` to return a value which can be used elsewhere and changed 
+ ``Return`` is last part of code in function - can't run any more code after that
+
+in a for loop, use answer = false or answer = true and then return answer instead of just doing return false or return true, cos that will overwrite for each entry, each time the loop runs
+
+
+
+
+
+
+
+
+
+
 
 
