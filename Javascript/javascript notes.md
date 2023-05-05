@@ -309,14 +309,12 @@ remember escape keys!  'Anne's' written as 'Anne\'s'
 
 in a for loop, use answer = false or answer = true and then return answer instead of just doing return false or return true, cos that will overwrite for each entry, each time the loop runs
 
+NB must put return ... the variable(s) you want when running a function
+
+``break`` to exit a for loop when answer is found - i.e. first odd number 
+
+``%`` - remainder operator
 
 
-
-
-
-
-
-
-
-
+in javascript ``...`` is known as the spread operator - ``...myArray `` means all the values in an array are passed into function as individual elements. 
 
