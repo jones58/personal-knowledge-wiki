@@ -293,13 +293,20 @@ objects can be nested within other objects, using ``{ }`` inside followed by usu
 ``for (const key in variableName) { code to be executed}
 
 We can use variable keys and bracket notation to dynamically access the value of keys: 
-``for (const key in tree) { const value = tree[key]}``
-nb must have the const in for in loops
+```javascript
+for (let key in obj) {
+  const value = obj[key];
+```
+
+We do this when we don't know he name of the keys and want to access the values inside them
+
+NB must have the const in for in loops
 
 nb you can have for loops inside for in loops
 
 when accessing a property in objects, got to write is as string, " " "
 remember escape keys!  'Anne's' written as 'Anne\'s'
+
 
 #### functions
  invoke a function by writing ``functionName()``
@@ -324,3 +331,5 @@ Math.ceiling() - round up
 
 NB must put return...function at end of function
 NB when putting new key and value in an object, must put key in " "
+NB when adding keys to object, should be 'seat': not 'seat: ' basically colon shouldn't be in quote marks 
+NB when put return in a loop it stops it looping - don't do it! 
