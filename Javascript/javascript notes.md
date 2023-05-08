@@ -333,3 +333,25 @@ NB must put return...function at end of function
 NB when putting new key and value in an object, must put key in " "
 NB when adding keys to object, should be 'seat': not 'seat: ' basically colon shouldn't be in quote marks 
 NB when put return in a loop it stops it looping - don't do it! 
+
+## Events
+
+``document.querySelector("html").addEventListener("click", function () {
+``alert("Ouch! Stop poking me!");
+``});
+
+``function ()`` this is an anonymous function cos it doesn't have a name
+	can also be written as `() =>`  - an arrow function 
+
+
+## The DOM  (document object model)
+
+```
+const paragraphs = document.querySelectorAll("p");
+```
+
+This returns all the paragraph (p) elements in the document
+
+built using multiple APIs (Application Programming Interface) that work together
+
+Most web developers will use javascript with the DOM, but it also works with other programming languages like Python.
