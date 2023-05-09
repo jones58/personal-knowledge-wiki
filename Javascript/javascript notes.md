@@ -344,14 +344,3 @@ NB when put return in a loop it stops it looping - don't do it!
 	can also be written as `() =>`  - an arrow function 
 
 
-## The DOM  (document object model)
-
-```
-const paragraphs = document.querySelectorAll("p");
-```
-
-This returns all the paragraph (p) elements in the document
-
-built using multiple APIs (Application Programming Interface) that work together
-
-Most web developers will use javascript with the DOM, but it also works with other programming languages like Python.
