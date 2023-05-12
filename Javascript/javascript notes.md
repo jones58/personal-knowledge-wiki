@@ -344,3 +344,6 @@ NB when put return in a loop it stops it looping - don't do it!
 	can also be written as `() =>`  - an arrow function 
 
 
+
+
+NB scripts go to bottom of body, like so: <script src="scripts/main.js"></script>

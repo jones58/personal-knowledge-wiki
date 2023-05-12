@@ -28,8 +28,7 @@ e.g. ``document.getElementsByTagName('li')``
 
 5. ``document.querySelector()``
  select with CSS selector, e.g. ``("button")``
-
-e.g. 
+ selects the first item which matches
 
 5. ``document.querySelectorAll()``
 select multiple elements with same CSS selector. returns a NodeList of matching elements
@@ -84,3 +83,22 @@ if it exists, will remove. If not, will add it
 ``.hidden`` decides if something is hidden completely in browser, e.g. ``button.hidden = true;``
 
 you can also create new elements in JavaScript
+
+
+
+Basic to do list showing DOM manipulation in action
+https://codepen.io/oliverjam/pen/zbBxOz 
+
+My forked copy with delete buttons: 
+https://codepen.io/jones58/pen/rNqdwYJ
+
+
+MDN reference here: 
+https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction
+
+
+can add ``deleteButton.addEventListener('click', handleDelete);`` event listeners for elements when you create them. This way don't have to select element separately 
+\
+
+
+
