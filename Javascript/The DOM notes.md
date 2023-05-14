@@ -102,3 +102,10 @@ can add ``deleteButton.addEventListener('click', handleDelete);`` event listener
 
 
 
+
+
+## forEach selector 
+e.g. buttons.forEach(function buttonClicked(button) {
+button.addEventListener("click", handleClick => {
+button.style.backgroundColor = "green";
+});

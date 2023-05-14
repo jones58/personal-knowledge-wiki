@@ -184,6 +184,7 @@ Using margin can tend to look strange when scrolling, best to use padding.
 
 Use css float property to let image float to left or right. 
 
+CSS uses : where HTML uses = 
 
 other notes: 
 [[CSS animations]]

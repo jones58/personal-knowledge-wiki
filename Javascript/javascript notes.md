@@ -1,5 +1,7 @@
 To run javascript in vs code  (using code runner extension) - just do ``cmd-shift-p`` and type run code and it will come up in output 
 
+NB scripts go to bottom of body in HTML, like so: <script src="scripts/main.js"></script>
+
 8 types of variable in Javascript:
 - `undefined`
 - `null`
@@ -196,7 +198,8 @@ truthy values are not true but evaluate as true in boolean contexts - any number
 falsy values evaluate to false - -   `false` , `0`, an empty **string** `''`, `NaN`,   `undefined`, ``null``
 
 if else statements generate fork - if can't evaluate first statement as true,  ``else``... next one
-syntax is ``if...else if...else``
+syntax is ``if..."else if"...else``
+basically just chain if statements together 
 
 ternary statement -
 ``condition ? expressionIfTrue : expressionIfFalse``
@@ -345,5 +348,39 @@ NB when put return in a loop it stops it looping - don't do it!
 
 
 
+## Switch statements 
 
-NB scripts go to bottom of body, like so: <script src="scripts/main.js"></script>
+Use Switch statements to test one value against multiple options. 
+E.g. 
+```js
+switch (fruit) {
+  case "apple":
+    console.log("The fruit is an apple");
+    break;
+  case "orange":
+    console.log("The fruit is an orange");
+    break;
+}```
+
+``case`` uses strict equality === operator  and ``break`` stops the function if runs through that bit (i.e. if fruit is apple, console logs then breaks(ends) the function) 
+
+Sometimes can't use case for everything so have to set ``default`` like ``else`` in else if : e.g 
+```js
+switch (num) {
+  case value1:
+    statement1;
+    break;
+  case value2:
+    statement2;
+    break;
+...
+  default:
+    defaultStatement;
+    break;
+}
+```
+
+
+
+
+NB when you set a variable, it should be =0, = "" depending on what you want it to be. Will default to string if not set. So something will end up being NaN even if numbers are added to it.
