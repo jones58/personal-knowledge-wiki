@@ -20,6 +20,8 @@ e.g. ``document.GetElementById('main heading')``
 can set this to equal ``const title``
 and then ``console.log(title)``
 
+can also be written as ``document.querySelector('# ID name')``
+
 2. ``document.getElementsByClassName()``
 e.g. ``document.getElementsByClassName('list-items')``
 
@@ -98,10 +100,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduct
 
 
 can add ``deleteButton.addEventListener('click', handleDelete);`` event listeners for elements when you create them. This way don't have to select element separately 
-\
-
-
-
 
 
 ## forEach selector 

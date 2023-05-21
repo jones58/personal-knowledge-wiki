@@ -85,6 +85,10 @@ where var1 is variable to change and var2 is variable to add
 `example.toString()` makes number a string
 
 
+Can be written as ``toLocaleString()`` when needs to meet local number format (like local date)
+
+and ``.toString(radix)``  can output to different formats - like 2 is binary, 8 is octal and 16 is hexadecimal format. 
+
 
 can write reusable code called functions, 
 e.g. ``function functionName() {console.log("Hello World");}``
@@ -124,6 +128,7 @@ But it does not do this with the strict equality operator (``===``) - there they
 
 Relying on loose equality, which uses the `==` operator, is risky and can make our code behave unpredictably - always use the strict equality operator `===` 
 
+all comparison operators return a boolean ``true`` or ``false`` operator
 
 ``>`` greater than operator
 ``>=`` greater than or equal to operator
@@ -143,6 +148,9 @@ The strict inequality operator (`!==`) - nb one equals missing compared to other
 
 **floating point** number is a decimal
 when try to add/multiply etc. any two strings together you get ``NaN`` (not a number)
+
+Can test whether something is NaN (not a number) with ``isNaN(x)`` where x is the number. GIves true or false, e.g. ``let answer = isNaN(x)``
+
 
 in javascript everything is case-sensitive, and for variable names we use camelCase - thisIsCamelCase. First word is lowercase and all subsequent words start with uppercase. Look like camel humps. kebab-case and other examples for other coding languages. 
 
@@ -197,14 +205,32 @@ truthy values are not true but evaluate as true in boolean contexts - any number
 
 falsy values evaluate to false - -   `false` , `0`, an empty **string** `''`, `NaN`,   `undefined`, ``null``
 
+We can check for to see if a variable has a falsy value with a simple conditional:
+
+```javascript
+if (!variable) {
+  // When the variable has a falsy value the condition is true.
+}
+```
+
 if else statements generate fork - if can't evaluate first statement as true,  ``else``... next one
 syntax is ``if..."else if"...else``
 basically just chain if statements together 
 
-ternary statement -
-``condition ? expressionIfTrue : expressionIfFalse``
+## Ternary operator 
 
-switch statements - 
+```javascript
+condition ? expressionIfTrue : expressionIfFalse
+```
+can chain them by putting : in between as many times, e.g. 
+```javascript
+return age < 16 ? "children" : age < 50 ? "young man" : "old man";
+```
+
+
+
+## Switch statements 
+
 ```switch (expression) {
   case value1:
     // code to execute if expression matches value1
@@ -216,6 +242,12 @@ switch statements -
     // code to execute if expression does not match any of the cases
 }
 ```
+
+
+if multiple cases have same result, you can write as 
+case 1: 
+case 2: 
+	code to execute
 
 
 if using lots of expressions and && operators etc, and it's not working, then put them in () so it's clear what's happening and nothing gets processed wrong. 
@@ -250,6 +282,8 @@ code could be console log
 
 NB. the step expression runs at the end of the step, when the code has executed. 
 
+NB got to have for.. 
+
 for loops can be used with arrays, giving one example of iteration 
 
 can use if statements within for loops
@@ -277,6 +311,8 @@ Can't use .length property on numbers - so have to convert it to string first: s
 ``const variable = { key : value } ``
 often called key value pair. common between them. e.g. key:value, key:value. 
 
+NB sometimes will look like a key value pair but won't be e.g. ``x:y`` - this one can do ``.split(":")`` and then ``[0]`` or ``[1]`` for x and y. 
+
 can use dot notation to search, e.g. ``variable.key``
 
 if it has spaces, then have to use bracket notation as variable ``["key"]``
@@ -291,7 +327,7 @@ as well as assigning and reassigning values to properties can delete. e.g. ``del
 
 objects can be nested within other objects, using ``{ }`` inside followed by usual ``key : value``  then access as ``variable.key.key``
 
-#### for in loops in objects 
+## For...in loops
 
 ``for (const key in variableName) { code to be executed}
 
@@ -310,9 +346,39 @@ nb you can have for loops inside for in loops
 when accessing a property in objects, got to write is as string, " " "
 remember escape keys!  'Anne's' written as 'Anne\'s'
 
+## For...of loops
 
-#### functions
- invoke a function by writing ``functionName()``
+Same as above, just loop through key values instead of key names
+In arrays for in will just give the indexes, while for of will give the values. 
+
+## While loops 
+while loop executes statement when test condition is true. 
+e.g. 
+```javascript
+while (n<5){
+n++;
+console.log("n = " +n);
+}
+```
+
+## Do while loops
+Executes until the test condition is false - so will run at least once
+
+``` Javascript
+do { 
+i++;
+console.log("i = " + i);
+}
+while (i < 5);
+```
+
+can write in ``if ( condition) continue``, continue takes back to start of the loop, whereas 
+``break`` stops it
+
+
+## Functions
+
+invoke a function by writing ``functionName()``
  functions can have more than one parameter 
  use ``return`` to return a value which can be used elsewhere and changed 
  ``Return`` is last part of code in function - can't run any more code after that
@@ -380,7 +446,15 @@ switch (num) {
 }
 ```
 
-
-
-
 NB when you set a variable, it should be =0, = "" depending on what you want it to be. Will default to string if not set. So something will end up being NaN even if numbers are added to it.
+
+
+## Arrays 
+when defining new empty array - can write  
+``let arr = new Array()`` or ``let arr = []``
+you can check if array is empty or not with .length, e.g. 
+``if (arr.length === 0){console.log("array is empty")}
+
+
+We can manipulate strings with ``.padStart()`` which pads the start of the string with another string until it reaches a given length. e.g. padding text with 0 until it reaches the length of 4: ``text.padStart(4,"0");``
+
