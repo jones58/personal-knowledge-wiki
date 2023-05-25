@@ -458,3 +458,18 @@ you can check if array is empty or not with .length, e.g.
 
 We can manipulate strings with ``.padStart()`` which pads the start of the string with another string until it reaches a given length. e.g. padding text with 0 until it reaches the length of 4: ``text.padStart(4,"0");``
 
+
+
+## Number objects 
+
+There are other ways to convert numbers to strings: 
+- ``.toFixed()`` - specifies the number of decimal places, e.g. ``3.1415.toFixed(2)`` will make it ``3.14``
+- ``.toExponential()`` - writes it as exponential, e.g. ``100,000.toExponential()`` becomes ``1.0e+5``, 1 and 5 zeroes. The number in the brackets is as above, the precision of the decimal places.
+- ``.toPrecision()`` - controls total number of digits, e.g. ``123.4563.toPrecision(6)`` becomes ``123.456``
+
+We can turn this string back into a number with either: 
+- ``parseInt()`` - converts to integer
+- ``parseFloat()`` - converts to decimal
+	- can also be written as just ``+`` in front of a string
+For each - the number goes in the (), not as a . 
+
