@@ -311,7 +311,7 @@ Can't use .length property on numbers - so have to convert it to string first: s
 ``const variable = { key : value } ``
 often called key value pair. common between them. e.g. key:value, key:value. 
 
-NB sometimes will look like a key value pair but won't be e.g. ``x:y`` - this one can do ``.split(":")`` and then ``[0]`` or ``[1]`` for x and y. 
+NB sometimes will look like a key value pair but won't be e.g. ``x:y`` - this one can do ``.split(":")`` and then ``[0]`` or ``[1]`` for x and y.  For this will need to convert to string first cos can only split string. 
 
 can use dot notation to search, e.g. ``variable.key``
 
