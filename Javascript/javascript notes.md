@@ -305,6 +305,13 @@ console.log(numbers[i])
 
 Can't use .length property on numbers - so have to convert it to string first: so instead of ``.toString``, write as ``.toString().length``
 
+You can also nest loops, e.g. just use j inside i 
+```js 
+for (let i = 0; i < arr.length; i++) {
+for (let j = 0; j < arr[i].length; j++) {
+    console.log(arr[i][j]);
+```
+
 
 ## Objects 
 
@@ -315,7 +322,7 @@ NB sometimes will look like a key value pair but won't be e.g. ``x:y`` - this on
 
 can use dot notation to search, e.g. ``variable.key``
 
-if it has spaces, then have to use bracket notation as variable ``["key"]``
+if it has spaces, then have to use bracket notation as variable ``["key with spaces"]``
 
 sometimes the key is stored in a variable - ie not predetermined. this is a dynamic key
 
@@ -448,6 +455,8 @@ switch (num) {
 
 NB when you set a variable, it should be =0, = "" depending on what you want it to be. Will default to string if not set. So something will end up being NaN even if numbers are added to it.
 
+Can also use a lookup object rather than switch or if else chain. Most useful when input data is limited to certain range of values. 
+
 
 ## Arrays 
 when defining new empty array - can write  
@@ -473,3 +482,16 @@ We can turn this string back into a number with either:
 	- can also be written as just ``+`` in front of a string
 For each - the number goes in the (), not as a . 
 
+
+
+## Testing Objects for Properties
+
+Use ``.hasOwnProperty``, e.g. 
+``return object.hasOwnProperty(property)`` will return true or false
+
+
+## Recursion
+
+Recursion states that a function can be expressed in terms of itself, a function within function
+
+We use n-1 in recursive calls because arrays are zero-indexed, so need to go one back. 
