@@ -15,9 +15,12 @@ NB scripts go to bottom of body in HTML, like so: <script src="scripts/main.js">
 In JavaScript all variables and function names are case sensitive.
 ```let variable='some string'```
 ```let```can be reassigned
-```const``` is a constant that can't be reassigned or changed - it's read only
+```const``` is a constant that can't be reassigned or changed - it's read only. It can be changed in terms of changing values in arrays/objects. Just can't change variable identifier/name
 
 or can just write ``var x = "";`` where x is variable name - but this can be easily overridden so best not to use in big codebase. When you override with let it tells you. 
+
+``var`` means it's declared globally, or locally within a function. 
+``let`` is limited to block, statement or expression if declared there. 
 
 ``++`` operator - using this operator, we write ``x++;`` which is equivalent to ``x=x+1;``
 likewise ``--`` operator:  ``x--;`` is same as ``x=x-1;``
@@ -174,7 +177,7 @@ for string literals, encased in backticks
 
 String property to access more info about a variable
 e.g length, we use dot syntax
-const exampleLength = example.length
+``const exampleLength = example.length``
 
 ``const lastCharacter = blogPost[blogPost.length - 1]`` often use length to get last value in a string
 
@@ -217,7 +220,7 @@ if else statements generate fork - if can't evaluate first statement as true,  `
 syntax is ``if..."else if"...else``
 basically just chain if statements together 
 
-## Ternary operator 
+## Conditional (Ternary) operator 
 
 ```javascript
 condition ? expressionIfTrue : expressionIfFalse
@@ -227,9 +230,35 @@ can chain them by putting : in between as many times, e.g.
 return age < 16 ? "children" : age < 50 ? "young man" : "old man";
 ```
 
+This is often a better way of writing if else statements, e.g.
+```js
+function findGreater(a, b) {
+  if(a > b) {
+    return "a is greater";
+  }
+  else {
+    return "b is greater or equal";
+  }
+}
+```
+can be rewritten as : 
+```js
+function findGreater(a, b) {
+  return a > b ? "a is greater" : "b is greater or equal";
+}
+```
+ can then chain like so: 
+ ```js
+function findGreaterOrEqual(a, b) {
+  return (a === b) ? "a and b are equal" 
+    : (a > b) ? "a is greater" 
+    : "b is greater";
+}
+```
 
 
-## Switch statements 
+
+##  Switch statements 
 
 ```switch (expression) {
   case value1:
@@ -416,9 +445,51 @@ NB when put return in a loop it stops it looping - don't do it!
 ``alert("Ouch! Stop poking me!");
 ``});
 
+
 ``function ()`` this is an anonymous function cos it doesn't have a name
 	can also be written as `() =>`  - an arrow function 
 
+these anonymous functions are useful when don't need to name functions to use elsewhere, epecially when passing function as argument to another function
+
+so e.g.:
+```js
+const myFunc = function() {
+  const myVar = "value";
+  return myVar;
+}
+```
+can be rewritten as: 
+```js
+const myFunc = () => {
+  const myVar = "value";
+  return myVar;
+}
+```
+
+can be simplified further - since no function body and only a return value we can omit the keyword return and brackets. 
+
+```js
+const myFunc = () => "value";
+```
+
+You can pass arguments into arrow functions: 
+
+```js
+const doubler = (item) => item * 2;
+doubler(4);
+```
+
+if just one item, can get rid of brackets: 
+```js
+const doubler = item => item * 2;
+```
+
+Can also pass two values, like so: 
+
+```js
+const multiplier = (item, multi) => item * multi;
+multiplier(4, 2)
+```
 
 
 ## Switch statements 
@@ -478,6 +549,7 @@ There are other ways to convert numbers to strings:
 
 We can turn this string back into a number with either: 
 - ``parseInt()`` - converts to integer
+	- ``ParseInt(string, radix)`` - which turns string into a number with radix (like binary etc.)
 - ``parseFloat()`` - converts to decimal
 	- can also be written as just ``+`` in front of a string
 For each - the number goes in the (), not as a . 
@@ -495,3 +567,28 @@ Use ``.hasOwnProperty``, e.g.
 Recursion states that a function can be expressed in terms of itself, a function within function
 
 We use n-1 in recursive calls because arrays are zero-indexed, so need to go one back. 
+
+## Generating random numbers
+Use ``Math.random()`` to create a random decimal between 0  and 1. Can be 0 but can't be 1.
+
+From there can make a random number less than 20 by using ``Math.floor(Math.random() * 20);``
+``Math.floor()`` rounds number down to nearest whole number
+
+can do this between a range of two number using min and max values, like so: 
+
+``Math.floor(Math.random() * (max - min + 1)) + min``
+
+
+## Prevent object mutation
+
+Use ``Object.freeze(objectName)`` - this will stop any variables in the object being redeclared 
+
+
+## console 
+
+can do ``console.log()`` a value to print it to the console
+``console.clear()`` to clear the console
+and ``console.warn()`` to print a warning message along with warning icon
+
+can write like this if want to reference a value:``console.log(`Net working capital is: ${netWorkingCapital}`);``
+
