@@ -75,12 +75,11 @@ you can acess arrays within arrays using the notation, e.g. ``x[0][0]``
 `.push()` takes one or more parameters and "pushes" them onto the end of the array
 `.unshift()` to add element to start of array - just like push. 
 
-`.pop()` is used to pop a value off of the end of an array - this can then be stored as a variable
+`.pop()` is used to pop a value off of the end of an array - this can then be stored as a variable, so can do ``popped = arrayName.pop()``
 
-`.shift()` to remove first value of array
+`.shift()` to remove first value of array - this can then be stored as a variable, so can do ``shifted = arrayName.shift()``
 
-written like ``var1.shift(var2 here)``
-where var1 is variable to change and var2 is variable to add
+can be written like ``var1.shift(var2 here)`` where var1 is variable to change and var2 is variable to add
 
 
 `example.replace` to change the variable, then ('x', 'y') after to change part of  the string x to y. 
@@ -281,15 +280,15 @@ case 2:
 
 if using lots of expressions and && operators etc, and it's not working, then put them in () so it's clear what's happening and nothing gets processed wrong. 
 
-with slices: 
+
 If a negative **number** is used as an index, then the index is counted from the _end_ of the array - `-1` would be the position of the _last_ item in the array.
 
-The first argument is the array **index** that the slice should start; the second argument is the array index the slice should go up to, but not include. ie, .slice(0, 3) - is 1st - 3rd but not 4th value. 
 
 
-## Other Array Methods
+## Array Methods
 
-- .splice () - The **`splice()`** method changes the contents of an array by removing or replacing existing elements and/or adding new elements [in place](https://en.wikipedia.org/wiki/In-place_algorithm).
+- ``.slice()`` - use to extract information from an array into new array. The first argument is the array **index** that the slice should start; the second argument is the array index the slice should go up to, but not include. ie, .slice(0, 2) - will read first and second values, up to but not including third
+- .splice () - The **`splice()`** method changes the contents of an array by removing or replacing existing elements and/or adding new elements [in place](https://en.wikipedia.org/wiki/In-place_algorithm). It can take two variables - index position and number of elements to remove. Or it can take three variables, where third is element to add. Can be as many numbers here as you want  Returns a new array. 
 - .flat () - The **`flat()`** method creates a new array with all sub-array elements concatenated into it, in effect flattening all nested arrays into a single array. 
 - .includes() - determines whether an array includes a certain value, gives `true` or `false`
 - .indexOf() - returns first index at which a value is present, or -1 if it's not present 
@@ -556,10 +555,12 @@ For each - the number goes in the (), not as a .
 
 
 
-## Testing Objects for Properties
+## Checking Objects for Properties
 
 Use ``.hasOwnProperty``, e.g. 
-``return object.hasOwnProperty(property)`` will return true or false
+``object.hasOwnProperty(property)`` will return true or false
+
+or can use ``in`` -  ``property in object`` will return true or false 
 
 
 ## Recursion
@@ -584,11 +585,50 @@ can do this between a range of two number using min and max values, like so:
 Use ``Object.freeze(objectName)`` - this will stop any variables in the object being redeclared 
 
 
-## console 
+## Console 
+
+Can just right click, inspect, on any web element to open dev tools for that element
 
 can do ``console.log()`` a value to print it to the console
 ``console.clear()`` to clear the console
 and ``console.warn()`` to print a warning message along with warning icon
 
 can write like this if want to reference a value:``console.log(`Net working capital is: ${netWorkingCapital}`);``
+
+## Copy with the spread operator
+
+```js
+let thatArray = [...thisArray];
+```
+ copy with just ``...``
+
+Can add arrays within other arrays using spread operator too, like so: 
+
+```js
+let thatArray = ['basil', 'cilantro', ...thisArray, 'coriander'];
+```
+
+## indexOf
+
+``.indexOf()`` to check for presence of element in array, will return the index of that element or -1 if not present. E.g. ``fruits.indexOf('pears')``
+
+
+
+## Generate an Array of All Object Keys with Object.keys()
+
+Use ``Object.keys([ArrayName])`` to generate a new array of all the keys in an object. Won't have specific order because generating from an object 
+
+## Convert values to Boolean 
+
+``!!value `` will evaluate as true or false 
+
+There are 6 falsy values in JS: ```
+``` js 
+false
+undefined
+null
+NaN
+0
+"" (empty string)
+```
 
