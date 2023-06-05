@@ -632,3 +632,6 @@ NaN
 "" (empty string)
 ```
 
+## Using Sort Operator
+``.sort()`` will sort an array of values based on their unicode values, in ascending order. This not always useful cos numbers 5, 62 etc. would be ordered like that cos only takes first number. So we use a compare function within the sort: 
+``arr.sort((a, b) => a - b);``
