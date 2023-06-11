@@ -88,8 +88,38 @@ Check for zero or one of an element, basically an optional element using ``?``, 
 
 Lookaheads to look for pattern ahead. Can be positive and negative.
 Postive lookead will check to see if pattern is there but won't match it `(?=...)` where ``...`` is the thing you want to check,e.g. ``a``
-Negative lookahead will check to see if pattern is not there ``(?!...)`` where ``...`` is the thing you want ton check isn't there 
+Negative lookahead will check to see if pattern is not there ``(?!...)`` where ``...`` is the thing you want to check isn't there 
 
 Better use of lookaheads is to check two or more patterns in string, e.g. ``let checkPass = /(?=\w{3,6})(?=\D*\d)/;``
 
 
+
+Found this bit of Regex very difficult: 
+``let myRegex = /(Franklin|Eleanor) (([A-Z]\.?|[A-Z][a-z]+) )?Roosevelt/;``
+
+## Capture Groups 
+
+Find repeated patterns using Capture Groups, which enclose repeated bit in paratheses - so repeated alphanumeric sequence ``\w+`` becomes ``/(\w+)/`` 
+substring matched is saved to temporaty variable, accessible via the backslash and number of capture group - e.g. ``\1`` . auto numbered by position of opening paretheses (left to right) starting at 1. 
+e.g. this shows a repeating word, that repeats three times `
+``let repeatRegex = /(\w+) \1 \1/;``
+
+
+Can replace text you match with capture group, using ``.replace()`` on string. e.g. 
+```js
+let wrongText = "The sky is silver.";
+let silverRegex = /silver/;
+wrongText.replace(silverRegex, "blue");
+```
+
+this would return ``the sky is blue.``
+can also access capture groups with dollar sign + number of capture group. 
+
+
+
+
+Regular Expressions explained by Fireship: https://www.youtube.com/watch?v=sXQxhojSdZM 
+
+Regex cheatsheet: https://fireship.io/lessons/regex-cheat-sheet-js/ 
+
+Regexr to understand and test regex: https://regexr.com/
