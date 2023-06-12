@@ -123,3 +123,6 @@ Regular Expressions explained by Fireship: https://www.youtube.com/watch?v=sXQxh
 Regex cheatsheet: https://fireship.io/lessons/regex-cheat-sheet-js/ 
 
 Regexr to understand and test regex: https://regexr.com/
+
+
+`\b`: This is a word boundary assertion that ensures the pattern occurs at the end of a word. It prevents a match if the pattern is followed by another alphanumeric character.
