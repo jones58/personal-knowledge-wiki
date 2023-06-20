@@ -4,6 +4,8 @@
 
 https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
+https://www.youtube.com/watch?v=Y8zMYaD1bz0&list=PL4cUxeGkcC9i3FXJSUfmsNOx8E7u6UuhG&index=1
+
 https://www.youtube.com/watch?v=tXIhdp5R7sc
 https://www.youtube.com/watch?v=K74l26pE4YA 
 https://flexboxfroggy.com/

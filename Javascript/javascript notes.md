@@ -636,5 +636,35 @@ NaN
 ``.sort()`` will sort an array of values based on their unicode values, in ascending order. This not always useful cos numbers 5, 62 etc. would be ordered like that cos only takes first number. So we use a compare function within the sort: 
 ``arr.sort((a, b) => a - b);``
 
-see also:
+
+## Default parameters 
+
+Use default parameters to trigger default behaviour if a variable not specified, e.g. 
+```js
+const greeting = (name = "Anonymous") => "Hello " + name;
+```
+Will give hello Annonymous unless name is otherwise specified
+
+## Rest parameter 
+
+Represent an indefinite number of arguments in a function. Useful to define any length of array, e.g. 
+```javascript
+function sum(...numbers) {
+  let total = 0;
+  for (let number of numbers) {
+    total += number;
+  }
+  return total;
+}
+console.log(sum(1, 2, 3, 4)); // Output: 10
+```
+
+## Spread operator
+
+Used to expand or "spread" elements from an array using ``...`` 
+
+## Template literals 
+`${variable}` 
+
+See also:
 [[Regular-expressions]]
