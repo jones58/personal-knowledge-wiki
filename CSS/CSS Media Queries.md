@@ -3,3 +3,5 @@ The `@media` at-rule, also known as a media query, is used to conditionally appl
 https://css-tricks.com/a-complete-guide-to-css-media-queries/
 
 https://css-tricks.com/snippets/css/media-queries-for-standard-devices/
+
+Take a mobile-first approach with media queries too - do the mobile look before desktop. 
