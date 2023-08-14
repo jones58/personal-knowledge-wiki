@@ -81,6 +81,8 @@ folder-name/ directs browser into a folder with that name
 relative urls for same domain 
 absolute urls for different domain
 
+can write ``clear`` in terminal to clear it 
+
 
 More git resources: 
 - https://gitimmersion.com/
