@@ -8,4 +8,13 @@ can use this to play around with python
 can exit REPL by writing ``exit()`` or using ctrl-d
 
 
+indentation is important!
+
+
+
+
+Good reference sites:
+
+The python documentation: https://docs.python.org/3/tutorial/datastructures.html
+
 
