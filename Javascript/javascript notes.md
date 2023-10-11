@@ -297,7 +297,7 @@ If a negative **number** is used as an index, then the index is counted from the
 
 ## For loops
 
-```
+```javascript
 for (start; stop; step) {
   // code to execute
 }
@@ -666,5 +666,27 @@ Used to expand or "spread" elements from an array using ``...``
 ## Template literals 
 `${variable}` 
 
+
+## setTimeout and setInterval
+
+``SetTimeout`` executes a function or a piece of code once after a delay. e.g.
+```javascript
+setTimeout(() => {
+  console.log("This will be executed after 1000 milliseconds (1 second).");
+}, 1000); 
+```
+
+ `setInterval` function is used to repeatedly execute a function or a piece of code at a specified interval. e.g.  
+ ```javascript
+ setInterval(() => {
+  console.log("This will be executed every 1000 milliseconds (1 second).");
+}, 1000);
+```
+Will keep repeating until ``clearInterval()`` is called with the corresponding interval Id or the program ends. e.g. 
+
+```javascript
+const intervalId = setInterval(intervalFunction, 1000);
+clearInterval(intervalId); 
+```
 See also:
 [[Regular-expressions]]

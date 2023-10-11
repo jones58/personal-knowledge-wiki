@@ -1,4 +1,9 @@
 
+ - Write ! to write boilerplate code in html - this is an emmet abbreviation
+ - cmd - /  will make a comment in html 
+ - to write a paragraph of lorem ipsum just write lorem and press return
+ - Block element takes up the whole line - like heading or paragraph
+ - Inline element will only take the space they need, like image
  - href= hypertext reference
 - Syntax for the For attribute in label, <label for = “”> text </label>
 - Don’t need required=”yes” attribute in input, just put required. 
@@ -7,7 +12,9 @@
 - notes: em is a CSS unit relative to the font size of the parent element, while rem is a CSS unit relative to the font size of an html element. 
 - div tags are very generic layout elements while fieldset is a layout element specifically for a set of form fields.
 - Meta tags are self closing. 
-- The HTML span element is a generic inline container for inline elements and content. It is **used to group elements for styling purposes (by using the class or id attributes), A better way to use it when no other semantic element is available**.
+- The HTML span element is a generic inline container for inline elements and content. It is used to group elements for styling purposes (by using the class or id attributes), A better way to use it is when no other semantic element is available. 
+
+
 - Meta content: ```width=device-width, initial-scale=1``` helps with accessibility.
 - Submit a form to a certain place: ```form method="post" action="webaddress.org"```
 - ```Input type=”date”``` for dates in forms
@@ -56,6 +63,27 @@ The `<param>` tag is used to define parameters for an ``[<object>]`` element. Ca
 
 ## HTML lists 
 - ul for unordered lists, ol for ordered lists. 
+-  can write type of list as number or letter with type and which it starts with with start
+ ```html
+```<ol type="a" start="10">
+	<li>HTML</li>
+	<li>CSS</li>
+	<li>Javascript</li>
+	</ol> 
+```
+
+Type = "disc" This is the default style. In this style, the list items are marked with bullets.
+Type = "circle" In this style, the list items are marked with circles.
+Type = "square" |In this style, the list items are marked with squares.
+Type = "none" In this style, the list items are not marked. 
+
+These can be applied to ordered and unordered lists, whereas with i, a, 1 etc. can only be applied to ordered lists: 
+
+Type = "1" This is the default type. In this type, the list items are numbered with numbers.
+Type = "I" In this type, the list items are numbered with upper case roman numbers.
+Type = "i" In this type, the list items are numbered with lower case roman numbers.
+Type = "A" In this type, the list items are numbered with upper case letters.
+Type "a"  In this type, the list items are numbered with lower case letters.
 - dl for descriptions lists, with dt and dd for define term and define description
 
 ## block vs inline 
@@ -70,3 +98,271 @@ Use a ``<figure>`` element to mark up a photo in a document, and a ``<figcaption
 Can easily create buttons, use: ``<button type="button">Click Me!</button>`` and then style them with CSS. 
 
 ``<audio>`` elements - use mp3 is best for compatibility
+
+
+## Titles 
+
+``h1 - h6``  for headings. 
+
+## HTML Tables 
+
+https://www.w3schools.com/html/html_tables.asp  is good resource on this 
+
+use 
+
+
+<table border="1">
+
+<tr>
+
+<th>First name</th>
+
+<th>Surname</th>
+
+<th>Description</th>
+
+<th>Picture</th>
+
+</tr>
+
+<tr>
+
+<td>James</td>
+
+<td>Bond</td>
+
+<td>International Spy</td>
+
+<td>
+
+<img
+
+width="100"
+
+height="100"
+
+src="https://imgs.search.brave.com/EXxrxxMV6LzwwODBSyDJXB-ZgKAaGJ1U59HuDtbx6ik/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5ncS1tYWdhemlu/ZS5jby51ay9waG90/b3MvNjMzNzBmN2Fh/NDA2ZmM0OTM5OTY2/ZWRhLzE6MS9wYXNz/L0phbWVzLWJvbmQt/V2F0Y2hlcy5qcGc"
+
+/>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Daniel</td>
+
+<td>Craig</td>
+
+<td>Actor</td>
+
+<td>
+
+<img
+
+width="100"
+
+height="100"
+
+src="https://imgs.search.brave.com/9aTltuF2CHtk90VfoVeT-FsoAWn8vIo_MMeOCNGdN8k/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/MDA3LmNvbS93cC1j/b250ZW50L3VwbG9h/ZHMvMjAyMi8xMS9Q/VF9iZWluZ19ib25k/LTQ1Mng2NzguanBn"
+
+/>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Thomas</td>
+
+<td>The Tank Engine</td>
+
+<td>He's a train</td>
+
+<td>
+
+<img
+
+width="100"
+
+height="100"
+
+src="https://imgs.search.brave.com/SmZKpetiKKv-S8w0YjdZMA38U8GksgFhIP9dD1cEdjg/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL00v/TVY1QlpXWXdNek14/WTJZdE0yRmxaaTAw/WTJVeExUa3dNemN0/TURka1pHWXpORGxr/TlRJMlhrRXlYa0Zx/Y0dkZVFYVnlOelUx/TnpFM05UZ0AuanBn"
+
+/>
+
+</td>
+
+</tr>
+
+</table>
+
+```html
+<table border="1">
+
+<tr>
+
+<th>First name</th>
+
+<th>Surname</th>
+
+<th>Description</th>
+
+<th>Picture</th>
+
+</tr>
+
+<tr>
+
+<td>James</td>
+
+<td>Bond</td>
+
+<td>International Spy</td>
+
+<td>
+
+<img
+
+width="100"
+
+height="100"
+
+src="https://imgs.search.brave.com/EXxrxxMV6LzwwODBSyDJXB-ZgKAaGJ1U59HuDtbx6ik/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5ncS1tYWdhemlu/ZS5jby51ay9waG90/b3MvNjMzNzBmN2Fh/NDA2ZmM0OTM5OTY2/ZWRhLzE6MS9wYXNz/L0phbWVzLWJvbmQt/V2F0Y2hlcy5qcGc"
+
+/>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Daniel</td>
+
+<td>Craig</td>
+
+<td>Actor</td>
+
+<td>
+
+<img
+
+width="100"
+
+height="100"
+
+src="https://imgs.search.brave.com/9aTltuF2CHtk90VfoVeT-FsoAWn8vIo_MMeOCNGdN8k/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/MDA3LmNvbS93cC1j/b250ZW50L3VwbG9h/ZHMvMjAyMi8xMS9Q/VF9iZWluZ19ib25k/LTQ1Mng2NzguanBn"
+
+/>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Thomas</td>
+
+<td>The Tank Engine</td>
+
+<td>He's a train</td>
+
+<td>
+
+<img
+
+width="100"
+
+height="100"
+
+src="https://imgs.search.brave.com/SmZKpetiKKv-S8w0YjdZMA38U8GksgFhIP9dD1cEdjg/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL00v/TVY1QlpXWXdNek14/WTJZdE0yRmxaaTAw/WTJVeExUa3dNemN0/TURka1pHWXpORGxr/TlRJMlhrRXlYa0Zx/Y0dkZVFYVnlOelUx/TnpFM05UZ0AuanBn"
+
+/>
+
+</td>
+
+</tr>
+
+</table>
+``` 
+
+<table border="1">
+
+<tr>
+
+<td rowspan="2">State of health</td>
+
+<td colspan="2">Fasting value</td>
+
+<td>After eating</td>
+
+</tr>
+
+<tr>
+
+<td>Minimum</td>
+
+<td>Maximum</td>
+
+<td>2 hours after eating</td>
+
+</tr>
+
+<tr>
+
+<td>Healthy</td>
+
+<td>70</td>
+
+<td>100</td>
+
+<td>Less than 140</td>
+
+</tr>
+
+</table>
+
+```html
+<table border="1">
+
+<tr>
+
+<td rowspan="2">State of health</td>
+
+<td colspan="2">Fasting value</td>
+
+<td>After eating</td>
+
+</tr>
+
+<tr>
+
+<td>Minimum</td>
+
+<td>Maximum</td>
+
+<td>2 hours after eating</td>
+
+</tr>
+
+<tr>
+
+<td>Healthy</td>
+
+<td>70</td>
+
+<td>100</td>
+
+<td>Less than 140</td>
+
+</tr>
+
+</table>
+```
+
+
+
+
