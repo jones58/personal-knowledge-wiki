@@ -108,8 +108,12 @@ Can easily create buttons, use: ``<button type="button">Click Me!</button>`` and
 
 https://www.w3schools.com/html/html_tables.asp  is good resource on this 
 
-use 
-
+- Use ``table border="1"`` to make it look like a proper table
+- Then set table rows to give it rows (NB you don't set columns)
+- Then use either ``th`` or ``td`` to give table head or table data within that row
+- Then next row and so forth. 
+- Can add images within ``td`` tags. 
+- Use rowspan or colspan to edit width/height of table elements - e.g. can take up two rows, or two columns. See example below. 
 
 <table border="1">
 
