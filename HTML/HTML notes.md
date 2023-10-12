@@ -13,8 +13,7 @@
 - div tags are very generic layout elements while fieldset is a layout element specifically for a set of form fields.
 - Meta tags are self closing. 
 - The HTML span element is a generic inline container for inline elements and content. It is used to group elements for styling purposes (by using the class or id attributes), A better way to use it is when no other semantic element is available. 
-
-
+- Semantic HTML elements are elements that do what the tag word is - like footer, header
 - Meta content: ```width=device-width, initial-scale=1``` helps with accessibility.
 - Submit a form to a certain place: ```form method="post" action="webaddress.org"```
 - ```Input type=”date”``` for dates in forms
@@ -369,4 +368,7 @@ src="https://imgs.search.brave.com/SmZKpetiKKv-S8w0YjdZMA38U8GksgFhIP9dD1cEdjg/r
 
 
 
+``</hr>`` creates a line in html, useful for separating projects 
+``&nbsp;`` to create a space 
 
+can use utf-8 symbols in html to write currency, copyright symbols etc.
