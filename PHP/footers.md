@@ -1,3 +1,5 @@
+https://medium.com/@dtkahn/sharing-headers-and-footers-across-multi-page-websites-4396f9034669
+
 Certainly! To reuse a header and footer in PHP, you can create separate files for the header and footer and then include them in your main PHP files where needed. Here's a basic example:
 
 1. **header.php**
