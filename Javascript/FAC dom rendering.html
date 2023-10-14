@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>DOM rendering</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">DOM rendering</h1><p class="highlight fz-lg">Practice rendering DOM elements using three different techniques.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">dom</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/dom-rendering/starter-files#main' dom-rendering" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fdom-rendering%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><h2 id="setup">Setup <a class="heading-anchor" href="#setup">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<ol>
+<li>Download starter files</li>
+<li>Run <code>npx servor workshop</code> to start a dev server</li>
+</ol>
+<p>We’ll be using three different methods to render the same dynamic UI to compare them. The UI will include a static single element (the title), plus a list of dynamic elements rendered from an array.</p>
+<p>There is an array of dog objects in <code>workshop/dogs.js</code>. In each challenge you’ll need to import that data and render the following UI:</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>All the dogs<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>Dog name<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dog image url<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span></code></pre>
+<p>with a list item for each dog in the array.</p>
+<p>The HTML document contains a single container to render all the UI into: <code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code>.</p>
+<h2 id="document-create-element"><code>document.createElement</code> <a class="heading-anchor" href="#document-create-element">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>The standard way to create new DOM elements in JavaScript is the <code>document.createElement</code> method. You pass in a string for the HTML element you want to create and it returns the new DOM node. You can then manipulate the node to add attributes and content.</p>
+<h3 id="appending-nodes">Appending nodes <a class="heading-anchor" href="#appending-nodes">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Once you’ve created DOM nodes you have to append them to their parent (and eventually to a node that is actually on the page). The classic way to do this is <code>element.appendChild(newNode)</code>. This puts <code>newNode</code> inside the <code>element</code> node. If <code>element</code> is already on the page then <code>newNode</code> is rendered.</p>
+<p>This has a big drawback: you can only append one thing at a time. This can lead to inefficient rendering. Each time you append a new element to the page the browser has to re-render everything. It’s better to get all your DOM nodes ready then append them to the page in one go.</p>
+<p>There’s a newer method with a nicer API: <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append"><code>element.append</code></a>. This is supported by all browsers but IE11. It can take as many elements to append as you like, and it even supports strings to set text content.</p>
+<pre class="language-js"><code class="language-js">container<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"Some text"</span><span class="token punctuation">,</span> newNode<span class="token punctuation">,</span> anotherNode<span class="token punctuation">,</span> <span class="token string">"more text"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>This is powerful when combined with the spread operator, as it means you can append an <strong>array of elements</strong> in one go:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> elements <span class="token operator">=</span> dogs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">dog</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">createListElementSomehow</span><span class="token punctuation">(</span>dog<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>container<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token operator">...</span>elements<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="challenge-1">Challenge 1 <a class="heading-anchor" href="#challenge-1">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Open <code>app.js</code> and import the dogs array</li>
+<li>Use <code>document.createElement</code> and <code>append</code> to render:
+<ul>
+<li>a page title</li>
+<li>an unordered list</li>
+<li>a list item for every dog in the array</li>
+</ul>
+</li>
+<li>Put all these elements inside the <code>&lt;div id=&quot;app&quot;&gt;</code> in the HTML</li>
+</ol>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> dogs <span class="token keyword">from</span> <span class="token string">"./dogs.js"</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> dogElements <span class="token operator">=</span> dogs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">dog</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> h2 <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"h2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  h2<span class="token punctuation">.</span>textContent <span class="token operator">=</span> dog<span class="token punctuation">.</span>name<span class="token punctuation">;</span><br><br>  <span class="token keyword">const</span> img <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  img<span class="token punctuation">.</span>src <span class="token operator">=</span> dog<span class="token punctuation">.</span>image<span class="token punctuation">;</span><br>  img<span class="token punctuation">.</span>alt <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">const</span> li <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"li"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  li<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>h2<span class="token punctuation">,</span> img<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">return</span> li<span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> title <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"h1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>title<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">"All the dogs"</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> list <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"ul"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>list<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token operator">...</span>dogElements<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#app"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>title<span class="token punctuation">,</span> list<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+<h2 id="abstracting-create-element">Abstracting <code>createElement</code> <a class="heading-anchor" href="#abstracting-create-element">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>We can write our own function to make it simpler to create DOM elements. Ideally we’ll be able to pass in a tag name, some properties and some children, and have all the <code>document.createElement</code> stuff handled automatically. E.g.:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> p <span class="token operator">=</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token string">"p"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">"test"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">"Some text content"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// &lt;p id="test">Some text content&lt;/p></span></code></pre>
+<p>We’ll create this in a new file <code>create-element.js</code>, so we can re-use it in multiple places if we need to.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token parameter">tag<span class="token punctuation">,</span> props<span class="token punctuation">,</span> <span class="token operator">...</span>children</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token comment">// ...</span><br><span class="token punctuation">}</span></code></pre>
+<p>The <code>...</code> is the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest operator</a>—it gathers any additional arguments into an array. Any arguments after the <code>props</code> object will go into a single array named <code>children</code>.</p>
+<p>First we need to create a new element using the <code>tag</code> argument:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token parameter">tag<span class="token punctuation">,</span> props<span class="token punctuation">,</span> <span class="token operator">...</span>children</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> element <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>tag<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>then we need to append all the properties from the <code>props</code> object onto the DOM element:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token parameter">tag<span class="token punctuation">,</span> props<span class="token punctuation">,</span> <span class="token operator">...</span>children</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> element <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>tag<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> prop <span class="token keyword">in</span> props<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    element<span class="token punctuation">[</span>prop<span class="token punctuation">]</span> <span class="token operator">=</span> props<span class="token punctuation">[</span>prop<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// e.g. element.id = "test"</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>Finally we need to append all the children to the new <code>element</code>. We already saw how <code>append</code> combines with the spread operator to add a whole array of children at once:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token parameter">tag<span class="token punctuation">,</span> props<span class="token punctuation">,</span> <span class="token operator">...</span>children</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> element <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>tag<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> prop <span class="token keyword">in</span> props<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    element<span class="token punctuation">[</span>prop<span class="token punctuation">]</span> <span class="token operator">=</span> props<span class="token punctuation">[</span>prop<span class="token punctuation">]</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br>  element<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token operator">...</span>children<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> element<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Don’t forget to return the new element! We now have a nice helper function that we can export to use in our other file.</p>
+<h3 id="challenge-2">Challenge 2 <a class="heading-anchor" href="#challenge-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Use your new <code>createEl</code> function to refactor your previous solution. Does it simplify the code?</p>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> createEl <span class="token keyword">from</span> <span class="token string">"./create-element.js"</span><span class="token punctuation">;</span><br><span class="token keyword">import</span> dogs <span class="token keyword">from</span> <span class="token string">"./dogs.js"</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> dogElements <span class="token operator">=</span> dogs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">dog</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> h2 <span class="token operator">=</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token string">"h2"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> dog<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> img <span class="token operator">=</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><br>    <span class="token literal-property property">src</span><span class="token operator">:</span> dog<span class="token punctuation">.</span>image<span class="token punctuation">,</span><br>    <span class="token literal-property property">alt</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">width</span><span class="token operator">:</span> <span class="token number">500</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token string">"li"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">className</span><span class="token operator">:</span> <span class="token string">"card"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> h2<span class="token punctuation">,</span> img<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token string">"h1"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">"All the dogs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token function">createEl</span><span class="token punctuation">(</span><span class="token string">"ul"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token operator">...</span>dogElements<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#app"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>title<span class="token punctuation">,</span> list<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+<h2 id="inner-html"><code>innerHTML</code> <a class="heading-anchor" href="#inner-html">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>This method almost feels like cheating. If you set an element’s <code>innerHTML</code> property to a string the browser will render it. This makes it a quick way to render a chunk of DOM, especially combined with template literals:</p>
+<pre class="language-js"><code class="language-js">container<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div>Hello </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span></code></pre>
+<p>There are a couple of downsides to this method. First <code>innerHTML</code> is considered a security risk. If you ever insert user input into an HTML string (like above) you run the risk of XSS attacks (cross-site scripting). A user could insert <code>&lt;script src=&quot;steal-credit-cards.js&quot;&gt;&lt;/script&gt;</code> as the <code>name</code> variable, and your code would render that to the page, causing it to immediately execute.</p>
+<p>It can also potentially be slow, since every time you change a node’s <code>innerHTML</code> property the browser must completely scrap and recreate its entire DOM tree. If you (for example) keep appending to <code>innerHTML</code> in a loop you’ll cause a lot of unnecessary re-renders. Nowadays browsers are so fast this is less of a concern.</p>
+<h3 id="challenge-3">Challenge 3 <a class="heading-anchor" href="#challenge-3">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Use <code>innerHTML</code> and template literals to create the same UI as before.</p>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> dogs <span class="token keyword">from</span> <span class="token string">"./dogs.js"</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> dogElements <span class="token operator">=</span> dogs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">dog</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>    &lt;li class="card"><br>      &lt;h2></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dog<span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/h2><br>      &lt;img src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dog<span class="token punctuation">.</span>image<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">" alt="" /><br>    &lt;/li><br>  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#app"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  &lt;h1>All the dogs&lt;/h1><br>  &lt;ul><br>    </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dogElements<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"><br>  &lt;/ul><br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span></code></pre>
+</details></div>
+<h2 id="stretch-goal-the-template-element">Stretch goal: the <code>&lt;template&gt;</code> element <a class="heading-anchor" href="#stretch-goal-the-template-element">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>The template element is a special HTML element designed for rendering dynamic UI with JavaScript. The template (and all its contents) don’t appear on the page. It’s like a reusable stamp: you have to use JS to make a copy of the template, fill in the blanks, then append the copy to the page.</p>
+<pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- index.html --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>homeTemplate<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> template <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#homeTemplate"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> clone <span class="token operator">=</span> template<span class="token punctuation">.</span>content<span class="token punctuation">.</span><span class="token function">cloneNode</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> title <span class="token operator">=</span> clone<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"h1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>title<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">"Hello world"</span><span class="token punctuation">;</span><br>container<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>clone<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>This is useful because we don’t have to dynamically create elements: we can use the ones already created inside the template.</p>
+<h3 id="challenge-4">Challenge 4 <a class="heading-anchor" href="#challenge-4">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Use the template element to create the same UI. You’ll need to edit the HTML file too.</p>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- index.html --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pageTemplate<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>All the dogs<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span><br><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>cardTemplate<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>500<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> dogs <span class="token keyword">from</span> <span class="token string">"./dogs.js"</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> cardTemplate <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#cardTemplate"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> dogElements <span class="token operator">=</span> dogs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">dog</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> clone <span class="token operator">=</span> cardTemplate<span class="token punctuation">.</span>content<span class="token punctuation">.</span><span class="token function">cloneNode</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  clone<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"h2"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  clone<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>src <span class="token operator">=</span> dog<span class="token punctuation">.</span>image<span class="token punctuation">;</span><br>  <span class="token keyword">return</span> clone<span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> pageTemplate <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#pageTemplate"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> clone <span class="token operator">=</span> pageTemplate<span class="token punctuation">.</span>content<span class="token punctuation">.</span><span class="token function">cloneNode</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>clone<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"ul"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token operator">...</span>dogElements<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#app"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>clone<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+<h3 id="defining-templates-in-js">Defining templates in JS <a class="heading-anchor" href="#defining-templates-in-js">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>It’s a little annoying that templates have to be defined in the HTML file. We’re doing all our rendering within JavaScript, so it would be nice to keep all the templates there too.</p>
+<p>We can work around this by combining all three of our rendering methods. We can create a new template element within our JS, set its content using <code>innerHTML</code>, then clone that template whenever we need a copy. The template is never actually on the page, it just lives inside our JS.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> template <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"template"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>template<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;h1 class="title">&lt;/h1></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token comment">// clone the template same as before</span></code></pre>
+<p>This also avoid the problems with <code>innerHTML</code>, since we won’t be passing user input into it. Our only use of <code>innerHTML</code> will be the initial static markup.</p>
+<h4 id="challenge-5">Challenge 5 <a class="heading-anchor" href="#challenge-5">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Remove your template elements from the HTML file and instead create them with JavaScript. Refactor your previous solution to use this technique.</p>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> dogs <span class="token keyword">from</span> <span class="token string">"./dogs.js"</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> cardTemplate <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"template"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>cardTemplate<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  &lt;li class="card"><br>    &lt;h2>&lt;/h2><br>    &lt;img src="" alt="" width="500" height="300" /><br>  &lt;/li><br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> dogElements <span class="token operator">=</span> dogs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">dog</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> clone <span class="token operator">=</span> cardTemplate<span class="token punctuation">.</span>content<span class="token punctuation">.</span><span class="token function">cloneNode</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  clone<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"h2"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  clone<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>src <span class="token operator">=</span> dog<span class="token punctuation">.</span>image<span class="token punctuation">;</span><br>  <span class="token keyword">return</span> clone<span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> pageTemplate <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"template"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>pageTemplate<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  &lt;h1>All the dogs&lt;/h1><br>  &lt;ul>&lt;/ul><br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token keyword">const</span> clone <span class="token operator">=</span> pageTemplate<span class="token punctuation">.</span>content<span class="token punctuation">.</span><span class="token function">cloneNode</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>clone<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"ul"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token operator">...</span>dogElements<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#app"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>clone<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+<h2 id="conclusion">Conclusion <a class="heading-anchor" href="#conclusion">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>All of these techniques are valid, and all have their place. It’s good to understand the platform you’re working with, even if you end up using a framework like React that handles lower-level DOM manipulation for you.</p>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

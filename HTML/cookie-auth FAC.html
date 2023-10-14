@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Cookie intro</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Cookie intro</h1><p class="highlight fz-lg">Learn how to use cookies to persist information across HTTP requests</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">cookies</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">sessions</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/cookie-auth/starter-files#main' cookie-auth" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fcookie-auth%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Cookies are an important part of authentication. We’re going to learn how they allow your server to “remember” information about previous requests.</p>
+<h2 id="cookie-background">Cookie background <a class="heading-anchor" href="#cookie-background">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>HTTP is a “stateless” protocol. This means each new request to your server is totally independent of any other. There is no way by default for a request to contain information from previous requests. Unfortunately it’s quite hard to build a website without being able to remember things. For example “what has this user added to their shopping cart?” and “has this user already logged in?”.</p>
+<p>Cookies were introduced in 1994 as a way for web browsers to store information on behalf of the server. The response to one request can contain a cookie; the browser will store this cookie and automatically include it on <strong>all future requests</strong> to the same domain.</p>
+<h2 id="how-cookies-work">How cookies work <a class="heading-anchor" href="#how-cookies-work">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>A cookie is just a standard HTTP header. A cookie can be set by a server including the <code>set-cookie</code> header in a response. Here’s an example HTTP response:</p>
+<pre><code>HTTP/1.1 200 Ok
+content-type: text/html
+set-cookie: userid=1234
+
+&lt;h1&gt;Hello&lt;/h1&gt;
+</code></pre>
+<p>That <code>set-cookie</code> header tells the browser to store a cookie with a name of <code>&quot;userid&quot;</code> and a value of <code>&quot;1234&quot;</code>.</p>
+<p>This cookie is then sent on all future requests to this domain via the <code>cookie</code> request header. Here’s an example HTTP request:</p>
+<pre><code>GET /about HTTP/1.1
+accept: text/html
+cookie: userid=1234
+</code></pre>
+<p>The server would receive this second request, read the <code>cookie</code> header and know that this request was made by the same user as before (with a <code>&quot;userid&quot;</code> of <code>&quot;1234&quot;</code>).</p>
+<h3 id="cookie-attributes">Cookie attributes <a class="heading-anchor" href="#cookie-attributes">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Cookies also support extra attributes to customise their behaviour. These can be set after the cookie value itself, like this:</p>
+<pre><code>set-cookie: userid=1234; Max-Age=60; HttpOnly; SameSite=Lax
+</code></pre>
+<h4 id="expiry">Expiry <a class="heading-anchor" href="#expiry">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>By default a cookie only lasts as long as the user is browsing. As soon as they close their tabs the cookie will be deleted by the browser. This is useful for certain features (like a shopping cart), but less useful for keeping a user logged in.</p>
+<p>The server can specify an expiry time for the cookie. This tells the browser to keep it around (even if the user closes their tabs) until the time runs out. There are two ways to control this: <code>Expires</code> and <code>Max-Age</code>. <code>Expires</code> lets you set a specific date it should expire on; <code>Max-Age</code> lets you specify how many seconds from now the cookie should last.</p>
+<h4 id="security">Security <a class="heading-anchor" href="#security">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Cookies often contain sensitive information. There are a few options that should be specified to make them more secure.</p>
+<p>The <code>HttpOnly</code> option stops client-side JavaScript from accessing cookies. This can prevent malicious JS code (e.g. from a browser extension) from reading your cookies (this is know as “Cross-site Scripting” or XSS).</p>
+<p>The <code>Same-Site</code> option stops the cookie from being sent on requests made from other domains. You probably want to set it to “Lax” (which is the default starting with Chrome v84). Otherwise there’s a risk of other sites pretending to act on behalf of a logged in user (this is know as “Cross-site Request Forgery” or CSRF).</p>
+<p>The <code>Secure</code> option will ensure the cookie is only set for secure encrypted (<code>https</code>) connections. You shouldn’t use this in development (since your <code>localhost</code> server doesn’t use <code>https</code>) but it’s a very good idea in production.</p>
+<hr>
+<h2 id="cookies-in-node">Cookies in Node <a class="heading-anchor" href="#cookies-in-node">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Lets see how to set and read cookies using Node.</p>
+<h3 id="setup">Setup <a class="heading-anchor" href="#setup">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Download the starter files and <code>cd</code> in</li>
+<li><code>npm install</code></li>
+<li><code>npm run dev</code></li>
+</ol>
+<h3 id="raw-cookie-headers">Raw cookie headers <a class="heading-anchor" href="#raw-cookie-headers">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<h4 id="setting-a-cookie">Setting a cookie <a class="heading-anchor" href="#setting-a-cookie">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>First lets set a cookie by adding a “set-cookie” header to a response manually. Add a new handler for the <code>GET /example</code> route:</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/example"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><br>    <span class="token string">"set-cookie"</span><span class="token punctuation">,</span><br>    <span class="token string">"hello=this is my cookie; HttpOnly; Max-Age=60; SameSite=Lax"</span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Visit <a href="http://localhost:3000/example">http://localhost:3000/example</a>. You should be redirected back to the homepage. Open dev tools and look at the “Application” tab. Click on “Cookies” in the sidebar and you should be able to see the cookie you just set.</p>
+<h4 id="reading-a-cookie">Reading a cookie <a class="heading-anchor" href="#reading-a-cookie">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>You can <em>read</em> the cookie on the server by looking at the “cookie” header. Edit your home handler:</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> cookies <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"cookie"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>cookies<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>If you refresh the page now you should see “hello=this is my cookie” logged. If you delete the cookie using the Application tab of dev tools and refresh again the cookie log should be gone.</p>
+<p>Working with cookies this way is quite awkward—everything is just a big string, and we’d have to manually parse any values we needed. Luckily Express comes with some built-in cookie methods.</p>
+<h3 id="cookies-with-express">Cookies with Express <a class="heading-anchor" href="#cookies-with-express">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<h4 id="setting-a-cookie-with-express">Setting a cookie with Express <a class="heading-anchor" href="#setting-a-cookie-with-express">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Express’ <code>response</code> object has a <code>cookie</code> method. It takes three arguments, the name, the value, and an optional object for all the cookie options. It handles creating the “set-cookie” header string automatically.</p>
+<div class="box box-default content flow">
+<p>Confusingly the Express cookie handler expects the max-age to be specified in <strong>milliseconds</strong>, not seconds. Make sure you set a larger number than before!</p>
+</div>
+<p>Update your <code>/example</code> handler to use Express’ cookie helper:</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/example"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">cookie</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token string">"this is my cookie"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><br>    <span class="token literal-property property">httpOnly</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">maxAge</span><span class="token operator">:</span> <span class="token number">1000</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">,</span> <span class="token comment">// 60,000ms (60s)</span><br>    <span class="token literal-property property">sameSite</span><span class="token operator">:</span> <span class="token string">"lax"</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>This should create the exact same cookie as before.</p>
+<h4 id="reading-a-cookie-with-express">Reading a cookie with Express <a class="heading-anchor" href="#reading-a-cookie-with-express">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Since reading cookies isn’t something <em>every</em> server needs Express doesn’t come with it built-in. They provide an optional middleware you need to install and use.</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> cookie-parser</code></pre>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> cookieParser <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"cookie-parser"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cookieParser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>This middleware works like the built-in body-parsing one. It grabs the “cookie” header, parses it into a nice object, then attaches it to the <code>request</code> for you to use.</p>
+<p>So now you can access all the cookies sent on this request at <code>request.cookies</code>:</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>cookies<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token comment">// ...</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>You should see an object like this logged:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span> <span class="token property">"hello"</span><span class="token operator">:</span> <span class="token string">"this is my cookie"</span> <span class="token punctuation">}</span></code></pre>
+<h4 id="removing-cookies-with-express">Removing cookies with Express <a class="heading-anchor" href="#removing-cookies-with-express">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Express also provides the <code>response.clearCookie</code> method for removing cookies. It takes the name of the cookie to remove. When the browser receives this response it will delete the matching cookie. Add a new route to your server:</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/remove"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">clearCookie</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>If you visit <a href="http://localhost:3000/remove">http://localhost:3000/remove</a> in your browser you should be redirected back to the home page, but the cookie will be gone.</p>
+<hr>
+<h2 id="authentication">Authentication <a class="heading-anchor" href="#authentication">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Cookies are useful for ensuring users don’t have to keep verifying their identity on every request. Once a user has proved who they are (usually by entering a password only they know) it’s important to remember that information.</p>
+<h3 id="stateless-authentication">“Stateless” authentication <a class="heading-anchor" href="#stateless-authentication">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>There are two ways to use cookies for authenticating users. The first is often known as “stateless” auth. We can store all the information we need to know in the cookie itself. For example:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> userInfo <span class="token operator">=</span> <span class="token punctuation">{</span><br>  <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">username</span><span class="token operator">:</span> <span class="token string">"oliverjam"</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">admin</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br>response<span class="token punctuation">.</span><span class="token function">cookie</span><span class="token punctuation">(</span><span class="token string">"user"</span><span class="token punctuation">,</span> userInfo<span class="token punctuation">,</span> <span class="token punctuation">{</span><br>  <span class="token literal-property property">httpOnly</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">maxAge</span><span class="token operator">:</span> <span class="token number">1000</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">sameSite</span><span class="token operator">:</span> <span class="token string">"lax"</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>When the user first logs in we set a cookie containing the user’s information. On subsequent requests our server can check for this cookie. If it is present we can assume the user has previously logged in, and so we allow them to see protected content.</p>
+<h4 id="signing-cookies">Signing cookies <a class="heading-anchor" href="#signing-cookies">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Unfortunately this has a pretty serious security problem: we <em>can’t</em> trust cookies sent to us. Since a cookie is just an HTTP header anybody could send a cookie that looks like anything. E.g. anyone can use <code>curl</code> to send such a request:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">curl</span> <span class="token parameter variable">-H</span> <span class="token string">'cookie: user={"id":1,"username":"oliverjam","admin":true}'</span> localhost:3000</code></pre>
+<p>It’s also easy to edit cookie values in dev tools—a user could simply change their ID/username to another.</p>
+<p>However there is a way we can trust cookies: we can sign them. In cryptography signing refers to using a mathematical operation based on a secret string to transform a value. This signature will always be the same assuming the same secret and the same input value. Without the secret it is impossible to reproduce the same signature.</p>
+<p>If we sign our cookie we can validate that it has not been tampered with, since only our server knows the secret required to create a valid signature. Implementing this from scratch would be complex and easy to mess up—luckily the <code>cookie-parser</code> middleware supports signed cookies.</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cookieParser</span><span class="token punctuation">(</span><span class="token string">"alongrandomstringnobodyelseknows"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>signedCookies<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/example"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">cookie</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token string">"this is my cookie"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">signed</span><span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>You need to pass a random secret string to the <code>cookieParser()</code> middleware function. Then you can specify <code>signed: true</code> in the cookie options. Signed cookies are available at a different request key to normal cookies: <code>request.signedCookies</code>.</p>
+<h3 id="challenge-1-stateless-auth">Challenge 1: stateless auth <a class="heading-anchor" href="#challenge-1-stateless-auth">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Add a <code>GET /login</code> route that sets a <em>signed</em> cookie containing some user information, then redirects to the home page</li>
+<li>Add a <code>GET /logout</code> route that removes the cookie, then redirects to the home page</li>
+<li>Log the signed cookies in the home route</li>
+</ol>
+<p>If you visit <code>/login</code> you should see the cookie data you set logged in your terminal. In the browser’s dev tools the cookie will have some extra random stuff attached to it. This is the signature.</p>
+<pre><code>s:j:{&quot;id&quot;:1,&quot;username&quot;:&quot;oliverjam&quot;,&quot;admin&quot;:true}.uJLn0/18tqme8pQE0bB+8WsqeEXP2IY19l+34YdyFnk
+</code></pre>
+<p>If you edit the cookie in dev tools and then refresh you should instead see your server log <code>false</code> for that cookie name. This is because the signature no longer matches, so the server does not trust the cookie.</p>
+<p>If you visit <code>/logout</code> the cookie should be removed from your browser.</p>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>signedCookies<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/login"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> userInfo <span class="token operator">=</span> <span class="token punctuation">{</span><br>    <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">username</span><span class="token operator">:</span> <span class="token string">"oliverjam"</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">admin</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">cookie</span><span class="token punctuation">(</span><span class="token string">"user"</span><span class="token punctuation">,</span> userInfo<span class="token punctuation">,</span> <span class="token punctuation">{</span><br>    <span class="token literal-property property">httpOnly</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">maxAge</span><span class="token operator">:</span> <span class="token number">1000</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">sameSite</span><span class="token operator">:</span> <span class="token string">"lax"</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">signed</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/logout"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">clearCookie</span><span class="token punctuation">(</span><span class="token string">"user"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+<h4 id="stateless-auth-downsides">Stateless auth downsides <a class="heading-anchor" href="#stateless-auth-downsides">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Storing all the information we need inside the cookie like this is very convenient. However there are some downsides:</p>
+<ol>
+<li>Cookies have a 4kb size limit, so you can’t fit <em>too</em> much info in them.</li>
+<li>The cookie is the “source of truth”. This means the server cannot invalidate a cookie, it has to wait for the cookie to expire. The server cannot log users out—as long as their cookie is valid they can keep making requests.</li>
+</ol>
+<h3 id="server-side-session-authentication">Server-side session authentication <a class="heading-anchor" href="#server-side-session-authentication">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>The other way to keep users logged in is to keep track of that state on the server. The cookie just stores a unique ID. This ID refers to some data that lives on the server and stores all the user info.</p>
+<p>For example once a user logs in you might set a cookie containing a session ID like this:</p>
+<pre><code>set-cookie: sid=abcd; HttpOnly; Max-Age=60;
+</code></pre>
+<p>and then store the relevant user info using that <code>sid</code> as a key:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">let</span> sessions <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span><br><br><span class="token comment">// later</span><br>sessions<span class="token punctuation">[</span><span class="token string">"abcd"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">username</span><span class="token operator">:</span> <span class="token string">"oliverjam"</span><span class="token punctuation">,</span> <span class="token literal-property property">admin</span><span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>Here we’re just putting the session data in an object, which means it will get deleted whenever the server restarts. Ideally this information would be stored in a database so it persists.</p>
+<p>On subsequent requests the server would read the session ID cookie, then use that to look up the user info from the <code>sessions</code> object.</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> sid <span class="token operator">=</span> request<span class="token punctuation">.</span>signedCookies<span class="token punctuation">.</span>sid<span class="token punctuation">;</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>sid<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> userInfo <span class="token operator">=</span> sessions<span class="token punctuation">[</span>sid<span class="token punctuation">]</span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>userInfo<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>This allows the server to control the “session”—if it needs to log a user out it can simply delete that entry from the <code>sessions</code> storage.</p>
+<h4 id="security-2">Security <a class="heading-anchor" href="#security-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>It’s important that the session ID is a long random string, so that nobody can guess them. Here’s a good way to generate a random 18 byte long string in Node:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> crypto <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"crypto"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> sid <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">randomBytes</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token string">"base64"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// "MqLV99hG294x5+Q+gm5gHnbH" (this will be different every time)</span></code></pre>
+<p>Also although we aren’t directly storing user info in the cookie we still need to sign it. Otherwise if someone did find a way to guess the session IDs they could edit their cookie.</p>
+<h4 id="challenge-2-session-auth">Challenge 2: session auth <a class="heading-anchor" href="#challenge-2-session-auth">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<ol>
+<li>Change your <code>GET /login</code> route to set a signed session ID cookie. This cookie should just contain a long random string</li>
+<li>Store the user data in a global sessions object</li>
+<li>Change the home handler to read the session ID cookie, look the user info up in the global sessions object, then log it</li>
+<li>Change the <code>GET /logout</code> route to remove the cookie and delete the session from the global sessions object</li>
+</ol>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-js"><code class="language-js"><span class="token keyword">let</span> sessions <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> sid <span class="token operator">=</span> request<span class="token punctuation">.</span>signedCookies<span class="token punctuation">.</span>sid<span class="token punctuation">;</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>sid<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> userInfo <span class="token operator">=</span> sessions<span class="token punctuation">[</span>sid<span class="token punctuation">]</span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>userInfo<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/login"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> sid <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">randomBytes</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token string">"base64"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> userInfo <span class="token operator">=</span> <span class="token punctuation">{</span><br>    <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">username</span><span class="token operator">:</span> <span class="token string">"oliverjam"</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">admin</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">;</span><br>  sessions<span class="token punctuation">[</span>sid<span class="token punctuation">]</span> <span class="token operator">=</span> userInfo<span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">cookie</span><span class="token punctuation">(</span><span class="token string">"sid"</span><span class="token punctuation">,</span> sid<span class="token punctuation">,</span> <span class="token punctuation">{</span><br>    <span class="token literal-property property">httpOnly</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">maxAge</span><span class="token operator">:</span> <span class="token number">60</span><span class="token punctuation">,</span><br>    <span class="token literal-property property">signed</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/logout"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> sid <span class="token operator">=</span> request<span class="token punctuation">.</span>signedCookies<span class="token punctuation">.</span>sid<span class="token punctuation">;</span><br>  <span class="token keyword">delete</span> sessions<span class="token punctuation">[</span>sid<span class="token punctuation">]</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">clearCookie</span><span class="token punctuation">(</span><span class="token string">"sid"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Scope debugging challenge</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Scope debugging challenge</h1><p class="highlight fz-lg">Practice your understanding of variable scoping by debugging a JS app</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">scope</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">debugging</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/scope-challenge/starter-files#main' scope-challenge" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fscope-challenge%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Scope is the context a variable is available in. It defines what variables can be used in each part of your code. There are two kinds of scope: global and local.</p>
+<h2 id="global-scope">Global scope <a class="heading-anchor" href="#global-scope">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Everything at the “top-level” of your code is global. This means anything outside of functions or “blocks” like <code>if</code> statements.</p>
+<p>The global scope is also shared across all normal script tags. This can be confusing as you can use variables that don’t appear to exist in that JS file. For example:</p>
+<pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- index.html --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>first.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>second.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token comment">// first.js</span><br><span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token comment">// second.js</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Logs: 10</span></code></pre>
+<h2 id="local-scope">Local scope <a class="heading-anchor" href="#local-scope">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Variables inside of functions or “blocks” are locally scoped. A block is created by curly brackets, like <code>if</code> statements.</p>
+<p>Local variables are not visible or usable outside of that function or block.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> x <span class="token operator">*</span> x<span class="token punctuation">;</span><br>  <span class="token keyword">return</span> result<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ReferenceError: result is not defined</span></code></pre>
+<h2 id="nested-scope">Nested scope <a class="heading-anchor" href="#nested-scope">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>A local scope always has access to the scopes <em>above</em> it.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> x <span class="token operator">!==</span> <span class="token string">"number"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> err <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>x<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> should be a number</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span> <span class="token comment">// can see x as it is "above" this scope</span><br>    <span class="token keyword">return</span> err<span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//ReferenceError: err is not defined</span><br>  <span class="token keyword">return</span> x <span class="token operator">*</span> x<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Here the <code>if</code> block can see the <code>x</code> variable as that is defined in the scope “above”. However the <code>console.log(err)</code> will fail as the <code>err</code> variable is defined inside a block—a “lower” scope.</p>
+<p>Think of your code as a series of nested one-way mirrors: code can see out into the scopes above, but not further down.</p>
+<h2 id="es-6">ES6 <a class="heading-anchor" href="#es-6">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Variables defined with <code>var</code> are <em>not</em> block scoped, whereas those defined with <code>let</code> and <code>const</code> are. <code>var</code> is still function scoped though.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">var</span> y <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> z <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Logs: 2</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ReferenceError: z is not defined</span></code></pre>
+<p>Generally you should always prefer <code>let</code> and <code>const</code>, since it can be confusing for variables to be accessible outside of a block.</p>
+<h2 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<ol>
+<li>Open <code>starter-files/challenge/index.html</code> in your browser</li>
+<li>You should see a JS error in the console.</li>
+<li>Fix this error, and every other error that shows up</li>
+</ol>
+<p>Don’t worry about understanding all of the code, just try to make it work. This is mostly an exercise in <a href="/course/handbook/debugging/">debugging</a>, so keep persisting until the app works like <a href="starter-files/solution/">the solution</a>:</p>
+<figure>
+  <img src="https://user-images.githubusercontent.com/9408641/76011766-0a492200-5f0d-11ea-9d20-a8676725255d.gif" alt="Colourful circles appearing as I click on a web page">
+  <figcaption>Click and hold to create colourful circles</figcaption>
+</figure>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

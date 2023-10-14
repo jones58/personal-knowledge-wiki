@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Remote database challenge</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Remote database challenge</h1><p class="highlight fz-lg">Practice deploying a PostgreSQL database to Heroku, plus some advanced SQL commands.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">sql</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">heroku</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/heroku-sql-challenge/starter-files#main' heroku-sql-challenge" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fheroku-sql-challenge%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>You don’t want your deployed production app talking to a database running on your laptop. This would be slow, insecure and require you to leave it turned on all the time.</p>
+<p>Instead we can host our production database on a 3rd party service like Heroku. This is especially convenient if we’re already hosting our production server on Heroku.</p>
+<p>Follow these <a href="https://dev.to/prisma/how-to-setup-a-free-postgresql-database-on-heroku-1dc1">instructions for setting up a free Heroku database</a>.</p>
+<p>Once you’re done you should have a connection string that looks something like this:</p>
+<pre class="language-shell"><code class="language-shell">postgres://okaws:d3fa@ec2-54.eu-west-1.compute.amazonaws.com:5432/d8bvo</code></pre>
+<p>You can connect to the remote database from your terminal by running:</p>
+<pre class="language-shell"><code class="language-shell">psql your_url_goes_here</code></pre>
+<h2 id="advanced-sql">Advanced SQL <a class="heading-anchor" href="#advanced-sql">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Let’s practice some more advanced SQL commands. There’s a bunch of data about various FAC cohorts in <code>init.sql</code>. You’ll need to read this to figure out exactly what tables you’re working with.</p>
+<p>You may have to search the internet for SQL you haven’t seen before. <a href="https://www.w3schools.com/sql/">W3 Schools</a> is a good resource.</p>
+<p>There’s usually more than one way to get the right answer. If your solution is different that’s fine!</p>
+<h3 id="setup">Setup <a class="heading-anchor" href="#setup">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Download the starter files</li>
+<li>Connect to your Heroku database with <code>psql your_database_url</code></li>
+<li>Insert the data into your DB with <code>\i init.sql</code></li>
+</ol>
+<p>You can check everything is set up by listing the database tables with <code>\dt</code>. You should see four FAC-related tables: <code>cohorts</code>, <code>students</code>, <code>projects</code> and <code>students_projects</code>.</p>
+<ol>
+<li>
+<h3 id="cohort-locations">Cohort locations <a class="heading-anchor" href="#cohort-locations">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>List the names of all cohorts that took place in Finsbury Park.</p>
+<h4 id="expected-result">Expected result <a class="heading-anchor" href="#expected-result">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<table>
+<thead>
+<tr>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+</tr>
+<tr>
+<td>15</td>
+</tr>
+<tr>
+<td>16</td>
+</tr>
+<tr>
+<td>17</td>
+</tr>
+</tbody>
+</table>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> name <span class="token keyword">FROM</span> cohorts <span class="token keyword">WHERE</span> location <span class="token operator">=</span> <span class="token string">'Finsbury Park'</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+</li>
+<li>
+<h3 id="student-locations">Student locations <a class="heading-anchor" href="#student-locations">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>List the usernames of all students who attended FAC in Finsbury Park.</p>
+<div class="box box-default content"><details class="disclosure flow"><summary>Reveal hint</summary>
+<p>You need to use the query from the previous question.</p>
+</details></div>
+<h4 id="expected-result-2">Expected result <a class="heading-anchor" href="#expected-result-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<table>
+<thead>
+<tr>
+<th>username</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtualdominic</td>
+</tr>
+<tr>
+<td>charlielafosse</td>
+</tr>
+<tr>
+<td>starsuit</td>
+</tr>
+<tr>
+<td>bobbysebolao</td>
+</tr>
+<tr>
+<td>albadylic</td>
+</tr>
+<tr>
+<td>reubengt</td>
+</tr>
+</tbody>
+</table>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> username <span class="token keyword">FROM</span> students <span class="token keyword">WHERE</span> cohort_name <span class="token operator">IN</span> <span class="token punctuation">(</span><br>  <span class="token keyword">SELECT</span> name <span class="token keyword">FROM</span> cohorts <span class="token keyword">WHERE</span> location <span class="token operator">=</span> <span class="token string">'Finsbury Park'</span><br><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+</li>
+<li>
+<h3 id="student-locations-2">Student locations <a class="heading-anchor" href="#student-locations-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>List the username of each student along with the location of their cohort.</p>
+<div class="box box-default content"><details class="disclosure flow"><summary>Reveal hint</summary>
+<p>Remember you can use joins to connect two tables together and access information from both.</p>
+</details></div>
+<h4 id="expected-result-3">Expected result <a class="heading-anchor" href="#expected-result-3">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<table>
+<thead>
+<tr>
+<th>username</th>
+<th>location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eliascodes</td>
+<td>Bethnal Green</td>
+</tr>
+<tr>
+<td>oliverjam</td>
+<td>Bethnal Green</td>
+</tr>
+<tr>
+<td>yvonne-liu</td>
+<td>Bethnal Green</td>
+</tr>
+<tr>
+<td>matthewdking</td>
+<td>Nazareth</td>
+</tr>
+<tr>
+<td>helenzhou6</td>
+<td>Bethnal Green</td>
+</tr>
+<tr>
+<td>virtualdominic</td>
+<td>Finsbury Park</td>
+</tr>
+<tr>
+<td>charlielafosse</td>
+<td>Finsbury Park</td>
+</tr>
+<tr>
+<td>starsuit</td>
+<td>Finsbury Park</td>
+</tr>
+<tr>
+<td>bobbysebolao</td>
+<td>Finsbury Park</td>
+</tr>
+<tr>
+<td>albadylic</td>
+<td>Finsbury Park</td>
+</tr>
+<tr>
+<td>reubengt</td>
+<td>Finsbury Park</td>
+</tr>
+</tbody>
+</table>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> students<span class="token punctuation">.</span>username<span class="token punctuation">,</span> cohorts<span class="token punctuation">.</span>location <span class="token keyword">FROM</span> students<br>  <span class="token keyword">INNER</span> <span class="token keyword">JOIN</span> cohorts <span class="token keyword">ON</span> students<span class="token punctuation">.</span>cohort_name <span class="token operator">=</span> cohorts<span class="token punctuation">.</span>name<span class="token punctuation">;</span></code></pre>
+</details></div>
+</li>
+<li>
+<h3 id="students-with-projects">Students with projects <a class="heading-anchor" href="#students-with-projects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>List all project names with the usernames of the students who worked on them.</p>
+<div class="box box-default content"><details class="disclosure flow"><summary>Reveal hint</summary>
+<p>Since projects-to-students is a <em>many-to-many</em> relationship (each project can have multiple authors, each student can have multiple projects) we can’t link them with just IDs. We need to use a separate table to keep track of which students worked on which projects.</p>
+<p>This is often called a <em>join table</em>, or <em>junction table</em>. You’ll need to join to this as an intermediary step to link projects to students. You don’t need to create it—it is already created in <code>init.sql</code></p>
+</details></div>
+<h4 id="expected-result-4">Expected result <a class="heading-anchor" href="#expected-result-4">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>username</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FACX Machine</td>
+<td>oliverjam</td>
+</tr>
+<tr>
+<td>FACX Machine</td>
+<td>yvonne-liu</td>
+</tr>
+<tr>
+<td>Hamster Hotel</td>
+<td>oliverjam</td>
+</tr>
+<tr>
+<td>Hamster Hotel</td>
+<td>starsuit</td>
+</tr>
+<tr>
+<td>Agony Yaunt</td>
+<td>starsuit</td>
+</tr>
+<tr>
+<td>Agony Yaunt</td>
+<td>bobbysebolao</td>
+</tr>
+</tbody>
+</table>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> projects<span class="token punctuation">.</span>name<span class="token punctuation">,</span> students<span class="token punctuation">.</span>username <span class="token keyword">FROM</span> projects<br>  <span class="token keyword">INNER</span> <span class="token keyword">JOIN</span> students_projects <span class="token keyword">ON</span> projects<span class="token punctuation">.</span>id <span class="token operator">=</span> students_projects<span class="token punctuation">.</span>project_id<br>  <span class="token keyword">INNER</span> <span class="token keyword">JOIN</span> students <span class="token keyword">ON</span> students<span class="token punctuation">.</span>username <span class="token operator">=</span> students_projects<span class="token punctuation">.</span>student_username<span class="token punctuation">;</span></code></pre>
+</details></div>
+</li>
+<li>
+<h3 id="bonus-students-with-projects-by-location">Bonus: Students with projects by location <a class="heading-anchor" href="#bonus-students-with-projects-by-location">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>List all project names with the usernames of the students who worked on them, only for students who attended FAC in Finsbury Park.</p>
+<div class="box box-default content"><details class="disclosure flow"><summary>Reveal hint</summary>
+<p>You’ve written all the queries you need in previous steps.</p>
+</details></div>
+<h4 id="expected-result-5">Expected result <a class="heading-anchor" href="#expected-result-5">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>username</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hamster Hotel</td>
+<td>starsuit</td>
+</tr>
+<tr>
+<td>Agony Yaunt</td>
+<td>starsuit</td>
+</tr>
+<tr>
+<td>Agony Yaunt</td>
+<td>bobbysebolao</td>
+</tr>
+</tbody>
+</table>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> projects<span class="token punctuation">.</span>name<span class="token punctuation">,</span> students<span class="token punctuation">.</span>username <span class="token keyword">FROM</span> projects<br>  <span class="token keyword">INNER</span> <span class="token keyword">JOIN</span> students_projects <span class="token keyword">ON</span> projects<span class="token punctuation">.</span>id <span class="token operator">=</span> students_projects<span class="token punctuation">.</span>project_id<br>  <span class="token keyword">INNER</span> <span class="token keyword">JOIN</span> students <span class="token keyword">ON</span> students<span class="token punctuation">.</span>username <span class="token operator">=</span> students_projects<span class="token punctuation">.</span>student_username<br>  <span class="token keyword">WHERE</span> students<span class="token punctuation">.</span>username <span class="token operator">IN</span> <span class="token punctuation">(</span><br>    <span class="token keyword">SELECT</span> username <span class="token keyword">FROM</span> students<br>      <span class="token keyword">WHERE</span> cohort_name <span class="token operator">IN</span> <span class="token punctuation">(</span><br>        <span class="token keyword">SELECT</span> name <span class="token keyword">FROM</span> cohorts <span class="token keyword">WHERE</span> location <span class="token operator">=</span> <span class="token string">'Finsbury Park'</span><br>      <span class="token punctuation">)</span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</details></div>
+</li>
+</ol>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

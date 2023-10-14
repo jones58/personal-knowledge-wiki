@@ -372,3 +372,14 @@ src="https://imgs.search.brave.com/SmZKpetiKKv-S8w0YjdZMA38U8GksgFhIP9dD1cEdjg/r
 ``&nbsp;`` to create a space 
 
 can use utf-8 symbols in html to write currency, copyright symbols etc.
+
+
+add favicon using: ``‹link rel="icon" href="/Image/Cake.ico" />``  under title in html meta 
+
+``<button> Log in </button>`` this is just a button, that doesn't do anything
+``<input type="submit" value="Log in" />``  this will submit the form  - can also use button with type="submit"
+
+``<abbr title="World Wide Web">WWW</abbr>`` used for abbreviations 
+``<address>JustIT, House of London, Dorking, UK </adress>`` this will automatically make it italic. 
+
+

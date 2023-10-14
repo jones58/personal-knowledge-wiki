@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Modules</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Modules</h1><p class="highlight fz-lg">Learn how to split your code up into separate modules using built-in JS features.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">modules</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">import</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">export</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/es-modules/starter-files#main' es-modules" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fes-modules%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>ES Modules are a way to isolate your JS files. This is similar to Node’s <code>require</code> syntax, but build-in to the JS language (rather than a proprietary Node feature).</p>
+<p><a href="https://caniuse.com/#search=modules">Modern browsers</a> support modules loaded from a script tag with <code>type=&quot;module&quot;</code>. This tells the browser that this JS code may load additional code from other files.</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br>  <span class="token keyword">import</span> <span class="token punctuation">{</span> add <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./maths.js"</span><span class="token punctuation">;</span><br><br>  <span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>Generally (for wider browser support) apps use a tool called a “bundler” to parse all the imports and “bundle” them into a single file that older browsers will understand. For ease of learning we won’t be using a bundler yet.</p>
+<h2 id="module-scope">Module scope <a class="heading-anchor" href="#module-scope">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Modules help with JavaScript’s global variable problem: usually variables defined in one file are able to be accessed (and changed) in any other. This can be confusing and dangerous, since you can’t tell where things are defined/changed.</p>
+<p>With modules variables defined in separate files are <strong>not</strong> accessible in another. This means you can have 100 variables named <code>x</code>, as long as they’re all in different files.</p>
+<p>The only way to use a value from another module is to explicitly export it from one file, then import it where you want to use it.</p>
+<h2 id="exports">Exports <a class="heading-anchor" href="#exports">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Files can have two types of exports: “default” and “named”. A file can only have <strong>one</strong> default export, but can have <strong>many</strong> named exports. This is conceptually similar to the difference between <code>module.exports = myFunction</code> and <code>module.exports = { myFunction, otherFunction }</code> in Node.</p>
+<p>This is how you create a default export:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token keyword">default</span> a<span class="token punctuation">;</span></code></pre>
+<p>And this is how you create a named export:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token punctuation">{</span> a <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>You can only default export a single thing, but you can have as many named exports as you like:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token punctuation">{</span> a<span class="token punctuation">,</span> b <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>You don’t have to export things at the end of the file. You can do it inline:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span></code></pre>
+<h2 id="imports">Imports <a class="heading-anchor" href="#imports">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>There are also two kinds of imports: default and named. The way you import a value must match the way you exported it. A default-exported variable must be default-imported (and vice versa).</p>
+<p>This is how you import something that was default-exported:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// maths.js</span><br><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token keyword">default</span> a<span class="token punctuation">;</span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token comment">// index.js</span><br><span class="token keyword">import</span> a <span class="token keyword">from</span> <span class="token string">"./maths.js"</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1;</span></code></pre>
+<div class="box box-default content flow">
+<p>When you import a default-export you can call it whatever you want. You’re effectively creating a new variable and assigning the default-export to it.</p>
+</div>
+<p>Named-exports must be imported with curly brackets:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// maths.js</span><br><span class="token keyword">export</span> <span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token comment">// index.js</span><br><span class="token keyword">import</span> <span class="token punctuation">{</span> a <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./maths.js"</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1;</span></code></pre>
+<p>You can import as many named-exports as you like on the same line:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> a<span class="token punctuation">,</span> b <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./maths.js"</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1 2</span></code></pre>
+<div class="box box-default content flow">
+<p>Named-exports <strong>must</strong> be imported with the correct name—otherwise JS would have no idea which export you wanted.</p>
+</div>
+<p>Import paths must be valid URIs. They can be local to your machine (<code>&quot;./maths.js&quot;</code>) or on the web (<code>&quot;https://cdn.pika.dev/lower-case@^2.0.1&quot;</code>). This means you <strong>must include the file extension</strong> for local files. Node lets you ignore this, but it is mandatory in the browser.</p>
+<div class="box box-default content flow">
+<p>Unlike Node’s <code>require</code> ES Modules are not dynamic. This means you cannot put them inside your code and import things conditionally. You also cannot use a variable in an import path. Imports are static and should live at the top of a file before any other code.</p>
+</div>
+<h2 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>To get started download the starter files, <code>cd</code> into the directory, then run <code>npx servor workshop</code> to start a dev server. ES Modules require a server to work, so you can’t just open the <code>index.html</code> file directly.</p>
+<ol>
+<li>Split up the JS code in <code>workshop/index.js</code> into 3 files:
+<ul>
+<li><code>math.js</code> containing the operator functions</li>
+<li><code>calculate.js</code> containing the <code>calculate</code> function</li>
+<li><code>index.js</code> containing the DOM event handlers</li>
+</ul>
+</li>
+<li>Change each file so they export and import everything they need to</li>
+<li>Don’t forget browsers only support imports inside a script tag with <code>type=&quot;module&quot;</code></li>
+</ol>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

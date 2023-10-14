@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Learn Integration Testing</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Learn Integration Testing</h1><p class="highlight fz-lg">Learn how to use integration tests to make sure the different parts of your application work together correctly.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">testing</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/learn-integration-testing/starter-files#main' learn-integration-testing" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Flearn-integration-testing%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Integration tests check that whole features of your code work correctly. This usually involves checking several <em>units</em> of code at once.</p>
+<h2 id="testing-application-logic">Testing application logic <a class="heading-anchor" href="#testing-application-logic">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Usually some of your code is devoted to “application logic”. This is where you coordinate several other bits of code, possibly with branching logic depending on some conditions. Imagine we were building a calculator:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token operator">=></span> a <span class="token operator">+</span> b<span class="token punctuation">;</span><br><span class="token keyword">const</span> <span class="token function-variable function">subtract</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token operator">=></span> a <span class="token operator">-</span> b<span class="token punctuation">;</span><br><span class="token keyword">const</span> <span class="token function-variable function">multiply</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token operator">=></span> a <span class="token operator">*</span> b<span class="token punctuation">;</span><br><span class="token keyword">const</span> <span class="token function-variable function">divide</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token operator">=></span> a <span class="token operator">/</span> b<span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">calculate</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> sign<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">switch</span> <span class="token punctuation">(</span>sign<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">case</span> <span class="token string">"+"</span><span class="token operator">:</span><br>      <span class="token keyword">return</span> <span class="token function">add</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token keyword">case</span> <span class="token string">"-"</span><span class="token operator">:</span><br>      <span class="token keyword">return</span> <span class="token function">subtract</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token keyword">case</span> <span class="token string">"*"</span><span class="token operator">:</span><br>      <span class="token keyword">return</span> <span class="token function">multiply</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token keyword">case</span> <span class="token string">"/"</span><span class="token operator">:</span><br>      <span class="token keyword">return</span> <span class="token function">divide</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token keyword">default</span><span class="token operator">:</span><br>      <span class="token keyword">return</span> <span class="token string">"Please enter a valid sign (+, -, *, /)"</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>We could individually unit test all the small maths functions, but that would be a lot of work. Instead we can write tests for the <code>calculate</code> function. If we verify that gives the right answer then we know the smaller functions must work. We’re also testing how our application <em>integrates</em> those small units together. If we only unit tested our maths functions we could miss that our app was still totally broken (e.g. if there was a mistake in our <code>switch</code>).</p>
+<h3 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Open <code>workshop/index.js</code> in your editor and read the <code>calculate</code> function</li>
+<li>Open <code>workshop/index.test.js</code> and write tests for the <code>calculate</code> function.
+<ul>
+<li>The <code>equal</code>, <code>notEqual</code> &amp; <code>test</code> functions from <a href="/workshops/learn-testing/">Learn Testing</a> are included on the page.</li>
+<li>You should have one test for each branch of the switch statement.</li>
+<li>Open <code>workshop/index.html</code> and check the console to see your test results</li>
+<li>Don’t worry about the UI on the page for now</li>
+</ul>
+</li>
+<li>What happens if we provide non-numerical input?
+<ul>
+<li>Write a test that calls <code>calculate</code> with strings instead of numbers.</li>
+</ul>
+</li>
+<li>Change <code>calculate</code> so that it can handle numbers passed as strings
+<ul>
+<li>hint: have a look at <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat"><code>parseFloat</code></a></li>
+</ul>
+</li>
+</ol>
+<h2 id="testing-ui-logic">Testing UI logic <a class="heading-anchor" href="#testing-ui-logic">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Integration tests can also check where our code integrates with things outside our control. For example web apps often have to update the DOM to show results to the user. We didn’t write the DOM code (that’s part of the browser), but we still need to make sure our code integrates with it correctly.</p>
+<p>We can write our tests to simulate a real user browsing the site. For example here is a form that takes user input and makes it uppercase:</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Enter text to be uppercased<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>output</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>result<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>output</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br>  <span class="token keyword">const</span> form <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"form"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#result"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  form<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"submit"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    event<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token keyword">const</span> value <span class="token operator">=</span> form<span class="token punctuation">.</span>elements<span class="token punctuation">.</span>text<span class="token punctuation">.</span>value<span class="token punctuation">;</span> <span class="token comment">// get the value of the name="text" input</span><br>    <span class="token keyword">const</span> uppercased <span class="token operator">=</span> value<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// uppercase the value</span><br>    result<span class="token punctuation">.</span>textContent <span class="token operator">=</span> uppercased<span class="token punctuation">;</span> <span class="token comment">// put the result on the page</span><br>    form<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// clear the form inputs for next time</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>Imagine we wanted to check that our code worked correctly. We would open the page in our browser, then follow these steps:</p>
+<ol>
+<li>Find the input we want</li>
+<li>Change the input’s value to “test”</li>
+<li>Click the submit button</li>
+<li>Check the result on the page is “TEST”</li>
+</ol>
+<p>We can write an automated test using JS that does exactly the same thing.</p>
+<pre class="language-js"><code class="language-js"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Uppercases the user's input and updates the page"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> input <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// step 1</span><br>  input<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">"test"</span><span class="token punctuation">;</span> <span class="token comment">// step 2</span><br>  <span class="token keyword">const</span> submitButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"button[type='submit']"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  submitButton<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// step 3</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#result"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>textContent<span class="token punctuation">,</span> <span class="token string">"TEST"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// step 4</span><br>  result<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span> <span class="token comment">// reset the page so it doesn't affect the page/other tests</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="challenge-2">Challenge <a class="heading-anchor" href="#challenge-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Open <code>workshop/index.html</code> in your editor. You should see a basic calculator form.</li>
+<li>Add a test to <code>workshop/index.test.js</code> that checks the form works correctly, just like the example above.</li>
+</ol>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

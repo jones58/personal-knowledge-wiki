@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Node &amp; npm introduction</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Node &amp; npm introduction</h1><p class="highlight fz-lg">Learn how to use Node and npm to run JS on your machine</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">node</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">npm</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/node-npm-intro/starter-files#main' node-npm-intro" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fnode-npm-intro%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Node is a version of JavaScript that works outside of a web browser. It was created so web developers who already knew JS could use the same language to write HTTP servers, CLI programs and more.</p>
+<h2 id="node-js-vs-browser-js">Node JS vs Browser JS <a class="heading-anchor" href="#node-js-vs-browser-js">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Node is basically the JS engine from the Chrome web browser, plus some extra features for things browsers cannot do, like making HTTP servers or accessing files on the computer.</p>
+<p>Since Node uses the JS language it has the same syntax, keywords and features as JS in the browser. However (just like browsers) different versions of Node support different new language features. Something that was added to JS in Chrome may not be available in Node yet (and vice versa).</p>
+<p>The main difference to browser-JS is that Node has no <code>window</code> or <code>document</code> global objects (and so none of the things inside them like <code>querySelector</code>), since those concepts only make sense in a browser.</p>
+<h2 id="installation">Installation <a class="heading-anchor" href="#installation">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>You’ll need to have Node installed on your computer to follow this workshop. Check whether it is already installed by running this in your Terminal:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">node</span> <span class="token parameter variable">--version</span></code></pre>
+<p>You should see a version number printed. If you get an error that means Node isn’t installed. Follow <a href="/course/handbook/installation/#node">our installation guide</a> then try again.</p>
+<p>Our programme relies on some features that were only added in Node version 18 (the current version), so if you have an older version than that you should install the newer one with:</p>
+<pre class="language-shell"><code class="language-shell">volta <span class="token function">install</span> node@18</code></pre>
+<h2 id="using-node">Using Node <a class="heading-anchor" href="#using-node">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>The Node installation on your computer comes with a command-line program called <code>node</code>. This allows you to use the <code>node</code> command in your Terminal to run JS code.</p>
+<h3 id="repl">REPL <a class="heading-anchor" href="#repl">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>The quickest way to try Node out is with the “REPL”. This stands for “read, eval, print, loop” and is a quick playground for running code (most languages come with one).</p>
+<p>Run this command in your Terminal to start the REPL:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">node</span></code></pre>
+<p>You should see something like:</p>
+<pre><code>Welcome to Node.js v18.5.0.
+Type &quot;.help&quot; for more information.
+&gt;
+</code></pre>
+<p>You can type JS code in here, then hit “Enter” to execute it (just like a browser console).</p>
+<h3 id="js-files">JS files <a class="heading-anchor" href="#js-files">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>The REPL is mostly for playing around. To write a real program you need <code>.js</code> files. You can tell Node to run a JS file by passing its path as an argument:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">node</span> my-file.js</code></pre>
+<p>Node will parse the JS code in the file, execute it, and display anything logged in your terminal.</p>
+<div class="box box-default content flow">
+<h4 id="try-it">Try it <a class="heading-anchor" href="#try-it">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<ol>
+<li>Create a folder called <code>node-intro</code></li>
+<li>Create a file inside named <code>add.js</code></li>
+<li>Define an <code>add</code> function that can add two numbers</li>
+<li>Call the function and log the result</li>
+<li>Run your file in your Terminal</li>
+</ol>
+<p>You should see the result printed in your terminal.</p>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-shell"><code class="language-shell"><span class="token function">mkdir</span> node-intro<br><span class="token builtin class-name">cd</span> node-intro<br><span class="token function">touch</span> add.js<br>code <span class="token builtin class-name">.</span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token comment">// add.js</span><br><span class="token keyword">function</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token parameter">x<span class="token punctuation">,</span> y</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Logs: 10</span></code></pre>
+<pre class="language-shell"><code class="language-shell"><span class="token function">node</span> add.js</code></pre>
+</details></div>
+</div>
+<h2 id="node-package-manager">Node package manager <a class="heading-anchor" href="#node-package-manager">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Node comes with a “package manager” called npm. This is a way to easily install and use code written by other people. This is generally more robust than just copy/pasting code from the internet.</p>
+<p>The npm company maintain a registry that anyone can upload code to, containing thousands of 3rd party modules. They also have a command-line program for managing those modules in your project. This comes with Node, so you should already have this CLI available:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token parameter variable">--version</span></code></pre>
+<h3 id="package-json-file"><code>package.json</code> file <a class="heading-anchor" href="#package-json-file">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Node projects usually have a configuration file called <code>package.json</code>. This is a special file that lists information about the project, including any <em>dependencies</em>. These are modules installed from npm that your project uses.</p>
+<h3 id="npm-init"><code>npm init</code> <a class="heading-anchor" href="#npm-init">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>This command will “initialise” your project by asking you some questions then creating the <code>package.json</code>.</p>
+<p>You can pass the <code>-y</code> flag to skip all the questions and create the <code>package.json</code> with the defaults. You can edit the JSON file by hand later if you need to.</p>
+<!-- You also don't _have_ to use this command—you can manually create an empty `package.json` if you'd prefer:
+
+```shell
+echo "{}" > package.json
+``` -->
+<h3 id="npm-install"><code>npm install</code> <a class="heading-anchor" href="#npm-install">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>This is how you install 3rd party modules to use in your code. For example to install the very useless <code>cowsay</code> module:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> cowsay</code></pre>
+<p>npm will list the module in the <code>&quot;dependencies&quot;</code> field in your <code>package.json</code>:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><br>  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>    <span class="token property">"cowsay"</span><span class="token operator">:</span> <span class="token string">"^4.1.2"</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>Now when another developer needs to work on your project they can clone your repo then run just this command:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span></code></pre>
+<p>npm will read the dependencies listed in the <code>package.json</code> and automatically download all the 3rd party modules required to run the project.</p>
+<p>npm will also create a directory named <code>node_modules</code> and put all the 3rd party code in there. This will be quite large, since modules you install can have their own dependencies (and those dependencies can depend on <em>other</em> modules…). Since this directory gets so big it’s common to add it to the <code>.gitignore</code> file.</p>
+<h4 id="development-dependencies">Development dependencies <a class="heading-anchor" href="#development-dependencies">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Some 3rd party modules are only used for development purposes. E.g. a testing library or a linter. You can mark a module as a dev dependency with the <code>-D</code> flag when you install:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-D</span> cowsay</code></pre>
+<p>This will put it under the <code>&quot;devDependencies&quot;</code> field in the <code>package.json</code>. This helps during deployment—it’s quicker not to install a bunch of modules that aren’t actually needed for your production server.</p>
+<h4 id="global-modules">Global modules <a class="heading-anchor" href="#global-modules">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>You can also install modules “globally” on your computer using the <code>-g</code> flag. This makes them available to use anywhere in your terminal, and so is sometimes used as an alternative to Homebrew or <code>apt-get</code>.</p>
+<p>You shouldn’t use global modules in your Node apps, since they aren’t listed in the <code>package.json</code> and so won’t be installed automatically if another developer clones your repo and runs <code>npm install</code>.</p>
+<h3 id="npm-scripts">npm scripts <a class="heading-anchor" href="#npm-scripts">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>It’s common for modules you install to have command-line programs you can run in your terminal. E.g. the popular ESLint linter installs a CLI so you can check your code by running a command like <code>eslint add.js</code>.</p>
+<p>npm installs dependency CLIs into <code>node_modules/.bin/</code>. This means you can run the <code>cowsay</code> CLI we just installed in our terminal like this:</p>
+<pre class="language-shell"><code class="language-shell">node_modules/.bin/cowsay hello</code></pre>
+<p>However this is pretty awkward to type, especially if it’s a command we need to use a lot (like “start the dev server”). Luckily npm scripts make this nicer.</p>
+<p>npm automatically creates a field called <code>&quot;scripts&quot;</code> in your <code>package.json</code>. These are shortcuts for different tasks you might want to do while developing your app. They’re like per-project command-line aliases.</p>
+<p>npm will automatically add <code>./node_modules/.bin</code> to the path of any command you use in these scripts. So you could add a “greet” script like so:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><br>  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>    <span class="token property">"greet"</span><span class="token operator">:</span> <span class="token string">"cowsay hello"</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>You can run npm scripts in your terminal with <code>npm run &lt;name&gt;</code>. So in this case:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> run greet</code></pre>
+<div class="box box-default content flow">
+<h3 id="try-it-2">Try it <a class="heading-anchor" href="#try-it-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Initialise your project to create a <code>package.json</code></li>
+<li>Install the <code>cowsay</code> module as a dev dependency</li>
+<li>Look in the <code>node_modules</code> folder—can you see <code>cowsay</code>?</li>
+<li>Run <code>node_modules/.bin/cowsay hello</code> in your terminal</li>
+<li>Add <code>&quot;greet&quot;: &quot;cowsay hello&quot;</code> to your npm scripts</li>
+<li>Run <code>npm run greet</code> in your terminal</li>
+</ol>
+<p>You should see something like this:</p>
+<pre class="language-shell"><code class="language-shell"> _______<br><span class="token operator">&lt;</span> hello <span class="token operator">></span><br> -------<br>        <span class="token punctuation">\</span>   ^__^<br>         <span class="token punctuation">\</span>  <span class="token punctuation">(</span>oo<span class="token punctuation">)</span><span class="token punctuation">\</span>_______<br>            <span class="token punctuation">(</span>__<span class="token punctuation">)</span><span class="token punctuation">\</span>       <span class="token punctuation">)</span><span class="token punctuation">\</span>/<span class="token punctuation">\</span><br>                <span class="token operator">||</span>----w <span class="token operator">|</span><br>                <span class="token operator">||</span>     <span class="token operator">||</span></code></pre>
+</div>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Building client-side apps with React</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Building client-side apps with React</h1><p class="highlight fz-lg">Learn how to create client-side apps using React</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">react</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">jsx</li></ul></div><div class="hstack wrap"><a href="https://github.com/foundersandcoders/react-challenge" target="_blank" rel="noopener" class="button" style="--bg: var(--primary); --bg-hover: var(--primary-dark)">View challenge repo<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd"></path></svg></a><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Blearn%2Freact%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>React makes dealing with the DOM in JavaScript more like writing HTML. It helps package up elements into “components” so you can divide your UI up into reusable pieces. You can try out the examples online by creating a new <a href="https://vite.new/react">React playground</a>.</p>
+<h2 id="quick-summary">Quick summary <a class="heading-anchor" href="#quick-summary">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>A lot of React concepts are explained in detail below. If you just want to get started quickly here’s a code sample with the most important features:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span><br><span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">"react-dom"</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token comment">// Calling the `setCount` with a new value re-runs your component</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token comment">// Any properties passed to the component are available on the `props` object</span><br><span class="token keyword">function</span> <span class="token function">Title</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">id</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>id<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>children<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>main-title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello world</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Counter</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token comment">// React handles all DOM element creation/updates—you just call `render` once</span><br><span class="token keyword">const</span> root <span class="token operator">=</span> ReactDOM<span class="token punctuation">.</span><span class="token function">createRoot</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#root"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>root<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">React.StrictMode</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">App</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">React.StrictMode</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>);</code></pre>
+<h2 id="es-modules">ES Modules <a class="heading-anchor" href="#es-modules">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>ES Modules are a way to isolate your JS files. This is similar to Node’s <code>require</code> syntax, but built-in to the JS language (rather than a proprietary Node feature). React apps usually use ES Modules because they’re built for the browser rather than the server.</p>
+<p><a href="https://caniuse.com/#search=modules">Modern browsers</a> support modules loaded from a script tag with <code>type=&quot;module&quot;</code>. This tells the browser that this script may load more code from other files.</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br>  <span class="token keyword">import</span> <span class="token punctuation">{</span> add <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./maths.js"</span><span class="token punctuation">;</span><br><br>  <span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>Generally (for wider browser support) apps use a tool called a “bundler” to parse all the imports and bundle them into a single file that older browsers will understand.</p>
+<h3 id="exports">Exports <a class="heading-anchor" href="#exports">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Files can have two types of exports: “default” and “named”. A file can only have <strong>one</strong> default export, but can have <strong>many</strong> named exports.</p>
+<p>This is how you create a default export:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token keyword">default</span> a<span class="token punctuation">;</span></code></pre>
+<p>This is how you create a named export:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token punctuation">{</span> a <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>You can only default export a single thing, but you can have as many named exports as you like:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token punctuation">{</span> a<span class="token punctuation">,</span> b <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>You don’t have to export things at the end of the file. You can do it inline:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token keyword">export</span> <span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span></code></pre>
+<h3 id="imports">Imports <a class="heading-anchor" href="#imports">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>There are also two kinds of imports: default and named. The way you import a value must match the way you exported it.</p>
+<p>This is how you import something that was default-exported:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// index.js</span><br><span class="token keyword">import</span> a <span class="token keyword">from</span> <span class="token string">"./maths.js"</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1;</span></code></pre>
+<div class="box box-default content flow">
+<p>When you import a default-export you can call it whatever you want.</p>
+</div>
+<p>Named-exports must be imported with curly brackets:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// index.js</span><br><span class="token keyword">import</span> <span class="token punctuation">{</span> a <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./maths.js"</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1;</span></code></pre>
+<p>You can import as many named-exports as you like on the same line:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> a<span class="token punctuation">,</span> b <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./maths.js"</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1 2</span></code></pre>
+<div class="box box-default content flow">
+<p>Named-exports <strong>must</strong> be imported with the correct name.</p>
+</div>
+<p>In the browser import paths must be valid URIs (e.g. <code>&quot;./maths.js&quot;</code> or <code>&quot;https://cdn.pika.dev/lower-case@^2.0.1&quot;</code>). This means you <strong>must include the file extension</strong> for local files. Node and bundlers often support leaving this off for convenience however.</p>
+<div class="box box-default content flow">
+<p>Unlike <code>require</code>, <code>import</code> is not dynamic—you cannot use a variable in an import path. Imports are static and must live at the top of the file.</p>
+</div>
+<hr>
+<h2 id="react-elements">React elements <a class="heading-anchor" href="#react-elements">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Interacting with the DOM can be awkward when you just want to render an element:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> title <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"h1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>title<span class="token punctuation">.</span>className <span class="token operator">=</span> <span class="token string">"title"</span><span class="token punctuation">;</span><br>title<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">"Hello world!"</span><span class="token punctuation">;</span></code></pre>
+<p>This is frustrating because there is a simpler, more declarative way to describe elements—HTML:</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Hello world!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></code></pre>
+<p>Unfortunately we can’t use HTML inside JavaScript files. HTML is a static markup language—it can’t create elements dynamically as a user interacts with our app. This is where React comes in:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello world!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span></code></pre>
+<p>This variable is a <em>React element</em>. It’s created using a special syntax called <a href="https://react.dev/learn/writing-markup-with-jsx">JSX</a> that lets us write HTML-like elements within our JavaScript.</p>
+<div class="box box-default content flow">
+<p>JSX is <strong>not valid JavaScript</strong>. It’s a special syntax to make creating DOM elements more like writing HTML. Browsers don’t understand it, so React code has to be processed using a tool like <a href="https://vitejs.dev/">Vite</a> before it’s run.</p>
+<p>Some tools require the <code>.jsx</code> file extension to indicate non-standard syntax.</p>
+</div>
+<p>The example above will be transformed into a JS function call that returns an object:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token function">_jsx</span><span class="token punctuation">(</span><span class="token string">"h1"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">className</span><span class="token operator">:</span> <span class="token string">"title"</span><span class="token punctuation">,</span> <span class="token literal-property property">children</span><span class="token operator">:</span> <span class="token string">"Hello world!"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">/*<br> *  Over-simplified for examples sake:<br>    {<br>      type: "h1",<br>      props: {<br>        className: "title",<br>        children: "Hello world!",<br>      },<br>    }<br>*/</span></code></pre>
+<div class="box box-error content flow">
+<h3 id="important-warning">Important warning <a class="heading-anchor" href="#important-warning">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Since JSX is closer to JS than HTML <strong>we have to use the camelCase versions of HTML attributes</strong>: <code>class</code> becomes <code>className</code>, <code>for</code> becomes <code>htmlFor</code> and <code>tabindex</code> becomes <code>tabIndex</code> etc.</p>
+<p>Also self-closing tags (like <code>&lt;img&gt;</code>) <strong>must</strong> have a closing slash: <code>&lt;img /&gt;</code>. This is optional in HTML but required in JSX.</p>
+</div>
+<h2 id="templating-dynamic-values">Templating dynamic values <a class="heading-anchor" href="#templating-dynamic-values">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>JSX supports inserting dynamic values into your elements. It uses a similar syntax to JS template literals: anything inside curly brackets will be evaluated as a JS expression:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span><span class="token plain-text">Hello </span><span class="token punctuation">{</span><span class="token number">5</span> <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token comment">// &lt;h1>Hello 25&lt;/h1></span></code></pre>
+<p>You can do all kinds of JS stuff inside the curly brackets, like referencing other variables, or conditional expressions.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"oli"</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span><span class="token plain-text">Hello </span><span class="token punctuation">{</span>name<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token comment">// &lt;h1>Hello oli&lt;/h1></span></code></pre>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> number <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>number <span class="token operator">></span> <span class="token number">0.5</span> <span class="token operator">?</span> <span class="token string">"You won!"</span> <span class="token operator">:</span> <span class="token string">"You lost"</span><span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token comment">// 50% of the time: &lt;div>You won!&lt;/div></span><br><span class="token comment">// the other 50%: &lt;div>You lost&lt;/div></span></code></pre>
+<h3 id="note-on-expressions">Note on expressions <a class="heading-anchor" href="#note-on-expressions">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>You can put any valid JS <em>expression</em> inside the curly brackets. An expression is code that <em>resolves to a value</em>. I.e. you can assign it to a variable. These are all valid expressions:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> number <span class="token operator">=</span> <span class="token number">5</span> <span class="token operator">+</span> <span class="token number">4</span> <span class="token operator">*</span> <span class="token number">9</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> isEven <span class="token operator">=</span> number <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> message <span class="token operator">=</span> isEven <span class="token operator">?</span> <span class="token string">"It is even"</span> <span class="token operator">:</span> <span class="token string">"It is odd"</span><span class="token punctuation">;</span></code></pre>
+<p>This is <em>not</em> a valid expression:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>isEven<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token string">"It is even"</span> <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token string">"It is odd"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token comment">// this is not valid JS and will cause an error</span></code></pre>
+<p><code>if</code> blocks are <em>statements</em>, not expressions. The main impact of this is that you have to use ternaries instead of <code>if</code> statements inside JSX.</p>
+<hr>
+<h2 id="react-components">React components <a class="heading-anchor" href="#react-components">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>React elements aren’t very useful on their own, since they’re just static objects. To build an interface we need something reusable and dynamic, like functions.</p>
+<p>A <em>React component</em> is a function that returns a React element.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Title</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello world!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<h3 id="valid-elements">Valid elements <a class="heading-anchor" href="#valid-elements">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Your components don’t <em>have</em> to return JSX. A React element can be JSX, or a string, number, boolean, or array of elements. Returning <code>null</code>, <code>undefined</code>, <code>false</code> or <code>&quot;&quot;</code> will cause your component to render nothing.</p>
+<p>Returning an array is especially useful for <a href="https://react.dev/learn/rendering-lists">rendering lists</a> from data:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"apple"</span><span class="token punctuation">,</span> <span class="token string">"orange"</span><span class="token punctuation">,</span> <span class="token string">"banana"</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">FruitList</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> items <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">fruit</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>fruit<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>fruit<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>items<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Array items in JSX must have a special unique <a href="https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key"><code>key</code> prop</a> so React can keep track of the order if the data changes.</p>
+<div class="box box-default content flow">
+<p>Components are normal JS functions, which means they can <strong>only return one thing</strong>. The following JSX is invalid:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token comment">// This won't work!</span><br><span class="token keyword">function</span> <span class="token function">Thing</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span><span class="token plain-text">Hello</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span><span class="token plain-text">Goodbye</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><br><span class="token punctuation">}</span></code></pre>
+<p>since the <code>Thing</code> function is trying to return <em>two</em> objects. The solution to this is to wrap sibling elements in a parent <code>&lt;div&gt;</code> (or use a <a href="https://react.dev/reference/react/Fragment#returning-multiple-elements">Fragment</a>).</p>
+</div>
+<h3 id="composing-components">Composing components <a class="heading-anchor" href="#composing-components">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Components are useful because JSX allows us to compose them together just like HTML elements. We can use our <code>Title</code> component as JSX within another component:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Title</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello world!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">function</span> <span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>When we use a component in JSX (<code>&lt;Title /&gt;</code>) React will find the corresponding <code>Title</code> function, call it, and use whatever element it returns.</p>
+<div class="box box-default content flow">
+<p><strong>You have to capitalise your component names</strong>. This is how JSX distinguishes between HTML and React components. E.g. <code>&lt;img /&gt;</code> will create an HTML image tag, but <code>&lt;Img /&gt;</code> will look for a component function named <code>Img</code>.</p>
+</div>
+<h2 id="customising-components">Customising components <a class="heading-anchor" href="#customising-components">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>A component where everything is hard-coded isn’t very useful. Functions are most useful when they take <em>arguments</em>. Passing different arguments lets us change what the function returns each time we call it.</p>
+<p>JSX supports passing arguments to your components. It does this using the same syntax as HTML:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>oli<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token comment">/**<br> * The above JSX is transformed into this:<br> * _jsx(Title, { name: "oli" });<br> */</span></code></pre>
+<p>Most people name this object “props” in their component function:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Title</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// { name: "oli" }</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello world</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>We can use these props within your components to customise them. For example we can insert them into our JSX:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Title</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello </span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Now we can re-use our <code>Title</code> component to render different DOM elements:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>oli<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sam<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token comment">/**<br> * &lt;div class="page"><br> *  &lt;h1 class="title">Hello oli&lt;/h1><br> *  &lt;h1 class="title">Hello sam&lt;/h1><br> * &lt;/div><br> */</span></code></pre>
+<h3 id="non-string-props">Non-string props <a class="heading-anchor" href="#non-string-props">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Since JSX is JavaScript it supports passing <em>any</em> valid JS expression to your components, not just strings. To pass JS values as props you use <strong>curly brackets</strong>, just like interpolating expressions inside tags.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> fullname <span class="token operator">=</span> <span class="token string">"oliver"</span> <span class="token operator">+</span> <span class="token string">" phillips"</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span> <span class="token attr-name">name</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>fullname<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span> <span class="token attr-name">name</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token number">5</span> <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token comment">/**<br> * &lt;div class="page"><br> *  &lt;h1 class="title">Hello oliver phillips&lt;/h1><br> *  &lt;h1 class="title">Hello 25&lt;/h1><br> * &lt;/div><br> */</span></code></pre>
+<h3 id="children">Children <a class="heading-anchor" href="#children">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>It would be nice if we could nest our components just like HTML. Right now this won’t work, since we hard-coded the text inside our <code>&lt;h1&gt;</code>:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello oli</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><br><span class="token comment">/**<br> * The above JSX is transformed into this:<br> * _jsx(Title, { children: "hello oli" });<br> */</span></code></pre>
+<p>JSX supports a special prop to achieve this: <code>children</code>. Whatever value you put <em>between</em> JSX tags will be passed to the component function as a prop named <code>children</code>.</p>
+<p>You can then access and use it exactly like any other prop.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Title</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>children<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Now this JSX will work as we expect:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello oli</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><br><span class="token comment">// &lt;h1 class="title">Hello oli&lt;/h1></span></code></pre>
+<p>This is quite powerful, as you can now nest your components to build up more complex DOM elements.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token comment">// pretend we have defined Image and BigText components above</span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Image</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hand-wave.svg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">BigText</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello oli</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">BigText</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span></code></pre>
+<h2 id="rendering-to-the-page">Rendering to the page <a class="heading-anchor" href="#rendering-to-the-page">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>You may be wondering how we get these components to actually show up on the page. React manages the DOM for you, so you don’t need to use <code>document.createElement</code>/<code>.appendChild</code>.</p>
+<p>React consists of two libraries—the main <code>React</code> library and a specific <code>ReactDOM</code> library for rendering to the DOM. We use the <code>ReactDOM.render()</code> function to render a component to the DOM.</p>
+<p>It’s common practice to have a single top-level <code>App</code> component that contains all the rest of the UI.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">"react-dom"</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Page</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello world!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">Welcome to my page</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Page</span></span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">App</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#root"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<div class="box box-default content flow">
+<p>You only call <code>ReactDOM.render()</code> <strong>once per app</strong>. You give it the very top-level component of your app and it will move down the component tree rendering all the children inside of it.</p>
+</div>
+<div class="box box-success content"><details class="disclosure flow"><summary>A bit more detail (if you're interested)</summary>
+<p>The component functions return React elements, which are objects describing an element, its properties, and its children. These objects form a tree, with a top-level element that renders child elements, that in turn have their own children. Here is a small React component that renders a couple more:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">"react-dom"</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Page</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><span class="token plain-text">Hello world!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Title</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">Welcome to my page</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Page</span></span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">App</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#root"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>&lt;App /&gt;</code> tells React to call the <code>App</code> function and pass in any child elements as <code>props.children</code>. This returns an object roughly like this:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// React's actual internal representation is a bit more complex</span><br><span class="token punctuation">{</span><br>  <span class="token literal-property property">type</span><span class="token operator">:</span> Page<span class="token punctuation">,</span><br>  <span class="token literal-property property">props</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>    <span class="token literal-property property">children</span><span class="token operator">:</span> <span class="token punctuation">[</span><br>      <span class="token punctuation">{</span><br>        <span class="token literal-property property">type</span><span class="token operator">:</span> Title<span class="token punctuation">,</span><br>        <span class="token literal-property property">props</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>          <span class="token literal-property property">children</span><span class="token operator">:</span> <span class="token string">"Hello world!"</span><span class="token punctuation">,</span><br>        <span class="token punctuation">}</span><span class="token punctuation">,</span><br>      <span class="token punctuation">}</span><span class="token punctuation">,</span><br>      <span class="token punctuation">{</span><br>        <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">"p"</span><span class="token punctuation">,</span><br>        <span class="token literal-property property">props</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>          <span class="token literal-property property">children</span><span class="token operator">:</span> <span class="token string">"Welcome to my page"</span><span class="token punctuation">,</span><br>        <span class="token punctuation">}</span><span class="token punctuation">,</span><br>      <span class="token punctuation">}</span><span class="token punctuation">,</span><br>    <span class="token punctuation">]</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span></code></pre>
+<p>This object is passed to <code>ReactDOM.render</code>, which will loop through every property. If it finds a string type (e.g. “p”) it’ll create a DOM node. If it finds a function type it’ll call the function with the right props to get the elements that component returns. It keeps doing this until it runs out of elements to render.</p>
+<p>This is the final DOM created for this app:</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Hello world!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Welcome to my page<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+</details></div>
+<hr>
+<h2 id="event-listeners">Event listeners <a class="heading-anchor" href="#event-listeners">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>JSX makes adding event listeners simple—you add them inline on the element you want to target. They are always formatted as “on” followed by the camelCased event name (“onClick”, “onKeyDown” etc):</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Alerter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"hello!"</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token plain-text">Say hello</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<h2 id="react-state">React state <a class="heading-anchor" href="#react-state">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>An app can’t do much with static DOM elements—we need a way to create values that can <em>change</em> and trigger updates to the UI.</p>
+<p>React provides a special “hook” function called <code>useState</code> to create a stateful value. When you update the value React will automatically re-render the component to ensure the UI stays up-to-date.</p>
+<p>When this button is clicked we want the count to go up one:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>We need to use the <code>useState</code> hook. It takes the initial state value as an argument, and returns an array. This array contains the state value itself, and a function that lets you <em>update</em> the state value.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> stateArray <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> count <span class="token operator">=</span> stateArray<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> setCount <span class="token operator">=</span> stateArray<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>It’s common to use destructuring to shorten this:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>If we call <code>setCount(1)</code> React will re-run our <code>Counter</code> component, but this time the <code>count</code> variable will be <code>1</code> instead of <code>0</code>. This is how React keeps your UI in sync with the state.</p>
+<div class="box box-error content flow">
+<p><strong>Never change a state variable directly.</strong> React needs to know about changes, otherwise it won’t re-render the component. For example <code>count++</code> will change the old copy of the state value but won’t re-run the component.</p>
+</div>
+<h3 id="lifting-state-up">Lifting state up <a class="heading-anchor" href="#lifting-state-up">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>React components encapsulate their state—it lives inside that function and can’t be accessed elsewhere. Sometimes however you need several components to read the same value. In these cases you should <a href="https://react.dev/learn/sharing-state-between-components">“lift the state up”</a> to a shared parent component:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">FancyButton</span></span> <span class="token attr-name">count</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>count<span class="token punctuation">}</span></span> <span class="token attr-name">setCount</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>setCount<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">FancyText</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">FancyText</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">function</span> <span class="token function">FancyButton</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">function</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    props<span class="token punctuation">.</span><span class="token function">setCount</span><span class="token punctuation">(</span>props<span class="token punctuation">.</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fancy-button<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>name<span class="token punctuation">}</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>increment<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      + 1<br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">function</span> <span class="token function">FancyText</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fancy-text<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>children<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Here <code>FancyButton</code> and <code>FancyText</code> both need access to the state, so we move it up to <code>Counter</code> and pass it down via props. That way both components can read/update the same state value.</p>
+<h3 id="updates-based-on-previous-state">Updates based on previous state <a class="heading-anchor" href="#updates-based-on-previous-state">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Sometimes your update depends on the previous state value. For example updating the count inside an interval. In these cases you can <a href="https://react.dev/apis/react/useState#updating-state-based-on-the-previous-state">pass a <em>function</em></a> to the state updater. React will call this function with the previous state, and whatever you return will be set as the new state.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token comment">// ...</span><br><span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// ...</span><br><span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">setCount</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">previousCount</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> nextCount <span class="token operator">=</span> previousCount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span><br>    <span class="token keyword">return</span> nextCount<span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// or more concisely:</span><br><span class="token comment">// setInterval(() => setCount(c => c + 1), 1000);</span></code></pre>
+<p>We cannot just reference <code>count</code>, since this is <code>0</code> when the interval is created. It would just do <code>0 + 1</code> over and over (so the count would be stuck at <code>1</code>).</p>
+<hr>
+<h2 id="form-fields">Form fields <a class="heading-anchor" href="#form-fields">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>React apps still use the DOM, so forms work the same way:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">ChooseName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>name<span class="token punctuation">,</span> setName<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">function</span> <span class="token function">updateName</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    event<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token function">setName</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>username<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">onSubmit</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>updateName<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>username<span class="token punctuation">"</span></span> <span class="token attr-name">aria-label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Username<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span><span class="token plain-text">Update name</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>output</span><span class="token punctuation">></span></span><span class="token plain-text">Your name is: </span><span class="token punctuation">{</span>username<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>output</span><span class="token punctuation">></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>React tries to normalise the different form fields, so behaviour is consistent across e.g. <code>&lt;input&gt;</code> and <code>&lt;select&gt;</code>. If you need to keep track of values <em>as they update</em> you can add an <code>onChange</code> listener and <code>value</code> prop.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">ChooseRating</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>rating<span class="token punctuation">,</span> setRating<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">function</span> <span class="token function">updateRating</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token function">setFruit</span><span class="token punctuation">(</span><span class="token operator">+</span>event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span><br>        <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>range<span class="token punctuation">"</span></span><br>        <span class="token attr-name">value</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>rating<span class="token punctuation">}</span></span><br>        <span class="token attr-name">onChange</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>updateRating<span class="token punctuation">}</span></span><br>        <span class="token attr-name">min</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><br>        <span class="token attr-name">max</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>5<span class="token punctuation">"</span></span><br>        <span class="token attr-name">aria-label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Rating<span class="token punctuation">"</span></span><br>      <span class="token punctuation">/></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>output</span><span class="token punctuation">></span></span><span class="token punctuation">{</span><span class="token string">"⭐️"</span><span class="token punctuation">.</span><span class="token function">repeat</span><span class="token punctuation">(</span>rating<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>output</span><span class="token punctuation">></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<hr>
+<h2 id="side-effects">Side effects <a class="heading-anchor" href="#side-effects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>So far we’ve seen how React keeps your UI in sync with your data. Your components describe the UI using JSX and React updates the DOM as required. However apps sometimes need to sync with something else, like fetching from an API or setting up a timer.</p>
+<p>These are known as “side effects”, and they can’t be represented with JSX. This means we need a different way to ensure our side effects stay in sync just like our UI.</p>
+<div class="box box-default content flow">
+<p>Effects can be a little complicated, and devs <a href="https://react.dev/learn/you-might-not-need-an-effect">often use them unnecessarily</a>. Try to prefer solving problems with state and event listeners, and save the Effects for things that cannot be done with JSX.</p>
+</div>
+<h3 id="using-effects">Using effects <a class="heading-anchor" href="#using-effects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>React provides another “hook” like <code>useState()</code> for running side-effects <em>after</em> your component renders. It’s called <code>useEffect()</code>. It takes a function as an argument, which will be run after every render by default.</p>
+<p>Here’s our counter, with an effect to sync the document title with the count:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    document<span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Count: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Calling <code>setCount</code> will trigger a re-render, which will cause the Effect to re-run, so the title will stay in sync with our state.</p>
+<p><img src="https://user-images.githubusercontent.com/9408641/57864430-c9ecac00-77f3-11e9-8811-1242688c3e7d.gif" alt="effect-example"></p>
+<div class="box box-default content flow">
+<p>We can’t just put the <code>document.title</code> line directly in our component body, because <a href="https://react.dev/learn/keeping-components-pure">React components should be “pure”</a>. This means they should just return JSX and have no side-effects as a result of rendering.</p>
+</div>
+<h3 id="skipping-effects">Skipping effects <a class="heading-anchor" href="#skipping-effects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>By default all the Effects in a component will re-run after <strong>every</strong> render of that component. This ensures the Effect always has the correct state values. However what if we had multiple state values? Updating unrelated state would re-run the Effect even if <code>count</code> hadn’t changed.</p>
+<p><code>useEffect()</code> takes a second argument: an array of <em>dependencies</em> for the Effect. Any variable used inside your Effect function should go into this array:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  document<span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Count: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>count<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Now the Effect will only re-run if the value of <code>count</code> has changed.</p>
+<h3 id="effects-with-no-dependencies">Effects with no dependencies <a class="heading-anchor" href="#effects-with-no-dependencies">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Sometimes your Effect will not be dependent on <em>any</em> props or state. In this case you can pass an empty array, to signify that the Effect has no dependencies and shouldn’t need to be re-run.</p>
+<p>Here we want to show what key the user pressed, so we need an event listener on the window. This listener only needs to be added once:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">KeyDisplay</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>key<span class="token punctuation">,</span> setKey<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token keyword">function</span> <span class="token function">updateKey</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>      <span class="token function">setKey</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><br>    window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"keydown"</span><span class="token punctuation">,</span> updateKey<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>key<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Without the empty dependency array we would end up adding a new event listener every time the Effect re-ran. This could cause performance problems.</p>
+<h3 id="cleaning-up-effects">Cleaning up effects <a class="heading-anchor" href="#cleaning-up-effects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>It’s important your Effects can clean up after themselves. Otherwise they might leave their side-effects around when the component is “unmounted” (e.g. if the user navigates to another page).</p>
+<p>Our previous example needs to make sure the event listener is removed from the window. We can tell React to do this by returning a function from the Effect. React will call this function whenever it needs to clean up: both when the component is unmounted <em>and</em> before re-running the Effect.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token comment">// ...</span><br><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">function</span> <span class="token function">updateKey</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token function">setKey</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br>  window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"keydown"</span><span class="token punctuation">,</span> updateKey<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> window<span class="token punctuation">.</span><span class="token function">removeEventListener</span><span class="token punctuation">(</span><span class="token string">"keydown"</span><span class="token punctuation">,</span> updateKey<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// ...</span></code></pre>
+<p>React helps you remember to do this by <a href="https://react.dev/learn/synchronizing-with-effects#how-to-handle-the-effect-firing-twice-in-development">running Effects <em>twice</em> during development</a> (even if you pass an empty dependency array). This is designed to help you catch places where you forgot to clean up your Effect.</p>
+</div><footer class="vstack gap-md pad-xl stripes"><h2>Next step</h2><a href="https://github.com/foundersandcoders/react-challenge" target="_blank" rel="noopener" class="button" style="--bg: var(--primary); --bg-hover: var(--primary-dark)">Complete the challenge<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd"></path></svg></a></footer></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

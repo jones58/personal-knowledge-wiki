@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Git workflow</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Git workflow</h1><p class="highlight fz-lg">Practice collaborating on code using Git and GitHub, including branches, pull requests, and resolving merge conflicts.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">git</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">fundamentals</li></ul></div><div class="hstack wrap"><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fgit-workflow%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>An exercise to practice git workflow skills. The workshop should be undertaken by two programmers, working on two computers.</p>
+<p><strong>Note</strong>: you may see references to a <code>master</code> branch in diagrams or external resources. This used to be the name of the default Git branch, but this was changed to <code>main</code> last year. New repos should all have a <code>main</code> branch, so that’s what you should use.</p>
+<h2 id="part-1-initial-setup">Part 1: Initial setup <a class="heading-anchor" href="#part-1-initial-setup">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>You’re working in a team of two on a project for a new client. Steps 1 to 8 in this section should be completed by one of you, who we’ll refer to as <code>Programmer 1</code>.</p>
+<h3 id="step-1-make-a-new-repo">Step 1: make a new repo <a class="heading-anchor" href="#step-1-make-a-new-repo">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Programmer 1 creates a new GitHub repo and clones it.</p>
+<!-- 1. Go to your cohort's GitHub organisation and create a new repo, initialising it with a `README.md`. -->
+<ol>
+<li>Create a new GitHub repo on Programmer 1’s profile, making sure to initialise it with a <code>README.md</code>
+<img src="images/init-repo-with-readme.png" width="455" height="100" alt="initialise repo with readme"></li>
+<li>Go to “Settings &gt; Collaborators” and add Programmer 2 so they can access the repo</li>
+<li>Programmer 2 should check their email and accept the invite to collaborate</li>
+<li>Clone this new repository using your terminal.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> clone <span class="token string">'PASTE THE URL OF YOUR REPOSITORY HERE'</span></code></pre>
+</li>
+<li>Move into the newly created directory.<pre class="language-shell"><code class="language-shell"><span class="token builtin class-name">cd</span> your-repo-name-here</code></pre>
+This is what your remote and local repositories look like after this. HEAD is a reference to your current location.</br></li>
+</ol>
+<img src="images/step1GitFlow.png" width="664" height="280" alt="repo visual after step 1">
+<h3 id="step-2-raise-issues">Step 2: raise issues <a class="heading-anchor" href="#step-2-raise-issues">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Normally you would decide on which “features” you were going to build and then break these down into smaller tasks before starting the work. These tasks can be tracked with GitHub issues.</p>
+<p>For the sake of this exercise, we’re just going to <a href="https://help.github.com/articles/creating-an-issue/">add one issue</a> at the moment. Your client wants a beautifully styled heading for the homepage. It should be bold black writing with a background shadow that makes it stand out.</p>
+<ol>
+<li>Raise a new issue with a descriptive title.</li>
+<li>In the body of the issue, provide more detail about how to complete the work.</li>
+<li>Assign yourselves to this issue.</li>
+</ol>
+<h3 id="step-3-move-to-a-new-branch">Step 3: move to a new branch <a class="heading-anchor" href="#step-3-move-to-a-new-branch">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>There are many types of workflow. At FAC we use <a href="https://guides.github.com/introduction/flow/">GitHub flow</a>, where the <code>main</code> branch is always deployable. In this flow, each branch is used for a separate feature.</p>
+<ol>
+<li>Create a branch with a unique and descriptive name. For example, <code>create-heading-with-shadow</code>.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> branch create-heading-with-shadow</code></pre>
+<img src="images/step3(1)GitFlow.png" width="398" height="302" alt="repo visual after step 1">
+</li>
+<li>Leave the main branch by switching to the new branch you have just created.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> checkout create-heading-with-shadow</code></pre>
+<img src="images/step3(2)GitFlow.png" width="480" height="296" alt="repo visual after step 1">
+</li>
+</ol>
+<p>Alternatively you can do this in a single step by using the <code>-b</code> flag to tell the <code>git checkout</code> command to create the new branch:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> checkout <span class="token parameter variable">-b</span> create-heading-with-shadow</code></pre>
+<h3 id="step-4-satisfy-the-requirements">Step 4: satisfy the requirements <a class="heading-anchor" href="#step-4-satisfy-the-requirements">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Now we need to write some code to add the new feature.</p>
+<ol>
+<li>
+<p>Add the following code into a new file called <code>index.html</code>.</p>
+<pre class="language-html"><code class="language-html"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>style.css<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Git Workflow Workshop<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span><br><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>some-heading<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>GIT WORKFLOW WORKSHOW<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>Note</strong>: you may notice errors in this code. This is deliberate—we’ll be fixing them later on in the workshop.</p>
+</li>
+<li>
+<p>Create a new file called <code>style.css</code> which contains:</p>
+<pre class="language-css"><code class="language-css"><span class="token selector">*</span> <span class="token punctuation">{</span><br>  <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span><br>  <span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token selector">.page-heading</span> <span class="token punctuation">{</span><br>  <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span><br>  <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"Avant Garde"</span><span class="token punctuation">,</span> Avantgarde<span class="token punctuation">,</span> <span class="token string">"Century Gothic"</span><span class="token punctuation">,</span> CenturyGothic<span class="token punctuation">,</span><br>    <span class="token string">"AppleGothic"</span><span class="token punctuation">,</span> sans-serif<span class="token punctuation">;</span><br>  <span class="token property">font-size</span><span class="token punctuation">:</span> 3.5rem<span class="token punctuation">;</span><br>  <span class="token property">padding</span><span class="token punctuation">:</span> 5rem 3rem<span class="token punctuation">;</span><br>  <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span><br>  <span class="token property">text-rendering</span><span class="token punctuation">:</span> optimizeLegibility<span class="token punctuation">;</span><br>  <span class="token property">color</span><span class="token punctuation">:</span> #131313<span class="token punctuation">;</span><br>  <span class="token property">background-color</span><span class="token punctuation">:</span> #e7e5e4<span class="token punctuation">;</span><br>  <span class="token property">letter-spacing</span><span class="token punctuation">:</span> 0.15em<span class="token punctuation">;</span><br>  <span class="token property">text-shadow</span><span class="token punctuation">:</span> 1px -1px 0 #767676<span class="token punctuation">,</span> -1px 2px 1px #737272<span class="token punctuation">,</span> -2px 4px 1px #767474<span class="token punctuation">,</span><br>    -3px 6px 1px #787777<span class="token punctuation">,</span> -4px 8px 1px #7b7a7a<span class="token punctuation">,</span> -5px 10px 1px #7f7d7d<span class="token punctuation">,</span><br>    -6px 12px 1px #828181<span class="token punctuation">,</span> -7px 14px 1px #868585<span class="token punctuation">,</span> -8px 16px 1px #8b8a89<span class="token punctuation">,</span> -9px<br>      18px 1px #8f8e8d<span class="token punctuation">,</span> -10px 20px 1px #949392<span class="token punctuation">,</span> -11px 22px 1px #999897<span class="token punctuation">,</span><br>    -12px 24px 1px #9e9c9c<span class="token punctuation">,</span> -13px 26px 1px #a3a1a1<span class="token punctuation">,</span> -14px 28px 1px #a8a6a6<span class="token punctuation">,</span> -15px<br>      30px 1px #adabab<span class="token punctuation">,</span> -16px 32px 1px #b2b1b0<span class="token punctuation">,</span> -17px 34px 1px #b7b6b5<span class="token punctuation">,</span><br>    -18px 36px 1px #bcbbba<span class="token punctuation">,</span> -19px 38px 1px #c1bfbf<span class="token punctuation">,</span> -20px 40px 1px #c6c4c4<span class="token punctuation">,</span> -21px<br>      42px 1px #cbc9c8<span class="token punctuation">,</span> -22px 44px 1px #cfcdcd<span class="token punctuation">,</span> -23px 46px 1px #d4d2d1<span class="token punctuation">,</span><br>    -24px 48px 1px #d8d6d5<span class="token punctuation">,</span> -25px 50px 1px #dbdad9<span class="token punctuation">,</span> -26px 52px 1px #dfdddc<span class="token punctuation">,</span> -27px<br>      54px 1px #e2e0df<span class="token punctuation">,</span> -28px 56px 1px #e4e3e2<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+</li>
+</ol>
+<h3 id="step-5-stage-your-changes">Step 5: stage your changes <a class="heading-anchor" href="#step-5-stage-your-changes">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Add <code>index.html</code> and <code>style.css</code> to the <a href="http://softwareengineering.stackexchange.com/questions/119782/what-does-stage-mean-in-git">staging area</a>.</li>
+</ol>
+<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> <span class="token function">add</span> index.html style.css</code></pre>
+<p>If you know you definitely want to stage <em>all</em> your current changes you can save some typing and use:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span></code></pre>
+<img src="images/step5GitFlow.png" width="652" height="246" alt="repo visual after step 1">
+<h3 id="step-6-commit-your-changes">Step 6: commit your changes <a class="heading-anchor" href="#step-6-commit-your-changes">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>The history of a project is made up of <a href="https://stackoverflow.com/questions/2745076/what-are-the-differences-between-git-commit-and-git-push">“commits”</a>. Each commit is a snapshot of your whole repository at one particular time.</p>
+<p>The message you type to describe each commit is important, since it will be preserved in the history of the project for future contributors. It should be descriptive and relatively high-level—someone can always read the code to find out specifically what you changed.</p>
+<p>For example this message is not descriptive enough: “update title”. This one is a bit <em>too</em> descriptive: “Use an h1 element with a classname applying nice text shadow CSS”. This one has a good balance: “Add new page heading element with styles”.</p>
+<p>Here are some <a href="https://chris.beams.io/posts/git-commit/">great guidelines</a> on writing better, more useful commit messages.</p>
+<p>It’s also important to link your code changes to the issues that track them. GitHub lets you use a hash symbol followed by a number to <a href="https://help.github.com/articles/autolinked-references-and-urls/">connect a commit to an issue</a>. For example if the message includes <code>Relates #1</code> it will show this commit in issue number 1 on the GitHub repo. If a commit totally <em>fixes</em> an issue you can use <code>Closes #1</code>, and GitHub will automatically close the issue when the commit is pushed to GitHub.</p>
+<ol>
+<li>Commit the files that are in the staging area.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">'Add new page heading element with styles'</span> <span class="token parameter variable">-m</span> <span class="token string">'Relates #1'</span></code></pre>
+Here we’re using a second <code>-m</code> flag to add another line to our commit message with the extra issue info.
+You could also just run <code>git commit</code>, which will open your <a href="https://oliverjam.es/blog/make-your-terminal-nicer/#set-your-default-editor">default text editor</a> so you can write longer commit messages in a more comfortable environment.</li>
+</ol>
+<img src="images/step6GitFlow.png" width="649" height="289" alt="repo visual after step 1">
+<h3 id="step-7-push-your-changes-to-git-hub">Step 7: push your changes to GitHub <a class="heading-anchor" href="#step-7-push-your-changes-to-git-hub">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>At this point your remote repo on GitHub hasn’t changed yet. You need to push your changes.</p>
+<ol>
+<li>Push the <code>create-heading-with-shadow</code> branch up to the “origin” (the GitHub repo that you cloned from).<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> push origin create-heading-with-shadow</code></pre>
+</li>
+</ol>
+<img src="images/step7GitFlow.png" width="427" height="285" alt="repo visual after step 1">
+<h3 id="step-8-create-a-pull-request">Step 8: create a pull request <a class="heading-anchor" href="#step-8-create-a-pull-request">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 1 navigates to the repository on GitHub and creates a pull request.
+<ul>
+<li>Add a descriptive title (e.g. <code>Create page heading</code>)</li>
+<li>Add some more info about the change in the body. You can also link the PR to the issue here by including <code>Relates #1</code> or <code>Closes #1</code>.</li>
+<li>Select Programmer 2 as an <a href="https://help.github.com/articles/assigning-issues-and-pull-requests-to-other-github-users/">assignee</a>.</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-9-merge-the-pull-request">Step 9: merge the pull request <a class="heading-anchor" href="#step-9-merge-the-pull-request">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>You usually shouldn’t merge your own pull requests. A PR gives the rest of your team the chance to review before your changes are merged into <code>main</code>. In your projects, you will be asking the other pair to do this.</p>
+<ol>
+<li>Programmer 2 reviews the changes.
+This is where you’d leave any feedback or request changes to be made.</li>
+<li>Programmer 2 merges the pull request</li>
+</ol>
+<p>Now your remote repo looks like this:</p>
+<img src="images/step9GitFlow.png" width="286" height="309" alt="repo visual after step 1">
+<p>You can go and close the issue tracking this feature now that the change is merged (If you put <code>Closes #1</code> in your commit message it will have automatically closed).</p>
+<hr>
+<h2 id="part-2-splitting-the-work">Part 2: splitting the work <a class="heading-anchor" href="#part-2-splitting-the-work">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Your quality assurance engineer has just noticed some problems with the recent change to the website.</p>
+<ol>
+<li>Spelling mistake in the heading (the word ‘WORKSHOW’ should be replaced with ‘WORKSHOP’)</li>
+<li>The classname applied to the <code>h1</code> is wrong, so the styles aren’t applying (<code>class=&quot;some-heading&quot;</code> should be replaced with <code>class=&quot;page-heading&quot;</code>).</li>
+</ol>
+<figure>
+   <img src="images/heading-before.png" width="1036" height="136" alt="a regular h1 with the browser default font styles">
+   <figcaption>The current heading</figcaption>
+</figure>
+<figure>
+   <img src="images/heading-after.png" width="1022" height="154" alt="the same heading with some fancy shadow styles and a nice font">
+   <figcaption>How the heading should look</figcaption>
+</figure>
+<p><strong>Programmer 1 will fix the first problem</strong> and <strong>Programmer 2 will fix the second</strong>. When you begin working on your weekly projects, you will always be pairing. So Programmer 1 represents “pair 1” and Programmer 2 represents “pair 2”. From this point on you both need to work on separate computers.</p>
+<p><strong>Note: Only one line in the <code>index.html</code> file needs to be modified.</strong></p>
+<h3 id="step-1-clone-the-repo-programmer-2">Step 1: clone the repo (Programmer 2) <a class="heading-anchor" href="#step-1-clone-the-repo-programmer-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 2 also needs a copy of the repo, since they haven’t worked on it yet<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> clone <span class="token string">'PASTE THE URL OF YOUR REPOSITORY HERE'</span></code></pre>
+</li>
+</ol>
+<h3 id="step-2-raise-2-new-issues">Step 2: raise 2 new issues <a class="heading-anchor" href="#step-2-raise-2-new-issues">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Create the following two issues and assign each one to a different person
+<ul>
+<li><code>Fix typo in page heading</code> (Programmer 1)</li>
+<li><code>Correct the classname of page heading</code> (Programmer 2)</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-3-create-your-branches">Step 3: create your branches <a class="heading-anchor" href="#step-3-create-your-branches">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Git branches are used to make sure each person can work independently without affecting the code others in the team are working on.</p>
+<ol>
+<li>Both programmers create one branch each:
+<ul>
+<li><code>git checkout -b fix-typo-heading</code> (Programmer 1)</li>
+<li><code>git checkout -b update-class-heading</code> (Programmer 2).</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-4-make-your-changes">Step 4: make your changes <a class="heading-anchor" href="#step-4-make-your-changes">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>It’s important to avoid making unrelated changes as you work. It can be tempting to just quickly fix an error if you spot one while doing some other work. However this makes the Git history of changes really difficult to track. It’s also confusing to review a pull request that has lots of unrelated changes.</p>
+<ol>
+<li>Programmer 1 fixes <strong>only the spelling typo</strong> in the heading (WORKSHOW -&gt; WORKSHOP).<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>some-heading<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>GIT WORKFLOW WORKSHOP<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></code></pre>
+</li>
+<li>Programmer 2 updates <strong>only the class name</strong> of the heading (<code>class=&quot;some-heading&quot;</code> -&gt; <code>class=&quot;page-heading&quot;</code>).<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page-heading<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>GIT WORKFLOW WORKSHOW<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></code></pre>
+</li>
+</ol>
+<h3 id="step-5-stage-your-changes-2">Step 5: stage your changes <a class="heading-anchor" href="#step-5-stage-your-changes-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Both programmers save their <code>index.html</code> files.</li>
+<li>Both programmers check the status of their files, to confirm that <code>index.html</code> has been modified.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> status</code></pre>
+</li>
+<li>Both programmers add their modified <code>index.html</code> file to the staging area.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> <span class="token function">add</span> index.html</code></pre>
+</li>
+</ol>
+<h3 id="step-6-commit-your-changes-2">Step 6: commit your changes <a class="heading-anchor" href="#step-6-commit-your-changes-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Both programmers commit their change. Don’t forget the multi-line commit message with the referenced issue.</li>
+</ol>
+<img src="images/2step7GitFlow.png" width="744" height="450" alt="repo visual after step 1">
+<p><strong>Important: don’t work in parallel from here</strong>. We want to push, PR and merge Programmer 1’s change first, <em>then</em> move on to Programmer 2’s change.</p>
+<h3 id="step-7-pull-any-new-changes-programmer-1">Step 7: pull any new changes (Programmer 1) <a class="heading-anchor" href="#step-7-pull-any-new-changes-programmer-1">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>On a real project there might be lots of other people contributing code simultaneously. It’s a good idea to regularly incorporate changes from the remote <code>main</code> branch into your branch (especially if you’ve been working on this branch for a long time). You usually want to check for remote changes before pushing your branch.</p>
+<ol>
+<li>Programmer 1 switches to <code>main</code> branch.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> checkout main</code></pre>
+</li>
+<li>Programmer 1 pulls any changes from the <code>main</code> branch of the remote (GitHub repo). There should be no changes since neither of you has pushed any changes yet.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> pull origin main</code></pre>
+On the default branch you can use a shorthand, since Git knows which remote branch to use:<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> pull</code></pre>
+</li>
+<li>Programmer 1 switches back to the <code>fix-typo-heading</code> branch.<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> checkout fix-typo-heading</code></pre>
+Since there were no new changes to deal with Programmer 1 can move on to pushing.</li>
+</ol>
+<h3 id="step-8-push-changes-programmer-1">Step 8: push changes (Programmer 1) <a class="heading-anchor" href="#step-8-push-changes-programmer-1">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 1 pushes their <code>fix-typo-heading</code> branch to remote<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> push origin fix-typo-heading</code></pre>
+</li>
+</ol>
+<img src="images/2step9GitFlow.png" width="594" height="453" alt="repo visual after step 1">
+<h3 id="step-9-create-a-pull-request-programmer-1">Step 9: create a pull request (Programmer 1) <a class="heading-anchor" href="#step-9-create-a-pull-request-programmer-1">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 1 creates a pull request.
+<ul>
+<li>Don’t forget a descriptive title/body (and link the relevant issue in the body)</li>
+<li>Assign Programmer 2 to review</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-10-review-the-pull-request-programmer-2">Step 10: review the pull request (Programmer 2) <a class="heading-anchor" href="#step-10-review-the-pull-request-programmer-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 2 reviews the pull request
+<ol>
+<li>Step through each commit (in this case one)</li>
+<li>Check the “Files changed” tab for a line-by-line breakdown.</li>
+<li>Click “Review changes” and choose from “Comment”, “Approve” or “Request changes”</li>
+</ol>
+</li>
+</ol>
+<h3 id="step-11-merge-the-pull-request-programmer-2">Step 11: merge the pull request (Programmer 2) <a class="heading-anchor" href="#step-11-merge-the-pull-request-programmer-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 2 merges the pull request</li>
+</ol>
+<img src="images/2step12GitFlow.png" width="361" height="561" alt="repo visual after step 1">
+<p><strong>Note: now Programmer 1’s changes are merged we can move on to Programmer 2’s</strong></p>
+<h3 id="step-12-pull-any-new-changes-programmer-2">Step 12: pull any new changes (Programmer 2) <a class="heading-anchor" href="#step-12-pull-any-new-changes-programmer-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Remember it’s always a good idea to check for any new changes on the remote before pushing your branch. In this case we know that Programmer 1’s branch was just merged, so there <em>will</em> be changes. Once we’ve pulled them to the local <code>main</code> branch we’ll need to <em>merge</em> them into the <code>update-class-heading</code> branch.</p>
+<ol>
+<li>
+<p>Programmer 2 switches to <code>main</code> branch.</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> checkout main</code></pre>
+</li>
+<li>
+<p>Programmer 2 pulls the remote <code>main</code> branch</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> pull</code></pre>
+<img src="images/2step13(1)GitFlow.png" width="519" height="703" alt="repo visual after step 1">
+</li>
+<li>
+<p>Programmer 2 switches back to the <code>update-class-heading</code> branch.</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> checkout update-class-heading</code></pre>
+</li>
+<li>
+<p>Programmer 2 tries to merge <code>main</code> branch into <code>update-class-heading</code> branch.</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> merge main</code></pre>
+<p>At this point there should be a “merge conflict”. Move on to the next section to find out how to resolve this.</p>
+</li>
+</ol>
+<h3 id="step-13-resolve-merge-conflicts-programmer-2">Step 13: resolve merge conflicts (Programmer 2) <a class="heading-anchor" href="#step-13-resolve-merge-conflicts-programmer-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>This conflict occurred because the line with the <code>&lt;h1&gt;</code> heading was changed by Programmer 1 <em>and</em> Programmer 2. Git doesn’t know how to merge the two different versions of this line together, so it needs you to do it manually. Merge conflicts are <a href="http://stackoverflow.com/questions/7901864/git-conflict-markers">highlighted with HEAD and main markers</a> like this:</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span><br>  &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page-heading<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>GIT WORKFLOW WORKSHOW<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><br>  =======<br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>some-heading<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>GIT WORKFLOW WORKSHOP<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><br>  >>>>>>> main<br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></code></pre>
+<p>The code between <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> and <code>======</code> is the current change on this branch. The code between the <code>======</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; main</code> is the change from the <code>main</code> branch that we are merging in.</p>
+<p>You can resolve the conflict by manually editing the code to leave only the change you expect. You can also use VS Code’s built-in options to choose either the <code>HEAD</code> or <code>main</code> change (or both). You also need to make sure to remove the conflict marker lines, since those are not valid HTML code. Finally you need to make a new commit for the merge.</p>
+<ol>
+<li>Programmer 2 removes HEAD and main markers</li>
+<li>Programmer 2 manually merges the two different <code>h1</code> lines to keep both new changes<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page-heading<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>GIT WORKFLOW WORKSHOP<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></code></pre>
+</li>
+<li>Programmer 2 adds the <code>index.html</code> file to staging area and commits the merge changes.</li>
+</ol>
+<pre class="language-shell"><code class="language-shell"><span class="token function">git</span> <span class="token function">add</span> index.html<br><span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">'Merge main and resolve conflicts'</span></code></pre>
+<img src="images/2step13(2)GitFlow.png" width="346" height="469" alt="repo visual after step 1">
+<h3 id="step-14-push-your-changes-programmer-2">Step 14: push your changes (Programmer 2) <a class="heading-anchor" href="#step-14-push-your-changes-programmer-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 2 pushes the <code>update-class-heading</code> branch to remote.</li>
+</ol>
+<pre class="language-shell"><code class="language-shell">  <span class="token function">git</span> push origin update-class-heading</code></pre>
+<img src="images/2step14GitFlow.png" width="395" height="509" alt="repo visual after step 1">
+<h3 id="step-15-create-a-pull-request-programmer-2">Step 15: create a pull request (Programmer 2) <a class="heading-anchor" href="#step-15-create-a-pull-request-programmer-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 2 creates a pull request.
+<ul>
+<li>Don’t forget a descriptive title/body (and link the relevant issue in the body)</li>
+<li>Assign Programmer 1 to review</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-16-review-the-pull-request-programmer-1">Step 16: review the pull request (Programmer 1) <a class="heading-anchor" href="#step-16-review-the-pull-request-programmer-1">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 1 reviews the pull request
+<ol>
+<li>Step through each commit (in this case one)</li>
+<li>Check the “Files changed” tab for a line-by-line breakdown.</li>
+<li>Click “Review changes” and choose from “Comment”, “Approve” or “Request changes”</li>
+</ol>
+</li>
+</ol>
+<h3 id="step-17-merge-the-pull-request-programmer-1">Step 17: merge the pull request (Programmer 1) <a class="heading-anchor" href="#step-17-merge-the-pull-request-programmer-1">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Programmer 1 merges the pull request</li>
+</ol>
+<img src="images/2step16GitFlow.png" width="381" height="546" alt="repo visual after step 17">
+<h2 id="finishing-up">Finishing up <a class="heading-anchor" href="#finishing-up">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>That’s it, you have successfully followed the GitHub flow to add a new feature and fix some bugs.</p>
+<p>Both Programmer 1 and Programmer 2 can switch back to the <code>main</code> branch and pull the remote changes. They should also both delete their other local branches since they are now merged. The final step should be to close any open issues (if the PRs didn’t do this automatically).</p>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

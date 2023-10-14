@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Developer tooling</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Developer tooling</h1><p class="highlight fz-lg">Learn how to use npm modules like linters to make writing code easier</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">node</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">npm</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/dev-tooling/starter-files#main' dev-tooling" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fdev-tooling%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>There are lots of useful modules on npm that can help us when we’re working. Writing code can be difficult and error-prone, when you’re learning and even when you’re experienced. There are certain parts that are worth automating so you can free up your brain to worry about more interesting problems.</p>
+<h2 id="formatting-with-prettier">Formatting with Prettier <a class="heading-anchor" href="#formatting-with-prettier">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>The JS ecosystem has mostly settled on using the <a href="https://prettier.io/">Prettier</a> library to format their code. This ensures that everyone’s code looks the same, which makes it easy to jump into new projects. It’s nice to automate things like indentation or quote usage, since these are not really things you want to waste brainpower on while you are coding.</p>
+<h3 id="using-prettier">Using Prettier <a class="heading-anchor" href="#using-prettier">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>There are a couple of ways to use Prettier to format your code. The simplest is to install an extension for your editor. Here is the <a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">VS Code extension</a>. You can then configure your editor to “format on save”, so your code is always formatted correctly.</p>
+<p>You should <em>also</em> install Prettier as a dependency in your project. This ensures anyone who contributes will get the same version. Otherwise someone with an older version of the editor extension might end up formatting some code differently to the rest.</p>
+<p>You want to install it as a <em>development</em> dependency, since it is not needed for your actual app code to work:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-D</span> prettier</code></pre>
+<p>The Prettier extension will automatically use the locally installed version, so everyone should end up with consistent code.</p>
+<p>If you like you can use the Prettier CLI to format code as well. This command will format all files in your current directory:</p>
+<pre class="language-shell"><code class="language-shell">node_modules/.bin/prettier <span class="token parameter variable">--write</span> <span class="token builtin class-name">.</span></code></pre>
+<h3 id="configuring-prettier">Configuring Prettier <a class="heading-anchor" href="#configuring-prettier">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Prettier is explicitly designed to be very opinionated—the whole point is to make all code consistently formatted. However there are some things you can configure (like using single vs double quotes).</p>
+<p>Create a <code>.prettierrc.json</code> file and put any <a href="https://prettier.io/docs/en/options.html">config options</a> in here. If you’re happy with the default settings you can just use an empty object:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<p>This will ensure that everyone’s editor extension uses the defaults instead of whatever they might have configured for their personal settings.</p>
+<h2 id="linting-with-es-lint">Linting with ESLint <a class="heading-anchor" href="#linting-with-es-lint">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p><a href="https://eslint.org/">ESLint</a> is the most popular JS <em>linter</em>. A linter is a program that looks at your code and tries to find mistakes. You can think of it like a spell/grammar checker for code.</p>
+<p>This is incredibly useful as a linter can easily find problems that are quite difficult for a human to spot. For example here’s a simple bug:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token parameter">fileInput</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token comment">// imagine there are many lines in between here</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>filelnput<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined 😱</span><br><span class="token punctuation">}</span></code></pre>
+<p>ESLint would underline <code>console.log(fileinput)</code> in red, and tell you that <code>fiileinput</code> is undefined. Linters can also be helpful when you’re learning, as some of their warnings will be about stuff you didn’t know yet.</p>
+<h3 id="installing-es-lint">Installing ESLint <a class="heading-anchor" href="#installing-es-lint">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Similar to Prettier you want to install both the ESLint editor extension and the command-line tool. Here is the <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">VS Code extension</a>.</p>
+<p>Again you’ll want to install it as a development dependency:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-D</span> eslint</code></pre>
+<p>ESlint requires a bit more config, which you can automatically generate by running this command:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> init @eslint/config</code></pre>
+<p>It will ask you some questions about your project, then generate a config file. Choose the JSON option—you should end up with a new file named <code>.eslintrc.json</code> that looks like this:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><br>  <span class="token property">"env"</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>    <span class="token property">"browser"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>    <span class="token property">"es2021"</span><span class="token operator">:</span> <span class="token boolean">true</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token property">"extends"</span><span class="token operator">:</span> <span class="token string">"eslint:recommended"</span><span class="token punctuation">,</span><br>  <span class="token property">"parserOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>    <span class="token property">"ecmaVersion"</span><span class="token operator">:</span> <span class="token string">"latest"</span><span class="token punctuation">,</span><br>    <span class="token property">"sourceType"</span><span class="token operator">:</span> <span class="token string">"module"</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token property">"rules"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>This config “extends” the built-in recommended ruleset, which will catch common mistakes and problems. Later on if you need to you can add or disable specific rules in the <code>&quot;rules&quot;</code> object here.</p>
+<h3 id="using-es-lint">Using ESLint <a class="heading-anchor" href="#using-es-lint">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>You may need to restart your editor after installing the ESlint extension. Afterwards you should start seeing red underlines for mistakes in your code. Try referencing an undefined variable like this:</p>
+<pre class="language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>xyz<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>You should see a red underline—hover the variable and you’ll see a popup with a message like <code>'xyz' is not defined. eslint(no-undef)</code>. The last bit is the specific rule being broken. If you ever don’t understand a problem you can google this rule and read about it on ESLint’s website for more information.</p>
+<h2 id="development-server">Development server <a class="heading-anchor" href="#development-server">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>It’s useful to have a local dev server when working on projects. Whilst it’s possible to just open an <code>.html</code> file in your browser to view a webpage locally, lots of newer browser features won’t work (for security reasons). A proper dev server also has nice features like “live reload” to auto-reload the page whenever you save changes to a file.</p>
+<p>The “Live Server” VS Code extension is popular for this, as it makes it quick and easy to start a local server. However this isn’t ideal for shared projects as you don’t have a centrally configured way to run the site—you’re relying on each contributor to bring their own server.</p>
+<p><a href="https://browsersync.io/">Browsersync</a> is a nice tool for creating dev servers. You should install it as a development dependency:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> i <span class="token parameter variable">-D</span> browser-sync</code></pre>
+<p>You can then start a server for your local files:</p>
+<pre class="language-shell"><code class="language-shell">node_modules/.bin/browser-sync <span class="token parameter variable">--server</span> <span class="token parameter variable">--watch</span></code></pre>
+<p>This is annoying to type so you probably want to add an npm script to your <code>package.json</code>:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><br>  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>    <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"browser-sync --server --watch"</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>Now you can just run <code>npm run dev</code> to start the server.</p>
+<p>Browsersync will watch all your files and auto-reload your browser tabs if you change them. It also synchronises browser state across all tabs/windows, so if you scroll or fill in a form in one tab it’ll update all of them. This is handy for testing lots of viewport widths at once, for example.</p>
+<p>It will also run the server on your local Wi-Fi network, so you can easily test your local work on a mobile device. When you start the server you’ll see a log like: <code>External: https://192....</code>. Visit this IP address on any device on the same Wi-Fi network to see your local site.</p>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

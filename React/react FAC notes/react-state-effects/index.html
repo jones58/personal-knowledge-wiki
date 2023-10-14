@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>React state &amp; effects</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">React state &amp; effects</h1><p class="highlight fz-lg">Learn how to use the useState and useEffect hooks to create dynamic interactions in React</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">react</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">state</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">effects</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/react-state-effects/starter-files#main' react-state-effects" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Freact-state-effects%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>React is designed to build dynamic apps with lots of interaction. A common difficulty with apps like this is keeping the DOM up-to-date as the user interacts. React has two concepts to help keep this manageable: “state” and “effects”.</p>
+<h2 id="react-state">React state <a class="heading-anchor" href="#react-state">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>State is data that changes while your application is running. This might be in response to user actions, or after a <code>fetch</code> request finishes.</p>
+<p>In React all stateful values are stored in JS as special variables. We can render our UI based on these variables—when they change React will automatically re-run the component function and update the DOM to reflect the new state value.</p>
+<h3 id="using-state">Using state <a class="heading-anchor" href="#using-state">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Imagine we have a counter component. When the button is clicked we want the count to go up one:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span><span class="token plain-text">Count is </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>We need some way to make our <code>Counter</code> function run again if this value changes.</p>
+<p>The <code>React.useState</code> method can be used to create a “stateful” value. It takes the initial state value as an argument, and returns an array. This array contains two things: the state value, and a function that lets you <em>update</em> the state value.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> stateArray <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> count <span class="token operator">=</span> stateArray<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> setCount <span class="token operator">=</span> stateArray<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span><span class="token plain-text">Count is </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>It’s common to use array destructuring to simplify this:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span><span class="token plain-text">Count is </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>The <code>setCount</code> function lets us update our state value and tells React to re-run this component. E.g. if we called <code>setCount(10)</code> React will call our <code>Counter</code> component function again, but this time the <code>count</code> variable would be <code>10</code> instead of <code>0</code>.</p>
+<p>This is how React keeps your UI in sync with the state.</p>
+<div class="box box-error content flow">
+<p><strong>Never change a state variable directly.</strong> React needs to know about any changes to the value, otherwise it won’t re-render the component correctly. For example <code>count++</code> will change the old copy of the state value but won’t re-run the component.</p>
+</div>
+<!-- ### Updates based on previous state
+
+Sometimes you need access to the old value of the state in order to update. The state updater functions also accept a _function_ as an argument. React will call this function with the old state value, and whatever you return from it will be set as the new state.
+
+E.g. instead of `setCount(10)` we could do `setCount(oldCount => oldCount + 1)` to update the count by one. You'll see an example of when this is necessary in the next section.
+
+<details>
+  <summary>A fake implementation that might help</summary>
+
+```js
+function useState(initialState) {
+  // keep track of a state value
+  let state = initialState;
+  // create a function that can update the state
+  function setState(update) {
+    // if the user passed a function we call it with the old state
+    // then set the return value of the function as the new state
+    if (typeof update === "function") {
+      const newState = update(state);
+      state = newState;
+    } else {
+      // otherwise we just directly update the state
+      state = update;
+    }
+    // some magic React internal that will cause your component function to re-run
+    // this allows your component to get the updated value
+    rerenderTheComponentSomehow();
+  }
+  // return the state and updater function in an array for convenience
+  return [state, setState];
+}
+```
+
+</details> -->
+<h2 id="event-listeners">Event listeners <a class="heading-anchor" href="#event-listeners">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>We have a function that will let us update the state, but how do we attach event listeners to our DOM nodes?</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">function</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span>`<br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>increment<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token plain-text">Count is </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>You can pass event listener functions in JSX like any other property. They are always formatted as “on” followed by the camelCased event name. So “onClick”, “onKeyDown”, “onChange” etc.</p>
+<p>In this example we are passing a function that calls <code>setCount</code> with our new value of <code>count</code>.</p>
+<p><img src="https://user-images.githubusercontent.com/9408641/57850062-e9281100-77d4-11e9-81cc-befd42f1faf7.gif" alt="counter-example"></p>
+<h2 id="challenge-1">Challenge 1 <a class="heading-anchor" href="#challenge-1">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Time to add some state! Open up <code>challenge-1.html</code> in your editor. You should see the <code>Counter</code> component we just created. This is an example; you can delete it if you want.</p>
+<p>Create a new component called <code>Toggle</code>. It should render a button that toggles a boolean state value when clicked. It should also render a div containing its children, but only when the boolean state value is true.</p>
+<p>Example usage:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Toggle</span></span><span class="token punctuation">></span></span><span class="token plain-text">This text is hidden until the button is clicked</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Toggle</span></span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p><img src="https://user-images.githubusercontent.com/9408641/57849940-98b0b380-77d4-11e9-86ef-315861f60489.gif" alt="toggle-example"></p>
+<div class="box box-default content flow">
+<p><strong>Hint:</strong> remember you can use ternaries to do conditional logic inside JSX. Rendering <code>null</code> or an empty string tells React to put nothing on the page. E.g.</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>x <span class="token operator">></span> <span class="token number">5</span> <span class="token operator">?</span> <span class="token keyword">null</span> <span class="token operator">:</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text">It's less than 5</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span><span class="token plain-text"></code></pre>
+</div>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Toggle</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>open<span class="token punctuation">,</span> setOpen<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">function</span> <span class="token function">toggleOpen</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token function">setOpen</span><span class="token punctuation">(</span><span class="token operator">!</span>open<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// !open gives us the opposite, e.g. true -> false or false -> true</span><br>  <span class="token punctuation">}</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>toggleOpen<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token plain-text">Toggle</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token punctuation">{</span>open <span class="token operator">?</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>children<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span> <span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">}</span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+</details></div>
+<h2 id="side-effects">Side effects <a class="heading-anchor" href="#side-effects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>React is designed to make it easy to keep your application in sync with your data/state. Component functions render DOM elements and keep them in sync with any state values.</p>
+<p>But most apps need more than just a UI—there are also things like fetching data from an API, timers/intervals, global event listeners etc. These are known as “side effects”—they can’t be represented with JSX.</p>
+<p>We need a way to ensure our effects reflect changes in state just like our UI does.</p>
+<h3 id="using-effects">Using effects <a class="heading-anchor" href="#using-effects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>React provides another “hook” like <code>useState()</code> for running side-effects <em>after</em> your component renders. It’s called <code>useEffect()</code>. It takes a function as an argument, which will be run after every render (by default).</p>
+<p>Let’s say we want our counter component to also update the page title (so the count shows in the browser tab). There’s no way to represent this update using the JSX our component returns. Instead we can use an effect:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  React<span class="token punctuation">.</span><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    document<span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Count: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token plain-text">Count is </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p><img src="https://user-images.githubusercontent.com/9408641/57864430-c9ecac00-77f3-11e9-8811-1242688c3e7d.gif" alt="effect-example"></p>
+<p>React will run the arrow function we passed to <code>useEffect()</code> every time this component renders. Since calling <code>setCount</code> will trigger a re-render (as the state is updated) the page title will stay in sync with our state as the button is clicked.</p>
+<h3 id="skipping-effects">Skipping effects <a class="heading-anchor" href="#skipping-effects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>By default all the effects in a component will re-run after <strong>every</strong> render of that component. This ensures the effect always has the correct state values.</p>
+<p>If your effect does something expensive/slow like fetching from an API (or sorting a massive array etc) then this could be a problem.</p>
+<p><code>useEffect()</code> takes a second argument to optimise when it re-runs: an array of <em>dependencies</em> for the effect. Any variable used inside your effect function should go into this array:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  React<span class="token punctuation">.</span><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    document<span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Count: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>count<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token plain-text">Count is </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Now our effect will only re-run if the value of <code>count</code> has changed.</p>
+<h3 id="running-effects-once">Running effects once <a class="heading-anchor" href="#running-effects-once">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Sometimes your effect will not be dependent on <em>any</em> props or state, and you only want it to run once (after the component renders the first time). In this case you can pass an empty array as the second argument to <code>useEffect()</code>, to signify that the effect has no dependencies and never needs to be re-run.</p>
+<p>For example if we wanted our counter to increment when the “up” arrow key is pressed:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  React<span class="token punctuation">.</span><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token keyword">function</span> <span class="token function">handleKeyDown</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>      <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>key <span class="token operator">===</span> <span class="token string">"ArrowUp"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token function">setCount</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">prevCount</span><span class="token punctuation">)</span> <span class="token operator">=></span> prevCount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>      <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br>    window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"keydown"</span><span class="token punctuation">,</span> handleKeyDown<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text">Count is </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>We add an event listener to the <code>window</code>, and pass an empty array to <code>useEffect()</code>. This will keep us from adding new event listeners every time <code>count</code> updates and triggers a re-render.</p>
+<div class="box box-default content flow">
+<h4 id="updates-based-on-previous-state">Updates based on previous state <a class="heading-anchor" href="#updates-based-on-previous-state">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>It’s important to note that we’re passing <a href="https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state">a function</a> instead of a number to <code>setCount</code>. React will call this function with the old state value, and whatever you return will be set as the new state.</p>
+<p>This will ensure we always have the up-to-date current value of <code>count</code> when we update it. If we just referenced <code>count</code> directly (<code>setCount(count + 1)</code>) the value would always be <code>0</code>, since that’s what it was when we created the event listener. So the count would update to <code>1</code>, then never change.</p>
+</div>
+<h3 id="cleaning-up-effects">Cleaning up effects <a class="heading-anchor" href="#cleaning-up-effects">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Some effects need to be “cleaned up” if the component is removed from the page. For example timers need to be cancelled and global event listeners need to be removed. Otherwise you’d have a bunch of code running in the background trying to update a component that doesn’t exist anymore.</p>
+<p>If you return a function from your effect React will save it and call it if the component is removed from the page. React will <em>also</em> run it to clean up when a component re-renders (before the effects run again).</p>
+<p>Let’s clean up after our effect example from above:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  React<span class="token punctuation">.</span><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token keyword">function</span> <span class="token function">handleKeyDown</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>      <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>key <span class="token operator">===</span> <span class="token string">"ArrowUp"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        <span class="token function">setCount</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">prevCount</span><span class="token punctuation">)</span> <span class="token operator">=></span> prevCount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>      <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br>    <span class="token comment">// run handler function when keydowns happen</span><br>    window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"keydown"</span><span class="token punctuation">,</span> handleKeyDown<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token comment">// create fn that removes event listener</span><br>    <span class="token keyword">function</span> <span class="token function">cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>      window<span class="token punctuation">.</span><span class="token function">removeEventListener</span><span class="token punctuation">(</span><span class="token string">"keydown"</span><span class="token punctuation">,</span> handleKeyDown<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><br>    <span class="token comment">// react will run `cleanup` whenever it needs to remove this effect</span><br>    <span class="token keyword">return</span> cleanup<span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text">Count is </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>The <code>cleanup</code> function we return will be called if the component unmounts (is removed from the page). That will ensure we don’t keep running an unnecessary event listener and trying to update state that doesn’t exist anymore.</p>
+<h2 id="challenge-2">Challenge 2 <a class="heading-anchor" href="#challenge-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>We’re going to enhance our <code>Toggle</code> component from Part 3. You can either keep working in the same file or open up <code>challenge-2.html</code> to start fresh.</p>
+<ol>
+<li>
+<p>Edit the Toggle component so that the page title (in the tab) shows whether the toggle is on or off.</p>
+</li>
+<li>
+<p>Then create a new component called <code>MousePosition</code>. It should keep track of where the mouse is in the window and render the mouse x and y positions.</p>
+<div class="box box-default content flow">
+<p><strong>Hint:</strong> you can keep track of where the mouse is with a “mousemove” event listener on the <code>window</code>.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">handleMouseMove</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>x<span class="token punctuation">,</span> event<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+</div>
+</li>
+<li>
+<p>Put <code>MousePosition</code> inside your <code>Toggle</code> so you can show and hide it. This is how your final <code>App</code> should look:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Toggle</span></span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">MousePosition</span></span> <span class="token punctuation">/></span></span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Toggle</span></span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/9408641/58380308-758dbd00-7fa7-11e9-8e93-cdc945530d55.gif" alt="effect-example"></p>
+<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">MousePosition</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>x<span class="token punctuation">,</span> setX<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> <span class="token punctuation">[</span>y<span class="token punctuation">,</span> setY<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  React<span class="token punctuation">.</span><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token keyword">function</span> <span class="token function">handleMouseMove</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>      <span class="token function">setX</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span><br>      <span class="token function">setY</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><br>    window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"mousemove"</span><span class="token punctuation">,</span> handleMouseMove<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> window<span class="token punctuation">.</span><span class="token function">removeEventListener</span><span class="token punctuation">(</span><span class="token string">"mousemove"</span><span class="token punctuation">,</span> handleMouseMove<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> <span class="token punctuation">(</span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pre</span><span class="token punctuation">></span></span><span class="token plain-text"><br>      </span><span class="token punctuation">{</span>x<span class="token punctuation">}</span><span class="token plain-text">:</span><span class="token punctuation">{</span>y<span class="token punctuation">}</span><span class="token plain-text"><br>    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pre</span><span class="token punctuation">></span></span><br>  <span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+</details></div>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

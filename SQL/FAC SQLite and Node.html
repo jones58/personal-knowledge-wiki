@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Persisting data with SQLite and Node</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Persisting data with SQLite and Node</h1><p class="highlight fz-lg">Learn how to use the SQLite database to persist data for your Node apps</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">express</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">database</li></ul></div><div class="hstack wrap"><a href="https://github.com/foundersandcoders/database-challenge" target="_blank" rel="noopener" class="button" style="--bg: var(--primary); --bg-hover: var(--primary-dark)">View challenge repo<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd"></path></svg></a><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Blearn%2Fdatabase%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Most applications need to <em>persist</em> data—that is keep it around for future use. This means it will be available even if your server process restarts. A database is a program designed for efficiently and robustly storing information, and making it accessible to your app.</p>
+<p>SQLite is a relational database that is quite simple to get started with. It runs in the same process as your server, unlike other popular databases like PostgreSQL or MySQL. These run as a separate server that needs to be managed separately from your app. As we will see SQLite stores data in a single file, which makes it convenient to work with for simple apps.</p>
+<h2 id="using-sq-lite">Using SQLite <a class="heading-anchor" href="#using-sq-lite">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>If you have the SQLite command-line program you can create and manipulate databases in your terminal. However since we’re building a Node app we’ll use a library to do this in JS. There are several to choose from, but the simplest is <code>better-sqlite3</code>.</p>
+<p>Let’s start a new Node project and set it up to use a database. First create a new directory and a <code>package.json</code>:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">mkdir</span> learn-database<br><span class="token builtin class-name">cd</span> learn-database<br><span class="token function">npm</span> init <span class="token parameter variable">-y</span></code></pre>
+<p>Then install <code>better-sqlite3</code> from npm:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> better-sqlite3</code></pre>
+<p>This will be added to the <code>dependencies</code> object in your <code>package.json</code>. Now you can use it to initialise a SQLite database. You’ll need a JS file to do this—since there will be a few database related files create a new <code>database</code> directory for them all. Then create a <code>database/db.js</code> file where you can initialise the DB:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> Database <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"better-sqlite3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Database</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>db<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>The <code>better-sqlite3</code> library exports a constructor function that creates a new SQLite database and returns a <a href="https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md#class-database">JS object</a> with methods for talking to that DB. Try running your JS file now and you should see this object logged:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">node</span> database/db.js</code></pre>
+<p>By default if we don’t pass any arguments to <code>new Database()</code> it’ll create an “in-memory” DB. This means the data won’t be persisted—this is useful for testing as you can’t permanently break anything. If you want to persist data you can pass the name of the file you want to use.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Database</span><span class="token punctuation">(</span><span class="token string">"db.sqlite"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>If you run this code it’ll create the file if it doesn’t exist, or re-use an existing one if it does. However hard-coding isn’t the best idea—there are situations where we might want to use a different DB, like running tests. Instead we can use an <em>environment variable</em> to set the filename.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Database</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">DB_FILE</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Now we can choose what DB file to use without changing the code. For example if you run this file with:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token assign-left variable">DB_FILE</span><span class="token operator">=</span>db.sqlite <span class="token function">node</span> database/db.js</code></pre>
+<p>you should see a new file called <code>db.sqlite</code> appear at the root of your project.</p>
+<div class="box box-default content flow">
+<p>This file is where SQLite stores all your data. In a real project you should add it to your <code>.gitignore</code> so each team member can have their own local copy.</p>
+<p>If you want to start over at any point you can delete this file—it will be recreated (but with all the data deleted!) when you next use the <code>db.js</code> file.</p>
+</div>
+<h2 id="using-prepared-statements">Using prepared statements <a class="heading-anchor" href="#using-prepared-statements">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Accessing data is a two-step process with <code>better-sqlite3</code>. For performance reasons all queries must first be “prepared” before they can be run. This way the library can re-use the same query over and over. You create a statement with the <code>db.prepare</code> method. This takes a SQL string and returns a <a href="https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md#class-statement">Statement</a> object:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> select_date <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token string">"SELECT DATE()"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>select_date<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>The statement object has several methods for running a query based on what the expected result is. Use <code>.run</code> when you don’t need a result (e.g. for deleting a row), <code>.get</code> when you expect a single row, and <code>.all</code> when you want to get all rows matching the query.</p>
+<p>In this case we’re expecting a single result (the date), so you can use the <code>.get</code> method:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> select_date <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token string">"SELECT DATE()"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> result <span class="token operator">=</span> select_date<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Run this again in your terminal and you should see an object logged with the current date:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span> <span class="token property">"DATE()"</span><span class="token operator">:</span> <span class="token string">"2022-09-13"</span> <span class="token punctuation">}</span></code></pre>
+<h2 id="setting-up-your-schema">Setting up your schema <a class="heading-anchor" href="#setting-up-your-schema">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Relational databases need a defined schema to tell them how to organise your data. This helps them structure your data effectively. A simple schema is a collection of <code>CREATE TABLE</code> statements that you run against your database to create the tables and columns it needs. You could write all this inside strings in a <code>.js</code> file, but it’s nicer to use a separate <code>.sql</code> file.</p>
+<p>Let’s create a simple schema that will let us store tasks for a to-do list. Create a new file <code>database/schema.sql</code>:</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">BEGIN</span><span class="token punctuation">;</span><br><br><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> tasks <span class="token punctuation">(</span><br>  id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> AUTOINCREMENT<span class="token punctuation">,</span><br>  content <span class="token keyword">TEXT</span><span class="token punctuation">,</span><br>  created_at <span class="token keyword">DATETIME</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span><br><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">COMMIT</span><span class="token punctuation">;</span></code></pre>
+<div class="box box-default content flow">
+<p>We’re using a SQL “transaction”. Every statement after <code>BEGIN</code> will be attempted, then assuming there were no errors the <code>COMMIT</code> statement will persist all changes. If anything in the transaction fails everything is reverted—this prevents your DB from getting into a broken state.</p>
+</div>
+<p>We’re creating a new table called <code>tasks</code> with three columns: <code>id</code> will be an automatically incrementing integer generated by the DB, <code>content</code> will be the text content of each task, and <code>created_at</code> will be an auto-generated timestamp.</p>
+<p>Note the <code>IF NOT EXISTS</code>; a good schema should be <a href="https://en.wikipedia.org/wiki/Idempotence"><em>idempotent</em></a>—you should be able to run it against your DB multiple times without changing the result. Running our schema a second time would result in a “table already exists” error if we didn’t have this.</p>
+<p>Let’s run this schema against our DB in JS. We need to read the <code>.sql</code> file contents, then pass them into the <code>db.exec</code> method, which is designed to run one-off queries containing multiple statements like this. Edit <code>database/db.js</code>:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> readFileSync <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"node:fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> <span class="token punctuation">{</span> join <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"node:path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> Database <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"better-sqlite3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Database</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">DB_FILE</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> schemaPath <span class="token operator">=</span> <span class="token function">join</span><span class="token punctuation">(</span><span class="token string">"database"</span><span class="token punctuation">,</span> <span class="token string">"schema.sql"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token function">readFileSync</span><span class="token punctuation">(</span>schemaPath<span class="token punctuation">,</span> <span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>db<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>schema<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>You can check this worked by selecting from the built-in <code>sqlite_schema</code> table (which lists everything else in the DB):</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> select_table <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token string">"SELECT name FROM sqlite_schema"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> result <span class="token operator">=</span> select_table<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>You should see your new <code>tasks</code> table in the array:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span> <span class="token punctuation">{</span> name<span class="token operator">:</span> 'tasks' <span class="token punctuation">}</span><span class="token punctuation">,</span> ... <span class="token punctuation">]</span></code></pre>
+<p>Your database is now ready to use. We just need to make it available to other parts of our application by exporting the <code>db</code> object. Here’s the full <code>database/db.js</code> file you need, with explanatory comments:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> readFileSync <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"node:fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> <span class="token punctuation">{</span> join <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"node:path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> Database <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"better-sqlite3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token comment">/**<br> * If we do not set DB_FILE env var creates an in-memory temp DB.<br> * Otherwise connect to the DB contained in the file we specified (if it exists).<br> * If it does not exist create a new DB file and connect to it.<br> */</span><br><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Database</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">DB_FILE</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token comment">/**<br> * Make sure DB has the right structure by running schema.sql<br> * This is responsible for creating the tables and columns we need<br> * It should be safe to run every time<br> */</span><br><span class="token keyword">const</span> schemaPath <span class="token operator">=</span> <span class="token function">join</span><span class="token punctuation">(</span><span class="token string">"database"</span><span class="token punctuation">,</span> <span class="token string">"schema.sql"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> schema <span class="token operator">=</span> <span class="token function">readFileSync</span><span class="token punctuation">(</span>schemaPath<span class="token punctuation">,</span> <span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>db<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>schema<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token comment">/**<br> * Export the DB for use in other files<br> */</span><br>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> db<span class="token punctuation">;</span></code></pre>
+<p>Now we can import the <code>db</code> object in our app, which will run this file, ensuring the database is created and the schema properly set-up.</p>
+<h2 id="using-our-database">Using our database <a class="heading-anchor" href="#using-our-database">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Let’s implement some features for this app that use our new database. It can be helpful to write your data access as separate functions to your server routes, so you can focus on doing one thing at a time.</p>
+<p>Create a new <code>model</code> folder, with a new <code>tasks.js</code> file inside. This is where we’ll write functions that read and write tasks from our DB. Let’s import our <code>db</code> object and write a function to insert a new task:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/db.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> insert_task <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token string">"INSERT INTO tasks (content) VALUES (?)"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">createTask</span><span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  insert_task<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span> createTask <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<div class="box box-default content flow">
+<p>We create the prepared statement <em>outside</em> of the function, so that this can be reused every time the function is called. This is faster than recreating it each time we create a task.</p>
+</div>
+<p>We only need to specify the <code>content</code> value, since the <code>id</code> and <code>created_at</code> columns will be generated by the DB. We are using a <em>parameterised query</em> to pass in the dynamic <code>content</code> value. The <code>?</code> in the query will be replaced by the first argument passed in when we execute the prepared statement.</p>
+<div class="box box-error content flow">
+<p>It’s <strong>very important</strong> to <em>always</em> use parameterised queries when you have user-submitted data. Otherwise you will be vulnerable to SQL injection, where a malicious user submits something like <code>;DROP TABLE users</code> in a form. Parameterised queries automatically escape any SQL so this won’t do anything dangerous.</p>
+</div>
+<p>Let’s use this function to insert a new query. Temporarily add some code that calls your new function, then query the DB to see what is in the <code>tasks</code> table:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// ...</span><br><span class="token function">createTask</span><span class="token punctuation">(</span><span class="token string">"Eat a banana"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> tasks <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM tasks"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>tasks<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>You should see an array with one task logged:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span><span class="token punctuation">{</span> <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token property">"content"</span><span class="token operator">:</span> <span class="token string">"Eat a banana"</span><span class="token punctuation">,</span> <span class="token property">"created_at"</span><span class="token operator">:</span> <span class="token string">"2022-09-14 08:40:41"</span> <span class="token punctuation">}</span><span class="token punctuation">]</span></code></pre>
+<h3 id="returning-generated-data">Returning generated data <a class="heading-anchor" href="#returning-generated-data">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Our <code>createTask</code> function currently doesn’t return anything. Since the <code>id</code> and <code>created_at</code> columns are generated by the DB it would be nice if we returned the newly created task. We can do this using the <code>RETURNING</code> SQL statement. Amend your query and function:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> insert_task <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  INSERT INTO tasks (content)<br>  VALUES (?)<br>  RETURNING id, content, created_at<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">createTask</span><span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> insert_task<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Note we must now use the <code>.get</code> method, since we expect the statement to return a single value. If you call this function you should receive the inserted task object:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">createTask</span><span class="token punctuation">(</span><span class="token string">"Send mum flowers"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span> <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token property">"content"</span><span class="token operator">:</span> <span class="token string">"Send mum flowers"</span><span class="token punctuation">,</span> <span class="token property">"created_at"</span><span class="token operator">:</span> <span class="token string">"2022-09-14 08:52:30"</span> <span class="token punctuation">}</span></code></pre>
+<hr>
+<div class="box box-default content flow">
+<h2 id="graphical-preview">Graphical preview <a class="heading-anchor" href="#graphical-preview">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Sometimes it’s nice to see what data is in the DB without writing code. The <a href="https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer">SQLite Viewer</a> VS Code extension allows you to click the DB file to preview tables. If you want a more fully featured app <a href="https://www.beekeeperstudio.io">Beekeeper Studio</a> is nice.</p>
+</div>
+<hr>
+<h2 id="seeding-example-data">Seeding example data <a class="heading-anchor" href="#seeding-example-data">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>It’s a bit awkward to have to manually call functions to insert data when we want to check our DB is working. It would be nice if we had a script to run that could “seed” the DB with some pre-defined example data.</p>
+<p>Delete your existing <code>db.sqlite</code> file, so we don’t have to worry about any data already inserted.</p>
+<p>Let’s write some SQL to insert example tasks. Create a <code>database/seed.sql</code> file:</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">BEGIN</span><span class="token punctuation">;</span><br><br><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> tasks <span class="token keyword">VALUES</span><br>  <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Create my first todo'</span><span class="token punctuation">,</span> <span class="token string">'2022-09-16 01:01:01'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>  <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Buy milk'</span><span class="token punctuation">,</span> <span class="token string">'2022-09-16 11:10:07'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>  <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'Become a 10x developer'</span><span class="token punctuation">,</span> <span class="token string">'2022-09-16 23:59:59'</span><span class="token punctuation">)</span><br><span class="token keyword">ON</span> CONFLICT<span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token keyword">DO</span> NOTHING<span class="token punctuation">;</span><br><br><span class="token keyword">COMMIT</span><span class="token punctuation">;</span></code></pre>
+<p>We use a transaction to ensure all the inserts succeed, similar to in our schema. There’s one new addition: the <code>ON CONFLICT</code> ensures that we can run this script multiple times without getting duplicate ID errors.</p>
+<p>Now we need a JS script that reads this file and runs it against the DB. This will be very similar to <code>schema.js</code>. Create a <code>database/seed.js</code> file:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> readFileSync <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"node:fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> <span class="token punctuation">{</span> join <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"node:path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./db.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> seedPath <span class="token operator">=</span> <span class="token function">join</span><span class="token punctuation">(</span><span class="token string">"database"</span><span class="token punctuation">,</span> <span class="token string">"seed.sql"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> seed <span class="token operator">=</span> <span class="token function">readFileSync</span><span class="token punctuation">(</span>seedPath<span class="token punctuation">,</span> <span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>db<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>seed<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"DB seeded with example data"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Now you can run this script with <code>DB_FILE=db.sqlite node database/seed.js</code> to insert example data. It’s worth adding an npm script to your <code>package.json</code> to make this reusable for other team members in your project:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><br>  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>    <span class="token property">"seed"</span><span class="token operator">:</span> <span class="token string">"DB_FILE=db.sqlite node database/seed.js"</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>Now anyone cloning the project can run <code>npm install</code> then <code>npm run seed</code> to have everything up and running quickly. If you ever want to start over you can delete your DB file and re-run the seed script.</p>
+<h2 id="amending-the-schema">Amending the schema <a class="heading-anchor" href="#amending-the-schema">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>A task app needs to track whether each task is completed. To do this our <code>tasks</code> table will need a <code>complete</code> column. There are two approaches to amending the schema. We won’t be using the first, but it’s here for completeness if you’re curious.</p>
+<div class="box  content"><details class="disclosure flow"><summary>Read about migrations</summary>
+<p>Amending a production DB usually involves “migrations”. These are incremental changes applied to a running DB to non-destructively upgrade it to the desired state. For example to add a column we could use <code>ALTER TABLE</code>.</p>
+<p>Migrations are usually stored in separate numbered files, so they can be applied in ascending order to a database. It’s uncommon to write these manually however—most apps use a library to auto-generate/apply them.</p>
+<div class="box box-default content flow">
+<p>Migrations are a bit complicated, so we won’t worry about them for now—they’re mentioned here for completeness as you will probably encounter them later.</p>
+</div>
+</details></div>
+<p>The simpler way is just to delete our database, change the <code>schema.sql</code>, then regenerate the DB. This is fine while we’re still working on a feature, but if we tried this on our production DB we’d <strong>lose all our users’ data</strong>.</p>
+<p>So you can just delete your <code>db.sqlite</code> file, then amend your <code>schema.sql</code> file:</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> tasks <span class="token punctuation">(</span><br>  id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> AUTOINCREMENT<span class="token punctuation">,</span><br>  content <span class="token keyword">TEXT</span><span class="token punctuation">,</span><br>  created_at <span class="token keyword">DATETIME</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span><span class="token punctuation">,</span><br>  complete <span class="token keyword">INTEGER</span> <span class="token keyword">DEFAULT</span> <span class="token number">0</span> <span class="token keyword">CHECK</span><span class="token punctuation">(</span>complete <span class="token operator">IN</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><br><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<div class="box box-default content flow">
+<p>SQLite does not support booleans natively. Instead you must use integers (<code>0</code> is <code>false</code>, <code>1</code> is <code>true</code>). You can enforce this constraint by using <code>DEFAULTS</code> and <code>CHECK</code> to make sure that the column can only ever be <code>0</code> or <code>1</code>.</p>
+</div>
+<p>You’ll also need to amend the <code>seed.sql</code> file before running it again. It needs the <code>complete</code> column, otherwise you’ll get an error like <code>table tasks has 4 columns but 3 values were supplied</code>.</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> tasks <span class="token keyword">VALUES</span><br>  <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Create my first todo'</span><span class="token punctuation">,</span> <span class="token string">'2022-09-16 01:01:01'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>  <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Buy milk'</span><span class="token punctuation">,</span> <span class="token string">'2022-09-16 11:10:07'</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>  <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'Become a 10x developer'</span><span class="token punctuation">,</span> <span class="token string">'2022-09-16 23:59:59'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><br><span class="token keyword">ON</span> CONFLICT<span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token keyword">DO</span> NOTHING<span class="token punctuation">;</span></code></pre>
+<h3 id="named-sql-parameters">Named SQL parameters <a class="heading-anchor" href="#named-sql-parameters">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Now our schema has changed we need to update the <code>createTask</code> function, since we may want to create a new task that is already completed. This means the function needs to set both columns. We <em>could</em> use multiple parameters like this:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> insert_task <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  INSERT INTO tasks (content, complete)<br>  VALUES (?, ?)<br>  RETURNING id, content, created_at<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">createTask</span><span class="token punctuation">(</span><span class="token parameter">content<span class="token punctuation">,</span> complete</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> insert_task<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>content<span class="token punctuation">,</span> complete<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>However this is error-prone as it relies on the order we pass the arguments. A safer way is to use <em>named</em> parameters by passing a JS object. This also makes the SQL query more readable:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> insert_task <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  INSERT INTO tasks (content, complete)<br>  VALUES ($content, $complete)<br>  RETURNING id, content, created_at<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">createTask</span><span class="token punctuation">(</span><span class="token parameter">task</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> insert_task<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>When passed an object like <code>createTask({ content: &quot;stuff&quot;, complete: 1 })</code> the statement will map each key to the corresponding <code>$param</code> in the query.</p>
+<div class="box box-default content flow">
+<h3 id="syntax-highlighting-sql-strings">Syntax highlighting SQL strings <a class="heading-anchor" href="#syntax-highlighting-sql-strings">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Now that we have more complex SQL queries it is getting a bit hard to read them. If you have the <a href="https://marketplace.visualstudio.com/items?itemName=Tobermory.es6-string-html">es6-string-html</a> VS Code extension installed you can use a JS comment to tell it to highlight these strings as SQL:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> insert_task <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token comment">/*sql*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">...</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</div>
+<h2 id="listing-rows">Listing rows <a class="heading-anchor" href="#listing-rows">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Our app is going to need a way to read all the tasks from the DB. We need to write a new model function that selects all rows from the <code>tasks</code> table:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> select_tasks <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token comment">/*sql*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  SELECT id, content, created_at, complete FROM tasks<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">listTasks</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> select_tasks<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Run this function to check that it shows all the tasks you have inserted so far.</p>
+<div class="box box-default content flow">
+<p>It’s tempting to use <code>SELECT *</code> to list <em>every</em> column for each row, however it’s a good idea to list just the ones you need. In future this table may have many more columns added that this particular feature does not need (and they could be very large, or secret), and you would end up returning them all without meaning to.</p>
+</div>
+<h3 id="formatting-columns">Formatting columns <a class="heading-anchor" href="#formatting-columns">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Our <code>created_at</code> column is a full timestamp, with a date and time, which is not particularly human-readable. Let’s imagine our app is only for tracking tasks on the same day, so we only care about the time part. We can amend our query to use the <code>TIME</code></p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> select_tasks <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token comment">/*sql*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  SELECT<br>    id,<br>    content,<br>    TIME(created_at),<br>    complete<br>  FROM tasks<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>If you log the result of this query you should see the task objects change:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span><br>  <span class="token punctuation">{</span><br>    <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span><br>    <span class="token property">"content"</span><span class="token operator">:</span> <span class="token string">"Send mum flowers"</span><span class="token punctuation">,</span><br>    <span class="token property">"TIME(created_at)"</span><span class="token operator">:</span> <span class="token string">"08:52:30"</span><span class="token punctuation">,</span><br>    <span class="token property">"complete"</span><span class="token operator">:</span> <span class="token number">0</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">]</span></code></pre>
+<p>However the column name has changed to represent this. Ideally we would keep the same name (<code>created_at</code>). We can rename columns using the <code>AS</code> SQL operator:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> select_tasks <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token comment">/*sql*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  SELECT<br>    id,<br>    content,<br>    TIME(created_at) AS created_at,<br>    complete<br>  FROM tasks<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>If you run this again you should see the object key is now <code>created_at</code> like before.</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span><br>  <span class="token punctuation">{</span><br>    <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span><br>    <span class="token property">"content"</span><span class="token operator">:</span> <span class="token string">"Send mum flowers"</span><span class="token punctuation">,</span><br>    <span class="token property">"created_at"</span><span class="token operator">:</span> <span class="token string">"08:52:30"</span><span class="token punctuation">,</span><br>    <span class="token property">"complete"</span><span class="token operator">:</span> <span class="token number">0</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">]</span></code></pre>
+<h2 id="deleting-a-row">Deleting a row <a class="heading-anchor" href="#deleting-a-row">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Let’s add another model function that can delete a task from our <code>tasks</code> table. It should take an ID parameter and delete just the row that matches.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> delete_task <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token comment">/*sql*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  DELETE FROM tasks WHERE id = ?<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">removeTask</span><span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  delete_task<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<div class="box box-error content flow">
+<p>SQL queries act on <strong>every row</strong> by default. This makes deletion and updates very dangerous. Without a <code>WHERE</code> clause or other condition they will delete/update <em>every</em> row.</p>
+</div>
+<p>Test this by calling <code>removeTask(1)</code> to delete the first task. You can call <code>listTasks</code> to check that it has been removed.</p>
+<h2 id="testing-the-model">Testing the model <a class="heading-anchor" href="#testing-the-model">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>So far we’ve been manually testing things by calling our model functions. It would be better to write some automated tests to make this reproducible and reusable. That way we can catch reversions if the code breaks later on.</p>
+<p>Let’s write a test to verify several of our model functions. Create a new file <code>test/tasks.test.js</code>:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> test <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"node:test"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> assert <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"node:assert"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> model <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../model/tasks.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/db.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token comment">// Delete all tasks and reset ID counter</span><br><span class="token keyword">function</span> <span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  db<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token comment">/*sql*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>    DELETE FROM tasks;<br>    DELETE FROM sqlite_sequence WHERE name='tasks';<br>  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"can create, remove &amp; list tasks"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">const</span> task <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">createTask</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token string">"test task"</span><span class="token punctuation">,</span> <span class="token literal-property property">complete</span><span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  assert<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>task<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  assert<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>task<span class="token punctuation">.</span>content<span class="token punctuation">,</span> <span class="token string">"test task"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  model<span class="token punctuation">.</span><span class="token function">removeTask</span><span class="token punctuation">(</span>task<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> tasks <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">listTasks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  assert<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>tasks<span class="token punctuation">.</span>length<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<div class="box box-default content flow">
+<p><strong>Important</strong>: we must empty the <code>tasks</code> table at the start of each test to ensure any leftovers from other tests don’t affect this one. This ensures tests are not dependent on each other, so they can be run in any order (or in parallel) without affecting the results.</p>
+</div>
+<p>Ideally our tests shouldn’t mess with our dev environment (where we may have changes to the DB we don’t want to overwrite). We can run the tests with a separate DB file by specifying a different value for the env var:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token assign-left variable">DB_FILE</span><span class="token operator">=</span>test.sqlite <span class="token function">node</span> test/tasks.test.js</code></pre>
+<p>We should make sure to add <code>test.sqlite</code> to our <code>.gitgnore</code> too, since we don’t want random DBs floating around on GitHub.</p>
+<p>It’s not necessary in this case, but if we wanted to seed the test DB (so we can assert against the example data) we can tell Node to require <code>seed.js</code> before running the test:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token assign-left variable">DB_FILE</span><span class="token operator">=</span>test.sqlite <span class="token function">node</span> <span class="token parameter variable">-r</span> ./database/seed.js test/tasks.test.js</code></pre>
+<h2 id="updating-a-row">Updating a row <a class="heading-anchor" href="#updating-a-row">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>It’s likely we’ll need to be able to change the content of a task if a user wants to edit it. We need to write a function that can take a task object and update the row with a matching ID:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> update_content <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token comment">/*sql*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  UPDATE tasks<br>  SET content = $content<br>  WHERE id = $id<br>  RETURNING id, content, created_at, complete<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">editTask</span><span class="token punctuation">(</span><span class="token parameter">task</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> update_content<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>We return the edited task for convenience.</p>
+<p>Let’s write a quick test in <code>test/tasks.test.js</code> to make sure this works:</p>
+<pre class="language-js"><code class="language-js"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"can update a task"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">const</span> task <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">createTask</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token string">"test task"</span><span class="token punctuation">,</span> <span class="token literal-property property">complete</span><span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> updated <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">editTask</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token string">"this is updated"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  assert<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>updated<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  assert<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>updated<span class="token punctuation">.</span>content<span class="token punctuation">,</span> <span class="token string">"this is updated"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="toggling-a-boolean">Toggling a boolean <a class="heading-anchor" href="#toggling-a-boolean">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>When a user marks a task as complete (or incomplete) we need to update that row to match. We can easily toggle our “fake boolean” integer column using <code>NOT</code>:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> update_complete <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token comment">/*sql*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  UPDATE tasks<br>  SET complete = NOT complete<br>  WHERE id = ?<br>  RETURNING id, content, created_at, complete<br></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">toggleTask</span><span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> update_complete<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>This function will flip the <code>complete</code> column from <code>0</code> to <code>1</code>, or from <code>1</code> to <code>0</code>.</p>
+<p>Let’s add a test for this function too:</p>
+<pre class="language-js"><code class="language-js"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"can complete a task"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">const</span> task <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">createTask</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token string">"test task"</span><span class="token punctuation">,</span> <span class="token literal-property property">complete</span><span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> updated <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">toggleTask</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  assert<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>updated<span class="token punctuation">.</span>complete<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="integrating-a-ui">Integrating a UI <a class="heading-anchor" href="#integrating-a-ui">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>We now have all the functionality for our app contained in the model. All that’s left is to build a UI that calls these functions, so that a user can interact with them.</p>
+<p>Let’s create a Node server that uses our new database. First install <code>express</code>:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> express</code></pre>
+<p>Then we’ll create the boilerplate we need to get an HTTP server going. First we need a <code>server.js</code> file:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> server<span class="token punctuation">;</span></code></pre>
+<p>and an <code>index.js</code> to start the server:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./server.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> <span class="token constant">PORT</span> <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">PORT</span> <span class="token operator">||</span> <span class="token number">3333</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token constant">PORT</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Listening on http://localhost:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token constant">PORT</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Check this is working by running <code>node index.js</code> in your terminal.</p>
+<h3 id="submitting-new-tasks">Submitting new tasks <a class="heading-anchor" href="#submitting-new-tasks">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Now we need a form to add new tasks to our database. Edit <code>server.js</code>:</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> body <span class="token operator">=</span> <span class="token comment">/*html*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>    &lt;!doctype html><br>    &lt;form method="POST"><br>      &lt;input id="content" name="content" aria-label="New task" required><br>      &lt;button>Add task +&lt;/button><br>    &lt;/form><br>  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Then add a <code>/ POST</code> handler to receive the submission a insert the new task:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> model <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./model/tasks.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> express<span class="token punctuation">.</span><span class="token function">urlencoded</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">extended</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> task <span class="token operator">=</span> <span class="token punctuation">{</span><br>    <span class="token literal-property property">content</span><span class="token operator">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>content<span class="token punctuation">,</span><br>    <span class="token literal-property property">complete</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">;</span><br>  model<span class="token punctuation">.</span><span class="token function">createTask</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  res<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>If we want our app to persist data we need to start it with the <code>DB_FILE</code> env var set:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token assign-left variable">DB_FILE</span><span class="token operator">=</span>db.sqlite <span class="token function">node</span> index.js</code></pre>
+<p>Since we’ll want to run this a lot we should add an npm script to save on typing:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><br>  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>    <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"DB_FILE=db.sqlite node index.js"</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<h3 id="rendering-tasks">Rendering tasks <a class="heading-anchor" href="#rendering-tasks">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Now that we can insert tasks we need to show them on the page. Edit the <code>GET /</code> handler to get the list and render them:</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> tasks <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">listTasks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> body <span class="token operator">=</span> <span class="token comment">/*html*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>    &lt;!doctype html><br>    &lt;form method="POST"><br>      &lt;input id="content" name="content" aria-label="New task" required><br>      &lt;button>Add task +&lt;/button><br>    &lt;/form><br>    &lt;ul></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>tasks<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">t</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;li></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>t<span class="token punctuation">.</span>content<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/li></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/ul><br>  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="updating-tasks">Updating tasks <a class="heading-anchor" href="#updating-tasks">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>We need to be able to toggle and delete each task. This will mean each task <code>&lt;li&gt;</code> needs to contain a <code>&lt;form&gt;</code> that can send a POST telling the server to either toggle or remove the task.</p>
+<p>Let’s write a <code>POST /update</code> handler <em>first</em>. This is what will carry out the changes when a task is toggled or removed. Writing this first will help us know what our form should include.</p>
+<p>Our handler is going to need to know two things: which action should it take (toggle or remove), and which task should it update. Both will need to be submitted by the form as part of the request body:</p>
+<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"/update"</span><span class="token punctuation">,</span> express<span class="token punctuation">.</span><span class="token function">urlencoded</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">extended</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> <span class="token punctuation">{</span> action<span class="token punctuation">,</span> id <span class="token punctuation">}</span> <span class="token operator">=</span> req<span class="token punctuation">.</span>body<span class="token punctuation">;</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>action <span class="token operator">===</span> <span class="token string">"remove"</span><span class="token punctuation">)</span> model<span class="token punctuation">.</span><span class="token function">removeTask</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>action <span class="token operator">===</span> <span class="token string">"toggle"</span><span class="token punctuation">)</span> model<span class="token punctuation">.</span><span class="token function">toggleTask</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  res<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Since all our “business logic” is contained in the model our route handler ends up fairly small.</p>
+<p>Now we need to update the list render to add a form to each task. It’ll have two submit buttons—one for each action—and a hidden input with the ID. Since it will get a bit long to embed inline we’ll create a separate function to render this HTML:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Task</span><span class="token punctuation">(</span><span class="token parameter">task</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token comment">/*html*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>    &lt;li><br>      &lt;form method="POST" action="/update"><br>        &lt;input type="hidden" name="id" value="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>task<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"><br>        &lt;button name="action" value="toggle" aria-label="Toggle complete"><br>          </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>task<span class="token punctuation">.</span>complete <span class="token operator">?</span> <span class="token string">"☑︎"</span> <span class="token operator">:</span> <span class="token string">"☐"</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"><br>        &lt;/button><br>        &lt;span style="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>task<span class="token punctuation">.</span>complete <span class="token operator">?</span> <span class="token string">"text-decoration: line-through"</span> <span class="token operator">:</span> <span class="token string">""</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"><br>          </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>task<span class="token punctuation">.</span>content<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"><br>        &lt;/span><br>        &lt;button name="action" value="remove">&amp;times;&lt;/button><br>      &lt;/form><br>    &lt;/li><br>  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> tasks <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">listTasks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> list <span class="token operator">=</span> tasks<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>Task<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> body <span class="token operator">=</span> <span class="token comment">/*html*/</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>    &lt;!doctype html><br>    &lt;form method="POST"><br>      &lt;input id="content" name="content" aria-label="New task" required><br>      &lt;button>Add task +&lt;/button><br>    &lt;/form><br>    &lt;ul></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>list<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/ul><br>  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<div class="box box-default content flow">
+<p>This example is missing validation and other important things in order to keep it brief.</p>
+</div>
+<p>Now the request body sent by the form will look like this if the toggle button was clicked:</p>
+<pre><code>id=1&amp;action=toggle
+</code></pre>
+<p>or like this if the remove button was clicked:</p>
+<pre><code>id=1&amp;action=remove
+</code></pre>
+<p>The <code>POST /update</code> handler will call the right model method depending on the action.</p>
+</div><footer class="vstack gap-md pad-xl stripes"><h2>Next step</h2><a href="https://github.com/foundersandcoders/database-challenge" target="_blank" rel="noopener" class="button" style="--bg: var(--primary); --bg-hover: var(--primary-dark)">Complete the challenge<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd"></path></svg></a></footer></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

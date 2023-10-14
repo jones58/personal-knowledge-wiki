@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Node error-handling</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Node error-handling</h1><p class="highlight fz-lg">Learn how to handle different kinds of errors on your Node server</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">node</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">errors</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/node-error-handling/starter-files#main' node-error-handling" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fnode-error-handling%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Errors (or “exceptions”) stop JavaScript from running. They usually mean something has gone so wrong that the program doesn’t know how to continue. This means any code <em>after</em> the line where the error occurred won’t run. This is pretty bad in the browser as it can totally break the application for a single user, but on the server it can be much worse. A single running Node server might be responding to hundreds or thousands of requests from different users. If an error stops the code executing it stops for <em>all of the users</em>.</p>
+<p><img src="https://user-images.githubusercontent.com/9408641/77855255-1f049700-71e7-11ea-9bf0-e91c279cb801.png" alt="Heroku error page"></p>
+<h2 id="java-script-errors">JavaScript errors <a class="heading-anchor" href="#java-script-errors">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>“Error” can refer to both the “exception” (line of code going wrong) as well as the “error object” that is created. For example this code will cause an exception:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> myFunction <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span><br><span class="token function">myFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"will not run"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>If you run that in a browser you’ll see an error logged: <code>TypeError: myFunction is not a function</code>. You also <em>will not</em> see the log, as the JS stops executing your code when the exception occurs.</p>
+<h3 id="different-types-of-errors">Different types of errors <a class="heading-anchor" href="#different-types-of-errors">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>The error we saw above was a “TypeError”. This is a more specific kind of error that is used when JavaScript expects to see one thing but got something else. In this case we tried to call a number as a function, which meant it was the wrong <em>type</em> of value.</p>
+<p>There are several different kinds of built-in error. You can see a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">full list on MDN</a>. Mostly you’ll see <code>TypeError</code> and <code>ReferenceError</code> (e.g. <code>ReferenceError: myVariable is not defined</code>).</p>
+<h2 id="creating-your-own-errors">Creating your own errors <a class="heading-anchor" href="#creating-your-own-errors">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>We’ve seen how JS handles exceptions, but what about your own code? It’s possible to predict points in your code where something will go wrong and create your own error on purpose. For example if we write a function to square a number we can check whether the caller actually passed a number in:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> x <span class="token operator">!==</span> <span class="token string">"number"</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">"Please pass a number!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> x <span class="token operator">*</span> x<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>The <code>throw</code> keyword causes an exception in your code (just like when a built-in JS method breaks). You can <code>throw</code> anything (<code>throw 5</code>, <code>throw &quot;hello&quot;</code> etc), but it’s most common to create a new <code>Error</code> object and throw that. Error objects have a “stack trace”, which tells the user what line of code the error occurred on.</p>
+<p>So now our <code>square</code> function behaves similarly to built-in JS methods: execution will stop if it encounters an invalid value. We can make this more specific by using a <code>TypeError</code> and passing a more useful message:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> x <span class="token operator">!==</span> <span class="token string">"number"</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">TypeError</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>x<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is not a number</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> x <span class="token operator">*</span> x<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">square</span><span class="token punctuation">(</span><span class="token string">"hi"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// TypeError: hi is not a number</span></code></pre>
+<h2 id="error-handling">Error-handling <a class="heading-anchor" href="#error-handling">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>All these errors will just stop our program executing. Ideally we want to <em>catch</em> the error and handle it somehow (maybe by providing a message to the user).</p>
+<p>We can use a <code>try..catch</code> block for this. We put all the code we think <em>might</em> error inside the <code>try {}</code> block, and if an error is thrown the <code>catch (error) {}</code> block runs with the error object.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">try</span> <span class="token punctuation">{</span><br>  <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token string">"&lt; invalid json >"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token comment">// SyntaxError: JSON.parse: unexpected character at line 1 column 2 of the JSON data</span><br><span class="token punctuation">}</span><br><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>"Continues to run fine<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Here we <em>try</em> to run our code, <code>JSON.parse</code> throws an error that we <em>catch</em> and log to the console. Since the error has been caught within this block the rest of our code can safely continue to run (so the final <code>console.log</code> still appears).</p>
+<p>This works the same way for your errors you throw yourself, like our <code>square</code> function above:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">handleSubmit</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> value <span class="token operator">=</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>elements<span class="token punctuation">.</span>num<span class="token punctuation">.</span>value<span class="token punctuation">;</span> <span class="token comment">// e.g. "hi"</span><br>  <span class="token keyword">try</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> squaredValue <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    output<span class="token punctuation">.</span>textContent <span class="token operator">=</span> squaredValue<span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    output<span class="token punctuation">.</span>textContent <span class="token operator">=</span> error<span class="token punctuation">.</span>message<span class="token punctuation">;</span><br>    <span class="token comment">// puts "hi is not a number" on the page</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<p>You can think of throwing an error as bypassing the rest of the code and jumping straight to the closest <code>catch</code> block.</p>
+<h3 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Let’s use <code>try..catch</code> to handle errors on a Node server.</p>
+<ol>
+<li>Download the starter files, <code>cd</code> in, run <code>npm install</code></li>
+<li>Run <code>npm run dev</code> to start the server on <a href="http://localhost:3000">http://localhost:3000</a></li>
+<li>Visit <a href="http://localhost:3000/try-catch">http://localhost:3000/try-catch</a>. You should see Express’ default error response</li>
+<li>Use <code>try..catch</code> in the <code>tryCatch</code> route handler to catch the error and send your own response to the browser
+<ul>
+<li>The response should have a <code>500</code> status code and a message of <code>Server error</code></li>
+<li>Don’t fix the mistake in the <code>tryCatch</code> handler (it’s deliberate to simulate a real error)</li>
+</ul>
+</li>
+</ol>
+<!-- ## Error-first callbacks
+
+Node uses error-first callbacks as a standard for asynchronous code. If an asynchronous Node module errors it will call your callback with an error argument.
+
+Note that this error is not thrown and will not immediately cause an exception in your program. This makes it important to handle the error straight away: if you try to ignore it and carry on you'll probably encounter a problem soon after.
+
+```js
+fs.readFile("incorrect-path.html", (error, file) => {
+  // don't handle error
+  response.end(file); // sends `undefined`
+});
+```
+
+Instead we should check whether the error exists, then log it and send a useful error response:
+
+```js
+fs.readFile("incorrect-path.html", (error, file) => {
+  if (error) {
+    console.error(error);
+    // send error response here
+  } else {
+    // use the file
+  }
+});
+```
+
+### Challenge
+
+The `/callback` endpoint tries to serve a file that doesn't exist. Don't fix this (it's erroring on purpose as an example).
+
+1. Visit http://localhost:3000/callback
+1. You should see a blank page, as we're responding with `undefined`
+1. Edit the `callback` function in `handlers.js` to send a response when there's an error
+   - The response should have a status code of `500` and a message of `Server error` -->
+<h2 id="promise-rejection">Promise rejection <a class="heading-anchor" href="#promise-rejection">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Errors often occur in asynchronous code, as this can involve network requests or file-system access (both of which can take a long time and lose connection partway through).</p>
+<p>We can’t handle exceptions in asynchronous code using <code>try..catch</code> because the <code>try</code> block will have finished executing before the error occurs. For example:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">try</span> <span class="token punctuation">{</span><br>  <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">"broken"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>log<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token comment">// then some more stuff</span><br><span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>If the <code>fetch</code> request takes 5 seconds the <code>try</code> will have finished executing long before the error occurs, which means the <code>catch</code> never runs. Promises don’t <em>throw</em> errors because that doesn’t work asynchronously. Instead they <em>reject</em>, which is the async equivalent.</p>
+<p>Promises have a <code>.catch</code> method, which allows you to pass a function that runs if the promise is rejected.</p>
+<pre class="language-js"><code class="language-js"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">"broken"</span><span class="token punctuation">)</span><br>  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>log<span class="token punctuation">)</span><br>  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token comment">// do stuff with the error here</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<div class="box box-default content flow">
+<p>It’s important to <strong>always</strong> have a <code>.catch</code> somewhere in a promise chain. Otherwise you’ll get an “unhandled rejection”, which could crash your program.</p>
+</div>
+<h3 id="challenge-2">Challenge <a class="heading-anchor" href="#challenge-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Let’s handle a rejection. The server has a <code>model.js</code> file that pretends to access a database. However the <code>getPosts</code> function always rejects with an error (don’t fix this!).</p>
+<ol>
+<li>Visit <a href="http://localhost:3000/rejection">http://localhost:3000/rejection</a></li>
+<li>Your browser should timeout waiting for a response</li>
+<li>Your server should log an error in your terminal:
+<code>UnhandledPromiseRejectionWarning: Error: Retrieving posts failed</code></li>
+<li>Edit the route handler to catch the <code>model.getPosts()</code> promise rejecting
+<ul>
+<li>You should send a response with a <code>404</code> status code and a message of “Posts not found”</li>
+</ul>
+</li>
+</ol>
+<h2 id="bonus-unhandled-node-exceptions">Bonus: unhandled Node exceptions <a class="heading-anchor" href="#bonus-unhandled-node-exceptions">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Unhandled exceptions are very dangerous on the server. They will cause the whole Node program to crash, preventing it from responding to more requests. This is actually a good thing—attempting to continue serving requests after an unhandled exception could lead to much worse issues, like saving incorrect data to a database or serving the wrong information to users.</p>
+<p>This is why Node automatically stops your program on an unhandled exception. Unfortunately it <strong>does not</strong> do this for unhandled <em>rejections</em> (i.e. when a promise errors). This is why you see a warning when a promise rejects without a <code>.catch</code>:</p>
+<blockquote>
+<p>In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.</p>
+</blockquote>
+<p>It’s a good idea to make your program stop on unhandled rejections too. You can do this by listening for an event on the global <code>process</code> object:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// in server.js</span><br>process<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"unhandledRejection"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  process<span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>The <a href="https://nodejs.org/api/process.html#process_event_unhandledrejection"><code>unhandledRejection</code></a> event will fire when a promise rejects without being caught, and your callback function will run. We log the error, then tell the Node process to stop with an “exit code” of 1 (which means an error occurred). This will stop your server processing any more requests.</p>
+<p>Add this to your <code>server.js</code>, then remove your <code>.catch</code> from the <code>rejection</code> handler function. Now when you visit <a href="http://localhost:3000/rejection">http://localhost:3000/rejection</a> and you shouldn’t see the “unhandled rejection” warning in your terminal. Instead your server should crash and stop processing further requests.</p>
+<div class="box box-default content flow">
+<p><strong>Note</strong>: it’s always better to handle the promise rejection properly in your route handler so you can send a response. This <code>unhandledRejection</code> listener is a last-ditch strategy because errors always slip through the cracks.</p>
+</div>
+<h3 id="recovering-from-unhandled-exceptions">Recovering from unhandled exceptions <a class="heading-anchor" href="#recovering-from-unhandled-exceptions">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Ideally your server shouldn’t <em>stay</em> crashed: you want it to restart and continue handling requests. This has to be managed by something outside of the Node process.</p>
+<p>If you have deployed your server to Heroku it will automatically try to restart your server if it crashed. If it crashes again it will wait up to 20 minutes before trying again, then keep waiting longer before each attempt. You can read about their <a href="https://devcenter.heroku.com/articles/dynos#dyno-crash-restart-policy">crash restart policy</a>.</p>
+<p>If you’re managing your own Node deployment it’s common to use something like <a href="https://www.npmjs.com/package/pm2"><code>pm2</code></a> or <a href="https://nodesource.com/blog/running-your-node-js-app-with-systemd-part-1/"><code>systemd</code></a> to automatically restart the process after it crashes.</p>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

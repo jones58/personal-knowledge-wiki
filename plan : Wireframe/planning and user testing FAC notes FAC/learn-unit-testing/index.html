@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Learn Unit Testing</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Learn Unit Testing</h1><p class="highlight fz-lg">Learn how to test that small individual parts of your code work in isolation.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">testing</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/learn-unit-testing/starter-files#main' learn-unit-testing" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Flearn-unit-testing%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Unit tests make sure that the smallest building blocks of an app are working correctly. Generally this means testing individual functions that do one thing. Unit testing is relatively simple to get started with, since you don’t have to worry about how different parts of your code interact. You just call a single function and check the result was what you expected.</p>
+<h2 id="writing-testable-code">Writing testable code <a class="heading-anchor" href="#writing-testable-code">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Testing is easier if you structure your code a certain way. This means making sure you have single-responsibility functions: e.g. <code>calculateTotal</code> and <code>updatePage</code> rather than a single <code>updatePageWithTotal</code> that does both at once.</p>
+<p>It’s also much easier to test “pure” functions. This means functions that always return the same output when given the same input (without changing anything else).</p>
+<p>For example this is not pure:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">let</span> url <span class="token operator">=</span> <span class="token string">"https://pokeapi.co/api/v2/"</span><span class="token punctuation">;</span><br><span class="token keyword">function</span> <span class="token function">makeUrl</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  url <span class="token operator">+=</span> name<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>because it changes the <code>url</code> variable outside the function. It’s not safe to call this multiple times:</p>
+<pre class="language-js"><code class="language-js"><span class="token function">makeUrl</span><span class="token punctuation">(</span><span class="token string">"pikachu"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "https://pokeapi.co/api/v2/pikachu"</span><br><span class="token function">makeUrl</span><span class="token punctuation">(</span><span class="token string">"bulbasaur"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "https://pokeapi.co/api/v2/pikachubulbasaur"</span></code></pre>
+<p>This makes it tough to test since each time we run the function things are different.</p>
+<p>This version is pure:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">makeUrl</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> url <span class="token operator">=</span> <span class="token string">"https://pokeapi.co/api/v2/"</span><span class="token punctuation">;</span><br>  <span class="token keyword">return</span> url <span class="token operator">+</span> name<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>which makes it much easier to test, since the results are predictable.</p>
+<h3 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Open <code>workshop/index.js</code> in your editor and read the <code>makeUrl</code> definition
+<ul>
+<li>The <code>equal</code>, <code>notEqual</code> and <code>test</code> functions from the <a href="/workshops/learn-testing/">Learn Testing</a> workshop are included on the page for you to use.</li>
+</ul>
+</li>
+<li>Open <code>workshop/index.test.js</code> and write a test for <code>makeUrl</code></li>
+<li>Open <code>workshop/index.html</code> and check your test passes</li>
+</ol>
+<h2 id="deep-equality">Deep equality <a class="heading-anchor" href="#deep-equality">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Sometimes we’ll need to test functions that return objects or arrays. This can be awkward as objects that <em>look</em> the same are not equal to each other. For example:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"oliver"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> y <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"oliver"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x <span class="token operator">===</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Logs: false</span></code></pre>
+<p>Although <code>x</code> and <code>y</code> have the exact same <em>properties</em> here, they are totally different objects. This means we cannot use the normal equality operators to check them.</p>
+<p>We can work around this by testing if specific <em>properties</em> of objects are the same. For example:</p>
+<pre class="language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>name <span class="token operator">===</span> y<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Logs: true</span></code></pre>
+<p>We can do the same for array elements (e.g. checking that the first thing in both arrays is the same).</p>
+<p>Bear in mind this doesn’t guarantee that <em>all</em> the properties are the same, just the ones you check.</p>
+<h3 id="challenge-2">Challenge <a class="heading-anchor" href="#challenge-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<ol>
+<li>Open <code>workshop/index.js</code> in your editor</li>
+<li>Write a <code>searchParamsToObject</code> function
+<ul>
+<li>It should take a form-encoded string like <code>&quot;name=oliver&amp;email=hello@oliverjam.es&quot;</code></li>
+<li>It should return an object like <code>{ name: &quot;oliver&quot;, email: &quot;hello@oliverjam.es&quot; }</code></li>
+</ul>
+</li>
+<li>Write a test for this function in <code>workshop/index.test.js</code></li>
+</ol>
+<h2 id="edge-cases">Edge-cases <a class="heading-anchor" href="#edge-cases">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Unit tests are great for checking edge-cases. Since a unit is usually small and self-contained we can check it with all kinds of different input to make sure we get what we expect.</p>
+<p>This is where manual testing gets very tedious: manually entering <code>0</code>, then <code>-1</code>, then <code>&quot;&quot;</code>, then <code>&quot;hello&quot;</code>, then <code>99999999999999999</code> into an input to see what happens would take forever.</p>
+<h3 id="challenge-3">Challenge <a class="heading-anchor" href="#challenge-3">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>A <a href="https://en.wikipedia.org/wiki/Leap_year">leap year</a> has an extra day (February 29th) to account for a solar year being about 365.24255 days long (not exactly 365). Leap years usually occur every 4 years, but in order to stay consistent there are extra rules: years divisible by 100 are <strong>not</strong> leap years, and years divisible by 400 <strong>are</strong> leap years.</p>
+<p>For example <code>2020</code> and <code>2000</code> were leap years, but <code>1900</code> was not.</p>
+<ol>
+<li>Write an <code>isLeapYear</code> function in <code>workshop/index.js</code></li>
+<li>It should take a year and either return an error message or a boolean</li>
+<li>Write several tests to check your function works correctly</li>
+<li>Make sure you account for and test all possible edge-cases
+<ul>
+<li>What happens if you pass a string?</li>
+<li>What happens if you pass a negative year?</li>
+</ul>
+</li>
+</ol>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

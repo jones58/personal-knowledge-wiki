@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Learn Accessibility</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Learn Accessibility</h1><p class="highlight fz-lg">Learn how different users browse the web to make your sites accessible to everyone.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">a11y</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">fundamentals</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/learn-a11y/starter-files#main' learn-a11y" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Flearn-a11y%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>It’s important to remember that the web is for everybody. You should strive to build interfaces that are <em>accessible</em> to as many people as possible. This means specifically including users who often get left out: those with disabilities.</p>
+<p>As developers we have both a moral and legal imperative to make sure our applications are accessible. A UI that can only be used by a sighted person with a mouse should be considered <em>broken</em>, just like a UI that <em>isn’t</em> usable with a mouse would be considered broken.</p>
+<p>This workshop will cover some of the ways disabled users browse the web, how to design/develop to meet those needs, and how to test your code to make sure that it does.</p>
+<h2 id="key-points">Key points <a class="heading-anchor" href="#key-points">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<ul>
+<li>Don’t make assumptions about how people will use your site</li>
+<li>Strive to make your UI usable by everyone</li>
+<li>Get out of your comfort zone when testing your UI</li>
+</ul>
+<h2 id="common-problems">Common problems <a class="heading-anchor" href="#common-problems">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>It’s easy for developers to forget that people using their apps aren’t necessarily like them. This can include both permanent disabilities, temporary disabilities, and even unavoidable technical limitations.</p>
+<p>Here are some examples:</p>
+<ul>
+<li>
+<p>A colorblind user cannot perceive the difference between certain colours. If you use only colour to indicate what a button does they won’t be able to use it.</p>
+</li>
+<li>
+<p>A blind user cannot see your UI, and may use screen reader software to have the elements on the page read out loud by their computer. If you <em>only</em> communicate important information visually (e.g. using images) they won’t hear it.</p>
+</li>
+<li>
+<p>A user with a broken arm in a sling cannot use their mouse. If your UI doesn’t allow them to navigate with their keyboard they won’t be able to use it.</p>
+</li>
+<li>
+<p>A low-income user may not have the latest iPhone. If your app only works properly on fast, new, expensive devices you are excluding them.</p>
+</li>
+</ul>
+<p>This document will mostly focus on keyboard and screen reader access, since those tend to be the predominant problems for web developers to solve. However that does not mean other disabilities are not important to consider when designing and developing interfaces.</p>
+<h2 id="different-ways-to-navigate">Different ways to navigate <a class="heading-anchor" href="#different-ways-to-navigate">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>If you’re a non-disabled web developer it’s possible you aren’t aware of or haven’t tried navigating the web using anything but your mouse. It’s important to get a sense of how other people will be attempting to use the sites you build.</p>
+<h3 id="keyboard-navigation">Keyboard navigation <a class="heading-anchor" href="#keyboard-navigation">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Many users cannot use a mouse, or find it easier to use their keyboard to navigate. This also applies to some visually-impaired users who will struggle to use a mouse if they cannot see the cursor.</p>
+<p>You can scroll a web page up or down by pressing the up <kbd>↑</kbd> or down <kbd>↓</kbd> arrow keys. You can jump a whole “page” (equal to the viewport height) down with the spacebar.</p>
+<p>You can also jump a page up or down using the <kbd>Page Up</kbd> or <kbd>Page Down</kbd> keys. On Mac keyboards without these keys you can use <kbd>⎇ option</kbd> + <kbd>↑</kbd> or <kbd>↓</kbd>.</p>
+<p>You can scroll right to the top or bottom of a page using the <kbd>Home</kbd> or <kbd>End</kbd> keys. On Mac keyboards without these keys you can use <kbd>⌘ command</kbd> + <kbd>↑</kbd> or <kbd>↓</kbd>.</p>
+<p>The most important key is “tab” <kbd>⇥</kbd>. This will move your “focus” to the next interactive element on the page. For example links, buttons or inputs. This allows you to quickly jump between these elements, e.g. to fill out a form.</p>
+<p>By default a “focused” element has an outline around it (in Chrome this is like a blue glow). You can “click” a focused button or link with the “return” <kbd>⮐</kbd> or spacebar keys. You can submit a form by pressing return whilst focusing an input.</p>
+<p>Try using <em>only</em> your keyboard to navigate while you’re reading the rest of this page.</p>
+<h3 id="screen-readers">Screen readers <a class="heading-anchor" href="#screen-readers">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Navigating via keyboard still requires you to know what content is on the page. Visually-impaired and blind people use “screen reader” software to read whatever is on the page out loud.</p>
+<p>Most operating systems have a built-in screen reader now. macOS has <em>VoiceOver</em>, Windows 10 has <em>Narrator</em> and Linux has <em>Orca</em>.</p>
+<p>Expand the relevant section below to get instructions for your operating system. Once you’ve got your screen reader working try to use it to navigate this page. It takes a bit of practice to get used to.</p>
+<details class="disclosure flow">
+<summary class="fw-bold">VoiceOver (macOS)</summary>
+<p>You can activate Voiceover by pressing <kbd>⌘ command</kbd> + <kbd>F5</kbd> (or opening System Preferences and navigating to <kbd>Accessibility &gt; VoiceOver &gt; Enable VoiceOver</kbd>). By default VoiceOver shortcuts use the <kbd>∧ control</kbd> and <kbd>⌥ option</kbd> keys as a modifier. This is referred to as the “VO key” in <a href="https://www.apple.com/voiceover/info/guide/_1121.html">the docs</a>.</p>
+<p>Useful commands:</p>
+<ul>
+<li><kbd>control</kbd>: stop VoiceOver speaking at any time.</li>
+<li><kbd>control</kbd> + <kbd>option</kbd> + <kbd>U</kbd>: open the “Web rotor”. Press <kbd>←</kbd> or <kbd>→</kbd> to view all the headings/links/form controls etc on a page.</li>
+<li><kbd>control</kbd> + <kbd>option</kbd> + <kbd>←</kbd> or <kbd>→</kbd>: move cursor to previous/next item.</li>
+<li>Read more about <a href="https://www.apple.com/voiceover/info/guide/_1124.html">the basics of navigating with VO</a></li>
+</ul>
+</details>
+<details class="disclosure flow">
+<summary class="fw-bold">Narrator (Windows 10)</summary>
+<p>You can activate Narrator by pressing the Windows logo key + <kbd>control</kbd> + <kbd>⮐</kbd>. By default Narrator keyboard shortcuts use caps lock <kbd>⇪</kbd> as the modifier key. This is labelled the “Narrator” key in <a href="https://support.microsoft.com/en-us/windows/complete-guide-to-narrator-e4397a0d-ef4f-b386-d8ae-c172f109bdb1">their docs</a>.</p>
+<p>Useful commands:</p>
+<ul>
+<li><kbd>control</kbd>: stop Narrator speaking at any time.</li>
+<li><kbd>⇪</kbd> + <kbd>S</kbd>: read a summary of a webpage, including links and headings</li>
+<li><kbd>⇪</kbd> + <kbd>↓</kbd>: start reading the document from the beginning</li>
+<li>There are <a href="https://support.microsoft.com/en-us/windows/chapter-4-reading-text-8054c6cd-dccf-5070-e405-953f036e4a15">lots of different ways to read text</a> so try exploring them.</li>
+</ul>
+</details>
+<details class="disclosure flow">
+<summary class="fw-bold">Orca (Linux)</summary>
+<p>Depending on which Linux distro you’re using you may need to install Orca:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> orca</code></pre>
+<p>You should be able to run the <code>orca</code> command in your terminal to start it.</p>
+<p>By default Orca keyboard shortcuts use caps lock <kbd>⇪</kbd> as the modifier key on laptops. Read more in <a href="https://help.gnome.org/users/orca/stable/howto_keyboard_layout.html.en">their docs</a>.</p>
+<p>Useful commands:</p>
+<ul>
+<li><kbd>⇪</kbd> + <kbd>S</kbd>: stop Orca speaking.</li>
+<li><kbd>⇪</kbd> + <kbd>;</kbd>: read the entire document from the beginning</li>
+<li><kbd>←</kbd> or <kbd>→</kbd>: read previous/next character</li>
+<li><kbd>alt</kbd> + <kbd>shift</kbd> + <kbd>H</kbd>: show a list of headings</li>
+<li><kbd>H</kbd> and <kbd>shift</kbd> + <kbd>H</kbd>: read next/previous heading</li>
+<li>There are <a href="https://techblog.wikimedia.org/2020/07/02/an-orca-screen-reader-tutorial/">lots of other ways to navigate</a> so try exploring them.</li>
+</ul>
+</details>
+<h3 id="combinations">Combinations <a class="heading-anchor" href="#combinations">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>It’s important to bear in mind that people don’t fall neatly into separate categories. For example lots of keyboard users still use their mouse too. Lots of keyboard users can see the page fine. <a href="https://www.afb.org/blindness-and-low-vision/eye-conditions/low-vision-and-legal-blindness-terms-and-descriptions#TotalBlindness">85% of blind people have some degree of light perception</a>, and so they may still use visual cues, or their mouse.</p>
+<p>Developers sometimes try to detect what “type” of user is on the page, so they can enable/disable certain things (e.g. only show focus outlines for keyboard users). This is almost always a bad idea—you cannot detect accurately, and even if you could it’s better to provide as similar an experience as possible to all users.</p>
+<h2 id="testing-accessibility">Testing accessibility <a class="heading-anchor" href="#testing-accessibility">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Web accessibility (often abbreviated to “a11y”) is governed by the <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines</a> (WCAG). This is a shared standard that includes different criteria you can check your site against.</p>
+<p>WCAG is quite long and complex, so a quick way to test a site is to use <a href="https://www.a11yproject.com/checklist/">The A11y Project’s Checklist</a>. This is a list of simple things you should do on every site you build.</p>
+<figure>
+  <iframe src="https://www.a11yproject.com/checklist/"></iframe>
+  <figcaption>The A11y Project Checklist</figcaption>
+</figure>
+<p>You can also use automated testing tools to catch <em>some</em> types of problems. Chrome comes with a “Lighthouse” tab in the Developer Tools. This can run different types of tests on a page, including “Accessibility”. It will inform you of obvious failures like low colour contrast or missing image alt text. However it cannot catch more complex problems, like a custom component that cannot be controlled with the keyboard.</p>
+<figure>
+  <img src="lighthouse-audit.png" width="1440" height="879" alt="Lighthouse audit results showing two failures: missing accessible names on a button and links.">
+  <figcaption>Screenshot of a Lighthouse audit of this website</figcaption>
+</figure>
+<p>Most importantly you should manually test—use the page in different ways and see if you get stuck. Try to fill out a form using only your keyboard. Turn your screen reader on and see if critical information gets left out. This will help you catch broken interactions that automated tools cannot.</p>
+<h2 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>You’re going to be identifying and fixing a11y problems on <a href="starter-files/">this example page</a>. The page contains <strong>11 failures</strong>; try to find them all.</p>
+<ol>
+<li>Re-read <a href="https://www.a11yproject.com/checklist/">The A11y Project’s Checklist</a> before you start so you can identify obvious WCAG violations.</li>
+<li>Don’t forget to use Chrome’s Lighthouse tab to find easy problems.</li>
+<li>You’ll have to manually test with your keyboard and screen reader to find some of the issues.</li>
+</ol>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Learn Postgres with Node</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Learn Postgres with Node</h1><p class="highlight fz-lg">Learn how to use a Postgres database on a Node server</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">sql</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">postgres</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/node-postgres/starter-files#main' node-postgres" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fnode-postgres%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>This workshop covers how to connect your Node server to a Postgres database using the <a href="https://node-postgres.com/"><code>node-postgres</code></a> library.</p>
+<h2 id="setup">Setup <a class="heading-anchor" href="#setup">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Before you begin make sure you have <a href="https://github.com/macintoshhelper/learn-sql/blob/master/postgresql/setup.md">installed Postgres</a>.</p>
+<ol>
+<li>Download the starter files</li>
+<li><code>cd</code> into the directory</li>
+<li>Run <code>npm install</code></li>
+</ol>
+<p>The starter files include some dependencies and database setup. As you work through the workshop you should read the corresponding files and try to understand what the code does. Each file includes explanatory comments to help.</p>
+<h2 id="database-setup">Database setup <a class="heading-anchor" href="#database-setup">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>In order to run our app locally we’ll need a Postgres database running on our machine to connect to.</p>
+<h3 id="creating-a-local-database">Creating a local database <a class="heading-anchor" href="#creating-a-local-database">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>You can create a new Postgres user and a new Postgres database owned by that user with these two commands:</p>
+<pre class="language-shell"><code class="language-shell">createuser learn_pg_user <span class="token operator">&amp;&amp;</span><br>createdb learn_pg <span class="token parameter variable">--owner</span> learn_pg_user</code></pre>
+<p>If this succeeds you shouldn’t see any output in your terminal. You can check it worked properly by listing your databases with this command:</p>
+<pre class="language-shell"><code class="language-shell">psql <span class="token parameter variable">--list</span></code></pre>
+<p>You should see the new <code>learn_pg</code> database in the list, like this:</p>
+<pre><code>                                  List of databases
+   Name    |  Owner        | Encoding |   Collate   |    Ctype    |   Access privileges
+-----------+----------+----------+-------------+-------------+-----------------------
+ learn_pg  | learn_pg_user | UTF8     | en_US.UTF-8 | en_US.UTF-8 |
+</code></pre>
+<h3 id="populating-the-database">Populating the database <a class="heading-anchor" href="#populating-the-database">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>You can list all the tables in your new database with this command:</p>
+<pre class="language-shell"><code class="language-shell">psql learn_pg <span class="token parameter variable">--command</span> <span class="token string">"\dt"</span></code></pre>
+<p>You should see “Did not find any relations.” This is because our database is empty—we haven’t created any tables or inserted any data.</p>
+<p>You can populate your database by running SQL commands to create tables and insert data. Doing this manually would be slow and repetitive, however you can run them from a file in the repo instead:</p>
+<pre class="language-shell"><code class="language-shell">psql learn_pg <span class="token parameter variable">--file</span> <span class="token string">"./database/init.sql"</span></code></pre>
+<p>The <code>/database/init.sql</code> file contains SQL commands to create the tables we want, then insert some example data. You can re-run this command to wipe your DB and start from scratch whenever you need to.</p>
+<div class="box box-error content flow">
+<p><strong>This is dangerous</strong>. If you run this on your production database you’ll delete all your data.</p>
+</div>
+<h3 id="connecting-to-the-database">Connecting to the database <a class="heading-anchor" href="#connecting-to-the-database">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>We can query our DB manually from the terminal using <code>psql</code>, but that doesn’t help us build an app. We need a way for our Node server to connect to the DB. To do this we use the <a href="https://node-postgres.com"><code>node-postgres</code></a> library. You need to install this into the project with:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> pg</code></pre>
+<p>Our app needs to know the database’s address. Postgres runs a local server so you can talk to the DB. The full URL (also known as the “connection string”) for your database will be:</p>
+<pre><code>postgres://learn_pg_user:@localhost:5432/learn_pg
+</code></pre>
+<p>You <em>could</em> hard-code this URL into our app code, but this address is only correct for the database running on your computer. When someone else clones your repo they’ll have their own DB set up.</p>
+<h3 id="environment-variables">Environment variables <a class="heading-anchor" href="#environment-variables">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>It’s best to read configuration like this from an “environment variable” (env vars). This is like a JS variable, but set in your terminal before a program runs. You can set them before you start your application, like this <code>PORT=3000 node server.js</code>. You server can then read this value to know what port your app should listen on.</p>
+<p>Take a look at the <code>/database/connection.js</code> file. It imports the <code>pg</code> library, then connects to the right DB by passing in the connection string. It reads this from the <code>DATABASE_URL</code> env var, which means we must make sure this is set before starting our server.</p>
+<p>Rather than type <code>DATABASE_URL=postgres://... npm run dev</code> every time, we can rely on the popular <code>dotenv</code> library. This allows us to define env vars in a file named <code>.env</code>. We gitignore this file so each person who clones the repo can make their own with their own personal DB URL.</p>
+<p>First install <code>dotenv</code> as a dev dependency:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> --save-dev dotenv</code></pre>
+<p>Then create a <code>.env</code> file at the root of your project containing:</p>
+<pre class="language-shell"><code class="language-shell"><span class="token assign-left variable">DATABASE_URL</span><span class="token operator">=</span><span class="token string">'postgres://learn_pg_user:@localhost:5432/learn_pg'</span></code></pre>
+<p>Then change your <code>dev</code> npm script in the <code>package.json</code> file to this:</p>
+<pre><code>&quot;nodemon -r dotenv/config server.js&quot;
+</code></pre>
+<p>The <code>-r dotenv/config</code> bit tells the <code>dotenv</code> library to read the <code>.env</code> file and pass all the values inside it to your application. You can then access them in your JS code with <code>process.env.VAR_NAME</code>.</p>
+<h2 id="using-the-database">Using the database <a class="heading-anchor" href="#using-the-database">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h2>
+<p>Now our server knows how to talk to our database we can start using it in our route handlers. First let’s make our home route list all the users in the database.</p>
+<p>Open <code>workshop/routes/home.js</code>. To access our DB we need to import the pool object we created in <code>connection.js</code>:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/connection.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="querying-for-data">Querying for data <a class="heading-anchor" href="#querying-for-data">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>This <code>db</code> object has a <code>.query</code> method that sends SQL commands to the database. It takes a SQL string as the first argument and returns a promise. This promise resolves when the query result is ready.</p>
+<p>Let’s get all the users in the DB:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/connection.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM users"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello world&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Refresh the home page and you should see a big object logged in your terminal. This is the entire result of our database query.</p>
+<p>The bit we’re actually interested in is the <code>rows</code> property. This is an array of each matching entry in the table we’re selecting from. Each row is represented as an object, with a key/value property for each column.</p>
+<p>You should see an array of user objects, where each object looks like this:</p>
+<pre class="language-js"><code class="language-js"><span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">username</span><span class="token operator">:</span> <span class="token string">'Sery1976'</span><span class="token punctuation">,</span> <span class="token literal-property property">age</span><span class="token operator">:</span> <span class="token number">28</span> <span class="token punctuation">}</span></code></pre>
+<p>Since DB queries return promises we need to make sure we send our response <em>inside</em> the <code>.then</code> callback. Let’s send back a list of all users’ first names:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/connection.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM users"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> users <span class="token operator">=</span> result<span class="token punctuation">.</span>rows<span class="token punctuation">;</span><br>    <span class="token keyword">const</span> userList <span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">user</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;li></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>user<span class="token punctuation">.</span>username<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/li></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;ul></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>userList<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/ul></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Refresh the page and you should see an unordered list containing each user’s first name.</p>
+<div class="box box-default content flow">
+<h4 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>We’re currently querying for too much data: we only need the <code>username</code>, but we’re getting <em>every</em> column. For very big data sets this could be a performance problem.</p>
+<p><strong>Amend your query so it only returns the column we need.</strong></p>
+</div>
+<h3 id="updating-data">Updating data <a class="heading-anchor" href="#updating-data">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>Navigate to <a href="http://localhost:3000/create-user">http://localhost:3000/create-user</a>. You should see a form with fields for each column in our user database table. It submits a <code>POST</code> request to the same path. The <code>post</code> handler logs whatever data was submitted. Try it now to see it working.</p>
+<p>We want to use the <code>INSERT INTO</code> SQL command to create a new user based on the user-submitted information.</p>
+<h4 id="safely-handling-user-input">Safely handling user input <a class="heading-anchor" href="#safely-handling-user-input">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Including user-submitted information in a SQL query is dangerous. A malicious user could enter SQL syntax into an input. If we just inserted this straight into a query this would mean they could execute dangerous commands in our DB. This is one of the most common causes of major hacks, so it’s important to prevent it.</p>
+<div class="box box-error content flow">
+<p><strong>You should never directly insert user input into a SQL string:</strong></p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// NEVER DO THIS!</span><br>db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">INSERT INTO users(username) VALUES(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>username<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">)</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>If the user typed <code>; DROP TABLE users;</code> into the <code>username</code> input we’d end up running that command and deleting all our user data!</p>
+</div>
+<p>The <code>pg</code> library uses something called “parameterized queries” to safely include user data in a SQL query. This allows it to protect us from injection. We can leave placeholders in our SQL string and pass the user input separately so <code>pg</code> can make sure it doesn’t contain any dangerous stuff.</p>
+<pre class="language-js"><code class="language-js">db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">"INSERT INTO users(username) VALUES($1)"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>username<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>We use <code>$1</code>, <code>$2</code> etc as placeholders, then pass our values in an array as the second argument to <code>query</code>. <code>pg</code> will insert each value from the array into its corresponding place in the SQL command (after ensuring it doesn’t contain any SQL).</p>
+<div class="box box-default content flow">
+<h4 id="challenge-2">Challenge <a class="heading-anchor" href="#challenge-2">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h4>
+<p>Edit the <code>post</code> handler function in <code>create-user.js</code> to save the submitted user data in the database. Make sure to use a parameterized query.</p>
+</div>
+<h3 id="relational-data">Relational data <a class="heading-anchor" href="#relational-data">
+  <svg
+    viewBox="0 0 32 32"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentcolor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+  >
+    <path
+      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+    ></path>
+  </svg>
+</a></h3>
+<p>So far we’ve only touched the <code>users</code> table. Let’s make the <code>posts</code> visible too.</p>
+<ol>
+<li>Add a new route <code>GET /posts</code></li>
+<li>This should display a list of all the posts in your database</li>
+<li>Once that’s working amend the handler to also show <strong>the username of each post’s author</strong>.</li>
+</ol>
+<div class="box box-default content flow">
+<p><strong>Hint</strong>: You’ll need to use a join to get data from both tables in one query.</p>
+</div>
+</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>
