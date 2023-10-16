@@ -186,6 +186,36 @@ Use css float property to let image float to left or right.
 
 CSS uses : where HTML uses = 
 
+
+```css
+```/* class selector */
+• paragraph{
+background-color: aqua;
+}
+/* tag selector */
+h1{
+background-color: coral;
+｝
+/* group selectors */
+• heading3, • paragraph1, h2{
+background-color: blue;
+}
+/* universal selector - select all elements */
+* {
+font-size: xx-large;
+}
+
+/* element.class  - elements with a class */
+p. text{
+background-color: blueviolet;
+}
+```
+
+
+
+
+
+
 other notes: 
 [[CSS animations]]
 [[common-css-properties.pdf]]
