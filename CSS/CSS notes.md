@@ -212,6 +212,103 @@ background-color: blueviolet;
 ```
 
 
+By default HTML elements will have a style - set by user agent stylesheet. This can be overwritten. 
+
+Two main types of font: 
+google fonts (web fonts) - 
+web safe fonts - ones that come with most operation systems. 
+
+
+Better to download fonts and compress them (if needed) to make website faster. 
+
+``font-variant: small-caps;``
+``font-style: italic;
+``text-transform: uppercase;
+``text-align: center;
+``line-height: 30px;``
+``letter-spacing: 2px;
+``word-spacing: 5px;
+``text-decoration: underline
+``text-indent: 90px;
+
+can also apply with 
+``font: 30px bold Roboto; 
+to apply multiple variables at once
+
+for rgb values: 
+can have between 0-255
+for hsl values: 
+hsl between 0-100
+
+hsla - a is the transparency, e.g. ``background-color: hsla (250, 48%, 48%, 0.7)``
+
+alpha can also be used with rgba 
+
+most of the time opacity property will be better than using alpha 
+
+
+## Backgrounds 
+
+apply to body element to get in background for whole page
+
+```css
+background-image: url('/Image/download.jpg');
+background-repeat: no-repeat; 
+background-attachment: fixed; /* fixed position for the background image, rather than scrolling*/
+background-size: cover; /* this will fill the element background */
+background-position:top 30px right 20px; /* this will set position of background image*/
+```
+``repeat-y `` to repeat vertically
+``repeat-x`` to repeat horizontally
+
+cover will fill the space
+
+can do a lot with backgrounds in css, e.g. multiple background images (use commas between different urls) or set repeat of the background image in different sections of the site. E.g.:  
+```css
+ background: url(star.png) no-repeat left center,
+    url(star.png) repeat-y right center;
+}```
+this will have one of the image in left center, and repeated along y axis (vertically) on right side (aligned to center). Can then edit this with padding. 
+
+
+## Borders
+
+can use ``border-top``, ``border-right`` etc. to change border on difference sizes
+``border-radius: 50%`` to make circle
+
+``border-top-right-radius: ;`` to just round the corner on one corner
+
+## Margin and padding
+
+``/* margin: top right bottom left; */
+``margin: 10px 5px 10px 5px;``
+``text-align: justify;``
+
+
+## Overflow 
+``overflow: scroll`` - displays scrollbars, whether the content overflows the container or not.
+``overflow:hidden`` - hide any content that overflows the container. 
+`overflow: auto;` - show scrollbars only if content overflows container. 
+
+##  Inline block 
+
+can use ``display: inline-block`` to make an inline block element that can change its width and height
+
+## Links
+
+Styling links with CSS: 
+``a:link`` - a normal link - unvisited link
+``a:visited`` - a link that the user has visited
+``a:hover`` - a link when the user mouse over it
+``a:active`` - a link when you click it
+
+``text-decoration:none`` to remove underline on text
+
+increase padding on a element if want to make it look more like a button with background-color, etc. 
+
+
+``text-align: justify;`` to align text justified
+
 
 
 

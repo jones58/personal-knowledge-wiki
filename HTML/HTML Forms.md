@@ -17,7 +17,19 @@ Student registration
 ‹ label for="gender">Gender: </label>
 </fieldset>```
 
-![[Pasted image 20231011142455.png]]
+ 
+<fieldset>
+	<legend>
+	Student registration
+	</legend>
+	<form action="">
+	<label for="fname"›First Name</label>
+	<input type="text" id="fname" /><br />
+	<label for="email">Email</label>
+	<input type="email" /><br />
+	<label for="gender">Gender: </label>
+</fieldset>
+
 
 
 ``input type ="submit"`` to make a button 
