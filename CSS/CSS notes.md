@@ -32,7 +32,6 @@ Style elements on hover, use element.hover { }
 
 Use flexbox, justify-content:space-between; align-items:center;
 
-Fix to top of viewport: position:fixed and top=0. 
 
 Align text, use text-align:… 
 
@@ -77,9 +76,6 @@ the key difference between `tr[class="total"] and ``tr.total`` is that the first
 
 vertical-align:top or bottom for text vertical, text-align: for horizontal (left and right)
 
-An `absolute` position takes the element out of that top-down document flow and allows you to adjust it relative to its container. 
-
-When an element is manually positioned, you can shift its layout with `top`, `left`, `right`, and `bottom`. 
 
 
 Elements with a higher `z-index` value will appear to be layered on top of elements with a lower `z-index` value
@@ -109,9 +105,6 @@ The `flex-direction` property has four possible values:
 To set flex direction, also need ``display:flex;`` set to make it flexbox container 
 
 
-To declare a variable in CSS, you can use the `--` prefix followed by a name for the variable and its value. 
-
-e.g. `--myfirstvariable: blue` then ``var(--myfirstvariable)`` to call the variable 
 
 
 
@@ -309,6 +302,229 @@ increase padding on a element if want to make it look more like a button with ba
 
 ``text-align: justify;`` to align text justified
 
+## Position
+
+``position: static`` - the default property 
+``position: relative`` - positioned relative to normal position. 
+``position: absolute`` - takes element out of top-down document flow and allows to adjust relative to container
+``position: fixed`` - position relative to viewport. Will always stay in same position on screen when scroll. Fix to top of viewport: position:fixed and top=0. 
+``position: sticky`` - allows an element to scroll with the page until a specified position (e.g., `top: 50px`) is reached, at which point it becomes fixed in place, creating a "sticky" effect. It's commonly used for elements like navigation menus or sidebars that should stay visible while scrolling.
+
+When an element is manually positioned, you can shift its layout with `top`, `left`, `right`, and `bottom`. 
+
+
+## Z-index 
+
+Highest z-index will display on top
+By default all elements have z-index of 0
+Can give ``z-index: -1 ``, or 1,2,3 etc. 
+
+
+## Navigation bars
+
+ can use ``<nav>`` and`` <ul>`` with ``<li>`` inside and set: ``list-style-type:none
+
+use display:block to put stuff on different lines
+
+
+## Media Queries 
+
+Always changing breakpoints, get used to googling them based on which websites it will be used on. Mobile first design 
+
+Example: @media (max-width: 600px){ 
+} 
+
+when debugging, if it doesn't look good on a screen size - use media queries
+
+
+Take a mobile-first approach with media queries too - do the mobile look before desktop. 
+
+
+Using the `max-width` and `min-width` properties.
+
+
+https://www.w3schools.com/cssref/css3_pr_mediaquery.php
+https://css-tricks.com/a-complete-guide-to-css-media-queries/
+https://css-tricks.com/snippets/css/media-queries-for-standard-devices/
+
+
+# Selectors
+
+They're good to help you filter through your HTML. Don't necessarily need to use them if easiest to use classes or IDs, just as good to use them in that way. 
+
+More info here: https://learn.shayhowe.com/advanced-html-css/complex-selectors/
+
+## Pseudo-Elements
+
+Only applies to a specific part of your element
+
+::before
+word before another one 
+
+::after 
+word after another one 
+
+::first letter 
+first letter 
+
+::first line 
+first line 
+
+::selection
+element selected by a user
+## Pseudo-Classes
+
+tells element how to behave in a certain setting:
+:link - unclicked link
+:visited - clicked link
+:hover - hover  
+:first child - first child in list / elements in a parent element
+:last child - last child in list / elements in a parent element
+input: enabled - enabled input elements
+input: disabled - disabled input elements
+
+## nth-child Selector
+
+A pseudo class that selects children within parent elements
+
+:nth child (odd) - this is odd elements in a parent element
+:nth child (even) - this is even elements in a parent element
+
+Can use maths in with this one
+
+## Attribute Selectors
+
+Select either attribute, attribute=value, or attribute with value containing string, ending in string, starting in string etc. 
+
+```css 
+  
+/* Select anchor <a> elements with a href attribute */
+
+a[href] {
+
+font-family: "Courier New", Courier, monospace;
+
+}
+
+  
+
+/* Style anchor <a> elements with a target attribute exactly equal to "_blank" */
+
+a[target="_blank"] {
+
+background-color: #ffee58;
+
+font-weight: bold;
+
+text-decoration: underline;
+
+}
+
+  
+
+/* Style anchor <a> elements with a target attribute exactly equal to "_self" */
+
+  
+
+a[target="_self"] {
+
+background-color: #ffee58;
+
+font-style: italic;
+
+text-decoration: overline;
+
+}
+
+  
+
+/* Style anchor <a> elements with a title attribute containing the string "Tesco" */
+
+a[href*="tesco"] {
+
+border: 5px solid blue;
+
+color: blue;
+
+}
+
+/* Style anchor <a> elements with a title attribute containing the string "Asda" */
+
+  
+
+a[href*="asda"] {
+
+border: 5px solid green;
+
+color: green;
+
+}
+
+  
+
+/* Style anchor <a> elements with a lang attribute containing the string "fr" */
+
+a[lang|="fr"] {
+
+background-image: linear-gradient(
+
+to right,
+
+#0055a4 0%,
+
+#0055a4 33.33%,
+
+#ffffff 33.33%,
+
+#ffffff 66.66%,
+
+#ef4135 66.66%,
+
+#ef4135 100%
+
+);
+
+}
+
+  
+
+/* Style anchor <a> elements which contain space-separated list of words, one of which is Fruit */
+
+a[title~="Fruit"] {
+
+border: 5px solid red;
+
+}
+```
+
+## Parent and child 
+
+.parent {} for parent elements and .child{} for child elements (elements that contain other elements and elements inside other elements)
+
+## CSS Units 
+
+em - relative to font size of the parent element
+rem - relative to font size of the root element (html). by default is 16px. 
+vh - relative to 1% of the height of the viewport
+vw - relative to 1% of the width of the viewport
+% - relative to parent element
+viewport = the browser window size
+
+## CSS Variables 
+
+Can use so it's easier to change the variable colour, but can also use to change units
+
+To declare a variable in CSS, you can use the `--` prefix followed by a name for the variable and its value. 
+
+e.g. `--myfirstvariable: blue` then ``var(--myfirstvariable)`` to call the variable 
+
+we store it in ``:root { }`` in css to make it a global variable. 
+Can make local variable by just defining in one block/element
+
+
+Animation
+Transition
+Transform
 
 
 
@@ -319,4 +535,4 @@ other notes:
 [[CSS Grid]]
 [[CSS Float]]
 [[CSS Flexbox]]
-[[CSS Media Queries]]
+
