@@ -521,16 +521,120 @@ e.g. `--myfirstvariable: blue` then ``var(--myfirstvariable)`` to call the varia
 we store it in ``:root { }`` in css to make it a global variable. 
 Can make local variable by just defining in one block/element
 
+## CSS Transitions 
 
-Animation
-Transition
-Transform
+We can use keyframe and transition.
 
+To create a transition effect, you must specify two things:
+-the CSS property you want to add an effect to
+-the duration of the effect
+
+e.g. ``transition: width 1s;``
+
+Uses active selectors like ``:hover`` etc. 
+
+e.g. 
+``transition-duration: 1s;``
+``transition-timing-function:ease-in-out;``
+``transition-delay: 0ms;``
+
+more details on this: 
+https://www.joshwcomeau.com/animation/css-transitions/
+
+## CSS Animations
+
+The `@keyframes` at-rule is used to define the flow of a CSS animation. Within the `@keyframes` rule, you can create selectors for specific points in the animation sequence, such as `0%` or `25%`, or use `from` and `to` to define the start and end of the sequence.
+
+The `animation-name` property links `@keyframes` rule to a CSS selector/element - e.g. a ``heading``.
+
+The `animation-duration` property sets how long an animation should take to complete. either in `s` or `ms`
+
+The `animation-iteration-count` property is used to show how many times an animation should run, either a numnber or set to ``infinite``. 
+
+The `animation-timing-function` property is used to set rate at which animation should run. Usually ``linear`` but there are other options too, like ``ease-in-out``
+
+The animation-timing-function property can have the following values:
+• ``ease`` - Specifies an animation with a slow start, then fast, then end slowly (this is default)
+• ``linear`` - Specifies an animation with the same speed from start to end
+• ``ease-in`` - Specifies an animation with a slow start
+• ``ease-out`` - Specifies an armation with a slow end
+• ``ease-in-out`` - Specifies an animation with a slow start and end
+• ``cubic-bezier (n,n,n,n)`` - Lets you define your own values in a cubic-bezier function
+
+``animation-direction`` to change direction of animation
+
+
+Can also use ``animation`` property to set these all at once: the `animation-name`, `animation-duration`, `animation-timing-function`, and `animation-iteration-count` properties in that order.
+
+``animation-delay:`` sets time in s until animation starts 
+
+e.g: 
+```css 
+* Animation */
+
+.animation {
+background-color: brown;
+width: 100px;
+height: 100px;
+animation-name: move;
+animation-duration: 2s;
+}
+
+@keyframes move {
+from {
+margin-left: 0px;
+}
+
+to {
+margin-left: 200px;
+}
+} ```
+
+this is with from being 0% and to being 100%, but can also set with percentages: 
+
+```css
+```@keyframes move {
+0{}
+20%{
+margin-left: 100px; I
+｝
+40%{
+margin-left: 200px;
+｝
+60%{
+margin-left: 200px;
+margin-top: 100px;
+｝```
+
+## CSS Transform Property
+
+Can skew, scale and translate, rotate. 
+
+**Translate (move)**: `translateX()` and `translateY()` functions move the element horizontally and vertically, respectively. For example:
+```css
+transform: translateX(50px) translateY(20px);```
+    
+**Scale**: `scale()` function scales the element in both the X and Y axes. You can specify different values for scaling in the X and Y directions, which allows for non-uniform scaling. For example:
+```css
+transform: scale(1.5); /* Scales up by 1.5x in both X and Y */ transform: scaleX(2) scaleY(0.5); /* Scales 2x in X and 0.5x in Y */
+```
+    
+**Rotate**: `rotate()` function rotates the element by a specified angle. For example:
+```css
+```transform: rotate(45deg);`
+```
+
+
+**Skew**: `skewX()` and `skewY()` functions skew the element in the X and Y directions, respectively. For example:
+```css
+transform: skewX(20deg) skewY(-10deg);
+```
+
+**transform-origin** : using ``transform-origin``  to specify the point around which the transformations are applied.
 
 
 
 other notes: 
-[[CSS animations]]
 [[common-css-properties.pdf]]
 [[CSS Grid]]
 [[CSS Float]]
