@@ -12,14 +12,19 @@ Makes it easier to design flexible responsive layout without float or positionin
 ``flex-grow:`` will grow in line with other items if space, 1 for equal with other items, 2 for double
 ``flex-shrink:`` will grow in line with other items if space, 1 for equal with other items, 2 for double
 
-``align-content`` for vertical alignment 
+``align-content`` for vertical alignment  - to set how multiple lines are spaced apart from each other.
 
 ``justify-content`` for horizontal alignment 
 
 ``align-items`` to align a specific element 
 
+To make flex items go onto the next line if they are overflowing the viewport, you can use the `flex-wrap` property with a value of `wrap`.
 
-- To make flex items go onto the next line if they are overflowing the viewport, you can use the `flex-wrap` property with a value of `wrap`.
+can also use ``order`` property to set order of individual elements. By default value of 0,  can use -2, -1 ,0, 1, 2 etc. 
+
+can also apply: ``align-self`` to only apply align on one item
+
+``flex-flow`` combines ``flex-direction`` and ``flex-wrap``, e.g.: ``flex-flow: column wrap``
 
 https://kevinsguides.com/guides/webdev/css/creating-a-simple-flexbox-grid
 https://css-tricks.com/snippets/css/a-guide-to-flexbox/
