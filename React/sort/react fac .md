@@ -1,12 +1,4 @@
----
-title: Building client-side apps with React
-description: Learn how to create client-side apps using React
-tags:
-  - workshop
-keywords:
-  - js
-  - react
-  - jsx
+
 challenge: https://github.com/foundersandcoders/react-challenge
 ---
 
