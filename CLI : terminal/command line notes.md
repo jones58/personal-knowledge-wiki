@@ -1,11 +1,12 @@
+# Command Line Notes
 
-- ```pwd``` print working directory
-- ```mkdir x``` to make a new folder, x
-- ```cd x``` to change directory to that folder, x
-- ```touch x``` to create a file with name x
-- ```cd ./x``` to go to x directory (not necessarily within current directory)
-- ```ls``` list items in a folder
-- ```cd ..``` two dots mean step out of directory one level
+- ``pwd`` print working directory
+- ``mkdir x`` to make a new folder, x
+- ``cd x`` to change directory to that folder, x
+- ``touch x`` to create a file with name x
+- ``cd ./x`` to go to x directory (not necessarily within current directory)
+- ``ls`` list items in a folder
+- ``cd ..`` two dots mean step out of directory one level
 
 some more command line tips:
 `!!` # run the last command executed
@@ -18,3 +19,19 @@ some more command line tips:
 `1s -lhS` # sort files by size in a directory
 `qlmanage -p <file>` # QuickLook preview from command-line
 `top -o vsize` # why is my mac slow?
+
+name files and folders in lowercase and use dashes instead of spaces - kebab-case
+
+path components in browser
+
+/folder
+
+./ current folder - this is done by default so
+../ go up one folder level
+folder-name/ directs browser into a folder with that name
+
+relative urls for same domain
+absolute urls for different domain
+
+can write ``clear`` in terminal to clear it
+

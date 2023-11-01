@@ -162,5 +162,3 @@ _Letters are shown capitalized for readability only._  _Capslock should be off._
 ### GIT
 
 For Git related commmands you can check my [git-basics-cheatsheet](https://github.com/0nn0/git-basics-cheatsheet)
-
-
