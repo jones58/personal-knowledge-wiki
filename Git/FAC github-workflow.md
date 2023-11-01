@@ -1,10 +1,4 @@
-# GitHub Workflow
 
-A good GitHub workflow is essential to keeping a project organised and easy to maintain. The larger the project, the more important it becomes to track changes and be aware of who worked on what.
-
-Some things to keep in mind:
-
-- Make sure everyone has the same code formatter ([prettier](https://prettier.io/docs/en/install.html)) set up, so you can avoid merge conflicts due to weird spaces/extra commas etc.
 - Never work on the main branch. Before you start work, make sure you pull main and create a new branch.
 
 ```git

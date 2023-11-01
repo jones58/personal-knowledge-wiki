@@ -1,3 +1,4 @@
+## Basic commands
 
 - ```git init``` turns git on for current directory
 - ```git status``` to see status of directory (any changed files etc. )
@@ -37,15 +38,66 @@ for each of these: if want to just add one file you can give name of that file, 
 
 ## VS Code tricks
 
+File explorer:
+
 - "u" next to file - untracked
 - "a" - added. (green)
 - "m" - modified (Yellow)
 - file removed, goes red
-in source control - three dots provides list of commands you can run in git
 
-still worth being familiar with git in cli
+Source control:
 
-in bottom left corner
+- Three dots provides list of commands you can run in git
+- Still worth being familiar with git in cli
+- In bottom left corner can see the button to click on the branch - can do things like start a new branch by pressing this.
+
+## Github
+
+### Initial steps
+
+- Login to GitHub
+
+- Create your repository on GitHub:
+
+- Open your desired folder that you wish to add to GitHub in VS Code:
+
+CTRL+O (or CMD+O on Mac) then select the desired  folder.
+
+- Open up a terminal in VS Code and check that your file path is correct, you want to
+ensure that you are in the correct folder before initialising your Git repository.
+
+- Enter the following Git commands:
+
+Initial Git Commands:
+git init
+git add .
+git commit -m "useful commit message"
+git branch -M main
+git remote add origin (URL of Git Repo)
+git push -u origin main
+
+
+Your local repo and centralised GitHub repo should now be linked.
+
+
+Git Commands to use after initialisation when additional changes are made:
+
+git add .
+git commit -m "useful commit message"
+git push
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - Can edit github online by pressing down . when looking at github file.
 - There is also github cli for working in the command line.
@@ -61,7 +113,7 @@ in bottom left corner
 - Journal not a backup
 - github is case-sensitive
 
-More git resources:
+## More git resources
 
 - <https://gitimmersion.com/>
 - <https://docs.github.com/en>
@@ -71,3 +123,23 @@ More git resources:
 - <https://thenewstack.io/tutorial-git-for-absolutely-everyone/>
 - <https://cs.fyi/guide/git-cheatsheet>
 - <https://www.atlassian.com/git>
+- https://www.youtube.com/watch?v=ecK3EnyGD8o
+- https://skills.github.com/
+- https://learn.foundersandcoders.com/workshops/git-terminal/
+- https://www.reddit.com/r/webdev/comments/1671gnt/git_cheat_sheets_14_visual_aids/
+- https://www.youtube.com/watch?v=D80u__nYYWw
+- https://rogerdudler.github.io/git-guide/
+
+### Github specific resources:
+- https://github.com/dwyl/github-reference
+- https://github.com/Gazler/githug
+- https://gist.github.com/suewonjp/7493de784f4a88c63d1810031609ee35
+
+### Github alternatives:
+
+https://git.disroot.org/
+Codeberg
+Gitness
+Radicle
+Bitbucket
+Gitlab
