@@ -63,17 +63,17 @@ Source control:
 ensure that you are in the correct folder before initialising your Git repository.
 
 - Initial Git Commands:
-  - ``git init``
+    - ``git init``
 
-  - ``git add .``
+    - ``git add .``
 
-  - ``git commit -m "useful commit message"``
+    - ``git commit -m "useful commit message"``
 
-  - ``git branch -M main``
+    - ``git branch -M main``
 
-  - ``git remote add origin (URL of Git Repo)``
+    - ``git remote add origin (URL of Git Repo)``
 
-  - ``git push -u origin main``
+    - ``git push -u origin main``
 
 Your local repo and centralised GitHub repo should now be linked.
 
@@ -88,7 +88,7 @@ Git Commands to use after initialisation when additional changes are made:
 ##  Remote
 
 - git remote will show what remote git repo is linked to - will not show anything if not connected.
-  - can also do git remote show origin to show what's on remote origin.
+    - can also do git remote show origin to show what's on remote origin.
 - ``git push origin main -u``  - the u here stands for upstream. This basically means you can use pull without any extra arguments. When remote repo is the main source of info.
 
 ## Merge and merge conflicts
@@ -126,6 +126,8 @@ Two ways to do this:
 - ``git checkout -b <name>`` to create and switch to a branch in one command
 - ``git checkout -`` to switch back to previous branch.
 
+- Git Lens is a good plugin when working in a team - shows who has made changes.
+
 ## Merge conflicts
 
 - Happen when difference on same line between two branches trying to merge.
@@ -135,9 +137,50 @@ Two ways to do this:
 - If want to abandon merge, can do: ``git merge --abort``
 
 ## Forking from Github
+
 - copies repo to your own account. Keeps link for updates from the upstream (original) repo.
-- often, will work on repo in fork and then submit pull request to merge changes with original repo.
--
+- when working with fork locally, you can get online changes with:
+    - ``git remote add upstream <original-url-here>`` to sync with original
+    - ``git fetch upstream`` to get changes
+    - ``git rebase upstream origin/master`` to add changes on top of own work.
+
+## Pull request
+
+- Often, will work on repo in fork and then submit pull request to merge changes with original repo.
+- Steps:
+    - fork repo
+    - clone to local repo
+    - git branch new branch name
+    - git checkout new branch name
+    - add, commit, push
+    - go back to github and click compare and pull request.
+- NB always follow contribution guidelines - best to submit issue first before submitting pull request.
+
+## Fix issues
+
+- ``git reset`` - unstages all staged files
+- ``git reset <commit-ID>`` - goes back to previous commit but keeps all changes in working directory/ local branch version. Can find commit ids by using ``git log``
+- ``git reset <commit-ID> --hard`` - goes back to previous commit and reverts all changes. Be careful and don't use this with commits already on Github. Better to use command below.
+- ``git revert <commit-ID> -m "reverting last commit"`` undo commit with new commit.
+- ``git commit --amend -m "better message"`` - change message of last commit.
+- ``git add <your-file>`` and
+``git commit --amend --no-edit`` to add file to previous commit.
+- ``git stash`` adds stuff that can be applied later. To bring them back use ``git stash pop``.
+- For working with multiple stashes:
+  - If want to give name to stash:``git stash save <name>``
+  - retrieve list of stashes: ``git stash list``
+  - then pick stash by its index: ``git stash apply 1`` where 1 is the index number. This means don't have to use pop, for most recent stash but can choose out of order.
+
+  ## Rebase
+  - with large team, rebase is often better than merge.
+  - better to do with local feature branches. Not good for other people working on branch remotely.
+
+  - ``git checkout <featurebranchname>``
+  - ``git rebase master``
+
+  This takes feature branch and puts it on front of master branch. So it looks like editing feature from the latest copy of master branch, rather than old copy that was forked.
+
+
 
 
 
