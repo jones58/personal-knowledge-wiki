@@ -12,12 +12,8 @@
 - ```git push <remote name e.g. origin> <branch e.g. master>``` push changes to remote repo from local
 - ```git remote add <remote name e.g.upstream> (url)``` to connect to original github of forked repository and be able to pull changes.
 - ``git status`` to see what branch you're on and any changes
-- ``git branch <branch name>`` to make new branch off existing one. Then can work with other developers on features.``
-- ```git checkout <branch name>``` to switch branch
-- ``git checkout -b <branch name>`` to create and switch to a branch in one line
+
 - ``git merge`` to merge git branches. Will work unless there is merge conflict.
-- ``git branch`` to list branches
-- ``git branch -m <New branch name>`` to rename branch currently on
 - ``git pull <remote name> <branch name>`` pull changes from remote (github) branch
 - ``git fetch --dry-run`` see changes to the remote before you pull in
 - ``git status`` to check the status of git repo - what files are tracked, what changes have been made etc.
@@ -89,7 +85,7 @@ Git Commands to use after initialisation when additional changes are made:
 
 - ``git push``
 
-##  Remote:
+##  Remote
 
 - git remote will show what remote git repo is linked to - will not show anything if not connected.
   - can also do git remote show origin to show what's on remote origin.
@@ -108,13 +104,43 @@ Two ways to do this:
 
 ## Clone
 
-- Copy remote repo with ``git clone <repo-url> <local-directory>`` where local directory is your name for your copy of the repo.
+- Copy remote repo with ``git clone repo-url local-directory`` where local directory is your name for your copy of the repo.
 - It keeps same git features, like branch etc. so you can pull future updates from remote repo.
 
 ## Github Codespaces
 
 - Can edit github online by pressing down . when looking at github file.
 - this opens cloud version of vscode
+- this can be helpful if want to make small pull request without having to put on local machine with clone.
+- if try to use terminal, you can set it up as a codespace running in cloud.
+
+## Collaboration
+
+- It's common to rename master branch to main, do this with: ``git branch -M main``
+
+- ``git branch`` to list branches. Highlighted in green shows current branch.
+- ``git branch <name>`` to create a new branch with ``<name>``
+- ``git branch -d <name>`` to delete branch with name. Will only do it if no unmerged changes on it. Use -D to delete no matter what.
+- ``git branch -m <name>`` to rename branch currently on
+- ```git checkout <name>``` to switch branch
+- ``git checkout -b <name>`` to create and switch to a branch in one command
+- ``git checkout -`` to switch back to previous branch.
+
+## Merge conflicts
+
+- Happen when difference on same line between two branches trying to merge.
+- Use ``git diff`` to compare differences on branches.
+- Easiest way to fix is in vscode editor, by picking what you want and then committing with something like:
+  ``git commit -am "resolve merge conflict"``
+- If want to abandon merge, can do: ``git merge --abort``
+
+## Forking from Github
+- copies repo to your own account. Keeps link for updates from the upstream (original) repo.
+- often, will work on repo in fork and then submit pull request to merge changes with original repo.
+-
+
+
+
 
 ## More git resources
 
@@ -132,6 +158,7 @@ Two ways to do this:
 - <https://www.reddit.com/r/webdev/comments/1671gnt/git_cheat_sheets_14_visual_aids/>
 - <https://www.youtube.com/watch?v=D80u__nYYWw>
 - <https://rogerdudler.github.io/git-guide/>
+- <https://fireship.io/courses/git/>
 
 ### Github specific resources
 
