@@ -89,7 +89,7 @@ Git Commands to use after initialisation when additional changes are made:
 
 - ``git push``
 
-## Remote:
+##  Remote:
 
 - git remote will show what remote git repo is linked to - will not show anything if not connected.
   - can also do git remote show origin to show what's on remote origin.
@@ -100,13 +100,21 @@ Git Commands to use after initialisation when additional changes are made:
 - when local and online repo have different commits, have to merge them.
 
 Two ways to do this:
+
 1. ``git fetch`` will download latest changes.
- ``git merge origin/master`` then merges the changes from origin master on top of local code. origin/master can be anything here.
+ ``git merge origin/master`` then merges the changes from origin master on top of local code. origin/master can be any branch here which you want to be on top of other. Will show up as fast-forward - this is the most common merge strategy.
+2. ``git pull`` does both at same time. If didn't use -u (upstream) flag earlier, then don't need to write out fully as ``git pull origin/master`` which specifies the branch to put on top. That has already been specified by -u (the most up to date repo).
+    This will fail if current repo hasn't been commited.
 
+## Clone
 
-## More info
+- Copy remote repo with ``git clone <repo-url> <local-directory>`` where local directory is your name for your copy of the repo.
+- It keeps same git features, like branch etc. so you can pull future updates from remote repo.
+
+## Github Codespaces
 
 - Can edit github online by pressing down . when looking at github file.
+- this opens cloud version of vscode
 
 ## More git resources
 
