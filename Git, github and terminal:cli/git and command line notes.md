@@ -90,3 +90,6 @@ More git resources:
 - http://rogerdudler.github.io/git-guide/
 - https://support.github.com/
 - https://docs.github.com/en/desktop
+- https://thenewstack.io/tutorial-git-for-absolutely-everyone/ 
+- https://cs.fyi/guide/git-cheatsheet
+- https://www.atlassian.com/git
