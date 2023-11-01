@@ -61,57 +61,52 @@ Source control:
 
 - Open your desired folder that you wish to add to GitHub in VS Code:
 
-CTRL+O (or CMD+O on Mac) then select the desired  folder.
+- CMD+O then select the desired  folder.
 
 - Open up a terminal in VS Code and check that your file path is correct, you want to
 ensure that you are in the correct folder before initialising your Git repository.
 
-- Enter the following Git commands:
+- Initial Git Commands:
+  - ``git init``
 
-Initial Git Commands:
-git init
-git add .
-git commit -m "useful commit message"
-git branch -M main
-git remote add origin (URL of Git Repo)
-git push -u origin main
+  - ``git add .``
 
+  - ``git commit -m "useful commit message"``
+
+  - ``git branch -M main``
+
+  - ``git remote add origin (URL of Git Repo)``
+
+  - ``git push -u origin main``
 
 Your local repo and centralised GitHub repo should now be linked.
 
-
 Git Commands to use after initialisation when additional changes are made:
 
-git add .
-git commit -m "useful commit message"
-git push
+- ``git add .``
+
+- ``git commit -m "useful commit message"``
+
+- ``git push``
+
+## Remote:
+
+- git remote will show what remote git repo is linked to - will not show anything if not connected.
+  - can also do git remote show origin to show what's on remote origin.
+- ``git push origin main -u``  - the u here stands for upstream. This basically means you can use pull without any extra arguments. When remote repo is the main source of info.
+
+## Merge and merge conflicts
+
+- when local and online repo have different commits, have to merge them.
+
+Two ways to do this:
+1. ``git fetch`` will download latest changes.
+ ``git merge origin/master`` then merges the changes from origin master on top of local code. origin/master can be anything here.
 
 
-
-
-
-
-
-
-
-
-
-
-
+## More info
 
 - Can edit github online by pressing down . when looking at github file.
-- There is also github cli for working in the command line.
-- \- git is one option for version control and  is local
-- -git commit – one point in time
-- Can git merge different changes
-- Lots of commands, gets harder but is easy to start with
-- Git init my-first-git
-- Cd my-first-git (create file 1)
-- Git add file1.txt
-- Git commit -m”my first commit”
-- Designed to fit into the background
-- Journal not a backup
-- github is case-sensitive
 
 ## More git resources
 
@@ -123,21 +118,22 @@ git push
 - <https://thenewstack.io/tutorial-git-for-absolutely-everyone/>
 - <https://cs.fyi/guide/git-cheatsheet>
 - <https://www.atlassian.com/git>
-- https://www.youtube.com/watch?v=ecK3EnyGD8o
-- https://skills.github.com/
-- https://learn.foundersandcoders.com/workshops/git-terminal/
-- https://www.reddit.com/r/webdev/comments/1671gnt/git_cheat_sheets_14_visual_aids/
-- https://www.youtube.com/watch?v=D80u__nYYWw
-- https://rogerdudler.github.io/git-guide/
+- <https://www.youtube.com/watch?v=ecK3EnyGD8o>
+- <https://skills.github.com/>
+- <https://learn.foundersandcoders.com/workshops/git-terminal/>
+- <https://www.reddit.com/r/webdev/comments/1671gnt/git_cheat_sheets_14_visual_aids/>
+- <https://www.youtube.com/watch?v=D80u__nYYWw>
+- <https://rogerdudler.github.io/git-guide/>
 
-### Github specific resources:
-- https://github.com/dwyl/github-reference
-- https://github.com/Gazler/githug
-- https://gist.github.com/suewonjp/7493de784f4a88c63d1810031609ee35
+### Github specific resources
 
-### Github alternatives:
+- <https://github.com/dwyl/github-reference>
+- <https://github.com/Gazler/githug>
+- <https://gist.github.com/suewonjp/7493de784f4a88c63d1810031609ee35>
 
-https://git.disroot.org/
+### Github alternatives
+
+<https://git.disroot.org/>
 Codeberg
 Gitness
 Radicle
