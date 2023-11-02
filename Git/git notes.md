@@ -178,10 +178,28 @@ Two ways to do this:
   - ``git checkout <featurebranchname>``
   - ``git rebase master``
 
-  This takes feature branch and puts it on front of master branch. So it looks like editing feature from the latest copy of master branch, rather than old copy that was forked.
+  - This takes feature branch and puts it on front of master branch. So it looks like editing feature from the latest copy of master branch, rather than old copy that was forked.
 
+## squash
+- If have pointless commits, to avoid having too many we can squash them into one commit message:
+``git rebase master --interactive``
+    - replace pic with squash for commits you want to squash into one.
+    - can also use ``fixup`` - which discards message from commits you're squashing.
+    - this brings up another file where you csan customise commit message.
+    - last thing you do before submitting pull request/new feature into master branch.
 
+## Github Actions
 
+ Helps speed up project by automating workflow.
+- reusable actions to solve common issues
+- Continuous integration: commit code to a shared repo often to avoid merge conflicts
+    - specified in .yaml file.
+- Continuous deployment: helps push code out to customers, whereas continuous integration is about merging code in
+- See also : [https://fireship.io/lessons/five-useful-github-actions-examples/](Github Actions examples)
+
+## Hooks
+
+- Runs some code after an event in git happens. In javascript, [Husky](https://github.com/typicode/husky) package is good. Can lint code etc.
 
 
 
