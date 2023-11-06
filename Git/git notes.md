@@ -220,12 +220,14 @@ Two ways to do this:
 - <https://www.youtube.com/watch?v=D80u__nYYWw>
 - <https://rogerdudler.github.io/git-guide/>
 - <https://fireship.io/courses/git/>
+- <https://jvns.ca/blog/2023/11/01/confusing-git-terminology/>
 
 ### Github specific resources
 
 - <https://github.com/dwyl/github-reference>
 - <https://github.com/Gazler/githug>
 - <https://gist.github.com/suewonjp/7493de784f4a88c63d1810031609ee35>
+
 
 ### Github alternatives
 
