@@ -190,7 +190,7 @@ all comparison operators return a boolean `true` or `false` operator
 
 The logical and operator (`&&`) returns `true` if and only if the operands to the left and right of it are true, otherwise resolves to false.
 
-The logical or operator (`||`) returns `true` if either of the operands is `true`.
+The logical or operator (`||`) returns `true` if either of the operands is `true`. Also known as the pipe.
 
 logical not operator `!` or bang operator
 `! true = false
@@ -722,7 +722,9 @@ Used to expand or "spread" elements from an array using `...`
 
 ```javascript
 setTimeout(() => {
-  console.log("This will be executed after 1000 milliseconds (1 second).");
+  console.log(
+    "This will be executed after 1000 milliseconds (1 second)."
+  );
 }, 1000);
 ```
 
@@ -730,7 +732,9 @@ setTimeout(() => {
 
 ```javascript
 setInterval(() => {
-  console.log("This will be executed every 1000 milliseconds (1 second).");
+  console.log(
+    "This will be executed every 1000 milliseconds (1 second)."
+  );
 }, 1000);
 ```
 

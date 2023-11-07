@@ -1,0 +1,15 @@
+let myNumber = 1001;
+let stringNumber = myNumber.toString()
+let reverseNumber =stringNumber.split("").reverse().join("");
+switch (myNumber) {
+  case reverseNumber:
+    console.log("palindrome");
+    break;
+  default:
+    console.log("not a palindrome");
+    break;
+}
+
+console.log(stringNumber === reverseNumber ? "palindrome" : "not a palindrome");
+
+

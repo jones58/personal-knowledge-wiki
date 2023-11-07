@@ -169,7 +169,7 @@ all tags have to be closed . all elements can be self closing too, such as `<div
 
 Very common, based on boolean.
 
-You can't write `if (condition) { ... }` in JSX. Instead, use:
+You can't write if else statements in JSX. Instead, use:
 
 1.  Outside JSX, in javascript curly brackets e.g.
 
@@ -194,6 +194,26 @@ const x = 5;
 const myElement = <h1>{x < 10 ? "Hello" : "Goodbye"}</h1>;
 ```
 
+Great when you have two conditions to choose between
+
+3. Logical And
+
+```jsx
+/** Write "Hello" if x is less than 10, otherwise "Goodbye" **/
+const x = 5;
+const myElement = (
+  <h1>
+    {x < 10 && "Hello"}
+    {x >= 10 && "Goodbye"}
+  </h1>
+);
+```
+
+{count && 2 === 0 ? <h1>Count is even</h1> }
+
+```
+
+
 ## React Bootstrap
 
 Predesigned components in HTML, CSS and Javascript
@@ -212,6 +232,8 @@ To read more:
 - https://react.dev/reference/react/Component
 - https://react.dev/learn/passing-props-to-a-component
 - https://www.freecodecamp.org/news/jsx-in-react-introduction/
+
+```
 
 ```
 
