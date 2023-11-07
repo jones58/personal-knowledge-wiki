@@ -1,179 +1,513 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Learn testing in JavaScript</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Learn testing in JavaScript</h1><p class="highlight fz-lg">Learn about testing by building your own tiny testing library.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">testing</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">fundamentals</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/learn-testing/starter-files#main' learn-testing" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Flearn-testing%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>The concept of testing code is often introduced with complex libraries. This hides the core of testing: writing some code that runs your other code and tells you if it’s wrong. This workshop introduces the concept by slowly building up a useful function that helps you test your code.</p>
-<h2 id="setup">Setup <a class="heading-anchor" href="#setup">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<ol>
-<li>Download the starter files</li>
-<li>Open <code>starter-files/workshop.html</code> in your editor</li>
-</ol>
-<p>There should be a function that squares a number (multiplies it by itself). It’s used like this:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 4</span></code></pre>
-<p>Right now we only have one option for checking this works. We have to call the function, log the result, then check that result (with a calculator for bigger numbers).</p>
-<p>If you want to check it works for lots of different numbers you’ll be doing a bunch of manual work. You’ll have to repeat this work every time the code changes (to make sure you didn’t break it). It would be helpful to automate this process.</p>
-<h2 id="begin-to-automate">Begin to automate <a class="heading-anchor" href="#begin-to-automate">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Since you know how to code you can begin to automate this! Write some JavaScript that calls the <code>square</code> function (like above), then checks that the result is what you expect. It should log a useful message to the console using <code>console.error(&quot;my message&quot;)</code> if the result is wrong.</p>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">999</span><span class="token punctuation">;</span> <span class="token comment">// deliberate wrong answer so we can see a test failure</span><br><span class="token keyword">if</span> <span class="token punctuation">(</span>result <span class="token operator">!==</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Failed: expected square(2) to equal 4, but got "</span> <span class="token operator">+</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-</details></div>
-<p>If your test passes change your expected value so that it’s definitely wrong. Can you see the failure in your browser console?</p>
-<h2 id="make-it-reusable">Make it reusable <a class="heading-anchor" href="#make-it-reusable">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>This is better than manually checking, but not much. We have to write all the same logic for checking whether the values are the same and logging every time. It would be a lot of copy/pasting to write 20 tests.</p>
-<h3 id="equal"><code>equal</code> <a class="heading-anchor" href="#equal">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Most tests check whether two things are equal. It’s helpful if we extract that logic into a reusable function.</p>
-<p>Write a function called <code>equal</code> that takes two arguments and checks if they’re the same. If they are it should log the success with <code>console.info</code>. If they aren’t it should log the failure with <code>console.error</code>.</p>
-<p>Use this <code>equal</code> function to refactor your test above, then write another one to check that <code>square(3.5)</code> is correct.</p>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">equal</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>actual <span class="token operator">===</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pass: Expected </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> and received </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Fail: Expected </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> but received </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> instead</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">const</span> result1 <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> expected1 <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span><br><span class="token function">equal</span><span class="token punctuation">(</span>result1<span class="token punctuation">,</span> expected1<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> result2 <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">3.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> expected2 <span class="token operator">=</span> <span class="token number">9999</span><span class="token punctuation">;</span> <span class="token comment">// deliberately wrong answer to cause test to fail</span><br><span class="token function">equal</span><span class="token punctuation">(</span>result2<span class="token punctuation">,</span> expected2<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>The first test logs: <code>&quot;Pass: Expected 4 and received 4</code>. The second test logs: <code>Fail: Expected 9999 but received 12.25 instead&quot;</code> (because we deliberately used the wrong expected value so we could see a test failure).</p>
-</details></div>
-<p>If your test is passing change your expected value so that it’s definitely wrong. Can you see the error in your browser console?</p>
-<h3 id="notequal"><code>notequal</code> <a class="heading-anchor" href="#notequal">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>It’s sometimes useful to be able to check whether two things are <em>not</em> equal</p>
-<p>Write a <code>notEqual</code> function. It should be similar to <code>equal</code>, but log a failure when its two arguments <em>are</em> the same.</p>
-<p>Write a test that checks <code>square(3)</code> does not return 10.</p>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">notEqual</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>actual <span class="token operator">!==</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pass: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is different to </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Fail: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is the same as </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">const</span> result3 <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> expected3 <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span><br><span class="token function">notEqual</span><span class="token punctuation">(</span>result3<span class="token punctuation">,</span> expected3<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>This test logs: <code>&quot;Pass: 10 is different to 3&quot;</code>.</p>
-</details></div>
-<h2 id="separating-tests">Separating tests <a class="heading-anchor" href="#separating-tests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Right now our tests are all jumbled together. This means they share the same scope, so we can’t reuse variable names. It’s also hard to distinguish them in the console. It would be nice if each test had a descriptive name.</p>
-<p>We could divide our tests up using functions, like this:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares integers"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares integers"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">3.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">12.25</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>We call a <code>test</code> function with a descriptive name, and pass a callback function containing our test code.</p>
-<p>Write a function called <code>test</code> that takes two arguments: a <code>name</code> and a <code>testFunction</code>. It should use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/group"><code>console.group</code></a> to log a group labelled with the <code>name</code>. You’ll need <a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/groupEnd"><code>console.groupEnd</code></a> to close the group at the end.</p>
-<p>It should call the <code>testFunction</code> callback argument so that the actual test is run.</p>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> testFunction</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">testFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  console<span class="token punctuation">.</span><span class="token function">groupEnd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares integers"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares decimals"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">3.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">12.25</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>See how we can reuse the <code>result</code> and <code>expect</code> variable names? Each test is self-contained within its own function.</p>
-</details></div>
-<p><img src="https://user-images.githubusercontent.com/9408641/74967349-b587b080-5410-11ea-8295-a2f81a8d0f78.png" alt=""></p>
-<h2 id="custom-messages">Custom messages <a class="heading-anchor" href="#custom-messages">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>For more complex assertions it’s nice to be able to write a custom message specific to that test.</p>
-<p>Amend your <code>equal</code> and <code>notEqual</code> functions so that they take a third optional <code>message</code> argument. Your <code>console.info</code>/<code>console.error</code> should log this message. If there is no <code>message</code> passed in then default to the message you were using before.</p>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">equal</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected<span class="token punctuation">,</span> message</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>actual <span class="token operator">===</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> defaultMessage <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Expected </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> and received </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Pass: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>message <span class="token operator">||</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> defaultMessage <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Expected </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> but received </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> instead</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Fail: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>message <span class="token operator">||</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">function</span> <span class="token function">notEqual</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected<span class="token punctuation">,</span> message</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>actual <span class="token operator">!==</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> defaultMessage <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is different to </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Pass: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>message <span class="token operator">||</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> defaultMessage <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is the same as </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Fail: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>message <span class="token operator">||</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares integers"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">,</span> <span class="token string">"square(2) should return 4"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>This should log our custom message: <code>&quot;Pass: square(2) should return 4&quot;</code>.</p>
-</details></div>
-<h2 id="that-s-it">That’s it <a class="heading-anchor" href="#that-s-it">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Congratulations, you’ve built a testing library from scratch!</p>
-<p>We are missing some stuff (support for testing async code, a summary of total passing/failing tests), but we can get pretty far with just this.</p>
-</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn testing in JavaScript</title>
+    <link
+      rel="preload"
+      href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <header class="hstack jc-between pad-lg">
+        <a href="/" aria-label="Home"
+          ><img src="/assets/images/logo.svg" width="100" alt
+        /></a>
+        <nav id="global-nav">
+          <ul role="list" class="hstack">
+            <li>
+              <a class="global-nav__link" href="/course/introduction/"
+                >Course</a
+              >
+            </li>
+            <li>
+              <a class="global-nav__link" href="/resources/introduction/"
+                >Resources</a
+              >
+            </li>
+            <li><a class="global-nav__link" href="/about/">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="center">
+        <div class="layout">
+          <aside></aside>
+          <main id="main">
+            <div>
+              <header class="vstack gap-xl pad-xl stripes">
+                <div class="vstack" data-gap="md">
+                  <h1 class="highlight bg-primary">
+                    Learn testing in JavaScript
+                  </h1>
+                  <p class="highlight fz-lg">
+                    Learn about testing by building your own tiny testing
+                    library.
+                  </p>
+                  <ul role="list" class="hstack gap-sm wrap">
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      js
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      testing
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      fundamentals
+                    </li>
+                  </ul>
+                </div>
+                <div class="hstack wrap">
+                  <div class="vstack gap-none">
+                    <label
+                      for="download-command"
+                      class="highlight fw-bold"
+                      style="--bg: var(--bg-400)"
+                      >Download files via CLI</label
+                    ><copy-text class="hstack gap-none ai-stretch"
+                      ><input
+                        id="download-command"
+                        readonly
+                        value="npx degit 'foundersandcoders/coursebook/src/workshops/learn-testing/starter-files#main' learn-testing" /><button
+                        aria-label="Copy"
+                        title="Copy"
+                        hidden
+                      >
+                        <svg
+                          data-copy
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                          ></path></svg
+                        ><svg
+                          hidden
+                          data-success
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg></button
+                    ></copy-text>
+                  </div>
+                  <a
+                    href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Flearn-testing%5D&amp;labels=feedback"
+                    target="_blank"
+                    rel="noopener"
+                    class="button"
+                    >Leave feedback<svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z"
+                        clip-rule="evenodd"
+                      ></path></svg
+                  ></a>
+                </div>
+              </header>
+              <div style="margin: 4rem 0" class="flow">
+                <p>
+                  The concept of testing code is often introduced with complex
+                  libraries. This hides the core of testing: writing some code
+                  that runs your other code and tells you if it’s wrong. This
+                  workshop introduces the concept by slowly building up a useful
+                  function that helps you test your code.
+                </p>
+                <h2 id="setup">
+                  Setup
+                  <a class="heading-anchor" href="#setup">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <ol>
+                  <li>Download the starter files</li>
+                  <li>
+                    Open <code>starter-files/workshop.html</code> in your editor
+                  </li>
+                </ol>
+                <p>
+                  There should be a function that squares a number (multiplies
+                  it by itself). It’s used like this:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 4</span></code></pre>
+                <p>
+                  Right now we only have one option for checking this works. We
+                  have to call the function, log the result, then check that
+                  result (with a calculator for bigger numbers).
+                </p>
+                <p>
+                  If you want to check it works for lots of different numbers
+                  you’ll be doing a bunch of manual work. You’ll have to repeat
+                  this work every time the code changes (to make sure you didn’t
+                  break it). It would be helpful to automate this process.
+                </p>
+                <h2 id="begin-to-automate">
+                  Begin to automate
+                  <a class="heading-anchor" href="#begin-to-automate">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Since you know how to code you can begin to automate this!
+                  Write some JavaScript that calls the
+                  <code>square</code> function (like above), then checks that
+                  the result is what you expect. It should log a useful message
+                  to the console using
+                  <code>console.error(&quot;my message&quot;)</code> if the
+                  result is wrong.
+                </p>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">999</span><span class="token punctuation">;</span> <span class="token comment">// deliberate wrong answer so we can see a test failure</span><br><span class="token keyword">if</span> <span class="token punctuation">(</span>result <span class="token operator">!==</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Failed: expected square(2) to equal 4, but got "</span> <span class="token operator">+</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                  </details>
+                </div>
+                <p>
+                  If your test passes change your expected value so that it’s
+                  definitely wrong. Can you see the failure in your browser
+                  console?
+                </p>
+                <h2 id="make-it-reusable">
+                  Make it reusable
+                  <a class="heading-anchor" href="#make-it-reusable">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  This is better than manually checking, but not much. We have
+                  to write all the same logic for checking whether the values
+                  are the same and logging every time. It would be a lot of
+                  copy/pasting to write 20 tests.
+                </p>
+                <h3 id="equal">
+                  <code>equal</code>
+                  <a class="heading-anchor" href="#equal">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Most tests check whether two things are equal. It’s helpful if
+                  we extract that logic into a reusable function.
+                </p>
+                <p>
+                  Write a function called <code>equal</code> that takes two
+                  arguments and checks if they’re the same. If they are it
+                  should log the success with <code>console.info</code>. If they
+                  aren’t it should log the failure with
+                  <code>console.error</code>.
+                </p>
+                <p>
+                  Use this <code>equal</code> function to refactor your test
+                  above, then write another one to check that
+                  <code>square(3.5)</code> is correct.
+                </p>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">equal</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>actual <span class="token operator">===</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pass: Expected </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> and received </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Fail: Expected </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> but received </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> instead</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">const</span> result1 <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> expected1 <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span><br><span class="token function">equal</span><span class="token punctuation">(</span>result1<span class="token punctuation">,</span> expected1<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> result2 <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">3.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> expected2 <span class="token operator">=</span> <span class="token number">9999</span><span class="token punctuation">;</span> <span class="token comment">// deliberately wrong answer to cause test to fail</span><br><span class="token function">equal</span><span class="token punctuation">(</span>result2<span class="token punctuation">,</span> expected2<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      The first test logs:
+                      <code>&quot;Pass: Expected 4 and received 4</code>. The
+                      second test logs:
+                      <code
+                        >Fail: Expected 9999 but received 12.25
+                        instead&quot;</code
+                      >
+                      (because we deliberately used the wrong expected value so
+                      we could see a test failure).
+                    </p>
+                  </details>
+                </div>
+                <p>
+                  If your test is passing change your expected value so that
+                  it’s definitely wrong. Can you see the error in your browser
+                  console?
+                </p>
+                <h3 id="notequal">
+                  <code>notequal</code>
+                  <a class="heading-anchor" href="#notequal">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  It’s sometimes useful to be able to check whether two things
+                  are <em>not</em> equal
+                </p>
+                <p>
+                  Write a <code>notEqual</code> function. It should be similar
+                  to <code>equal</code>, but log a failure when its two
+                  arguments <em>are</em> the same.
+                </p>
+                <p>
+                  Write a test that checks <code>square(3)</code> does not
+                  return 10.
+                </p>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">notEqual</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>actual <span class="token operator">!==</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Pass: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is different to </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Fail: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is the same as </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">const</span> result3 <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> expected3 <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span><br><span class="token function">notEqual</span><span class="token punctuation">(</span>result3<span class="token punctuation">,</span> expected3<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      This test logs:
+                      <code>&quot;Pass: 10 is different to 3&quot;</code>.
+                    </p>
+                  </details>
+                </div>
+                <h2 id="separating-tests">
+                  Separating tests
+                  <a class="heading-anchor" href="#separating-tests">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Right now our tests are all jumbled together. This means they
+                  share the same scope, so we can’t reuse variable names. It’s
+                  also hard to distinguish them in the console. It would be nice
+                  if each test had a descriptive name.
+                </p>
+                <p>We could divide our tests up using functions, like this:</p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares integers"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares integers"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">3.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">12.25</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  We call a <code>test</code> function with a descriptive name,
+                  and pass a callback function containing our test code.
+                </p>
+                <p>
+                  Write a function called <code>test</code> that takes two
+                  arguments: a <code>name</code> and a
+                  <code>testFunction</code>. It should use
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/Console/group"
+                    ><code>console.group</code></a
+                  >
+                  to log a group labelled with the <code>name</code>. You’ll
+                  need
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/Console/groupEnd"
+                    ><code>console.groupEnd</code></a
+                  >
+                  to close the group at the end.
+                </p>
+                <p>
+                  It should call the <code>testFunction</code> callback argument
+                  so that the actual test is run.
+                </p>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> testFunction</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">testFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  console<span class="token punctuation">.</span><span class="token function">groupEnd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares integers"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares decimals"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">3.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">12.25</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      See how we can reuse the <code>result</code> and
+                      <code>expect</code> variable names? Each test is
+                      self-contained within its own function.
+                    </p>
+                  </details>
+                </div>
+                <p>
+                  <img
+                    src="https://user-images.githubusercontent.com/9408641/74967349-b587b080-5410-11ea-8295-a2f81a8d0f78.png"
+                    alt=""
+                  />
+                </p>
+                <h2 id="custom-messages">
+                  Custom messages
+                  <a class="heading-anchor" href="#custom-messages">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  For more complex assertions it’s nice to be able to write a
+                  custom message specific to that test.
+                </p>
+                <p>
+                  Amend your <code>equal</code> and
+                  <code>notEqual</code> functions so that they take a third
+                  optional <code>message</code> argument. Your
+                  <code>console.info</code>/<code>console.error</code> should
+                  log this message. If there is no <code>message</code> passed
+                  in then default to the message you were using before.
+                </p>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">equal</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected<span class="token punctuation">,</span> message</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>actual <span class="token operator">===</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> defaultMessage <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Expected </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> and received </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Pass: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>message <span class="token operator">||</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> defaultMessage <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Expected </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> but received </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> instead</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Fail: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>message <span class="token operator">||</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">function</span> <span class="token function">notEqual</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected<span class="token punctuation">,</span> message</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span>actual <span class="token operator">!==</span> expected<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> defaultMessage <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is different to </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Pass: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>message <span class="token operator">||</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> defaultMessage <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>expected<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is the same as </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>actual<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Fail: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>message <span class="token operator">||</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><br><br><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Correctly squares integers"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">const</span> expected <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span><br>  <span class="token function">equal</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> expected<span class="token punctuation">,</span> <span class="token string">"square(2) should return 4"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      This should log our custom message:
+                      <code>&quot;Pass: square(2) should return 4&quot;</code>.
+                    </p>
+                  </details>
+                </div>
+                <h2 id="that-s-it">
+                  That’s it
+                  <a class="heading-anchor" href="#that-s-it">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Congratulations, you’ve built a testing library from scratch!
+                </p>
+                <p>
+                  We are missing some stuff (support for testing async code, a
+                  summary of total passing/failing tests), but we can get pretty
+                  far with just this.
+                </p>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/assets/js/checkboxen.js"></script>
+    <script src="/assets/js/toggle-button.js"></script>
+    <script src="/assets/js/copy-text.js"></script>
+  </body>
+</html>

@@ -34,7 +34,7 @@ This will produce a list of files and some extended information about them.
 
 The permissions are shown in the first column, the mix of hyphens and letters, e.g. "drwxr-x-r-x". This may look cryptic at first sight but is actually very easy to read.
 
-The first letter shows the type of the file. In case of "subDirectory" we know it's a directory and not a file because of the letter "d" in its permissions.  All other files have a hyphen instead of a letter "d", meaning that they are just regular files. There are other types of files as well but these two are most common.
+The first letter shows the type of the file. In case of "subDirectory" we know it's a directory and not a file because of the letter "d" in its permissions. All other files have a hyphen instead of a letter "d", meaning that they are just regular files. There are other types of files as well but these two are most common.
 
 Then come three groups of three characters: "r", "w", "x" or "-". The first group determines the permissions of the "user" class. For example, in case of "subDirectory" in the screenshot above, its permissions ("drwxr-xr-x") mean that the owner of the file (in this case "shadchnev") has read, write and execute permissions ("drwxr-xr-x").
 

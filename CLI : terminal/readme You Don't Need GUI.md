@@ -1,5 +1,3 @@
-
-
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/you-dont-need/GUI)
 
 [中文版请看这里](readme-zh_CN.md)
@@ -68,7 +66,6 @@ As a computer expert, we want to be more efficient and do our jobs better. We kn
 1. [Hotkeys](#hotkeys)
 1. [I can't remember these cryptic commands](#i-cant-remember-these-cryptic-commands)
 
-
 ## copy a file
 
 **STOP DRAG AND DROPPING A FILE, OR CMD/CTRL + C, CMD/CTRL + V A FILE** :-1:
@@ -78,8 +75,8 @@ Copy `readme.txt` to the `documents` directory
 ```shell
 $ cp readme.txt documents/
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## duplicate a file
 
@@ -88,13 +85,15 @@ $ cp readme.txt documents/
 ```shell
 $ cp readme.txt readme.bak.txt
 ```
+
 More advanced:
+
 ```shell
 $ cp readme{,.bak}.txt
 # Note: learn how the {} works with touch foo{1,2,3}.txt and see what happens.
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## copy a directory
 
@@ -107,8 +106,8 @@ $ cp -a myMusic myMedia/
 # or
 $ cp -a myMusic/ myMedia/myMusic/
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## duplicate a directory
 
@@ -119,8 +118,8 @@ $ cp -a myMusic/ myMedia/
 # or if `myMedia` folder doesn't exist
 $ cp -a myMusic myMedia/
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## move a file
 
@@ -141,8 +140,8 @@ $ mv readme.txt documents/
 ```shell
 $ mv readme.txt README.md
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## move a directory
 
@@ -153,8 +152,8 @@ $ mv myMedia myMusic/
 # or
 $ mv myMedia/ myMusic/myMedia
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## rename a directory
 
@@ -163,8 +162,8 @@ $ mv myMedia/ myMusic/myMedia
 ```shell
 $ mv myMedia/ myMusic/
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## merge directories
 
@@ -173,8 +172,8 @@ $ mv myMedia/ myMusic/
 ```shell
 $ rsync -a /images/ /images2/	# note: may over-write files with the same name, so be careful!
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## create a new file
 
@@ -185,8 +184,8 @@ $ touch 'new file'    # updates the file's access and modification timestamp if 
 # or
 $ > 'new file'        # note: erases the content if it already exists
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## create a new directory
 
@@ -197,8 +196,8 @@ $ mkdir 'untitled folder'
 # or
 $ mkdir -p 'path/may/not/exist/untitled folder'
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## show file/directory size
 
@@ -207,8 +206,8 @@ $ mkdir -p 'path/may/not/exist/untitled folder'
 ```shell
 $ du -sh node_modules/
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## show file/directory info
 
@@ -218,8 +217,8 @@ $ du -sh node_modules/
 $ stat -x readme.md   # on macOS
 $ stat readme.md      # on Linux
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## open a file with the default program
 
@@ -230,8 +229,8 @@ $ xdg-open file   # on Linux
 $ open file       # on MacOS
 $ start file      # on Windows
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## open a file in any application
 
@@ -240,8 +239,8 @@ $ start file      # on Windows
 ```shell
 $ open -a appName file
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## zip a directory
 
@@ -250,8 +249,8 @@ $ open -a appName file
 ```shell
 $ zip -r archive_name.zip folder_to_compress
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## unzip a directory
 
@@ -260,8 +259,8 @@ $ zip -r archive_name.zip folder_to_compress
 ```shell
 $ unzip archive_name.zip
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## decompress files of any format
 
@@ -274,8 +273,8 @@ $ unar archive_name.rar
 $ unar archive_name.ISO
 $ unar archive_name.tar.gz
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## peek files in a zip file
 
@@ -286,8 +285,8 @@ $ zipinfo archive_name.zip
 # or
 $ unzip -l archive_name.zip
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## peek files in a compress file of any format
 
@@ -300,8 +299,8 @@ $ lsar -l archive_name.ISO
 $ lsar -l archive_name.rar
 $ lsar -l archive_name.tar.gz
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## remove a file
 
@@ -322,8 +321,8 @@ $ rm my_useless_file
 ```shell
 $ rm -r my_useless_folder
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## remove all files of certain criteria
 
@@ -344,8 +343,8 @@ $ ls my_folder        # Simple
 $ ls -la my_folder    # -l: show in list format. -a: show all files, including hidden. -la combines those options.
 $ ls -alrth my_folder # -r: reverse output. -t: sort by time (modified). -h: output human-readable sizes.
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## tree view a directory and its subdirectories
 
@@ -357,8 +356,8 @@ $ find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'      # on MacOS
 # Note: install homebrew (https://brew.sh) to be able to use (some) Linux utilities such as tree.
 # brew install tree
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## find a stale file
 
@@ -369,8 +368,8 @@ Find all files modified more than 5 days ago
 ```shell
 $ find my_folder -mtime +5
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## show a calendar
 
@@ -381,13 +380,14 @@ Display a text calendar
 ```shell
 $ cal
 ```
+
 Display selected month and year calendar
 
 ```shell
 $ cal 11 2018
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## find a future date
 
@@ -405,8 +405,8 @@ What about a week from now?
 $ date -d "+7 days"                                           # on Linux
 $ date -j -v+7d                                               # on MacOS
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## use a calculator
 
@@ -415,8 +415,8 @@ $ date -j -v+7d                                               # on MacOS
 ```shell
 $ bc -l
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## force quit a program
 
@@ -425,8 +425,8 @@ $ bc -l
 ```shell
 $ killall -9 program_name
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## check server response
 
@@ -436,8 +436,8 @@ $ killall -9 program_name
 $ curl -i umair.surge.sh
 # curl's -i (--include) option includes HTTP response headers in its output.
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## view content of a file
 
@@ -448,8 +448,8 @@ $ cat apps/settings.py
 # if the file is too big to fit on one page, you can use a 'pager' (less) which shows you one page at a time.
 $ less apps/settings.py
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## search for a text in a file
 
@@ -463,7 +463,6 @@ $ grep -i "Query" file.txt
 
 [Go to table of contents 🔼](#quick-links)
 
-
 ## search in all files in current working directory, quickly (entire disk in less than 15 minutes)
 
 **STOP CMD/CTRL + F IN A DIRECTORY** :-1:
@@ -472,8 +471,8 @@ $ grep -i "Query" file.txt
 $ ripgrep -i "Query"
 # brew install ripgrep
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## view an image
 
@@ -483,8 +482,8 @@ $ ripgrep -i "Query"
 $ imgcat image.png
 # Note: requires iTerm2 terminal.
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## show disk size
 
@@ -493,8 +492,8 @@ $ imgcat image.png
 ```shell
 $ df -h
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## check cpu usage, processes and RAM
 
@@ -503,13 +502,14 @@ $ df -h
 ```shell
 $ top
 ```
+
 if you want some more details:
+
 ```shell
 $ htop
 ```
 
 [Go to table of contents 🔼](#quick-links)
-
 
 ## know whether your computer is under load, and whether it's due to memory or CPU
 
@@ -517,8 +517,8 @@ $ htop
 $ glances
 # brew install glances
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## poweroff or reboot your computer
 
@@ -530,24 +530,24 @@ $ sudo shutdown -h now
 # reboot
 $ sudo shutdown -r now
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## locate USB drives
 
 ```shell
 $ df
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## unmount USB drives
 
 ```shell
 $ sudo umount /dev/sdb1
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## format USB drives
 
@@ -559,16 +559,16 @@ $ sudo mkfs.ntfs /dev/sdb1
 # exFAT
 $ sudo mkfs.exfat /dev/sdb1
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## check USB format
 
 ```shell
 $ sudo fsck /dev/sdb1
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## run command on all files of a directory
 
@@ -577,6 +577,7 @@ $ sudo fsck /dev/sdb1
 ```shell
 $ for FILE in *; do echo $FILE; done
 ```
+
 [Go to table of contents 🔼](#quick-links)
 
 ## check network connectivity to a remote address and port
@@ -642,8 +643,8 @@ Esc + B   Same as Alt + B
 Alt + .   Paste the last word of the most recently command
 Tab       Auto-complete files and directory names
 ```
-[Go to table of contents 🔼](#quick-links)
 
+[Go to table of contents 🔼](#quick-links)
 
 ## I can't remember these cryptic commands
 

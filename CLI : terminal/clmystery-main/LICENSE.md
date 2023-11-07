@@ -1,5 +1,4 @@
-License
-=======
+# License
 
 Available under the MIT license.
 

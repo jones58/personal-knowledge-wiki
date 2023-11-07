@@ -1,12 +1,12 @@
 # Wildcard
 
-`ls kitties/` prints out all files in the 'kitties' directory. What if you only want to print out txt files? Or files with names starting with "cute_"? To do that you can use asterisk symbol:
+`ls kitties/` prints out all files in the 'kitties' directory. What if you only want to print out txt files? Or files with names starting with "cute\_"? To do that you can use asterisk symbol:
 
 `ls kitties/*.txt`
 
 `ls kitties/cute_*`
 
-The asterisk (wildcard) is a "match all" symbol. When you type `ls kitties/cute_*` command line interprets it as "print all the files in the kitties directory that start with 'cute_'". The rest of the name could be anything as `*` matches all possible strings.
+The asterisk (wildcard) is a "match all" symbol. When you type `ls kitties/cute_*` command line interprets it as "print all the files in the kitties directory that start with 'cute\_'". The rest of the name could be anything as `*` matches all possible strings.
 
 # `find`
 

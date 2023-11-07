@@ -1,218 +1,574 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Semantic HTML</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Semantic HTML</h1><p class="highlight fz-lg">It's important to use the right HTML tags to represent elements on the page. Let's practice using lots of different semantic HTML.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">semantic</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">html</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">fundamentals</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/semantic-html/starter-files#main' semantic-html" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fsemantic-html%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>HTML is a <em>markup language</em>. It is used to “mark up” a document with extra information about what each thing is. This is useful because it let’s us communicate the “semantics” of the document.</p>
-<h2 id="what-even-is-semantics">What even is “semantics”? <a class="heading-anchor" href="#what-even-is-semantics">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>When we describe markup as “semantic” we mean it describes the structure of the document. It tells the browser <em>what things are</em> (rather than what content they contain or how they are styled).</p>
-<p>For example we can make a <code>&lt;span&gt;</code> look like a button using CSS:</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"><br>  <span class="token selector">.button</span> <span class="token punctuation">{</span><br>    <span class="token property">border-radius</span><span class="token punctuation">:</span> 2px<span class="token punctuation">;</span><br>    <span class="token property">border</span><span class="token punctuation">:</span> 1px solid<span class="token punctuation">;</span><br>    <span class="token property">padding</span><span class="token punctuation">:</span> 0.25rem 0.5rem<span class="token punctuation">;</span><br>    <span class="token property">background-color</span><span class="token punctuation">:</span> grey<span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Click me<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></code></pre>
-<p>We could even add some JavaScript event handlers to it so it <em>behaved</em> like a button when clicked. However from the browser’s perspective it has no meaning—it’s not actually a button.</p>
-<h2 id="why-does-this-matter">Why does this matter? <a class="heading-anchor" href="#why-does-this-matter">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>You may wonder why it’s important for the browser to know what an element actually is, if it looks right and behaves the same. There are a few reasons why using semantic HTML is important.</p>
-<h3 id="sensible-defaults">Sensible defaults <a class="heading-anchor" href="#sensible-defaults">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Browsers have a bunch of built-in styles and behaviours you should take advantage of. Why re-create all of that from scratch when you could just override the bits you want to change.</p>
-<p>This also means your page will still look okay if your CSS is broken or fails to load.</p>
-<figure>
-  <img src="no-css.png" alt="This page still has structure, recognisable headings, separate sections, even without CSS">
-  <figcaption>Screenshot of this page with no CSS at all</figcaption>
-</figure>
-<h3 id="complex-behaviour">Complex behaviour <a class="heading-anchor" href="#complex-behaviour">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>You probably won’t remember to reproduce <em>everything</em> the browser does for you. For example buttons not only respond when clicked, but also when the “Enter” or “Space” keys are pressed. Built-in elements have lots of complex behaviours that are hard (or impossible) to reproduce. Think how complicated a <code>&lt;select&gt;</code> would be to build yourself!</p>
-<h3 id="machine-readable">Machine-readable <a class="heading-anchor" href="#machine-readable">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Third (and most importantly) semantic HTML is <em>machine readable</em>. By describing the structure of our page we allow computer programs to understand it as well as humans.</p>
-<p>For example most web browsers now have a “reader” mode. You can click an icon to get a simplified view of an article (with all the ads, cookie banners etc removed). These rely on the article using elements like <code>&lt;header&gt;</code> and <code>&lt;article&gt;</code>to know what bits to keep. They can also apply custom styles to make it easier to read. If everything was in a div with custom CSS this wouldn’t work.</p>
-<p>This article about <a href="https://medium.com/@mandy.michael/building-websites-for-safari-reader-mode-and-other-reading-apps-1562913c86c9">building for Safari Reader Mode</a> is a great overview of this topic if you’re interested.</p>
-<p>This is also very important for <em>accessibility</em>. The web is for everyone, including people who use other types of software to browse. For example visually-impaired users often use “screen readers”, which read the page out loud.</p>
-<p>Human brains are great at “pattern-matching”—e.g. if you see a rectangle with a blue background and rounded corners you assume it’s something you can click on to trigger an action (i.e. a button). Your brain doesn’t know or care if the underlying element was a div.</p>
-<p>Computer programs like screen readers are not so good at this—they can’t guess at behaviour based on how something is rendered. So instead they must use the underlying markup semantics to figure out what things are.</p>
-<p>For example using heading tags (<code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code> etc) creates a page structure that lets a user quickly jump from section to section to find what they need (without waiting for the entire page to be read out loud).</p>
-<figure>
-  <img src="vo-headings.jpg" alt="Voiceover allows quick navigation to each section of this page via the headings" width="1680" height="1720">
-  <figcaption>Screenshot of Voiceover's headings menu for this page</figcaption>
-</figure>
-<p>This allows a visually-impaired user to get a quick overview of the structure of the page in the same was a sighted user does by scanning the headings.</p>
-<h2 id="so-how-do-we-make-our-html-semantic">So how do we make our HTML semantic? <a class="heading-anchor" href="#so-how-do-we-make-our-html-semantic">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>There are almost 100 HTML elements nowadays, but you don’t need to remember them all. The important thing is to remember that there might be a more specific tag than div or span for what you’re making.</p>
-<p>This especially applies to top-level “blocks” of the page. Fun fact: when HTML5 was in-progress the spec authors looked at thousands of existing websites to see what the most popular IDs on top-level elements were. They saw a ton of <code>&lt;div id=&quot;header&quot;&gt;</code>, <code>&lt;div id=&quot;main&quot;&gt;</code> and <code>&lt;div id=&quot;footer&quot;&gt;</code>, which is why HTML5 added the <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> and <code>&lt;footer&gt;</code> tags.</p>
-<h3 id="checklist">Checklist <a class="heading-anchor" href="#checklist">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Here’s a quick list to run through whenever you’re picking an element:</p>
-<ul>
-<li><strong>Is it a meaningful area of the page?</strong><br>
-Use an HTML5 block element like <code>&lt;header&gt;</code> or <code>&lt;footer&gt;</code>.</li>
-<li><strong>Does it label the start of a new section?</strong><br>
-Use a heading (with the right level) like <code>&lt;h2&gt;</code> or <code>&lt;h3&gt;</code></li>
-<li><strong>Does it navigate to a new page?</strong><br>
-Use an <code>&lt;a href=&quot;/page&quot;&gt;</code></li>
-<li><strong>Does it trigger JS behaviour?</strong><br>
-Use a <code>&lt;button&gt;</code></li>
-<li><strong>Does it allow user input?</strong><br>
-Use a <code>&lt;form&gt;</code> containing <code>&lt;input&gt;</code>s (with <code>&lt;label&gt;</code>s!)</li>
-<li><strong>Is it just for applying some layout/styles?</strong><br>
-Use something like <code>&lt;div class=&quot;grid&quot;&gt;</code> or <code>&lt;span class=&quot;big-text&quot;&gt;</code></li>
-</ul>
-<h2 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>You’re going to re-write an HTML page to use semantic HTML. Try to replace as many generic elements with more descriptive semantic ones as you can. When you’re done it should contain no <code>&lt;div&gt;</code>s at all.</p>
-<h3 id="setup">Setup <a class="heading-anchor" href="#setup">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>First you need to download the starter files. There’s a box at the top of this page labelled “Download files via CLI”. Click the copy button to copy the command, then run it in your Terminal. This will automatically download the files you need for this workshop.</p>
-<p>Once you’ve downloaded the files you can move into that directory in your Terminal by running:</p>
-<pre class="language-shell"><code class="language-shell"><span class="token builtin class-name">cd</span> semantic-html</code></pre>
-<p>You can see what’s in there by listing the files with:</p>
-<pre class="language-shell"><code class="language-shell"><span class="token function">ls</span></code></pre>
-<p>You can open the challenge file in VS Code with:</p>
-<pre class="language-shell"><code class="language-shell">code challenge.html</code></pre>
-<p>And you can open the page in your default browser with:</p>
-<pre class="language-shell"><code class="language-shell"><span class="token function">open</span> challenge.html</code></pre>
-<p>You are of course welcome to navigate the files however you’re comfortable, but it’s a good idea to get some practice working in your Terminal.</p>
-<p>Don’t peek at the solution before you try the challenge!</p>
-<h3 id="bonus-challenge">Bonus challenge <a class="heading-anchor" href="#bonus-challenge">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>There are a few missing things that aren’t necessarily related to <em>semantics</em>, but are important for the page to have anyway. Try to find and fix some of these issues.</p>
-<p>There’s some useful info in <a href="https://oliverjam.es/blog/complete-guide-to-making-web-pages/">this article on how web pages are structured</a>.</p>
-</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semantic HTML</title>
+    <link
+      rel="preload"
+      href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <header class="hstack jc-between pad-lg">
+        <a href="/" aria-label="Home"
+          ><img src="/assets/images/logo.svg" width="100" alt
+        /></a>
+        <nav id="global-nav">
+          <ul role="list" class="hstack">
+            <li>
+              <a class="global-nav__link" href="/course/introduction/"
+                >Course</a
+              >
+            </li>
+            <li>
+              <a class="global-nav__link" href="/resources/introduction/"
+                >Resources</a
+              >
+            </li>
+            <li><a class="global-nav__link" href="/about/">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="center">
+        <div class="layout">
+          <aside></aside>
+          <main id="main">
+            <div>
+              <header class="vstack gap-xl pad-xl stripes">
+                <div class="vstack" data-gap="md">
+                  <h1 class="highlight bg-primary">Semantic HTML</h1>
+                  <p class="highlight fz-lg">
+                    It's important to use the right HTML tags to represent
+                    elements on the page. Let's practice using lots of different
+                    semantic HTML.
+                  </p>
+                  <ul role="list" class="hstack gap-sm wrap">
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      semantic
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      html
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      fundamentals
+                    </li>
+                  </ul>
+                </div>
+                <div class="hstack wrap">
+                  <div class="vstack gap-none">
+                    <label
+                      for="download-command"
+                      class="highlight fw-bold"
+                      style="--bg: var(--bg-400)"
+                      >Download files via CLI</label
+                    ><copy-text class="hstack gap-none ai-stretch"
+                      ><input
+                        id="download-command"
+                        readonly
+                        value="npx degit 'foundersandcoders/coursebook/src/workshops/semantic-html/starter-files#main' semantic-html" /><button
+                        aria-label="Copy"
+                        title="Copy"
+                        hidden
+                      >
+                        <svg
+                          data-copy
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                          ></path></svg
+                        ><svg
+                          hidden
+                          data-success
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg></button
+                    ></copy-text>
+                  </div>
+                  <a
+                    href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fsemantic-html%5D&amp;labels=feedback"
+                    target="_blank"
+                    rel="noopener"
+                    class="button"
+                    >Leave feedback<svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z"
+                        clip-rule="evenodd"
+                      ></path></svg
+                  ></a>
+                </div>
+              </header>
+              <div style="margin: 4rem 0" class="flow">
+                <p>
+                  HTML is a <em>markup language</em>. It is used to “mark up” a
+                  document with extra information about what each thing is. This
+                  is useful because it let’s us communicate the “semantics” of
+                  the document.
+                </p>
+                <h2 id="what-even-is-semantics">
+                  What even is “semantics”?
+                  <a class="heading-anchor" href="#what-even-is-semantics">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  When we describe markup as “semantic” we mean it describes the
+                  structure of the document. It tells the browser
+                  <em>what things are</em> (rather than what content they
+                  contain or how they are styled).
+                </p>
+                <p>
+                  For example we can make a <code>&lt;span&gt;</code> look like
+                  a button using CSS:
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"><br>  <span class="token selector">.button</span> <span class="token punctuation">{</span><br>    <span class="token property">border-radius</span><span class="token punctuation">:</span> 2px<span class="token punctuation">;</span><br>    <span class="token property">border</span><span class="token punctuation">:</span> 1px solid<span class="token punctuation">;</span><br>    <span class="token property">padding</span><span class="token punctuation">:</span> 0.25rem 0.5rem<span class="token punctuation">;</span><br>    <span class="token property">background-color</span><span class="token punctuation">:</span> grey<span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Click me<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></code></pre>
+                <p>
+                  We could even add some JavaScript event handlers to it so it
+                  <em>behaved</em> like a button when clicked. However from the
+                  browser’s perspective it has no meaning—it’s not actually a
+                  button.
+                </p>
+                <h2 id="why-does-this-matter">
+                  Why does this matter?
+                  <a class="heading-anchor" href="#why-does-this-matter">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  You may wonder why it’s important for the browser to know what
+                  an element actually is, if it looks right and behaves the
+                  same. There are a few reasons why using semantic HTML is
+                  important.
+                </p>
+                <h3 id="sensible-defaults">
+                  Sensible defaults
+                  <a class="heading-anchor" href="#sensible-defaults">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Browsers have a bunch of built-in styles and behaviours you
+                  should take advantage of. Why re-create all of that from
+                  scratch when you could just override the bits you want to
+                  change.
+                </p>
+                <p>
+                  This also means your page will still look okay if your CSS is
+                  broken or fails to load.
+                </p>
+                <figure>
+                  <img
+                    src="no-css.png"
+                    alt="This page still has structure, recognisable headings, separate sections, even without CSS"
+                  />
+                  <figcaption>
+                    Screenshot of this page with no CSS at all
+                  </figcaption>
+                </figure>
+                <h3 id="complex-behaviour">
+                  Complex behaviour
+                  <a class="heading-anchor" href="#complex-behaviour">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  You probably won’t remember to reproduce
+                  <em>everything</em> the browser does for you. For example
+                  buttons not only respond when clicked, but also when the
+                  “Enter” or “Space” keys are pressed. Built-in elements have
+                  lots of complex behaviours that are hard (or impossible) to
+                  reproduce. Think how complicated a
+                  <code>&lt;select&gt;</code> would be to build yourself!
+                </p>
+                <h3 id="machine-readable">
+                  Machine-readable
+                  <a class="heading-anchor" href="#machine-readable">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Third (and most importantly) semantic HTML is
+                  <em>machine readable</em>. By describing the structure of our
+                  page we allow computer programs to understand it as well as
+                  humans.
+                </p>
+                <p>
+                  For example most web browsers now have a “reader” mode. You
+                  can click an icon to get a simplified view of an article (with
+                  all the ads, cookie banners etc removed). These rely on the
+                  article using elements like <code>&lt;header&gt;</code> and
+                  <code>&lt;article&gt;</code>to know what bits to keep. They
+                  can also apply custom styles to make it easier to read. If
+                  everything was in a div with custom CSS this wouldn’t work.
+                </p>
+                <p>
+                  This article about
+                  <a
+                    href="https://medium.com/@mandy.michael/building-websites-for-safari-reader-mode-and-other-reading-apps-1562913c86c9"
+                    >building for Safari Reader Mode</a
+                  >
+                  is a great overview of this topic if you’re interested.
+                </p>
+                <p>
+                  This is also very important for <em>accessibility</em>. The
+                  web is for everyone, including people who use other types of
+                  software to browse. For example visually-impaired users often
+                  use “screen readers”, which read the page out loud.
+                </p>
+                <p>
+                  Human brains are great at “pattern-matching”—e.g. if you see a
+                  rectangle with a blue background and rounded corners you
+                  assume it’s something you can click on to trigger an action
+                  (i.e. a button). Your brain doesn’t know or care if the
+                  underlying element was a div.
+                </p>
+                <p>
+                  Computer programs like screen readers are not so good at
+                  this—they can’t guess at behaviour based on how something is
+                  rendered. So instead they must use the underlying markup
+                  semantics to figure out what things are.
+                </p>
+                <p>
+                  For example using heading tags (<code>&lt;h1&gt;</code>,
+                  <code>&lt;h2&gt;</code> etc) creates a page structure that
+                  lets a user quickly jump from section to section to find what
+                  they need (without waiting for the entire page to be read out
+                  loud).
+                </p>
+                <figure>
+                  <img
+                    src="vo-headings.jpg"
+                    alt="Voiceover allows quick navigation to each section of this page via the headings"
+                    width="1680"
+                    height="1720"
+                  />
+                  <figcaption>
+                    Screenshot of Voiceover's headings menu for this page
+                  </figcaption>
+                </figure>
+                <p>
+                  This allows a visually-impaired user to get a quick overview
+                  of the structure of the page in the same was a sighted user
+                  does by scanning the headings.
+                </p>
+                <h2 id="so-how-do-we-make-our-html-semantic">
+                  So how do we make our HTML semantic?
+                  <a
+                    class="heading-anchor"
+                    href="#so-how-do-we-make-our-html-semantic"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  There are almost 100 HTML elements nowadays, but you don’t
+                  need to remember them all. The important thing is to remember
+                  that there might be a more specific tag than div or span for
+                  what you’re making.
+                </p>
+                <p>
+                  This especially applies to top-level “blocks” of the page. Fun
+                  fact: when HTML5 was in-progress the spec authors looked at
+                  thousands of existing websites to see what the most popular
+                  IDs on top-level elements were. They saw a ton of
+                  <code>&lt;div id=&quot;header&quot;&gt;</code>,
+                  <code>&lt;div id=&quot;main&quot;&gt;</code> and
+                  <code>&lt;div id=&quot;footer&quot;&gt;</code>, which is why
+                  HTML5 added the <code>&lt;header&gt;</code>,
+                  <code>&lt;main&gt;</code> and
+                  <code>&lt;footer&gt;</code> tags.
+                </p>
+                <h3 id="checklist">
+                  Checklist
+                  <a class="heading-anchor" href="#checklist">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Here’s a quick list to run through whenever you’re picking an
+                  element:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Is it a meaningful area of the page?</strong><br />
+                    Use an HTML5 block element like
+                    <code>&lt;header&gt;</code> or <code>&lt;footer&gt;</code>.
+                  </li>
+                  <li>
+                    <strong>Does it label the start of a new section?</strong
+                    ><br />
+                    Use a heading (with the right level) like
+                    <code>&lt;h2&gt;</code> or <code>&lt;h3&gt;</code>
+                  </li>
+                  <li>
+                    <strong>Does it navigate to a new page?</strong><br />
+                    Use an <code>&lt;a href=&quot;/page&quot;&gt;</code>
+                  </li>
+                  <li>
+                    <strong>Does it trigger JS behaviour?</strong><br />
+                    Use a <code>&lt;button&gt;</code>
+                  </li>
+                  <li>
+                    <strong>Does it allow user input?</strong><br />
+                    Use a <code>&lt;form&gt;</code> containing
+                    <code>&lt;input&gt;</code>s (with
+                    <code>&lt;label&gt;</code>s!)
+                  </li>
+                  <li>
+                    <strong>Is it just for applying some layout/styles?</strong
+                    ><br />
+                    Use something like
+                    <code>&lt;div class=&quot;grid&quot;&gt;</code> or
+                    <code>&lt;span class=&quot;big-text&quot;&gt;</code>
+                  </li>
+                </ul>
+                <h2 id="challenge">
+                  Challenge
+                  <a class="heading-anchor" href="#challenge">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  You’re going to re-write an HTML page to use semantic HTML.
+                  Try to replace as many generic elements with more descriptive
+                  semantic ones as you can. When you’re done it should contain
+                  no <code>&lt;div&gt;</code>s at all.
+                </p>
+                <h3 id="setup">
+                  Setup
+                  <a class="heading-anchor" href="#setup">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  First you need to download the starter files. There’s a box at
+                  the top of this page labelled “Download files via CLI”. Click
+                  the copy button to copy the command, then run it in your
+                  Terminal. This will automatically download the files you need
+                  for this workshop.
+                </p>
+                <p>
+                  Once you’ve downloaded the files you can move into that
+                  directory in your Terminal by running:
+                </p>
+                <pre
+                  class="language-shell"
+                ><code class="language-shell"><span class="token builtin class-name">cd</span> semantic-html</code></pre>
+                <p>You can see what’s in there by listing the files with:</p>
+                <pre
+                  class="language-shell"
+                ><code class="language-shell"><span class="token function">ls</span></code></pre>
+                <p>You can open the challenge file in VS Code with:</p>
+                <pre
+                  class="language-shell"
+                ><code class="language-shell">code challenge.html</code></pre>
+                <p>And you can open the page in your default browser with:</p>
+                <pre
+                  class="language-shell"
+                ><code class="language-shell"><span class="token function">open</span> challenge.html</code></pre>
+                <p>
+                  You are of course welcome to navigate the files however you’re
+                  comfortable, but it’s a good idea to get some practice working
+                  in your Terminal.
+                </p>
+                <p>Don’t peek at the solution before you try the challenge!</p>
+                <h3 id="bonus-challenge">
+                  Bonus challenge
+                  <a class="heading-anchor" href="#bonus-challenge">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  There are a few missing things that aren’t necessarily related
+                  to <em>semantics</em>, but are important for the page to have
+                  anyway. Try to find and fix some of these issues.
+                </p>
+                <p>
+                  There’s some useful info in
+                  <a
+                    href="https://oliverjam.es/blog/complete-guide-to-making-web-pages/"
+                    >this article on how web pages are structured</a
+                  >.
+                </p>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/assets/js/checkboxen.js"></script>
+    <script src="/assets/js/toggle-button.js"></script>
+    <script src="/assets/js/copy-text.js"></script>
+  </body>
+</html>

@@ -13,7 +13,7 @@ function PriceFilter({ min, setMin, max, setMax }) {
           max="9"
           step="0.25"
           value={min}
-          onChange={e => setMin(e.target.value)}
+          onChange={(e) => setMin(e.target.value)}
         />
       </label>
       <label htmlFor="max-price">
@@ -25,7 +25,7 @@ function PriceFilter({ min, setMin, max, setMax }) {
           max="9"
           step="0.25"
           value={max}
-          onChange={e => setMax(e.target.value)}
+          onChange={(e) => setMax(e.target.value)}
         />
       </label>
     </fieldset>

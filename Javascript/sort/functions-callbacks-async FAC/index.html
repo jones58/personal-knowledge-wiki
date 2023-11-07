@@ -1,399 +1,969 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Functions, callbacks, &amp; async JavaScript</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Functions, callbacks, &amp; async JavaScript</h1><p class="highlight fz-lg">Learn how functions work, and how to manage asynchronous JavaScript code using callbacks.</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">functions</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">async</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">timers</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/functions-callbacks-async/starter-files#main' functions-callbacks-async" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Ffunctions-callbacks-async%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>In JavaScript functions are treated like any other variable. This concept is sometimes referred to as “first-class functions”. It lets us use functions in some interesting ways, and helps us manage “asynchronous” code.</p>
-<h2 id="functions-are-variables">Functions are variables <a class="heading-anchor" href="#functions-are-variables">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>When you create a function in JS you are creating a normal variable:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-<p>This code creates a new variable named <code>returnsOne</code>.</p>
-<p>This is still true (and maybe more obvious) for arrow functions:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">returnsOne</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
-<p>This code <em>also</em> creates a new variable named <code>returnsOne</code>. Notice how this is similar to defining a different type of variable:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
-<p>You can reference this variable the same way you would any other (by using its name):</p>
-<pre class="language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>returnsOne<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// logs something like: `function returnsOne()`</span></code></pre>
-<p>Since functions are normal variables you can even pass them as arguments to <em>other</em> functions.</p>
-<h3 id="mini-challenge-1">Mini-challenge 1 <a class="heading-anchor" href="#mini-challenge-1">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Lets try passing a function as an argument to another function. Since we’re just playing around to see what happens we can write this code in the console on this page. Open up the console and try this:</p>
-<ol>
-<li>Write a function named <code>logger</code></li>
-<li>It should take one argument, then log that argument</li>
-<li>Call <code>logger</code> with the <code>returnsOne</code> function as an argument</li>
-</ol>
-<p>What does the browser print?</p>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">logger</span><span class="token punctuation">(</span><span class="token parameter">thing</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>thing<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">logger</span><span class="token punctuation">(</span>returnsOne<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>In Chrome this logs something like:</p>
-<pre><code>ƒ returnsOne() {
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Functions, callbacks, &amp; async JavaScript</title>
+    <link
+      rel="preload"
+      href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <header class="hstack jc-between pad-lg">
+        <a href="/" aria-label="Home"
+          ><img src="/assets/images/logo.svg" width="100" alt
+        /></a>
+        <nav id="global-nav">
+          <ul role="list" class="hstack">
+            <li>
+              <a class="global-nav__link" href="/course/introduction/"
+                >Course</a
+              >
+            </li>
+            <li>
+              <a class="global-nav__link" href="/resources/introduction/"
+                >Resources</a
+              >
+            </li>
+            <li><a class="global-nav__link" href="/about/">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="center">
+        <div class="layout">
+          <aside></aside>
+          <main id="main">
+            <div>
+              <header class="vstack gap-xl pad-xl stripes">
+                <div class="vstack" data-gap="md">
+                  <h1 class="highlight bg-primary">
+                    Functions, callbacks, &amp; async JavaScript
+                  </h1>
+                  <p class="highlight fz-lg">
+                    Learn how functions work, and how to manage asynchronous
+                    JavaScript code using callbacks.
+                  </p>
+                  <ul role="list" class="hstack gap-sm wrap">
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      js
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      functions
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      async
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      timers
+                    </li>
+                  </ul>
+                </div>
+                <div class="hstack wrap">
+                  <div class="vstack gap-none">
+                    <label
+                      for="download-command"
+                      class="highlight fw-bold"
+                      style="--bg: var(--bg-400)"
+                      >Download files via CLI</label
+                    ><copy-text class="hstack gap-none ai-stretch"
+                      ><input
+                        id="download-command"
+                        readonly
+                        value="npx degit 'foundersandcoders/coursebook/src/workshops/functions-callbacks-async/starter-files#main' functions-callbacks-async" /><button
+                        aria-label="Copy"
+                        title="Copy"
+                        hidden
+                      >
+                        <svg
+                          data-copy
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                          ></path></svg
+                        ><svg
+                          hidden
+                          data-success
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg></button
+                    ></copy-text>
+                  </div>
+                  <a
+                    href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Ffunctions-callbacks-async%5D&amp;labels=feedback"
+                    target="_blank"
+                    rel="noopener"
+                    class="button"
+                    >Leave feedback<svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z"
+                        clip-rule="evenodd"
+                      ></path></svg
+                  ></a>
+                </div>
+              </header>
+              <div style="margin: 4rem 0" class="flow">
+                <p>
+                  In JavaScript functions are treated like any other variable.
+                  This concept is sometimes referred to as “first-class
+                  functions”. It lets us use functions in some interesting ways,
+                  and helps us manage “asynchronous” code.
+                </p>
+                <h2 id="functions-are-variables">
+                  Functions are variables
+                  <a class="heading-anchor" href="#functions-are-variables">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  When you create a function in JS you are creating a normal
+                  variable:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">function</span> <span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                <p>
+                  This code creates a new variable named
+                  <code>returnsOne</code>.
+                </p>
+                <p>
+                  This is still true (and maybe more obvious) for arrow
+                  functions:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">returnsOne</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  This code <em>also</em> creates a new variable named
+                  <code>returnsOne</code>. Notice how this is similar to
+                  defining a different type of variable:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  You can reference this variable the same way you would any
+                  other (by using its name):
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>returnsOne<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// logs something like: `function returnsOne()`</span></code></pre>
+                <p>
+                  Since functions are normal variables you can even pass them as
+                  arguments to <em>other</em> functions.
+                </p>
+                <h3 id="mini-challenge-1">
+                  Mini-challenge 1
+                  <a class="heading-anchor" href="#mini-challenge-1">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Lets try passing a function as an argument to another
+                  function. Since we’re just playing around to see what happens
+                  we can write this code in the console on this page. Open up
+                  the console and try this:
+                </p>
+                <ol>
+                  <li>Write a function named <code>logger</code></li>
+                  <li>It should take one argument, then log that argument</li>
+                  <li>
+                    Call <code>logger</code> with the
+                    <code>returnsOne</code> function as an argument
+                  </li>
+                </ol>
+                <p>What does the browser print?</p>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">logger</span><span class="token punctuation">(</span><span class="token parameter">thing</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>thing<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">logger</span><span class="token punctuation">(</span>returnsOne<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>In Chrome this logs something like:</p>
+                    <pre><code>ƒ returnsOne() {
   return 1;
 }
 </code></pre>
-<p>If you defined <code>returnsOne</code> with an arrow function it might log something like this instead:</p>
-<pre><code>() =&gt; 1;
+                    <p>
+                      If you defined <code>returnsOne</code> with an arrow
+                      function it might log something like this instead:
+                    </p>
+                    <pre><code>() =&gt; 1;
 </code></pre>
-<p>The browser is showing the <em>value</em> stored in the variable. It’s the same as if we ran:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token function">logger</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>This would log <code>1</code> to the console.</p>
-</details></div>
-<h2 id="functions-are-callable">Functions are callable <a class="heading-anchor" href="#functions-are-callable">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>The main distinction between a function and other types of variable is that you can <em>call</em> a function. You call a function by putting parentheses (round brackets) after it:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Calling a function will run the lines of code inside of it. This is useful for two reasons:</p>
-<ol>
-<li>Functions let us <em>reuse</em> code without copy/pasting it.</li>
-<li>Functions let us <em>delay</em> running code until we’re ready.</li>
-</ol>
-<h3 id="returning-values">Returning values <a class="heading-anchor" href="#returning-values">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Functions need to be able to talk to each other. This is how you create a more complex program. You compose together a bunch of functions, passing the output of one into another.</p>
-<p>The <code>return</code> keyword lets us control what value we get after calling a function. Our <code>returnsOne</code> function always returns a value of <code>1</code>. When you <em>call</em> a function the lines of code inside are run, and the function spits out its return value in place. You can then use this returned value however you like.</p>
-<p>You can save it as a new variable:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> answer <span class="token operator">=</span> <span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>answer<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This will log `1`</span></code></pre>
-<p>Here you can imagine that <code>returnsOne()</code> replaces itself with its return value. It’s the same as if we’d written <code>const answer = 1</code> directly.</p>
-<p>You can also use the called function directly without an intermediary variable:</p>
-<pre class="language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This will also log `1`</span></code></pre>
-<p>Here the same thing happens. <code>returnsOne()</code> replaces itself with its return value. It’s the same as if we’d written <code>console.log(1)</code> directly.</p>
-<p>If the function doesn’t have a <code>return</code> statement you’ll get <code>undefined</code>:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">returnsNothing</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">;</span><br>  <span class="token comment">// doesn't have a return statement</span><br>  <span class="token comment">// the x variable is basically thrown away</span><br><span class="token punctuation">}</span><br><span class="token keyword">const</span> answer <span class="token operator">=</span> <span class="token function">returnsNothing</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>answer<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This will log `undefined`</span></code></pre>
-<p>Calling or not calling a function is often a source of confusion when passing functions as arguments to <em>other</em> functions.</p>
-<h3 id="mini-challenge-2">Mini-challenge 2 <a class="heading-anchor" href="#mini-challenge-2">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>
-<p>Open your console and recreate your <code>logger</code> function from above</p>
-</li>
-<li>
-<p>Call <code>logger</code>, but this time pass in <code>returnsOne()</code> (don’t forget the parentheses)</p>
-</li>
-<li>
-<p>Why do we see a different value logged than before?</p>
-</li>
-<li>
-<p>Edit <code>logger</code> to log the <em>type</em> of the value using the <code>typeof</code> operator</p>
-</li>
-</ol>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">logger</span><span class="token punctuation">(</span><span class="token parameter">thing</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>thing<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-<p>If we call <code>logger</code> with the function itself:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span>returnsOne<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>we see the <em>function</em> logged as before:</p>
-<pre><code>ƒ returnsOne() {
+                    <p>
+                      The browser is showing the <em>value</em> stored in the
+                      variable. It’s the same as if we ran:
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token function">logger</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>This would log <code>1</code> to the console.</p>
+                  </details>
+                </div>
+                <h2 id="functions-are-callable">
+                  Functions are callable
+                  <a class="heading-anchor" href="#functions-are-callable">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  The main distinction between a function and other types of
+                  variable is that you can <em>call</em> a function. You call a
+                  function by putting parentheses (round brackets) after it:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Calling a function will run the lines of code inside of it.
+                  This is useful for two reasons:
+                </p>
+                <ol>
+                  <li>
+                    Functions let us <em>reuse</em> code without copy/pasting
+                    it.
+                  </li>
+                  <li>
+                    Functions let us <em>delay</em> running code until we’re
+                    ready.
+                  </li>
+                </ol>
+                <h3 id="returning-values">
+                  Returning values
+                  <a class="heading-anchor" href="#returning-values">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Functions need to be able to talk to each other. This is how
+                  you create a more complex program. You compose together a
+                  bunch of functions, passing the output of one into another.
+                </p>
+                <p>
+                  The <code>return</code> keyword lets us control what value we
+                  get after calling a function. Our
+                  <code>returnsOne</code> function always returns a value of
+                  <code>1</code>. When you <em>call</em> a function the lines of
+                  code inside are run, and the function spits out its return
+                  value in place. You can then use this returned value however
+                  you like.
+                </p>
+                <p>You can save it as a new variable:</p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> answer <span class="token operator">=</span> <span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>answer<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This will log `1`</span></code></pre>
+                <p>
+                  Here you can imagine that <code>returnsOne()</code> replaces
+                  itself with its return value. It’s the same as if we’d written
+                  <code>const answer = 1</code> directly.
+                </p>
+                <p>
+                  You can also use the called function directly without an
+                  intermediary variable:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This will also log `1`</span></code></pre>
+                <p>
+                  Here the same thing happens.
+                  <code>returnsOne()</code> replaces itself with its return
+                  value. It’s the same as if we’d written
+                  <code>console.log(1)</code> directly.
+                </p>
+                <p>
+                  If the function doesn’t have a <code>return</code> statement
+                  you’ll get <code>undefined</code>:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">function</span> <span class="token function">returnsNothing</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">;</span><br>  <span class="token comment">// doesn't have a return statement</span><br>  <span class="token comment">// the x variable is basically thrown away</span><br><span class="token punctuation">}</span><br><span class="token keyword">const</span> answer <span class="token operator">=</span> <span class="token function">returnsNothing</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>answer<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This will log `undefined`</span></code></pre>
+                <p>
+                  Calling or not calling a function is often a source of
+                  confusion when passing functions as arguments to
+                  <em>other</em> functions.
+                </p>
+                <h3 id="mini-challenge-2">
+                  Mini-challenge 2
+                  <a class="heading-anchor" href="#mini-challenge-2">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>
+                    <p>
+                      Open your console and recreate your
+                      <code>logger</code> function from above
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Call <code>logger</code>, but this time pass in
+                      <code>returnsOne()</code> (don’t forget the parentheses)
+                    </p>
+                  </li>
+                  <li>
+                    <p>Why do we see a different value logged than before?</p>
+                  </li>
+                  <li>
+                    <p>
+                      Edit <code>logger</code> to log the <em>type</em> of the
+                      value using the <code>typeof</code> operator
+                    </p>
+                  </li>
+                </ol>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">logger</span><span class="token punctuation">(</span><span class="token parameter">thing</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>thing<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                    <p>
+                      If we call <code>logger</code> with the function itself:
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span>returnsOne<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>we see the <em>function</em> logged as before:</p>
+                    <pre><code>ƒ returnsOne() {
   return 1;
 }
 </code></pre>
-<p>However when we <em>call</em> the function and log that:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span><span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>we see the the function’s <em>return value</em> logged:</p>
-<pre><code>1
+                    <p>
+                      However when we <em>call</em> the function and log that:
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span><span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      we see the the function’s <em>return value</em> logged:
+                    </p>
+                    <pre><code>1
 </code></pre>
-<p>If we amend <code>logger</code> to log the type of its argument:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">logger</span><span class="token punctuation">(</span><span class="token parameter">thing</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> thing<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-<p>we can see that in the first case <code>thing</code> is a <em>function</em>, whereas in the second case its a <em>number</em>:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span>returnsOne<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// Logs: "function"</span><br><br><span class="token function">logger</span><span class="token punctuation">(</span><span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// Logs: "number"</span></code></pre>
-</details></div>
-<h2 id="inline-functions">Inline functions <a class="heading-anchor" href="#inline-functions">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>You can also define functions <em>inline</em>: i.e. directly as you’re using them. This is a common pattern for passing functions as arguments to other functions. For example we could re-write our <code>logger</code> example:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Here we’re defining a new function <em>inline</em> at the same time that we’re passing it to <code>logger</code>. This is a little hard to read, which is why most developers use arrow functions for inline functions like this:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>This has the same result as before, when we defined a separate <code>returnsOne</code> variable and passed it by name. The main difference here is we can’t re-use the function, since it only exists as an argument to <code>logger</code>.</p>
-<h3 id="mini-challenge-3">Mini-challenge 3 <a class="heading-anchor" href="#mini-challenge-3">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Inline functions are often used for event listeners in the DOM. For example this code will log wherever the user clicks on the window:</p>
-<pre class="language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>clientX<span class="token punctuation">,</span> event<span class="token punctuation">.</span>clientY<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<ol>
-<li>Open your console and enter the event listener above</li>
-<li>Extract the inline function and assign it to a named variable</li>
-<li>Pass your extracted function variable to <code>addEventListener</code> instead</li>
-</ol>
-<p>The event listener should work the same whether your function is inlined or defined as a separate variable.</p>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">handleClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>clientX<span class="token punctuation">,</span> event<span class="token punctuation">.</span>clientY<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br><br>window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> handleClick<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>We have defined a named variable <code>handleClick</code> and assigned the previously inlined function as its value. We then pass this variable to <code>addEventListener</code> (since it expects a function as its second argument).</p>
-<p>You may have done something like this:</p>
-<pre class="language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">handleClick</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>This will achieve the same result, and is not incorrect. However it adds an unnecessary extra function: we’re defining an inline arrow function that takes an event argument, then passes that on to the <code>handleClick</code> function.</p>
-<p>Since <code>addEventListener</code> will call whatever function is passed in with the event argument we don’t need this extra function.</p>
-<p>It’s important to note that we don’t want to <em>call</em> our function when we pass it. This won’t work since <code>addEventListener</code> expects to be passed a <code>function</code>. Remember if we put parentheses after the function name then we’re effectively passing its <em>return value</em> instead.</p>
-<pre class="language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token function">handleClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Since <code>handleClick</code> doesn’t return anything this is equivalent to:</p>
-<pre class="language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token keyword">undefined</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-</details></div>
-<h2 id="callbacks">Callbacks <a class="heading-anchor" href="#callbacks">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>“Callback” is a scary word, but you’ve actually been using them the whole time. A callback is <strong>a function passed to another function as an argument</strong>. The name refers to what callbacks are usually used for: “calling you back” with a value when it’s ready.</p>
-<p>For example the <code>addEventListener</code> above takes a function that it will call when the <code>&quot;click&quot;</code> event happens. We’re telling the browser “hey, call us back with the event info when that event happens”.</p>
-<p>Functions are a way to <em>delay</em> a block of code. Without them all our statements would run in order all in one go, and we’d never be able to wait for anything or react to user input.</p>
-<h3 id="mini-challenge-4">Mini-challenge 4 <a class="heading-anchor" href="#mini-challenge-4">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>Write a function named <code>one</code> that takes a function as a parameter</li>
-<li>It should call that function with <code>1</code></li>
-<li>Call your <code>one</code> function and pass in a function that logs its argument</li>
-</ol>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">one</span><span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token function">callback</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-<p>The <code>one</code> function has a single parameter: <code>callback</code>. Since we know <code>callback</code> is going to be a function we can call it using parentheses, and pass in <code>1</code>.</p>
-<p>To use our <code>one</code> function we need to pass in a function (the callback):</p>
-<pre class="language-js"><code class="language-js"><span class="token function">one</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>We could also define this callback as a separate named variable instead of inlining it, just like in our event listener example above:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">log</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token function">one</span><span class="token punctuation">(</span>log<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-</details></div>
-<h2 id="asynchronous-callbacks">Asynchronous callbacks <a class="heading-anchor" href="#asynchronous-callbacks">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>The callback above might feel a bit convoluted: why pass in a callback to access a variable from inside when we could make the <code>one</code> function <em>return</em> <code>1</code> directly?</p>
-<p>Callbacks make more sense when dealing with <em>asynchronous</em> code. Sometimes we don’t have a value to return straight away.</p>
-<h3 id="what-is-asynchronous-code">What is “asynchronous” code? <a class="heading-anchor" href="#what-is-asynchronous-code">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>JavaScript is a “single-threaded” language. This means things generally happen one at a time, in the order you wrote the code.</p>
-<pre class="language-javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This logs 1, then 2, then 3</span></code></pre>
-<p>When something needs to happen out of this order, we call it “asynchronous” (“async” for short). JavaScript handles this using a “queue”. Anything async gets pushed out of the main running order and into the queue. Once JS finishes what it was doing it moves on to the first thing in the queue.</p>
-<pre class="language-javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>window<span class="token punctuation">.</span><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This logs 1, then 3, then (after about 1 second) logs 2</span></code></pre>
-<p><code>setTimeout</code> is a built-in function that lets you run some code after a specified wait time.</p>
-<p>It’s intuitive that the above example logs <code>2</code> last, because JS has to wait a whole second before running the function passed to <code>setTimeout</code>.</p>
-<p>What’s less intuitive is that the order is the same even with a timeout of 0ms.</p>
-<pre class="language-javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>window<span class="token punctuation">.</span><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This logs 1, then 3, then (as soon as possible) logs 2</span></code></pre>
-<p>This is because <code>setTimeout</code> always gets pushed to the back of the queue—the specified wait time just tells JS the <em>minimum time</em> that has to pass before that code is allowed to run.</p>
-<h3 id="how-do-callbacks-help">How do callbacks help? <a class="heading-anchor" href="#how-do-callbacks-help">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Callbacks let us access values that may not be ready yet. Imagine ordering food in a takeaway. If you just get a pre-packaged sandwich they might be able to hand it to you straight away. This is “synchronous”—they can give you what you need then move on to the next person in the queue.</p>
-<p>However if your food needs to be cooked you might give them your phone number, so they can text you when it’s ready. This is “asynchronous”—they can move on to the next person in the queue, and “call you back” to collect your food later.</p>
-<p>Our <code>addEventListener</code> example from above can’t <em>return</em> the click event, since it hasn’t happened yet. The browser won’t know where the user clicked until the click happens. So instead we pass a callback that the browser will run for us when the user clicks somewhere. It calls this callback with the event object containing the info we need.</p>
-<h3 id="mini-challenge-5">Mini-challenge 5 <a class="heading-anchor" href="#mini-challenge-5">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>Write a function <code>asyncDouble</code> that takes 2 arguments: a number and a callback</li>
-<li>It should use <code>setTimeout</code> to wait one second</li>
-<li>Then it should call the callback argument with the number argument multiplied by 2</li>
-<li>Call <code>asyncDouble</code> with <code>10</code> and a callback that logs whatever it is passed. You should see <code>20</code> logged after 1 second.</li>
-<li>Can you see why <code>asyncDouble</code> can’t just return the doubled value?</li>
-</ol>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">asyncDouble</span><span class="token punctuation">(</span><span class="token parameter">num<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  window<span class="token punctuation">.</span><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">callback</span><span class="token punctuation">(</span>num <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">asyncDouble</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// (after one second) logs `20`</span></code></pre>
-<p><code>asyncDouble</code> takes two arguments: <code>num</code> (the number to be doubled) and <code>callback</code>, the function it should call with the doubled number once it’s ready.</p>
-<p>It uses <code>setTimeout</code> to queue up a function to run in 1000ms. This function calls the <code>callback</code> argument and passes in the doubled number.</p>
-<p>It can’t <em>return</em> the doubled number since JS code executes synchronously in order. We don’t have the result ready to return straight away—only after 1000ms passes.</p>
-<p>(Obviously we <em>could</em> double a number synchronously—the timeout is for example’s sake. Imagine we’re sending a request over a slow Wi-Fi network and it takes a whole second to get the result back)</p>
-</details></div>
-<hr>
-<h2 id="workshop">Workshop <a class="heading-anchor" href="#workshop">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Let’s use callbacks to make some traffic lights. Download the starter files using the command at the top of this workshop. Open <code>challenge/index.html</code> in your editor.</p>
-<ol>
-<li>Inside the <code>script</code> tag write a function <code>light</code> that takes two parameters: a string and a callback</li>
-<li>It should wait 1 second, log the string and then call its callback parameter</li>
-<li>Use <code>light</code> to log each colour of a traffic light sequence, in order, followed by <code>&quot;finished&quot;</code>
-<ul>
-<li>e.g. It should log:</li>
-</ul>
-<pre><code>green
+                    <p>
+                      If we amend <code>logger</code> to log the type of its
+                      argument:
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">logger</span><span class="token punctuation">(</span><span class="token parameter">thing</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> thing<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                    <p>
+                      we can see that in the first case <code>thing</code> is a
+                      <em>function</em>, whereas in the second case its a
+                      <em>number</em>:
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span>returnsOne<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// Logs: "function"</span><br><br><span class="token function">logger</span><span class="token punctuation">(</span><span class="token function">returnsOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// Logs: "number"</span></code></pre>
+                  </details>
+                </div>
+                <h2 id="inline-functions">
+                  Inline functions
+                  <a class="heading-anchor" href="#inline-functions">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  You can also define functions <em>inline</em>: i.e. directly
+                  as you’re using them. This is a common pattern for passing
+                  functions as arguments to other functions. For example we
+                  could re-write our <code>logger</code> example:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Here we’re defining a new function <em>inline</em> at the same
+                  time that we’re passing it to <code>logger</code>. This is a
+                  little hard to read, which is why most developers use arrow
+                  functions for inline functions like this:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token function">logger</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  This has the same result as before, when we defined a separate
+                  <code>returnsOne</code> variable and passed it by name. The
+                  main difference here is we can’t re-use the function, since it
+                  only exists as an argument to <code>logger</code>.
+                </p>
+                <h3 id="mini-challenge-3">
+                  Mini-challenge 3
+                  <a class="heading-anchor" href="#mini-challenge-3">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Inline functions are often used for event listeners in the
+                  DOM. For example this code will log wherever the user clicks
+                  on the window:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>clientX<span class="token punctuation">,</span> event<span class="token punctuation">.</span>clientY<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <ol>
+                  <li>Open your console and enter the event listener above</li>
+                  <li>
+                    Extract the inline function and assign it to a named
+                    variable
+                  </li>
+                  <li>
+                    Pass your extracted function variable to
+                    <code>addEventListener</code> instead
+                  </li>
+                </ol>
+                <p>
+                  The event listener should work the same whether your function
+                  is inlined or defined as a separate variable.
+                </p>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">handleClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>clientX<span class="token punctuation">,</span> event<span class="token punctuation">.</span>clientY<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br><br>window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> handleClick<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      We have defined a named variable
+                      <code>handleClick</code> and assigned the previously
+                      inlined function as its value. We then pass this variable
+                      to <code>addEventListener</code> (since it expects a
+                      function as its second argument).
+                    </p>
+                    <p>You may have done something like this:</p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">handleClick</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      This will achieve the same result, and is not incorrect.
+                      However it adds an unnecessary extra function: we’re
+                      defining an inline arrow function that takes an event
+                      argument, then passes that on to the
+                      <code>handleClick</code> function.
+                    </p>
+                    <p>
+                      Since <code>addEventListener</code> will call whatever
+                      function is passed in with the event argument we don’t
+                      need this extra function.
+                    </p>
+                    <p>
+                      It’s important to note that we don’t want to
+                      <em>call</em> our function when we pass it. This won’t
+                      work since <code>addEventListener</code> expects to be
+                      passed a <code>function</code>. Remember if we put
+                      parentheses after the function name then we’re effectively
+                      passing its <em>return value</em> instead.
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token function">handleClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      Since <code>handleClick</code> doesn’t return anything
+                      this is equivalent to:
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token keyword">undefined</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                  </details>
+                </div>
+                <h2 id="callbacks">
+                  Callbacks
+                  <a class="heading-anchor" href="#callbacks">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  “Callback” is a scary word, but you’ve actually been using
+                  them the whole time. A callback is
+                  <strong
+                    >a function passed to another function as an
+                    argument</strong
+                  >. The name refers to what callbacks are usually used for:
+                  “calling you back” with a value when it’s ready.
+                </p>
+                <p>
+                  For example the <code>addEventListener</code> above takes a
+                  function that it will call when the
+                  <code>&quot;click&quot;</code> event happens. We’re telling
+                  the browser “hey, call us back with the event info when that
+                  event happens”.
+                </p>
+                <p>
+                  Functions are a way to <em>delay</em> a block of code. Without
+                  them all our statements would run in order all in one go, and
+                  we’d never be able to wait for anything or react to user
+                  input.
+                </p>
+                <h3 id="mini-challenge-4">
+                  Mini-challenge 4
+                  <a class="heading-anchor" href="#mini-challenge-4">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>
+                    Write a function named <code>one</code> that takes a
+                    function as a parameter
+                  </li>
+                  <li>It should call that function with <code>1</code></li>
+                  <li>
+                    Call your <code>one</code> function and pass in a function
+                    that logs its argument
+                  </li>
+                </ol>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">one</span><span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token function">callback</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                    <p>
+                      The <code>one</code> function has a single parameter:
+                      <code>callback</code>. Since we know
+                      <code>callback</code> is going to be a function we can
+                      call it using parentheses, and pass in <code>1</code>.
+                    </p>
+                    <p>
+                      To use our <code>one</code> function we need to pass in a
+                      function (the callback):
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token function">one</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                    <p>
+                      We could also define this callback as a separate named
+                      variable instead of inlining it, just like in our event
+                      listener example above:
+                    </p>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">log</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token function">one</span><span class="token punctuation">(</span>log<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                  </details>
+                </div>
+                <h2 id="asynchronous-callbacks">
+                  Asynchronous callbacks
+                  <a class="heading-anchor" href="#asynchronous-callbacks">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  The callback above might feel a bit convoluted: why pass in a
+                  callback to access a variable from inside when we could make
+                  the <code>one</code> function <em>return</em>
+                  <code>1</code> directly?
+                </p>
+                <p>
+                  Callbacks make more sense when dealing with
+                  <em>asynchronous</em> code. Sometimes we don’t have a value to
+                  return straight away.
+                </p>
+                <h3 id="what-is-asynchronous-code">
+                  What is “asynchronous” code?
+                  <a class="heading-anchor" href="#what-is-asynchronous-code">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  JavaScript is a “single-threaded” language. This means things
+                  generally happen one at a time, in the order you wrote the
+                  code.
+                </p>
+                <pre
+                  class="language-javascript"
+                ><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This logs 1, then 2, then 3</span></code></pre>
+                <p>
+                  When something needs to happen out of this order, we call it
+                  “asynchronous” (“async” for short). JavaScript handles this
+                  using a “queue”. Anything async gets pushed out of the main
+                  running order and into the queue. Once JS finishes what it was
+                  doing it moves on to the first thing in the queue.
+                </p>
+                <pre
+                  class="language-javascript"
+                ><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>window<span class="token punctuation">.</span><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This logs 1, then 3, then (after about 1 second) logs 2</span></code></pre>
+                <p>
+                  <code>setTimeout</code> is a built-in function that lets you
+                  run some code after a specified wait time.
+                </p>
+                <p>
+                  It’s intuitive that the above example logs
+                  <code>2</code> last, because JS has to wait a whole second
+                  before running the function passed to <code>setTimeout</code>.
+                </p>
+                <p>
+                  What’s less intuitive is that the order is the same even with
+                  a timeout of 0ms.
+                </p>
+                <pre
+                  class="language-javascript"
+                ><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>window<span class="token punctuation">.</span><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// This logs 1, then 3, then (as soon as possible) logs 2</span></code></pre>
+                <p>
+                  This is because <code>setTimeout</code> always gets pushed to
+                  the back of the queue—the specified wait time just tells JS
+                  the <em>minimum time</em> that has to pass before that code is
+                  allowed to run.
+                </p>
+                <h3 id="how-do-callbacks-help">
+                  How do callbacks help?
+                  <a class="heading-anchor" href="#how-do-callbacks-help">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Callbacks let us access values that may not be ready yet.
+                  Imagine ordering food in a takeaway. If you just get a
+                  pre-packaged sandwich they might be able to hand it to you
+                  straight away. This is “synchronous”—they can give you what
+                  you need then move on to the next person in the queue.
+                </p>
+                <p>
+                  However if your food needs to be cooked you might give them
+                  your phone number, so they can text you when it’s ready. This
+                  is “asynchronous”—they can move on to the next person in the
+                  queue, and “call you back” to collect your food later.
+                </p>
+                <p>
+                  Our <code>addEventListener</code> example from above can’t
+                  <em>return</em> the click event, since it hasn’t happened yet.
+                  The browser won’t know where the user clicked until the click
+                  happens. So instead we pass a callback that the browser will
+                  run for us when the user clicks somewhere. It calls this
+                  callback with the event object containing the info we need.
+                </p>
+                <h3 id="mini-challenge-5">
+                  Mini-challenge 5
+                  <a class="heading-anchor" href="#mini-challenge-5">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>
+                    Write a function <code>asyncDouble</code> that takes 2
+                    arguments: a number and a callback
+                  </li>
+                  <li>
+                    It should use <code>setTimeout</code> to wait one second
+                  </li>
+                  <li>
+                    Then it should call the callback argument with the number
+                    argument multiplied by 2
+                  </li>
+                  <li>
+                    Call <code>asyncDouble</code> with <code>10</code> and a
+                    callback that logs whatever it is passed. You should see
+                    <code>20</code> logged after 1 second.
+                  </li>
+                  <li>
+                    Can you see why <code>asyncDouble</code> can’t just return
+                    the doubled value?
+                  </li>
+                </ol>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">function</span> <span class="token function">asyncDouble</span><span class="token punctuation">(</span><span class="token parameter">num<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  window<span class="token punctuation">.</span><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">callback</span><span class="token punctuation">(</span>num <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">asyncDouble</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">x</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token comment">// (after one second) logs `20`</span></code></pre>
+                    <p>
+                      <code>asyncDouble</code> takes two arguments:
+                      <code>num</code> (the number to be doubled) and
+                      <code>callback</code>, the function it should call with
+                      the doubled number once it’s ready.
+                    </p>
+                    <p>
+                      It uses <code>setTimeout</code> to queue up a function to
+                      run in 1000ms. This function calls the
+                      <code>callback</code> argument and passes in the doubled
+                      number.
+                    </p>
+                    <p>
+                      It can’t <em>return</em> the doubled number since JS code
+                      executes synchronously in order. We don’t have the result
+                      ready to return straight away—only after 1000ms passes.
+                    </p>
+                    <p>
+                      (Obviously we <em>could</em> double a number
+                      synchronously—the timeout is for example’s sake. Imagine
+                      we’re sending a request over a slow Wi-Fi network and it
+                      takes a whole second to get the result back)
+                    </p>
+                  </details>
+                </div>
+                <hr />
+                <h2 id="workshop">
+                  Workshop
+                  <a class="heading-anchor" href="#workshop">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Let’s use callbacks to make some traffic lights. Download the
+                  starter files using the command at the top of this workshop.
+                  Open <code>challenge/index.html</code> in your editor.
+                </p>
+                <ol>
+                  <li>
+                    Inside the <code>script</code> tag write a function
+                    <code>light</code> that takes two parameters: a string and a
+                    callback
+                  </li>
+                  <li>
+                    It should wait 1 second, log the string and then call its
+                    callback parameter
+                  </li>
+                  <li>
+                    Use <code>light</code> to log each colour of a traffic light
+                    sequence, in order, followed by
+                    <code>&quot;finished&quot;</code>
+                    <ul>
+                      <li>e.g. It should log:</li>
+                    </ul>
+                    <pre><code>green
 amber
 red
 amber
 green
 finished
 </code></pre>
-with a 1 second pause before each colour</li>
-</ol>
-<div class="box box-default content flow">
-<p><strong>Hint</strong>: to runs async tasks one after the other remember that you can <em>nest</em> function calls.</p>
-</div>
-</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>
+                    with a 1 second pause before each colour
+                  </li>
+                </ol>
+                <div class="box box-default content flow">
+                  <p>
+                    <strong>Hint</strong>: to runs async tasks one after the
+                    other remember that you can <em>nest</em> function calls.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/assets/js/checkboxen.js"></script>
+    <script src="/assets/js/toggle-button.js"></script>
+    <script src="/assets/js/copy-text.js"></script>
+  </body>
+</html>

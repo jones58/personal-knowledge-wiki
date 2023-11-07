@@ -12,7 +12,7 @@ function App() {
         <h2>Dishes</h2>
         <ul className="grid">
           {dishes.length ? (
-            dishes.map(dish => (
+            dishes.map((dish) => (
               <li key={dish.id} className="card">
                 <h3>{dish.name}</h3>
                 {dish.description && <p>{dish.description}</p>}

@@ -31,10 +31,10 @@ will call it the IDE.
 
 You will need to engage with three parts of it:
 
-* The file panel on your left, working from this file downwards.
-* The code panel (if you're on replit now, that's this one)
+- The file panel on your left, working from this file downwards.
+- The code panel (if you're on replit now, that's this one)
   where you'll read and write code.
-* The shell panel to the right, where you'll run code.
+- The shell panel to the right, where you'll run code.
 
 To set up and learn how to use the interface, please follow
 the [replit IDE setup video](https://youtu.be/c0GdcmPfKL4).
@@ -44,8 +44,8 @@ You may find the default replit theme hard to read. We have
 created two themes which combine good contrast and
 readability. I would recommend you use one of them:
 
-* [Makers Reader Theme (Light)](https://replit.com/theme/@neoeno/makers-reader)
-* [Makers Reader Theme (Dark)](https://replit.com/theme/@neoeno/makers-reader-dark)
+- [Makers Reader Theme (Light)](https://replit.com/theme/@neoeno/makers-reader)
+- [Makers Reader Theme (Dark)](https://replit.com/theme/@neoeno/makers-reader-dark)
 
 When you're done setting it up, it should look something like this:
 

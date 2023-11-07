@@ -17,7 +17,7 @@ function CategoryFilter({ category, setCategory }) {
   return (
     <fieldset>
       <legend>Category</legend>
-      {categories.map(cat => (
+      {categories.map((cat) => (
         <label htmlFor={cat} key={cat}>
           {cat}
           <input
@@ -26,7 +26,7 @@ function CategoryFilter({ category, setCategory }) {
             id={cat}
             value={cat}
             checked={cat === category}
-            onChange={e => setCategory(e.target.value)}
+            onChange={(e) => setCategory(e.target.value)}
           />
         </label>
       ))}

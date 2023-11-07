@@ -2,7 +2,6 @@
 
 You can do frontend, backend, mobile apps - pretty much every area of development you can use javascript for.
 
-
 ### Web browser
 
 Each web browser has an embedded Javascript engine.
@@ -15,10 +14,9 @@ The compiled code then runs in the browser.
 
 can write in head or at bottom of body.
 
-If in head, got to use ``defer``, e.g.
+If in head, got to use `defer`, e.g.
 
-``  <script src="myscript.js" defer></script>``
-
+`  <script src="myscript.js" defer></script>`
 
 ## Stating variables
 
@@ -28,13 +26,15 @@ Const - variables you don't want the value to be changed, keep it constant.
 
 var - sets variable. Avoid using for now.
 
-##  Properties and Methods
+## Properties and Methods
+
 Properties
--  qualities of our data - values that we can work with or change
+
+- qualities of our data - values that we can work with or change
 
 Methods
-- actions - do something to / with the data
 
+- actions - do something to / with the data
 
 In javascript everything is case-sensitive, and for variable names we use camelCase - thisIsCamelCase. First word is lowercase and all subsequent words start with uppercase. Look like camel humps. kebab-case and other examples for other coding languages.
 
@@ -45,35 +45,18 @@ In javascript everything is case-sensitive, and for variable names we use camelC
 
 ``console.log(`My name is ${firstName}.`);``
 
-
-Line break in Javascript with: ``\n``
-
+Line break in Javascript with: `\n`
 
 ##
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ///
 
-To run javascript in vs code  (using code runner extension) - just do ``cmd-shift-p`` and type run code and it will come up in output
+To run javascript in vs code (using code runner extension) - just do `cmd-shift-p` and type run code and it will come up in output
 
 NB scripts go to bottom of body in HTML, like so: <script src="scripts/main.js"></script>
 
 8 types of variable in Javascript:
+
 - `undefined`
 - `null`
 - `boolean`
@@ -84,29 +67,29 @@ NB scripts go to bottom of body in HTML, like so: <script src="scripts/main.js">
 - `object`
 
 In JavaScript all variables and function names are case sensitive.
-```let variable='some string'```
-```let```can be reassigned
-```const``` is a constant that can't be reassigned or changed - it's read only. It can be changed in terms of changing values in arrays/objects. Just can't change variable identifier/name
+`let variable='some string'`
+`let`can be reassigned
+`const` is a constant that can't be reassigned or changed - it's read only. It can be changed in terms of changing values in arrays/objects. Just can't change variable identifier/name
 
-or can just write ``var x = "";`` where x is variable name - but this can be easily overridden so best not to use in big codebase. When you override with let it tells you.
+or can just write `var x = "";` where x is variable name - but this can be easily overridden so best not to use in big codebase. When you override with let it tells you.
 
-``var`` means it's declared globally, or locally within a function.
-``let`` is limited to block, statement or expression if declared there.
+`var` means it's declared globally, or locally within a function.
+`let` is limited to block, statement or expression if declared there.
 
-``++`` operator - using this operator, we write ``x++;`` which is equivalent to ``x=x+1;``
-likewise ``--`` operator:  ``x--;`` is same as ``x=x-1;``
-``+=`` operator - ``x+=5;`` is same as ``x=x+5``
-similarly, -=operator ``x-=5;`` is same as ``x=x-5``
-also, ``*=`` operator ``x*=5;`` is same as ``x=x*5``
-similarly ``/=`` operator ``x/=5`` is same as ``x=x/5``
+`++` operator - using this operator, we write `x++;` which is equivalent to `x=x+1;`
+likewise `--` operator: `x--;` is same as `x=x-1;`
+`+=` operator - `x+=5;` is same as `x=x+5`
+similarly, -=operator `x-=5;` is same as `x=x-5`
+also, `*=` operator `x*=5;` is same as `x=x*5`
+similarly `/=` operator `x/=5` is same as `x=x/5`
 
 These work like this because everything to right of equals sign is evaluated first.
-remainder operator - `%` eg. ``5 % 2= 1;``
+remainder operator - `%` eg. `5 % 2= 1;`
 
-when you need a quote or double quote within a string ``
-``"this is a string"`` you use \ backslash to escape the quote. So, ``"this is a string \"with a quote\""`` - it is always ``\"`` whether at start or end of quote
+when you need a quote or double quote within a string `
+`"this is a string"`you use \ backslash to escape the quote. So,`"this is a string \"with a quote\""`- it is always`\"`` whether at start or end of quote
 
-Single and double quotes work same in javascript, but you've got to have it start and end with same one. Sometimes you mix so you can have quoted text in the string. Can also do this when using ``<a>`` tags nested in strings.
+Single and double quotes work same in javascript, but you've got to have it start and end with same one. Sometimes you mix so you can have quoted text in the string. Can also do this when using `<a>` tags nested in strings.
 
 There are other forms of the escape character too -
 `\'` - single quote
@@ -118,64 +101,61 @@ There are other forms of the escape character too -
 `\b` - backspace
 `\f` - form feed
 
-``+`` operator used with strings is called concatenation operator
-can also use ``+=`` operator to concatenate
+`+` operator used with strings is called concatenation operator
+can also use `+=` operator to concatenate
 
-you can put variables between strings using ``+`` concatenation operator or ``+=`` operator
+you can put variables between strings using `+` concatenation operator or `+=` operator
 
-Write ``.length`` after a string to get the character count of a string.
-and ```example.length``` to get length of string attached to the example variable
+Write `.length` after a string to get the character count of a string.
+and `example.length` to get length of string attached to the example variable
 
 use bracket notation to get character in a string. Starts counting at 0 as in most programming languages, rather than one.
 
 string values are immutable so can't change [0] value, can only reassign the whole string.
 
-In order to get the last letter of a string, you can subtract one from the string's length, so ``[x.length-1]``
+In order to get the last letter of a string, you can subtract one from the string's length, so `[x.length-1]`
 
 Use array to store several bits of data in one place
-array, e.g. ``x=['a','b', 'c']``
+array, e.g. `x=['a','b', 'c']`
 no "" for numbers
 
 can also nest arrays within arrays, known as a multidimensional array
-access array data using indexes, using square bracket notation.  ``x=[["a",1],["b",2]]``. NB square brackets arround array.
+access array data using indexes, using square bracket notation. `x=[["a",1],["b",2]]`. NB square brackets arround array.
 
 individual data in arrays can be changed - mutable, unlike characters in strings.
 
-you can acess arrays within arrays using the notation, e.g. ``x[0][0]``
+you can acess arrays within arrays using the notation, e.g. `x[0][0]`
 
 `.push()` takes one or more parameters and "pushes" them onto the end of the array
 `.unshift()` to add element to start of array - just like push.
 
-`.pop()` is used to pop a value off of the end of an array - this can then be stored as a variable, so can do ``popped = arrayName.pop()``
+`.pop()` is used to pop a value off of the end of an array - this can then be stored as a variable, so can do `popped = arrayName.pop()`
 
-`.shift()` to remove first value of array - this can then be stored as a variable, so can do ``shifted = arrayName.shift()``
+`.shift()` to remove first value of array - this can then be stored as a variable, so can do `shifted = arrayName.shift()`
 
-can be written like ``var1.shift(var2 here)`` where var1 is variable to change and var2 is variable to add
+can be written like `var1.shift(var2 here)` where var1 is variable to change and var2 is variable to add
 
-
-`example.replace` to change the variable, then ('x', 'y') after to change part of  the string x to y.
+`example.replace` to change the variable, then ('x', 'y') after to change part of the string x to y.
 `Math.round()` rounds to nearest integer
 `example.toString()` makes number a string
 
+Can be written as `toLocaleString()` when needs to meet local number format (like local date)
 
-Can be written as ``toLocaleString()`` when needs to meet local number format (like local date)
-
-and ``.toString(radix)``  can output to different formats - like 2 is binary, 8 is octal and 16 is hexadecimal format.
-
+and `.toString(radix)` can output to different formats - like 2 is binary, 8 is octal and 16 is hexadecimal format.
 
 can write reusable code called functions,
-e.g. ``function functionName() {console.log("Hello World");}``
-invoke function by writing: ``functionName()``
+e.g. `function functionName() {console.log("Hello World");}`
+invoke function by writing: `functionName()`
 
-```console.log``` to print result
+`console.log` to print result
 
-parameters are placeholders for values to come later, so could be like ``x=[param1,param2]``
+parameters are placeholders for values to come later, so could be like `x=[param1,param2]`
 
-``function functionWithArgs(param1, param2) {console.log(param1+param2)}``
-``functionWithArgs(2,4)``
+`function functionWithArgs(param1, param2) {console.log(param1+param2)}`
+`functionWithArgs(2,4)`
 outputs: 6
 
-You can use a `return` statement to send a value back out of a function - e.g. ``return x + 3``
+You can use a `return` statement to send a value back out of a function - e.g. `return x + 3`
 Vending machine analogy - u get something out of a function to use in other parts of code.
 
 variables declared outside functions are global
@@ -187,57 +167,57 @@ undefined values are when there isn't a return statement - just get an edit to t
 
 queue - data structure where items are kept in order - new items are at back of queue and old items at the front
 
-boolean values  - true or false
+boolean values - true or false
 
 if statements tell javascript whether to play code
 
-``if (condition is true) {statement is executed}``
+`if (condition is true) {statement is executed}`
 then afterwards write what to do if not true (false), and another curly bracket
 
-many comparison operators, like equality operator (``==``) which compares two things and if they're the same, gives true or false if not
+many comparison operators, like equality operator (`==`) which compares two things and if they're the same, gives true or false if not
 
 Javascript can compare two different data types (for example, `numbers` and `strings`) with the equality operator, using type conversion.
-But it does not do this with the strict equality operator (``===``) - there they have to be exact
+But it does not do this with the strict equality operator (`===`) - there they have to be exact
 
 Relying on loose equality, which uses the `==` operator, is risky and can make our code behave unpredictably - always use the strict equality operator `===`
 
-all comparison operators return a boolean ``true`` or ``false`` operator
+all comparison operators return a boolean `true` or `false` operator
 
-``>`` greater than operator
-``>=`` greater than or equal to operator
-``<`` less than operator
+`>` greater than operator
+`>=` greater than or equal to operator
+`<` less than operator
 `<=` The less than or equal to operator
 
 The logical and operator (`&&`) returns `true` if and only if the operands to the left and right of it are true, otherwise resolves to false.
 
 The logical or operator (`||`) returns `true` if either of the operands is `true`.
 
-logical not operator ``!`` or bang operator
-``! true = false
-``! false = true
+logical not operator `!` or bang operator
+`! true = false
+`! false = true
 
-The inequality operator (``!=``)
+The inequality operator (`!=`)
 The strict inequality operator (`!==`) - nb one equals missing compared to others
 
 **floating point** number is a decimal
-when try to add/multiply etc. any two strings together you get ``NaN`` (not a number)
+when try to add/multiply etc. any two strings together you get `NaN` (not a number)
 
-Can test whether something is NaN (not a number) with ``isNaN(x)`` where x is the number. GIves true or false, e.g. ``let answer = isNaN(x)``
-
+Can test whether something is NaN (not a number) with `isNaN(x)` where x is the number. GIves true or false, e.g. `let answer = isNaN(x)`
 
 Naming variables:
 
-Good to be specific with variable names, especially if you want it to be clear that a boolean is expected, e.g.  saying ``isLightOn`` rather than ``light``. Easier when reading back code or showing to others. Some basic rules:
--   makes clear what **data type** is being held
--   conveys the purpose of the value being held
--   is descriptive without being too long and difficult to read
+Good to be specific with variable names, especially if you want it to be clear that a boolean is expected, e.g. saying `isLightOn` rather than `light`. Easier when reading back code or showing to others. Some basic rules:
+
+- makes clear what **data type** is being held
+- conveys the purpose of the value being held
+- is descriptive without being too long and difficult to read
 
 An **expression** is any code that resolves to a single value
 
-A piece of data used by an operator is called an **operand** - e.g. ``4*5``,  4 and 5 are operands.
+A piece of data used by an operator is called an **operand** - e.g. `4*5`, 4 and 5 are operands.
 using operators to get a calculation is an example of evaluation.
 
-**exponentiation** operator, `**` - ``2**3`` = 2 to power of three
+**exponentiation** operator, `**` - `2**3` = 2 to power of three
 
 String literal - adding different strings together easily
 variables inside expressed with `${}` and all converted to strings.
@@ -245,36 +225,36 @@ for string literals, encased in backticks
 
 String property to access more info about a variable
 e.g length, we use dot syntax
-``const exampleLength = example.length``
+`const exampleLength = example.length`
 
-``const lastCharacter = blogPost[blogPost.length - 1]`` often use length to get last value in a string
+`const lastCharacter = blogPost[blogPost.length - 1]` often use length to get last value in a string
 
 String methods - things that can be performed on data
 ie. `.toUpperCase()` and `.toLowerCase()` (as they're functions, you need brackets)
 
 always remember to use let or const when defining variable for first time
 
-Can use ``Console.log()`` for debugging
-Can use ``typeof`` operator to get type of a variable - like 1 is number and '1' is string.  Combine with ``console.log()`` to print to console
+Can use `Console.log()` for debugging
+Can use `typeof` operator to get type of a variable - like 1 is number and '1' is string. Combine with `console.log()` to print to console
 
-if want to calculate within console.log with type of  (typeof (variable one + variable two)) - note extra brackets.
+if want to calculate within console.log with type of (typeof (variable one + variable two)) - note extra brackets.
 
-single line comment in javascript - ``//``
-multuple line comment - ``/* comment here */
+single line comment in javascript - `//`
+multuple line comment - ``/_ comment here _/
 
 right click, run code in vscodium
 
 in javascript, pseudocode is plain english writing in comments that breaks down the steps needed to code
 
 error messages help to debug
+
 - syntax error - something written wrong, like forgotten speech marks around a string.
 - reference error - trying to reference a variable that isn't available, ie not declared
 - type error - trying to do something which isn't right for that type of value - i.e. change number to uppercase
 
-
 truthy values are not true but evaluate as true in boolean contexts - any number (except 0), any string, objects and arrays
 
-falsy values evaluate to false - -   `false` , `0`, an empty **string** `''`, `NaN`,   `undefined`, ``null``
+falsy values evaluate to false - - `false` , `0`, an empty **string** `''`, `NaN`, `undefined`, `null`
 
 We can check for to see if a variable has a falsy value with a simple conditional:
 
@@ -284,47 +264,53 @@ if (!variable) {
 }
 ```
 
-if else statements generate fork - if can't evaluate first statement as true,  ``else``... next one
-syntax is ``if..."else if"...else``
+if else statements generate fork - if can't evaluate first statement as true, `else`... next one
+syntax is `if..."else if"...else`
 basically just chain if statements together
 
 ## Conditional (Ternary) operator
 
 ```javascript
-condition ? expressionIfTrue : expressionIfFalse
+condition ? expressionIfTrue : expressionIfFalse;
 ```
+
 can chain them by putting : in between as many times, e.g.
+
 ```javascript
 return age < 16 ? "children" : age < 50 ? "young man" : "old man";
 ```
 
 This is often a better way of writing if else statements, e.g.
+
 ```js
 function findGreater(a, b) {
-  if(a > b) {
+  if (a > b) {
     return "a is greater";
-  }
-  else {
+  } else {
     return "b is greater or equal";
   }
 }
 ```
+
 can be rewritten as :
+
 ```js
 function findGreater(a, b) {
   return a > b ? "a is greater" : "b is greater or equal";
 }
 ```
- can then chain like so:
- ```js
+
+can then chain like so:
+
+```js
 function findGreaterOrEqual(a, b) {
-  return (a === b) ? "a and b are equal"
-    : (a > b) ? "a is greater"
+  return a === b
+    ? "a and b are equal"
+    : a > b
+    ? "a is greater"
     : "b is greater";
 }
 ```
-
-
 
 ##  Switch statements
 
@@ -340,29 +326,23 @@ function findGreaterOrEqual(a, b) {
 }
 ```
 
-
 if multiple cases have same result, you can write as
 case 1:
 case 2:
-	code to execute
-
+code to execute
 
 if using lots of expressions and && operators etc, and it's not working, then put them in () so it's clear what's happening and nothing gets processed wrong.
 
-
 If a negative **number** is used as an index, then the index is counted from the _end_ of the array - `-1` would be the position of the _last_ item in the array.
-
-
 
 ## Array Methods
 
-- ``.slice()`` - use to extract information from an array into new array. The first argument is the array **index** that the slice should start; the second argument is the array index the slice should go up to, but not include. ie, .slice(0, 2) - will read first and second values, up to but not including third
-- .splice () - The **`splice()`** method changes the contents of an array by removing or replacing existing elements and/or adding new elements [in place](https://en.wikipedia.org/wiki/In-place_algorithm). It can take two variables - index position and number of elements to remove. Or it can take three variables, where third is element to add. Can be as many numbers here as you want  Returns a new array.
+- `.slice()` - use to extract information from an array into new array. The first argument is the array **index** that the slice should start; the second argument is the array index the slice should go up to, but not include. ie, .slice(0, 2) - will read first and second values, up to but not including third
+- .splice () - The **`splice()`** method changes the contents of an array by removing or replacing existing elements and/or adding new elements [in place](https://en.wikipedia.org/wiki/In-place_algorithm). It can take two variables - index position and number of elements to remove. Or it can take three variables, where third is element to add. Can be as many numbers here as you want Returns a new array.
 - .flat () - The **`flat()`** method creates a new array with all sub-array elements concatenated into it, in effect flattening all nested arrays into a single array.
 - .includes() - determines whether an array includes a certain value, gives `true` or `false`
 - .indexOf() - returns first index at which a value is present, or -1 if it's not present
 - .reverse () - reverses the order of elements in array
-
 
 ## For loops
 
@@ -386,6 +366,7 @@ for loops can be used with arrays, giving one example of iteration
 can use if statements within for loops
 
 even numbers:
+
 ```
 let numbers = [2, 4, 5, 6, 9, 10, 11, 12]
 
@@ -400,42 +381,43 @@ console.log(numbers[i])
 }
 ```
 
-Can't use .length property on numbers - so have to convert it to string first: so instead of ``.toString``, write as ``.toString().length``
+Can't use .length property on numbers - so have to convert it to string first: so instead of `.toString`, write as `.toString().length`
 
 You can also nest loops, e.g. just use j inside i
+
 ```js
 for (let i = 0; i < arr.length; i++) {
 for (let j = 0; j < arr[i].length; j++) {
     console.log(arr[i][j]);
 ```
 
-
 ## Objects
 
-``const variable = { key : value } ``
+`const variable = { key : value } `
 often called key value pair. common between them. e.g. key:value, key:value.
 
-NB sometimes will look like a key value pair but won't be e.g. ``x:y`` - this one can do ``.split(":")`` and then ``[0]`` or ``[1]`` for x and y.  For this will need to convert to string first cos can only split string.
+NB sometimes will look like a key value pair but won't be e.g. `x:y` - this one can do `.split(":")` and then `[0]` or `[1]` for x and y. For this will need to convert to string first cos can only split string.
 
-can use dot notation to search, e.g. ``variable.key``
+can use dot notation to search, e.g. `variable.key`
 
-if it has spaces, then have to use bracket notation as variable ``["key with spaces"]``
+if it has spaces, then have to use bracket notation as variable `["key with spaces"]`
 
 sometimes the key is stored in a variable - ie not predetermined. this is a dynamic key
 
-can assign properties to objects and reassign, e.g. ``variable.key = "something"``
+can assign properties to objects and reassign, e.g. `variable.key = "something"`
 if using dynamic key, use bracket notation
 nb don't use let ... for this
 
-as well as assigning and reassigning values to properties can delete. e.g. ``delete variable.key`` or set value to ``null``
+as well as assigning and reassigning values to properties can delete. e.g. `delete variable.key` or set value to `null`
 
-objects can be nested within other objects, using ``{ }`` inside followed by usual ``key : value``  then access as ``variable.key.key``
+objects can be nested within other objects, using `{ }` inside followed by usual `key : value` then access as `variable.key.key`
 
 ## For...in loops
 
 ``for (const key in variableName) { code to be executed}
 
 We can use variable keys and bracket notation to dynamically access the value of keys:
+
 ```javascript
 for (let key in obj) {
   const value = obj[key];
@@ -448,7 +430,7 @@ NB must have the const in for in loops
 nb you can have for loops inside for in loops
 
 when accessing a property in objects, got to write is as string, " " "
-remember escape keys!  'Anne's' written as 'Anne\'s'
+remember escape keys! 'Anne's' written as 'Anne\'s'
 
 ## For...of loops
 
@@ -456,19 +438,22 @@ Same as above, just loop through key values instead of key names
 In arrays for in will just give the indexes, while for of will give the values.
 
 ## While loops
+
 while loop executes statement when test condition is true.
 e.g.
+
 ```javascript
-while (n<5){
-n++;
-console.log("n = " +n);
+while (n < 5) {
+  n++;
+  console.log("n = " + n);
 }
 ```
 
 ## Do while loops
+
 Executes until the test condition is false - so will run at least once
 
-``` Javascript
+```Javascript
 do {
 i++;
 console.log("i = " + i);
@@ -476,31 +461,26 @@ console.log("i = " + i);
 while (i < 5);
 ```
 
-can write in ``if ( condition) continue``, continue takes back to start of the loop, whereas
-``break`` stops it
-
+can write in `if ( condition) continue`, continue takes back to start of the loop, whereas
+`break` stops it
 
 ## Functions
 
-invoke a function by writing ``functionName()``
- functions can have more than one parameter
- use ``return`` to return a value which can be used elsewhere and changed
- ``Return`` is last part of code in function - can't run any more code after that
+invoke a function by writing `functionName()`
+functions can have more than one parameter
+use `return` to return a value which can be used elsewhere and changed
+`Return` is last part of code in function - can't run any more code after that
 
 in a for loop, use answer = false or answer = true and then return answer instead of just doing return false or return true, cos that will overwrite for each entry, each time the loop runs
 
+`break` to exit a for loop when answer is found - i.e. first odd number
 
+`%` - remainder operator
 
-``break`` to exit a for loop when answer is found - i.e. first odd number
-
-``%`` - remainder operator
-
-
-in javascript ``...`` is known as the spread operator - ``...myArray `` means all the values in an array are passed into function as individual elements.
+in javascript `...` is known as the spread operator - `...myArray ` means all the values in an array are passed into function as individual elements.
 
 Math.floor() - round down
 Math.ceiling() - round up
-
 
 NB must put return...function at end of function
 NB when putting new key and value in an object, must put key in " "
@@ -509,29 +489,31 @@ NB when put return in a loop it stops it looping - don't do it!
 
 ## Events
 
-``document.querySelector("html").addEventListener("click", function () {
-``alert("Ouch! Stop poking me!");
+`document.querySelector("html").addEventListener("click", function () {
+`alert("Ouch! Stop poking me!");
 ``});
 
-
-``function ()`` this is an anonymous function cos it doesn't have a name
-	can also be written as `() =>`  - an arrow function
+`function ()` this is an anonymous function cos it doesn't have a name
+can also be written as `() =>` - an arrow function
 
 these anonymous functions are useful when don't need to name functions to use elsewhere, epecially when passing function as argument to another function
 
 so e.g.:
+
 ```js
-const myFunc = function() {
+const myFunc = function () {
   const myVar = "value";
   return myVar;
-}
+};
 ```
+
 can be rewritten as:
+
 ```js
 const myFunc = () => {
   const myVar = "value";
   return myVar;
-}
+};
 ```
 
 can be simplified further - since no function body and only a return value we can omit the keyword return and brackets.
@@ -548,23 +530,24 @@ doubler(4);
 ```
 
 if just one item, can get rid of brackets:
+
 ```js
-const doubler = item => item * 2;
+const doubler = (item) => item * 2;
 ```
 
 Can also pass two values, like so:
 
 ```js
 const multiplier = (item, multi) => item * multi;
-multiplier(4, 2)
+multiplier(4, 2);
 ```
-
 
 ## Switch statements
 
 Use Switch statements to test one value against multiple options.
 E.g.
-```js
+
+````js
 switch (fruit) {
   case "apple":
     console.log("The fruit is an apple");
@@ -590,47 +573,42 @@ switch (num) {
     defaultStatement;
     break;
 }
-```
+````
 
 NB when you set a variable, it should be =0, = "" depending on what you want it to be. Will default to string if not set. So something will end up being NaN even if numbers are added to it.
 
 Can also use a lookup object rather than switch or if else chain. Most useful when input data is limited to certain range of values.
 
-
 ## Arrays
+
 when defining new empty array - can write
-``let arr = new Array()`` or ``let arr = []``
+`let arr = new Array()` or `let arr = []`
 you can check if array is empty or not with .length, e.g.
 ``if (arr.length === 0){console.log("array is empty")}
 
-
-We can manipulate strings with ``.padStart()`` which pads the start of the string with another string until it reaches a given length. e.g. padding text with 0 until it reaches the length of 4: ``text.padStart(4,"0");``
-
-
+We can manipulate strings with `.padStart()` which pads the start of the string with another string until it reaches a given length. e.g. padding text with 0 until it reaches the length of 4: `text.padStart(4,"0");`
 
 ## Number objects
 
 There are other ways to convert numbers to strings:
-- ``.toFixed()`` - specifies the number of decimal places, e.g. ``3.1415.toFixed(2)`` will make it ``3.14``
-- ``.toExponential()`` - writes it as exponential, e.g. ``100,000.toExponential()`` becomes ``1.0e+5``, 1 and 5 zeroes. The number in the brackets is as above, the precision of the decimal places.
-- ``.toPrecision()`` - controls total number of digits, e.g. ``123.4563.toPrecision(6)`` becomes ``123.456``
+
+- `.toFixed()` - specifies the number of decimal places, e.g. `3.1415.toFixed(2)` will make it `3.14`
+- `.toExponential()` - writes it as exponential, e.g. `100,000.toExponential()` becomes `1.0e+5`, 1 and 5 zeroes. The number in the brackets is as above, the precision of the decimal places.
+- `.toPrecision()` - controls total number of digits, e.g. `123.4563.toPrecision(6)` becomes `123.456`
 
 We can turn this string back into a number with either:
-- ``parseInt()`` - converts to integer
-	- ``ParseInt(string, radix)`` - which turns string into a number with radix (like binary etc.)
-- ``parseFloat()`` - converts to decimal
-	- can also be written as just ``+`` in front of a string
-For each - the number goes in the (), not as a .
 
-
+- `parseInt()` - converts to integer
+  - `ParseInt(string, radix)` - which turns string into a number with radix (like binary etc.)
+- `parseFloat()` - converts to decimal - can also be written as just `+` in front of a string
+  For each - the number goes in the (), not as a .
 
 ## Checking Objects for Properties
 
-Use ``.hasOwnProperty``, e.g.
-``object.hasOwnProperty(property)`` will return true or false
+Use `.hasOwnProperty`, e.g.
+`object.hasOwnProperty(property)` will return true or false
 
-or can use ``in`` -  ``property in object`` will return true or false
-
+or can use `in` - `property in object` will return true or false
 
 ## Recursion
 
@@ -639,28 +617,27 @@ Recursion states that a function can be expressed in terms of itself, a function
 We use n-1 in recursive calls because arrays are zero-indexed, so need to go one back.
 
 ## Generating random numbers
-Use ``Math.random()`` to create a random decimal between 0  and 1. Can be 0 but can't be 1.
 
-From there can make a random number less than 20 by using ``Math.floor(Math.random() * 20);``
-``Math.floor()`` rounds number down to nearest whole number
+Use `Math.random()` to create a random decimal between 0 and 1. Can be 0 but can't be 1.
+
+From there can make a random number less than 20 by using `Math.floor(Math.random() * 20);`
+`Math.floor()` rounds number down to nearest whole number
 
 can do this between a range of two number using min and max values, like so:
 
-``Math.floor(Math.random() * (max - min + 1)) + min``
-
+`Math.floor(Math.random() * (max - min + 1)) + min`
 
 ## Prevent object mutation
 
-Use ``Object.freeze(objectName)`` - this will stop any variables in the object being redeclared
-
+Use `Object.freeze(objectName)` - this will stop any variables in the object being redeclared
 
 ## Console
 
 Can just right click, inspect, on any web element to open dev tools for that element
 
-can do ``console.log()`` a value to print it to the console
-``console.clear()`` to clear the console
-and ``console.warn()`` to print a warning message along with warning icon
+can do `console.log()` a value to print it to the console
+`console.clear()` to clear the console
+and `console.warn()` to print a warning message along with warning icon
 
 can write like this if want to reference a value:``console.log(`Net working capital is: ${netWorkingCapital}`);``
 
@@ -669,30 +646,30 @@ can write like this if want to reference a value:``console.log(`Net working capi
 ```js
 let thatArray = [...thisArray];
 ```
- copy with just ``...``
+
+copy with just `...`
 
 Can add arrays within other arrays using spread operator too, like so:
 
 ```js
-let thatArray = ['basil', 'cilantro', ...thisArray, 'coriander'];
+let thatArray = ["basil", "cilantro", ...thisArray, "coriander"];
 ```
 
 ## indexOf
 
-``.indexOf()`` to check for presence of element in array, will return the index of that element or -1 if not present. E.g. ``fruits.indexOf('pears')``
-
-
+`.indexOf()` to check for presence of element in array, will return the index of that element or -1 if not present. E.g. `fruits.indexOf('pears')`
 
 ## Generate an Array of All Object Keys with Object.keys()
 
-Use ``Object.keys([ArrayName])`` to generate a new array of all the keys in an object. Won't have specific order because generating from an object
+Use `Object.keys([ArrayName])` to generate a new array of all the keys in an object. Won't have specific order because generating from an object
 
 ## Convert values to Boolean
 
-``!!value `` will evaluate as true or false
+`!!value ` will evaluate as true or false
 
 There are 6 falsy values in JS: ```
-``` js
+
+```js
 false
 undefined
 null
@@ -702,21 +679,24 @@ NaN
 ```
 
 ## Using Sort Operator
-``.sort()`` will sort an array of values based on their unicode values, in ascending order. This not always useful cos numbers 5, 62 etc. would be ordered like that cos only takes first number. So we use a compare function within the sort:
-``arr.sort((a, b) => a - b);``
 
+`.sort()` will sort an array of values based on their unicode values, in ascending order. This not always useful cos numbers 5, 62 etc. would be ordered like that cos only takes first number. So we use a compare function within the sort:
+`arr.sort((a, b) => a - b);`
 
 ## Default parameters
 
 Use default parameters to trigger default behaviour if a variable not specified, e.g.
+
 ```js
 const greeting = (name = "Anonymous") => "Hello " + name;
 ```
+
 Will give hello Annonymous unless name is otherwise specified
 
 ## Rest parameter
 
 Represent an indefinite number of arguments in a function. Useful to define any length of array, e.g.
+
 ```javascript
 function sum(...numbers) {
   let total = 0;
@@ -730,32 +710,36 @@ console.log(sum(1, 2, 3, 4)); // Output: 10
 
 ## Spread operator
 
-Used to expand or "spread" elements from an array using ``...``
+Used to expand or "spread" elements from an array using `...`
 
 ## Template literals
-`${variable}`
 
+`${variable}`
 
 ## setTimeout and setInterval
 
-``SetTimeout`` executes a function or a piece of code once after a delay. e.g.
+`SetTimeout` executes a function or a piece of code once after a delay. e.g.
+
 ```javascript
 setTimeout(() => {
   console.log("This will be executed after 1000 milliseconds (1 second).");
 }, 1000);
 ```
 
- `setInterval` function is used to repeatedly execute a function or a piece of code at a specified interval. e.g.
- ```javascript
- setInterval(() => {
+`setInterval` function is used to repeatedly execute a function or a piece of code at a specified interval. e.g.
+
+```javascript
+setInterval(() => {
   console.log("This will be executed every 1000 milliseconds (1 second).");
 }, 1000);
 ```
-Will keep repeating until ``clearInterval()`` is called with the corresponding interval Id or the program ends. e.g.
+
+Will keep repeating until `clearInterval()` is called with the corresponding interval Id or the program ends. e.g.
 
 ```javascript
 const intervalId = setInterval(intervalFunction, 1000);
 clearInterval(intervalId);
 ```
+
 See also:
 [[Regular-expressions]]

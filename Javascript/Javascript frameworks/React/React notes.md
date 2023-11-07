@@ -1,10 +1,10 @@
 # React notes
 
-uses .jsx, a version of javascript
+Uses .jsx, a version of javascript
 lets you write html within js and javascript, within { }, e.g.
 ``{'this is treated as JavaScript code' }
 
-must be compiled into javascript with a transpiler like Babel
+Must be compiled into javascript with a transpiler like Babel.
 
 React is called Electron on desktop and React native on mobile. For web - react.js or just react.
 
@@ -13,23 +13,33 @@ React is called Electron on desktop and React native on mobile. For web - react.
 ### Common Build tools
 
 - Create React App
-    - ``npx create-react-app`` creates react app and bundles it with webpack automatically.
-    - html element will just have a root div, linked to index.js which tells what to feed in and app.js which has all the html in.
-    - ``npm start`` will run live server with React app.
-    - ``npm run build`` will crerate a build folder which can be uploaded to server.
+  - `npx create-react-app` creates react app and bundles it with webpack automatically.
+  - html element will just have a root div, linked to index.js which tells what to feed in and app.js which has all the html in.
+  - `npm start` will run live server with React app.
+  - `npm run build` will crerate a build folder which can be uploaded to server.
 - Vite
+
+  - `npm init vite my-app`
+  - Simplifies and speeds up build process.
+  - works for most developers and with multiple frameworks.
+  - can add plugins
+  - `npm run dev` to run locally.
+  - Makes typescript faster.
+  - modifying source code will make changes instantly, unlike create react app.
+  - `npm run build` to generate build version
+
 - Next.js
 - Gatsby
 
 ### Files in a typical React app
 
-- ``package.json`` - dependencies and settings.
-- ``node_modules`` - source code for node dependencies. git ignore and don't touch.
-- ``public`` - where static files are stored
-- ``src/index.js`` -main entrypoint to start app
-- ``src/App.js`` - root component of app.
-- ``src/App.spec.js`` - unit tests for app, to show if app working correctly.
-- ``src/*.css`` - css styling for app.
+- `package.json` - dependencies and settings.
+- `node_modules` - source code for node dependencies. git ignore and don't touch.
+- `public` - where static files are stored
+- `src/index.js` -main entrypoint to start app
+- `src/App.js` - root component of app.
+- `src/App.spec.js` - unit tests for app, to show if app working correctly.
+- `src/*.css` - css styling for app.
 
 ## Components
 
@@ -39,13 +49,11 @@ React is called Electron on desktop and React native on mobile. For web - react.
 
 ## Two ways to create component
 
-### 1.  Functional components
+### 1. Functional components
 
 ```jsx
-const DemoComponent = function() {
-  return (
-    <div className='customClass' />
-  );
+const DemoComponent = function () {
+  return <div className="customClass" />;
 };
 ```
 
@@ -59,6 +67,22 @@ n.b. functions have to start with capital letter - i.e. DemoComponent here
 
 - This lets us make complicated layouts with lots of different components.
 - This is most popular method of making components, more popular than below method.
+
+If you want a React component within another function componentn, you define define component and render it as html element within other component's body:
+
+e.g.
+
+```JSX
+function App() {
+  return <Headline />;
+}
+
+function Headline() {
+  const greeting = 'Hello Function Component!';
+
+  return <h1>{greeting}</h1>;
+}
+```
 
 ### 2. Class components
 
@@ -82,14 +106,15 @@ class Kitten extends React.Component {
 
 ```jsx
 return (
- <App>
-  <Navbar />
-  <Dashboard />
-  <Footer />
- </App>
+  <App>
+    <Navbar />
+    <Dashboard />
+    <Footer />
+  </App>
+);
 ```
 
-- You can render class components within other elements in the same way. E.g. just nest ``<className></className>``
+- You can render class components within other elements in the same way. E.g. just nest `<className></className>`
 
 ## Props
 
@@ -109,40 +134,89 @@ props go from parent to child.
 
 {props.children} gives inner html of parent component
 
+props passed to class component are available as: `this.props`
+
 ## State
 
 - Local variable just within given component
 
+## Hooks
+
+React Hooks mean we can have state in Function component.
+
+Watch this: <https://www.youtube.com/watch?v=f687hBjwFcM>
+
 ## Comments in jsx
 
-```jsx
+````jsx
 ```{/*here's a comment*/}
-```
+````
 
 ## adding to DOM
 
 to add to DOM, use React's rendering API:
 `ReactDOM.render(componentToRender, targetNode)`
 
-where variables are componentToRender - ie. component from .jsx and targetNode, the element we want to send the component to.  Can use document.getElementByID to select this target element.
+where variables are componentToRender - ie. component from .jsx and targetNode, the element we want to send the component to. Can use document.getElementByID to select this target element.
 
-for React components (as opposed to JSX) - you have to use the ``<component></component>``  or ``<component/>``  syntax - for both class components and functional components
+for React components (as opposed to JSX) - you have to use the `<component></component>` or `<component/>` syntax - for both class components and functional components
 
 ## Tags
 
-all tags have to be closed .  all elements can be self closing too, such as `<div>`, can be written as `<div />` or `<div></div>`.
+all tags have to be closed . all elements can be self closing too, such as `<div>`, can be written as `<div />` or `<div></div>`.
+
+## Conditional rendering
+
+Very common, based on boolean.
+
+You can't write `if (condition) { ... }` in JSX. Instead, use:
+
+1.  Outside JSX, in javascript curly brackets e.g.
+
+```jsx
+/** Write "Hello" if x is less than 10, otherwise "Goodbye" **/
+const x = 5;
+let text = "Goodbye";
+if (x < 10) {
+  text = "Hello";
+}
+const myElement = <h1>{text}</h1>;
+```
+
+Here the javascript runs before the JSX code.
+
+2.  Using Ternary expressions:
+
+```jsx
+/** Write "Hello" if x is less than 10, otherwise "Goodbye" **/
+
+const x = 5;
+const myElement = <h1>{x < 10 ? "Hello" : "Goodbye"}</h1>;
+```
 
 ## React Bootstrap
 
 Predesigned components in HTML, CSS and Javascript
 
-## Hooks
-
-Watch this:  <https://www.youtube.com/watch?v=f687hBjwFcM>
-
-# Fill in [Roadmap](https://roadmap.sh/react) as go along
-
 ## Resources
 
 - <https://www.skillshare.com/en/classes/Learn-React-From-Beginner-Concepts-to-Building-a-Full-React-App/196289883/reviews>
 - <https://fireship.io/courses/react/>
+- <https://react.dev/learn/writing-markup-with-jsx>
+- [Vite guide](https://vitejs.dev/guide/)
+
+To read more:
+
+- [Hooks](https://reactjs.org/docs/hooks-intro.html)
+- https://www.robinwieruch.de/react-function-component/
+- https://react.dev/reference/react/Component
+- https://react.dev/learn/passing-props-to-a-component
+- https://www.freecodecamp.org/news/jsx-in-react-introduction/
+
+```
+
+```
+
+```
+
+```

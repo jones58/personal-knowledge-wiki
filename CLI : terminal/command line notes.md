@@ -1,12 +1,12 @@
 # Command Line Notes
 
-- ``pwd`` print working directory
-- ``mkdir x`` to make a new folder, x
-- ``cd x`` to change directory to that folder, x
-- ``touch x`` to create a file with name x
-- ``cd ./x`` to go to x directory (not necessarily within current directory)
-- ``ls`` list items in a folder
-- ``cd ..`` two dots mean step out of directory one level
+- `pwd` print working directory
+- `mkdir x` to make a new folder, x
+- `cd x` to change directory to that folder, x
+- `touch x` to create a file with name x
+- `cd ./x` to go to x directory (not necessarily within current directory)
+- `ls` list items in a folder
+- `cd ..` two dots mean step out of directory one level
 
 some more command line tips:
 `!!` # run the last command executed
@@ -33,5 +33,4 @@ folder-name/ directs browser into a folder with that name
 relative urls for same domain
 absolute urls for different domain
 
-can write ``clear`` in terminal to clear it
-
+can write `clear` in terminal to clear it

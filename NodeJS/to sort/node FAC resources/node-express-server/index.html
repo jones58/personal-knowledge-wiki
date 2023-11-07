@@ -1,410 +1,949 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Node and Express HTTP server</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Node and Express HTTP server</h1><p class="highlight fz-lg">Learn how to use Node and Express to create HTTP servers</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">express</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">server</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/node-express-server/starter-files#main' node-express-server" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fnode-express-server%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Node is often used to create HTTP servers for the web. It’s a bit fiddly to do this with just the built-in modules, so we’re going to use the Express library to help create our server.</p>
-<h2 id="http-recap">HTTP recap <a class="heading-anchor" href="#http-recap">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>HyperText Transfer Protocol (HTTP) is a way for computers to exchange messages over the internet. The “client” computer will send a “request” (often via a web browser). E.g. if you visit <a href="https://google.com">https://google.com</a> your browser sends a request like this:</p>
-<pre><code>GET / HTTP/1.1
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node and Express HTTP server</title>
+    <link
+      rel="preload"
+      href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <header class="hstack jc-between pad-lg">
+        <a href="/" aria-label="Home"
+          ><img src="/assets/images/logo.svg" width="100" alt
+        /></a>
+        <nav id="global-nav">
+          <ul role="list" class="hstack">
+            <li>
+              <a class="global-nav__link" href="/course/introduction/"
+                >Course</a
+              >
+            </li>
+            <li>
+              <a class="global-nav__link" href="/resources/introduction/"
+                >Resources</a
+              >
+            </li>
+            <li><a class="global-nav__link" href="/about/">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="center">
+        <div class="layout">
+          <aside></aside>
+          <main id="main">
+            <div>
+              <header class="vstack gap-xl pad-xl stripes">
+                <div class="vstack" data-gap="md">
+                  <h1 class="highlight bg-primary">
+                    Node and Express HTTP server
+                  </h1>
+                  <p class="highlight fz-lg">
+                    Learn how to use Node and Express to create HTTP servers
+                  </p>
+                  <ul role="list" class="hstack gap-sm wrap">
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      js
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      express
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      server
+                    </li>
+                  </ul>
+                </div>
+                <div class="hstack wrap">
+                  <div class="vstack gap-none">
+                    <label
+                      for="download-command"
+                      class="highlight fw-bold"
+                      style="--bg: var(--bg-400)"
+                      >Download files via CLI</label
+                    ><copy-text class="hstack gap-none ai-stretch"
+                      ><input
+                        id="download-command"
+                        readonly
+                        value="npx degit 'foundersandcoders/coursebook/src/workshops/node-express-server/starter-files#main' node-express-server" /><button
+                        aria-label="Copy"
+                        title="Copy"
+                        hidden
+                      >
+                        <svg
+                          data-copy
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                          ></path></svg
+                        ><svg
+                          hidden
+                          data-success
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg></button
+                    ></copy-text>
+                  </div>
+                  <a
+                    href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fnode-express-server%5D&amp;labels=feedback"
+                    target="_blank"
+                    rel="noopener"
+                    class="button"
+                    >Leave feedback<svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z"
+                        clip-rule="evenodd"
+                      ></path></svg
+                  ></a>
+                </div>
+              </header>
+              <div style="margin: 4rem 0" class="flow">
+                <p>
+                  Node is often used to create HTTP servers for the web. It’s a
+                  bit fiddly to do this with just the built-in modules, so we’re
+                  going to use the Express library to help create our server.
+                </p>
+                <h2 id="http-recap">
+                  HTTP recap
+                  <a class="heading-anchor" href="#http-recap">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  HyperText Transfer Protocol (HTTP) is a way for computers to
+                  exchange messages over the internet. The “client” computer
+                  will send a “request” (often via a web browser). E.g. if you
+                  visit <a href="https://google.com">https://google.com</a> your
+                  browser sends a request like this:
+                </p>
+                <pre><code>GET / HTTP/1.1
 host: google.com
 accept: text/html
 </code></pre>
-<p>A “server” computer receives this request and sends a “response”. E.g. Google’s server would send a response like this:</p>
-<pre><code>HTTP/1.1 200 Ok
+                <p>
+                  A “server” computer receives this request and sends a
+                  “response”. E.g. Google’s server would send a response like
+                  this:
+                </p>
+                <pre><code>HTTP/1.1 200 Ok
 content-type: text/html
 
 &lt;!doctype html&gt;
 &lt;html&gt;&lt;body&gt;&lt;h1&gt;Welcome to Google&lt;/h1&gt;...&lt;/body&gt;&lt;/html&gt;
 </code></pre>
-<p>We’re going to learn how to use Node to create an HTTP server that can respond to requests.</p>
-<h2 id="workshop-prep">Workshop prep <a class="heading-anchor" href="#workshop-prep">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<ol>
-<li>Create a new directory</li>
-<li>Move into that directory</li>
-<li>Initialise the project to create a <code>package.json</code></li>
-<li>Install the Express library</li>
-<li>Open your editor and create a <code>server.js</code> file</li>
-</ol>
-<pre class="language-shell"><code class="language-shell"><span class="token function">mkdir</span> node-server-intro<br><span class="token builtin class-name">cd</span> node-server-intro<br><span class="token function">npm</span> init <span class="token parameter variable">-y</span><br><span class="token function">npm</span> <span class="token function">install</span> express<br>code <span class="token builtin class-name">.</span></code></pre>
-<p>Follow along with each example in your own editor.</p>
-<h2 id="creating-a-server">Creating a server <a class="heading-anchor" href="#creating-a-server">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>We can create a new server object using the <code>express</code> module:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="handling-requests">Handling requests <a class="heading-anchor" href="#handling-requests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Our server currently does nothing. We need to add a “route”. This is a function that will be run whenever the server receives a request to a specific path.</p>
-<p>The <code>server</code> object has methods representing all the HTTP verbs (<code>GET</code>, <code>POST</code> etc). These methods take two arguments: the path to match and a handler function.</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Here we tell the server to call our function for any HTTP GET requests to our home path.</p>
-<p>The handler function will be passed two arguments: an object representing the incoming request, and an object representing the response that will eventually be sent.</p>
-<p>We can use the <code>send</code> method of the response object to tell Express to send the response. Whatever argument we pass will be sent as the response body.</p>
-<h2 id="starting-the-server">Starting the server <a class="heading-anchor" href="#starting-the-server">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Our Node program has a functioning server, but that server isn’t currently listening for requests. Servers need to connect to the internet and listen for incoming HTTP requests on via a “port”.</p>
-<div class="box box-default content flow">
-<p>A “port” is an entry/exit point on a computer to allow network connections (like an airport allows people in/out of a country). HTTP uses port 80 by default (and HTTPS uses 443), so you don’t normally see them in URLs on the web. E.g. when you visit <code>https://google.com</code> you are really going to <code>https://google.com:443</code>.</p>
-<p>When you’re running a server locally in development it’s common to use a random number like 3000 or 8080. You can access a port by adding it to a URL like this: <code>http://localhost:3000</code>.</p>
-</div>
-<p>We can tell our server to listen on a port like this:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> <span class="token constant">PORT</span> <span class="token operator">=</span> <span class="token number">3000</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token constant">PORT</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Listening on http://localhost:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token constant">PORT</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>We use the <code>listen</code> method of the server object. This takes the port number to listen on, and an optional callback to run when it starts listening. This callback is a good place to log something so you know the server has started.</p>
-<p>Now we can run the program in our terminal:</p>
-<pre class="language-shell"><code class="language-shell"><span class="token function">node</span> server.js</code></pre>
-<p>The server will start and you should see “Server listening on <a href="http://localhost:3000">http://localhost:3000</a>” logged.</p>
-<div class="box box-error content flow">
-<p><strong>Important</strong>: The Node process will continue running until you tell it to stop by typing <kbd>control</kbd> + <kbd>c</kbd> in your terminal. Every time you change your code you must stop the old process and start a new one by running <code>node server.js</code> again.</p>
-</div>
-<h2 id="sending-requests">Sending requests <a class="heading-anchor" href="#sending-requests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Open <a href="http://localhost:3000">http://localhost:3000</a> in your browser. This will send a <code>GET</code> request to your server. You should see the “hello” response on the page. It’s helpful to open the network tab of the dev tools so you can see all the details of the request and response.</p>
-<figure>
-   <img src="request.png" width="2016" height="1230" alt="the network tab of a browser showing the request in action">
-   <figcaption>The request in action</figcaption>
-</figure>
-<h2 id="the-response">The response <a class="heading-anchor" href="#the-response">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>HTTP responses need a few different things:</p>
-<ol>
-<li>A status code (e.g. <code>200</code> for success or <code>404</code> for not found)</li>
-<li>Headers to provide info about the response</li>
-<li>A body (the response data itself)</li>
-</ol>
-<h3 id="status-code">Status code <a class="heading-anchor" href="#status-code">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>We’re currently only providing the body. Express will set the status code to <code>200</code> by default. To set a different code use the <code>response.status</code> method:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>You can chain this together with <code>send</code> to make it shorter:</p>
-<pre class="language-js"><code class="language-js">response<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="headers">Headers <a class="heading-anchor" href="#headers">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Express will automatically set some headers describing the response. For example since we called <code>send</code> with a string it will set the <code>content-type</code> to <code>text/html</code> and the <code>content-length</code> to the size of the string.</p>
-<p>You can set your own headers using the <code>response.set</code> method. This can take two strings to set a single header:</p>
-<pre class="language-js"><code class="language-js">response<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"x-fake-header"</span><span class="token punctuation">,</span> <span class="token string">"my-value"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Or it can take an object of string values to set multiple headers:</p>
-<pre class="language-js"><code class="language-js">response<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>  <span class="token string-property property">"x-fake-header"</span><span class="token operator">:</span> <span class="token string">"my value"</span><span class="token punctuation">,</span><br>  <span class="token string-property property">"x-another-header"</span><span class="token operator">:</span> <span class="token string">"another value"</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="html-body">HTML body <a class="heading-anchor" href="#html-body">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>We aren’t limited to plaintext in our body. The browser will parse any HTML tags and render them on the page. Change your handler to return some HTML instead:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Visit <a href="http://localhost:3000">http://localhost:3000</a> again and you should see an <code>h1</code> rendered.</p>
-<p>Since we’re rendering HTML using strings we can insert dynamic values using template literals. Let’s add the current time to the response:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> time <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toLocaleTimeString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;h1>Hello, it's </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>time<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/h1></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="json-body">JSON body <a class="heading-anchor" href="#json-body">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>We aren’t limited to a text response. Lets send some JSON as well. Add a new route to your server:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/json"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">message</span><span class="token operator">:</span> <span class="token string">"Hello"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>HTTP response bodies are always strings, so Express will automatically convert our object to a JSON string for us. It will also set the <code>content-type</code> header to <code>application/json</code>.</p>
-<p>Visit <a href="http://localhost:3000/json">http://localhost:3000/json</a> and you should see a JSON object with a <code>message</code> property.</p>
-<h3 id="redirects">Redirects <a class="heading-anchor" href="#redirects">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Sometimes we want to <em>redirect</em> the request to another URL. You can use the <code>response.redirect</code> method for this. Add a new route:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/redirects"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Now if you visit <a href="http://localhost:3000/redirects">http://localhost:3000/redirects</a> in your browser you should end up back on the home page. If you look at the network tab in the dev tools you’ll see two requests.</p>
-<figure>
-   <img src="redirect.png" width="2016" height="1230" alt="the network tab of a browser showing the redirect in action">
-   <figcaption>The redirect in action</figcaption>
-</figure>
-<p>First a request to <code>/redirects</code>. This has a response status code of <code>302</code> and a <code>location</code> header pointing to <code>/</code>. This tells the browser to then make a second request to <code>/</code>.</p>
-<h2 id="dynamic-route-paths">Dynamic route paths <a class="heading-anchor" href="#dynamic-route-paths">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Sometimes you can’t know in advance all the routes you need. For example if you wanted a page for each user profile: <code>/users/oli</code>, <code>/users/dan</code> etc. You can’t statically list <em>every</em> possible route here. Instead you can use a placeholder value in the path to indicate that part of it is variable:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/users/:name"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> name <span class="token operator">=</span> request<span class="token punctuation">.</span>params<span class="token punctuation">.</span>name<span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;h1>Hello </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/h1></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>We use a colon (<code>:</code>) to indicate to Express that <em>any</em> value can match a part of the path. It will put any matched values on the <code>request.params</code> object so you can use them.</p>
-<p>If you visit <a href="http://localhost:3000/users/oli">http://localhost:3000/users/oli</a> you should see “Hello oli”. If you visit <a href="http://localhost:3000/users/knadkmnaf">http://localhost:3000/users/knadkmnaf</a> you should see “Hello knadkmnaf”.</p>
-<h2 id="missing-routes">Missing routes <a class="heading-anchor" href="#missing-routes">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Try visiting <a href="http://localhost:3000/not-real">http://localhost:3000/not-real</a> in your browser. You should see <code>Cannot GET /not-real</code>. This is Express’ default response for when no handler matches a path.</p>
-<p>You can customise this by putting a “catch-all” handler after all your other routes. If no other route matches then this will be used (since Express matches them in the order they are defined).</p>
-<p>We can use the <code>server.use</code> method to create a handler that will match <em>any</em> method/route:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Not found&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Reload <a href="http://localhost:3000/not-real">http://localhost:3000/not-real</a> and you should now see your custom response.</p>
-<h2 id="middleware">Middleware <a class="heading-anchor" href="#middleware">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Express route handlers don’t have to send a response. They actually receive a third argument: the <code>next</code> function. Calling this function tells Express to move on to the next handler registered for the route.</p>
-<p>Let’s add another handler for the home route. It will just log the request, then move on to the next handler:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>method <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> request<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>If you run this code and refresh the home page you should see <code>GET /</code> logged in your terminal.</p>
-<p>The route methods accept multiple handler functions, so you can actually pass them all in one go. This does the same thing:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">logger</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>method <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> request<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> logger<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Express calls handlers that don’t send a response “middleware”. Our example here isn’t that useful, but we could change it to run before <em>all</em> requests. We can do this with <code>server.use</code>:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>logger<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Now we’ll get a helpful log like <code>GET /</code> in our terminal when we load any page. Without middleware we would have to copy this into every route we wrote.</p>
-<h2 id="static-files">Static files <a class="heading-anchor" href="#static-files">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>It’s common to have some static files that don’t change for each request. E.g. CSS, images, maybe some basic HTML pages. For convenience Express includes a built-in middleware for serving a directory of files: <code>express.static</code>.</p>
-<p>Create a new directory named <code>public</code>. This is where we’ll keep all the files sent to the client. Create a <code>public/style.css</code> file with some example CSS.</p>
-<p>Finally configure the middleware to serve this directory:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> staticHandler <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">static</span><span class="token punctuation">(</span><span class="token string">"public"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>staticHandler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>The server will now handle requests to <a href="http://localhost:3000/style.css">http://localhost:3000/style.css</a> and respond with the file contents. Note that there is no <code>public</code> in the final URL: Express serves the files from the root of the site.</p>
-<h2 id="post-requests">Post requests <a class="heading-anchor" href="#post-requests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>So far we’ve only created <code>GET</code> handlers. Let’s add a <code>POST</code> handler to see how we’d deal with forms submitting user data to our server:</p>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"/submit"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"posted"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"thanks for submitting"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>We can’t make a test <code>POST</code> request as easily in our browser, since that would require a form. Instead we can send a request from our terminal using the <code>curl</code> program.</p>
-<p>Open a new terminal window/tab and run:</p>
-<pre class="language-shell"><code class="language-shell"><span class="token function">curl</span> <span class="token parameter variable">-X</span> POST localhost:3000/submit</code></pre>
-<p>You should receive a response of “Thanks for submitting”. You can add the <code>--verbose</code> flag to see the entire HTTP request/response. If you check the terminal where your server is running you should see “posted” logged.</p>
-<h3 id="request-body">Request body <a class="heading-anchor" href="#request-body">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>A <code>POST</code> request that doesn’t send any data isn’t very useful. Usually a form would be submitting some user input. We can add data to our <code>curl</code> request with the <code>-d</code> flag:</p>
-<pre class="language-shell"><code class="language-shell"><span class="token function">curl</span> <span class="token parameter variable">-X</span> POST localhost:3000/submit <span class="token parameter variable">-d</span> <span class="token string">"name=oli"</span></code></pre>
-<p>However since bodies can be large they come in lots of small chunks. This means there’s no simple way to just access the body. Instead we must use a “body parser” middleware.</p>
-<p>For convenience these are included as part of the Express module. Request bodies can come in different formats (JSON, form etc), so we must use the right middleware. We want <code>express.urlencoded</code>, which is what forms submit by default. This is a function we call to create our middleware:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> bodyParser <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">urlencoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"/submit"</span><span class="token punctuation">,</span> bodyParser<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"thanks for submitting"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>This middleware will wait until all the submitted data has been received, then add a <code>body</code> property to the <code>request</code> object. We can then read this property in our handler.</p>
-<p>If you use <code>curl</code> to send another <code>POST</code> request you should see something like <code>{ name: 'oli' }</code> logged in your server terminal.</p>
-<hr>
-<p>That’s it, you’ve learnt the basics of using Node and Express to create an HTTP server.</p>
-</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>
+                <p>
+                  We’re going to learn how to use Node to create an HTTP server
+                  that can respond to requests.
+                </p>
+                <h2 id="workshop-prep">
+                  Workshop prep
+                  <a class="heading-anchor" href="#workshop-prep">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <ol>
+                  <li>Create a new directory</li>
+                  <li>Move into that directory</li>
+                  <li>
+                    Initialise the project to create a <code>package.json</code>
+                  </li>
+                  <li>Install the Express library</li>
+                  <li>
+                    Open your editor and create a <code>server.js</code> file
+                  </li>
+                </ol>
+                <pre
+                  class="language-shell"
+                ><code class="language-shell"><span class="token function">mkdir</span> node-server-intro<br><span class="token builtin class-name">cd</span> node-server-intro<br><span class="token function">npm</span> init <span class="token parameter variable">-y</span><br><span class="token function">npm</span> <span class="token function">install</span> express<br>code <span class="token builtin class-name">.</span></code></pre>
+                <p>Follow along with each example in your own editor.</p>
+                <h2 id="creating-a-server">
+                  Creating a server
+                  <a class="heading-anchor" href="#creating-a-server">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  We can create a new server object using the
+                  <code>express</code> module:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <h2 id="handling-requests">
+                  Handling requests
+                  <a class="heading-anchor" href="#handling-requests">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Our server currently does nothing. We need to add a “route”.
+                  This is a function that will be run whenever the server
+                  receives a request to a specific path.
+                </p>
+                <p>
+                  The <code>server</code> object has methods representing all
+                  the HTTP verbs (<code>GET</code>, <code>POST</code> etc).
+                  These methods take two arguments: the path to match and a
+                  handler function.
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Here we tell the server to call our function for any HTTP GET
+                  requests to our home path.
+                </p>
+                <p>
+                  The handler function will be passed two arguments: an object
+                  representing the incoming request, and an object representing
+                  the response that will eventually be sent.
+                </p>
+                <p>
+                  We can use the <code>send</code> method of the response object
+                  to tell Express to send the response. Whatever argument we
+                  pass will be sent as the response body.
+                </p>
+                <h2 id="starting-the-server">
+                  Starting the server
+                  <a class="heading-anchor" href="#starting-the-server">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Our Node program has a functioning server, but that server
+                  isn’t currently listening for requests. Servers need to
+                  connect to the internet and listen for incoming HTTP requests
+                  on via a “port”.
+                </p>
+                <div class="box box-default content flow">
+                  <p>
+                    A “port” is an entry/exit point on a computer to allow
+                    network connections (like an airport allows people in/out of
+                    a country). HTTP uses port 80 by default (and HTTPS uses
+                    443), so you don’t normally see them in URLs on the web.
+                    E.g. when you visit <code>https://google.com</code> you are
+                    really going to <code>https://google.com:443</code>.
+                  </p>
+                  <p>
+                    When you’re running a server locally in development it’s
+                    common to use a random number like 3000 or 8080. You can
+                    access a port by adding it to a URL like this:
+                    <code>http://localhost:3000</code>.
+                  </p>
+                </div>
+                <p>We can tell our server to listen on a port like this:</p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">const</span> <span class="token constant">PORT</span> <span class="token operator">=</span> <span class="token number">3000</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token constant">PORT</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Listening on http://localhost:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token constant">PORT</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  We use the <code>listen</code> method of the server object.
+                  This takes the port number to listen on, and an optional
+                  callback to run when it starts listening. This callback is a
+                  good place to log something so you know the server has
+                  started.
+                </p>
+                <p>Now we can run the program in our terminal:</p>
+                <pre
+                  class="language-shell"
+                ><code class="language-shell"><span class="token function">node</span> server.js</code></pre>
+                <p>
+                  The server will start and you should see “Server listening on
+                  <a href="http://localhost:3000">http://localhost:3000</a>”
+                  logged.
+                </p>
+                <div class="box box-error content flow">
+                  <p>
+                    <strong>Important</strong>: The Node process will continue
+                    running until you tell it to stop by typing
+                    <kbd>control</kbd> + <kbd>c</kbd> in your terminal. Every
+                    time you change your code you must stop the old process and
+                    start a new one by running
+                    <code>node server.js</code> again.
+                  </p>
+                </div>
+                <h2 id="sending-requests">
+                  Sending requests
+                  <a class="heading-anchor" href="#sending-requests">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Open
+                  <a href="http://localhost:3000">http://localhost:3000</a> in
+                  your browser. This will send a <code>GET</code> request to
+                  your server. You should see the “hello” response on the page.
+                  It’s helpful to open the network tab of the dev tools so you
+                  can see all the details of the request and response.
+                </p>
+                <figure>
+                  <img
+                    src="request.png"
+                    width="2016"
+                    height="1230"
+                    alt="the network tab of a browser showing the request in action"
+                  />
+                  <figcaption>The request in action</figcaption>
+                </figure>
+                <h2 id="the-response">
+                  The response
+                  <a class="heading-anchor" href="#the-response">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>HTTP responses need a few different things:</p>
+                <ol>
+                  <li>
+                    A status code (e.g. <code>200</code> for success or
+                    <code>404</code> for not found)
+                  </li>
+                  <li>Headers to provide info about the response</li>
+                  <li>A body (the response data itself)</li>
+                </ol>
+                <h3 id="status-code">
+                  Status code
+                  <a class="heading-anchor" href="#status-code">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  We’re currently only providing the body. Express will set the
+                  status code to <code>200</code> by default. To set a different
+                  code use the <code>response.status</code> method:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  You can chain this together with <code>send</code> to make it
+                  shorter:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">response<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <h3 id="headers">
+                  Headers
+                  <a class="heading-anchor" href="#headers">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Express will automatically set some headers describing the
+                  response. For example since we called <code>send</code> with a
+                  string it will set the <code>content-type</code> to
+                  <code>text/html</code> and the <code>content-length</code> to
+                  the size of the string.
+                </p>
+                <p>
+                  You can set your own headers using the
+                  <code>response.set</code> method. This can take two strings to
+                  set a single header:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">response<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"x-fake-header"</span><span class="token punctuation">,</span> <span class="token string">"my-value"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Or it can take an object of string values to set multiple
+                  headers:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">response<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>  <span class="token string-property property">"x-fake-header"</span><span class="token operator">:</span> <span class="token string">"my value"</span><span class="token punctuation">,</span><br>  <span class="token string-property property">"x-another-header"</span><span class="token operator">:</span> <span class="token string">"another value"</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <h3 id="html-body">
+                  HTML body
+                  <a class="heading-anchor" href="#html-body">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  We aren’t limited to plaintext in our body. The browser will
+                  parse any HTML tags and render them on the page. Change your
+                  handler to return some HTML instead:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Visit
+                  <a href="http://localhost:3000">http://localhost:3000</a>
+                  again and you should see an <code>h1</code> rendered.
+                </p>
+                <p>
+                  Since we’re rendering HTML using strings we can insert dynamic
+                  values using template literals. Let’s add the current time to
+                  the response:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> time <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toLocaleTimeString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;h1>Hello, it's </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>time<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/h1></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <h3 id="json-body">
+                  JSON body
+                  <a class="heading-anchor" href="#json-body">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  We aren’t limited to a text response. Lets send some JSON as
+                  well. Add a new route to your server:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/json"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">message</span><span class="token operator">:</span> <span class="token string">"Hello"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  HTTP response bodies are always strings, so Express will
+                  automatically convert our object to a JSON string for us. It
+                  will also set the <code>content-type</code> header to
+                  <code>application/json</code>.
+                </p>
+                <p>
+                  Visit
+                  <a href="http://localhost:3000/json"
+                    >http://localhost:3000/json</a
+                  >
+                  and you should see a JSON object with a
+                  <code>message</code> property.
+                </p>
+                <h3 id="redirects">
+                  Redirects
+                  <a class="heading-anchor" href="#redirects">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Sometimes we want to <em>redirect</em> the request to another
+                  URL. You can use the <code>response.redirect</code> method for
+                  this. Add a new route:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/redirects"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">redirect</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Now if you visit
+                  <a href="http://localhost:3000/redirects"
+                    >http://localhost:3000/redirects</a
+                  >
+                  in your browser you should end up back on the home page. If
+                  you look at the network tab in the dev tools you’ll see two
+                  requests.
+                </p>
+                <figure>
+                  <img
+                    src="redirect.png"
+                    width="2016"
+                    height="1230"
+                    alt="the network tab of a browser showing the redirect in action"
+                  />
+                  <figcaption>The redirect in action</figcaption>
+                </figure>
+                <p>
+                  First a request to <code>/redirects</code>. This has a
+                  response status code of <code>302</code> and a
+                  <code>location</code> header pointing to <code>/</code>. This
+                  tells the browser to then make a second request to
+                  <code>/</code>.
+                </p>
+                <h2 id="dynamic-route-paths">
+                  Dynamic route paths
+                  <a class="heading-anchor" href="#dynamic-route-paths">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Sometimes you can’t know in advance all the routes you need.
+                  For example if you wanted a page for each user profile:
+                  <code>/users/oli</code>, <code>/users/dan</code> etc. You
+                  can’t statically list <em>every</em> possible route here.
+                  Instead you can use a placeholder value in the path to
+                  indicate that part of it is variable:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/users/:name"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> name <span class="token operator">=</span> request<span class="token punctuation">.</span>params<span class="token punctuation">.</span>name<span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;h1>Hello </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/h1></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  We use a colon (<code>:</code>) to indicate to Express that
+                  <em>any</em> value can match a part of the path. It will put
+                  any matched values on the <code>request.params</code> object
+                  so you can use them.
+                </p>
+                <p>
+                  If you visit
+                  <a href="http://localhost:3000/users/oli"
+                    >http://localhost:3000/users/oli</a
+                  >
+                  you should see “Hello oli”. If you visit
+                  <a href="http://localhost:3000/users/knadkmnaf"
+                    >http://localhost:3000/users/knadkmnaf</a
+                  >
+                  you should see “Hello knadkmnaf”.
+                </p>
+                <h2 id="missing-routes">
+                  Missing routes
+                  <a class="heading-anchor" href="#missing-routes">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Try visiting
+                  <a href="http://localhost:3000/not-real"
+                    >http://localhost:3000/not-real</a
+                  >
+                  in your browser. You should see
+                  <code>Cannot GET /not-real</code>. This is Express’ default
+                  response for when no handler matches a path.
+                </p>
+                <p>
+                  You can customise this by putting a “catch-all” handler after
+                  all your other routes. If no other route matches then this
+                  will be used (since Express matches them in the order they are
+                  defined).
+                </p>
+                <p>
+                  We can use the <code>server.use</code> method to create a
+                  handler that will match <em>any</em> method/route:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Not found&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Reload
+                  <a href="http://localhost:3000/not-real"
+                    >http://localhost:3000/not-real</a
+                  >
+                  and you should now see your custom response.
+                </p>
+                <h2 id="middleware">
+                  Middleware
+                  <a class="heading-anchor" href="#middleware">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Express route handlers don’t have to send a response. They
+                  actually receive a third argument: the
+                  <code>next</code> function. Calling this function tells
+                  Express to move on to the next handler registered for the
+                  route.
+                </p>
+                <p>
+                  Let’s add another handler for the home route. It will just log
+                  the request, then move on to the next handler:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>method <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> request<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  If you run this code and refresh the home page you should see
+                  <code>GET /</code> logged in your terminal.
+                </p>
+                <p>
+                  The route methods accept multiple handler functions, so you
+                  can actually pass them all in one go. This does the same
+                  thing:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">function</span> <span class="token function">logger</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>method <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> request<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> logger<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"&lt;h1>Hello&lt;/h1>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Express calls handlers that don’t send a response
+                  “middleware”. Our example here isn’t that useful, but we could
+                  change it to run before <em>all</em> requests. We can do this
+                  with <code>server.use</code>:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>logger<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Now we’ll get a helpful log like <code>GET /</code> in our
+                  terminal when we load any page. Without middleware we would
+                  have to copy this into every route we wrote.
+                </p>
+                <h2 id="static-files">
+                  Static files
+                  <a class="heading-anchor" href="#static-files">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  It’s common to have some static files that don’t change for
+                  each request. E.g. CSS, images, maybe some basic HTML pages.
+                  For convenience Express includes a built-in middleware for
+                  serving a directory of files: <code>express.static</code>.
+                </p>
+                <p>
+                  Create a new directory named <code>public</code>. This is
+                  where we’ll keep all the files sent to the client. Create a
+                  <code>public/style.css</code> file with some example CSS.
+                </p>
+                <p>Finally configure the middleware to serve this directory:</p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> staticHandler <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">static</span><span class="token punctuation">(</span><span class="token string">"public"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>staticHandler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  The server will now handle requests to
+                  <a href="http://localhost:3000/style.css"
+                    >http://localhost:3000/style.css</a
+                  >
+                  and respond with the file contents. Note that there is no
+                  <code>public</code> in the final URL: Express serves the files
+                  from the root of the site.
+                </p>
+                <h2 id="post-requests">
+                  Post requests
+                  <a class="heading-anchor" href="#post-requests">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  So far we’ve only created <code>GET</code> handlers. Let’s add
+                  a <code>POST</code> handler to see how we’d deal with forms
+                  submitting user data to our server:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"/submit"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"posted"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"thanks for submitting"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  We can’t make a test <code>POST</code> request as easily in
+                  our browser, since that would require a form. Instead we can
+                  send a request from our terminal using the
+                  <code>curl</code> program.
+                </p>
+                <p>Open a new terminal window/tab and run:</p>
+                <pre
+                  class="language-shell"
+                ><code class="language-shell"><span class="token function">curl</span> <span class="token parameter variable">-X</span> POST localhost:3000/submit</code></pre>
+                <p>
+                  You should receive a response of “Thanks for submitting”. You
+                  can add the <code>--verbose</code> flag to see the entire HTTP
+                  request/response. If you check the terminal where your server
+                  is running you should see “posted” logged.
+                </p>
+                <h3 id="request-body">
+                  Request body
+                  <a class="heading-anchor" href="#request-body">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  A <code>POST</code> request that doesn’t send any data isn’t
+                  very useful. Usually a form would be submitting some user
+                  input. We can add data to our <code>curl</code> request with
+                  the <code>-d</code> flag:
+                </p>
+                <pre
+                  class="language-shell"
+                ><code class="language-shell"><span class="token function">curl</span> <span class="token parameter variable">-X</span> POST localhost:3000/submit <span class="token parameter variable">-d</span> <span class="token string">"name=oli"</span></code></pre>
+                <p>
+                  However since bodies can be large they come in lots of small
+                  chunks. This means there’s no simple way to just access the
+                  body. Instead we must use a “body parser” middleware.
+                </p>
+                <p>
+                  For convenience these are included as part of the Express
+                  module. Request bodies can come in different formats (JSON,
+                  form etc), so we must use the right middleware. We want
+                  <code>express.urlencoded</code>, which is what forms submit by
+                  default. This is a function we call to create our middleware:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> bodyParser <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">urlencoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"/submit"</span><span class="token punctuation">,</span> bodyParser<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"thanks for submitting"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  This middleware will wait until all the submitted data has
+                  been received, then add a <code>body</code> property to the
+                  <code>request</code> object. We can then read this property in
+                  our handler.
+                </p>
+                <p>
+                  If you use <code>curl</code> to send another
+                  <code>POST</code> request you should see something like
+                  <code>{ name: 'oli' }</code> logged in your server terminal.
+                </p>
+                <hr />
+                <p>
+                  That’s it, you’ve learnt the basics of using Node and Express
+                  to create an HTTP server.
+                </p>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/assets/js/checkboxen.js"></script>
+    <script src="/assets/js/toggle-button.js"></script>
+    <script src="/assets/js/copy-text.js"></script>
+  </body>
+</html>

@@ -9,7 +9,12 @@ html {
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, Helvetica, Arial,
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    Helvetica,
+    Arial,
     sans-serif;
   color: hsl(220, 10%, 20%);
   background-color: hsl(220, 10%, 98%);

@@ -1,540 +1,1094 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Form validation</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Form validation</h1><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">html</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">forms</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">validation</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/form-validation/starter-files#main' form-validation" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fform-validation%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>In this workshop you’ll learn how to validate user input in the browser and present error messages accessibly.</p>
-<p><img src="https://user-images.githubusercontent.com/9408641/90390317-09ebb000-e083-11ea-9bc5-06b465207690.png" alt="Final solution"></p>
-<h2 id="setup">Setup <a class="heading-anchor" href="#setup">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<ol>
-<li>Download starter files</li>
-<li>Open <code>workshop/index.html</code> in your browser</li>
-<li>This is the form we’ll be adding validation to</li>
-</ol>
-<h2 id="why-validate-in-the-browser">Why validate in the browser? <a class="heading-anchor" href="#why-validate-in-the-browser">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Client-side validation is important for a good user experience—you can quickly give the user feedback when they need to change a value they’ve entered. For example if passwords must be a certain length you can tell them immediately, rather than waiting for the form to submit to the server and receive an invalid response.</p>
-<div class="box box-default content flow">
-<p>You <strong>should not</strong> rely entirely on client-side validation however. You can never trust anything that happens in the browser: users can use dev tools to mess with attributes and elements to bypass validation. You <strong>always</strong> need to validate user input on the server as well, for security.</p>
-</div>
-<h2 id="communicating-requirements">Communicating requirements <a class="heading-anchor" href="#communicating-requirements">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Our form has two inputs: one for an email address and one for a password. These are the requirements we need to validate:</p>
-<ol>
-<li>Both values are present</li>
-<li>The email value is a valid email address</li>
-<li>The password contains at least one number, and is at least 8 characters long</li>
-</ol>
-<p>Before we implement validation we need to make sure the user is aware of the requirements, by labelling the inputs. There’s nothing more frustrating than trying to guess what you need to do to be able to submit a form.</p>
-<h3 id="required-values">Required values <a class="heading-anchor" href="#required-values">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Users generally expect required fields to be <a href="https://www.nngroup.com/articles/required-fields/">marked with an asterisk</a> (<code>*</code>). We can add one inside the <code>&lt;label&gt;</code>. However this will cause screen readers to read out the label as “email star”, which is not correct. We should wrap the asterisk in an element with <code>aria-hidden=&quot;true&quot;</code> to ensure it is ignored by assistive technology.</p>
-<h3 id="different-types-of-value">Different types of value <a class="heading-anchor" href="#different-types-of-value">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>If we don’t list our password requirements users will have to guess what they are.</p>
-<p>The simplest way to list requirements is in a <code>&lt;div&gt;</code> following the label. This is fine for visual users but won’t be linked to the input, which means assistive tech will ignore it.</p>
-<p>We need to use the <a href="https://developer.paciellogroup.com/blog/2018/09/describing-aria-describedby/"><code>aria-describedby</code></a> attribute on the input. This takes the IDs of other elements that provide additional info. It allows us to link the div to the input so screen readers read out the extra info as if it were part of the label.</p>
-<h4 id="challenge">Challenge <a class="heading-anchor" href="#challenge">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h4>
-<ol>
-<li>Add a visual required indicator to both inputs.</li>
-<li>Add instructions containing our password requirements</li>
-<li>Associate the instructions with the input using <code>aria-describedby</code></li>
-</ol>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  Password<br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">aria-hidden</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>*<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  Passwords must contain at least one letter and one number, and contain at<br>  least 8 characters.<br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span> <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
-</details></div>
-<p>If you inspect the password input in Chrome’s devtools you should be able to see the accessible name (from the label) and description (from the div) in the “Accessibility tab”.</p>
-<p><img src="https://user-images.githubusercontent.com/9408641/78671737-99b06f00-78d7-11ea-8afa-bf4c13fea6ae.png" alt="Accessibility tab example"></p>
-<h2 id="html-5-validation">HTML5 validation <a class="heading-anchor" href="#html-5-validation">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Now we need to tell the user when they enter invalid values. Browsers support lots of different types of validation.</p>
-<h3 id="requiring-values">Requiring values <a class="heading-anchor" href="#requiring-values">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>The <code>required</code> attribute will stop the user submitting the form if they haven’t entered this value yet.</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">required</span> <span class="token punctuation">/></span></span></code></pre>
-<h3 id="types-of-values">Types of values <a class="heading-anchor" href="#types-of-values">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Browsers will validate certain input <code>type</code>s to make sure the value looks correct. For example:</p>
-<pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- checks the value is an email string --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token punctuation">/></span></span><br><span class="token comment">&lt;!-- checks the value is a URL string --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>url<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token punctuation">/></span></span></code></pre>
-<h3 id="matching-a-pattern">Matching a pattern <a class="heading-anchor" href="#matching-a-pattern">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>We can specify a regex the value must match using the <code>pattern</code> attribute. For example this input will be invalid if it contains whitespace characters:</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">pattern</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>\S<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
-<h3 id="other-validation">Other validation <a class="heading-anchor" href="#other-validation">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Here’s a <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Intrinsic_and_basic_constraints">full list of validation attributes</a>.</p>
-<p>You can even style inputs based on their validity using CSS pseudo-classes like <code>:invalid</code>, <code>:valid</code> and <code>:required</code>.</p>
-<h3 id="challenge-2">Challenge <a class="heading-anchor" href="#challenge-2">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Ensure each input meets our validation requirements above. If you submit the form with invalid values the browser will automatically stop the submission and show a warning.</p>
-<div class="box box-default content flow">
-<p><strong>Hint</strong>: Here’s a regexp for validating that a string contains at least one number: <code>.*\d.*</code></p>
-</div>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token punctuation">/></span></span><br><span class="token comment">&lt;!-- ... labels etc --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span><br>  <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><br>  <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><br>  <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements<span class="token punctuation">"</span></span><br>  <span class="token attr-name">required</span><br>  <span class="token attr-name">pattern</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>.*\d.*<span class="token punctuation">"</span></span><br>  <span class="token attr-name">minlength</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>8<span class="token punctuation">"</span></span><br><span class="token punctuation">/></span></span></code></pre>
-</details></div>
-<h2 id="custom-validation">Custom validation <a class="heading-anchor" href="#custom-validation">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Built-in validation is very simple to implement, and it works without JavaScript. However it has a few downsides. We cannot style the error message bubbles that pop up. The messages are <a href="https://adrianroselli.com/2019/02/avoid-default-field-validation.html">not properly exposed to most screen readers</a>. Required inputs are marked invalid as soon as the page loads (since they are empty). We can definitely improve this user experience by enhancing our validation with JS.</p>
-<p>It’s still useful to <em>start</em> with the HTML5 validation attributes, so that if our JS fails to load or breaks the user at least gets basic validation.</p>
-<h3 id="hijacking-the-built-in-validation">Hijacking the built-in validation <a class="heading-anchor" href="#hijacking-the-built-in-validation">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>First we need to disable the native validation by setting the <code>novalidate</code> attribute on the form element. This prevents the built-in errors from appearing.</p>
-<p>Then we can listen for the form’s <code>submit</code> event and check whether any inputs are invalid using the form element’s <code>.checkValidity()</code> method.</p>
-<p>This method returns true if <em>all</em> inputs are valid, otherwise it returns false. If any of the inputs are invalid we want to call <code>event.preventDefault()</code> to stop the form from submitting. Don’t worry about showing error messages for now.</p>
-<h3 id="challenge-3">Challenge <a class="heading-anchor" href="#challenge-3">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>Open <code>workshop/index.js</code></li>
-<li>Disable the native form validation</li>
-<li>Listen for submit events and check whether all the inputs are valid</li>
-<li>Prevent the form from submitting if any inputs are invalid</li>
-</ol>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> form <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"form"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>form<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"novalidate"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>form<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"submit"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> allInputsValid <span class="token operator">=</span> form<span class="token punctuation">.</span><span class="token function">checkValidity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>allInputsValid<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    event<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-</details></div>
-<h2 id="handling-invalid-inputs">Handling invalid inputs <a class="heading-anchor" href="#handling-invalid-inputs">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>We’ve managed to stop the form submitting invalid values, but we need to provide feedback to the user so they can fix their mistakes.</p>
-<p>First we need to actually mark the input as “invalid”. The <code>aria-invalid</code> attribute does this. Each input should have <code>aria-invalid=&quot;false&quot;</code> set at first, since the user hasn’t typed anything yet. Then we need to know when the input becomes <em>invalid</em>, so we can update to <code>aria-invalid=&quot;true&quot;</code>.</p>
-<p>We can listen for an input’s <code>invalid</code> event to run code when it fails validation. The browser will fire this event for all invalid inputs when you call the form element’s <code>checkValidity()</code> method. E.g.</p>
-<pre class="language-js"><code class="language-js">inputElement<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"invalid"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>inputElement <span class="token operator">+</span> <span class="token string">" is now invalid"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>The final step is showing a validation message depending on what type of validation error occurred. We can access the default browser message via the <code>input.validationMessage</code> property. E.g. for a <code>required</code> input this might be <code>&quot;Please fill out this field&quot;</code>.</p>
-<h3 id="challenge-4">Challenge <a class="heading-anchor" href="#challenge-4">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>Loop through all the inputs</li>
-<li>Mark each as valid</li>
-<li>For each input listen for the <code>invalid</code> event
-<ul>
-<li>Mark the input as <em>invalid</em> when this event fires</li>
-</ul>
-</li>
-</ol>
-<div class="box box-default content flow">
-<p><strong>Hint</strong>: you can use the <code>element.setAttribute</code> method to set ARIA attributes.</p>
-</div>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> inputs <span class="token operator">=</span> form<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>inputs<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  input<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"aria-invalid"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  input<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"invalid"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    input<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"aria-invalid"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>input<span class="token punctuation">.</span>validationMessage<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-</details></div>
-<h2 id="validation-messages">Validation messages <a class="heading-anchor" href="#validation-messages">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>We need to actually tell the user what their mistake was. The simplest way to do this is to grab the built-in validation message from the browser. This will be available as the <code>element.validationMessage</code> property. For example if the user typed “hello” into this input:</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br>  input<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"invalid"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>input<span class="token punctuation">.</span>validationMessage<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
-<p>The JS would log something like “Please include an ‘@’ in the email address”. These message vary across browsers.</p>
-<p>We need to put the message on the page so the user knows what they did wrong. The message should be associated with the correct input: we want it to be read out by a screen reader when the user focuses the input.</p>
-<p>We can achieve this using <code>aria-describedby</code> just like with our password requirements. This can take multiple IDs for multiple descriptions (the order of the IDs determines the order they will be read out).</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Password<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  Please enter at least 8 characters containing at least 1 number<br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span><br>  <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><br>  <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><br>  <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements passwordError<span class="token punctuation">"</span></span><br>  <span class="token attr-name">required</span><br><span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordError<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{insert the right message in here}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
-<p>Whenever this input is focused a screen reader will read out the label first, then the type of input, then any ARIA descriptions.</p>
-<h3 id="challenge-5">Challenge <a class="heading-anchor" href="#challenge-5">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>Create divs to contain the error messages</li>
-<li>Set attributes on the inputs and divs so they are linked together</li>
-<li>Put the validation messages inside the divs so the user can read them</li>
-</ol>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- lots of stuff removed to simplify example --></span><br><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>emailError<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>emailError<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span> <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements passwordError<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordError<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
-<pre class="language-js"><code class="language-js">inputs<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token comment">// ...</span><br>  input<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"invalid"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token comment">// ...</span><br>    <span class="token keyword">const</span> errorId <span class="token operator">=</span> input<span class="token punctuation">.</span>id <span class="token operator">+</span> <span class="token string">"Error"</span><span class="token punctuation">;</span><br>    <span class="token comment">// find the div we're putting the error in</span><br>    <span class="token keyword">const</span> errorContainer <span class="token operator">=</span> form<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#"</span> <span class="token operator">+</span> errorId<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    errorContainer<span class="token punctuation">.</span>textContent <span class="token operator">=</span> input<span class="token punctuation">.</span>validationMessage<span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-</details></div>
-<h2 id="re-validating">Re-validating <a class="heading-anchor" href="#re-validating">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Right now it’s a little confusing for the user as the input stays marked invalid even when they type something new. We should mark each input as valid and remove the error message when the user inputs something.</p>
-<ol>
-<li>Add an event listener for <code>input</code> events</li>
-<li>Mark the input valid and remove the error message</li>
-</ol>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js">inputs<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token comment">// ...</span><br>  input<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    input<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"aria-invalid"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>    <span class="token keyword">const</span> errorId <span class="token operator">=</span> input<span class="token punctuation">.</span>id <span class="token operator">+</span> <span class="token string">"Error"</span><span class="token punctuation">;</span><br>    <span class="token comment">// find the div we're removing the error from</span><br>    <span class="token keyword">const</span> errorContainer <span class="token operator">=</span> form<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#"</span> <span class="token operator">+</span> errorId<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    errorContainer<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-</details></div>
-<h2 id="styling">Styling <a class="heading-anchor" href="#styling">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>We have a functional, accessible solution now, but it could be improved with some styling. It’s common to style validation messages with a “danger” colour like red, and sometimes to mark invalid inputs with a different coloured border. You could also use warning icons to make errors even more obvious.</p>
-<h3 id="challenge-6">Challenge <a class="heading-anchor" href="#challenge-6">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>Style the error messages</li>
-<li>Style invalid inputs</li>
-<li>Add any other styles you like to make it look good</li>
-</ol>
-<div class="box box-default content flow">
-<p><strong>Hint:</strong> you can target elements in CSS by their attributes:</p>
-<pre class="language-css"><code class="language-css"><span class="token selector">div[some-attribute="true"]</span> <span class="token punctuation">{</span><br>  <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-</div>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-css"><code class="language-css"><span class="token selector">input[aria-invalid="true"]</span> <span class="token punctuation">{</span><br>  <span class="token property">border-color</span><span class="token punctuation">:</span> <span class="token function">hsl</span><span class="token punctuation">(</span>340<span class="token punctuation">,</span> 70%<span class="token punctuation">,</span> 50%<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token selector">.error</span> <span class="token punctuation">{</span><br>  <span class="token property">margin-top</span><span class="token punctuation">:</span> 0.5rem<span class="token punctuation">;</span><br>  <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">hsl</span><span class="token punctuation">(</span>340<span class="token punctuation">,</span> 70%<span class="token punctuation">,</span> 50%<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-</details></div>
-<p><img src="https://user-images.githubusercontent.com/9408641/90390223-e4f73d00-e082-11ea-8b29-19a208cbda95.png" alt="initial solution"></p>
-<h2 id="stretch-goal-custom-messages">Stretch goal: custom messages <a class="heading-anchor" href="#stretch-goal-custom-messages">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>The default browser messages could be better. They don’t contain specific, actionable feedback. E.g. if a <code>pattern</code> doesn’t match the user sees “Please match the requested format”. It would be more useful to show “Please enter at least one number”.</p>
-<p>We need to know what <em>type</em> of error occurred to show the right custom message. The input element’s <code>.validity</code> property contains this information.</p>
-<p>This interface has properties for every kind of error. For example an empty <code>required</code> input will show:</p>
-<pre class="language-js"><code class="language-js"><span class="token punctuation">{</span><br>  <span class="token literal-property property">valueMissing</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">typeMismatch</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">patternMismatch</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>  <span class="token comment">// ... etc</span><br><span class="token punctuation">}</span></code></pre>
-<p>Here’s a list of <a href="https://developer.mozilla.org/en-US/docs/Web/API/ValidityState">all the validity properties</a>.</p>
-<p>We can write an <code>if</code>/<code>else</code> statement to check whether each property we’re interested in is true. If it is we can show a custom error on the page:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">let</span> message <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br><span class="token keyword">if</span> <span class="token punctuation">(</span>validity<span class="token punctuation">.</span>valueMissing<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  message <span class="token operator">=</span> <span class="token string">"Please enter an email address"</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>validity<span class="token punctuation">.</span>typeMismatch<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token comment">// ...</span><br><span class="token punctuation">}</span></code></pre>
-<h3 id="challenge-7">Challenge <a class="heading-anchor" href="#challenge-7">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>Edit your <code>invalid</code> handler to check the <code>validity</code> interface</li>
-<li>Show custom error messages based on the input’s ID and what validation failed.</li>
-</ol>
-<p><img src="https://user-images.githubusercontent.com/9408641/90390317-09ebb000-e083-11ea-9bc5-06b465207690.png" alt="Final solution"></p>
-<h2 id="resources">Resources <a class="heading-anchor" href="#resources">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation">Constraint Validation | MDN</a> (built-in HTML validation)</li>
-<li><a href="https://medium.com/samsung-internet-dev/native-form-validation-part-1-bf8e35099f1d">Native form validation—part 1</a> (the limitations of HTML/CSS-only validation)</li>
-<li><a href="https://developer.paciellogroup.com/blog/2019/02/required-attribute-requirements/">Required attribute requirements</a> (explains the JS/ARIA stuff we need for accessible validation)</li>
-<li><a href="https://developer.paciellogroup.com/blog/2018/09/describing-aria-describedby/">Describing aria-describedby</a> (summarises how <code>aria-describedby</code> works)</li>
-</ul>
-</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form validation</title>
+    <link
+      rel="preload"
+      href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <header class="hstack jc-between pad-lg">
+        <a href="/" aria-label="Home"
+          ><img src="/assets/images/logo.svg" width="100" alt
+        /></a>
+        <nav id="global-nav">
+          <ul role="list" class="hstack">
+            <li>
+              <a class="global-nav__link" href="/course/introduction/"
+                >Course</a
+              >
+            </li>
+            <li>
+              <a class="global-nav__link" href="/resources/introduction/"
+                >Resources</a
+              >
+            </li>
+            <li><a class="global-nav__link" href="/about/">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="center">
+        <div class="layout">
+          <aside></aside>
+          <main id="main">
+            <div>
+              <header class="vstack gap-xl pad-xl stripes">
+                <div class="vstack" data-gap="md">
+                  <h1 class="highlight bg-primary">Form validation</h1>
+                  <ul role="list" class="hstack gap-sm wrap">
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      html
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      forms
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      validation
+                    </li>
+                  </ul>
+                </div>
+                <div class="hstack wrap">
+                  <div class="vstack gap-none">
+                    <label
+                      for="download-command"
+                      class="highlight fw-bold"
+                      style="--bg: var(--bg-400)"
+                      >Download files via CLI</label
+                    ><copy-text class="hstack gap-none ai-stretch"
+                      ><input
+                        id="download-command"
+                        readonly
+                        value="npx degit 'foundersandcoders/coursebook/src/workshops/form-validation/starter-files#main' form-validation" /><button
+                        aria-label="Copy"
+                        title="Copy"
+                        hidden
+                      >
+                        <svg
+                          data-copy
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                          ></path></svg
+                        ><svg
+                          hidden
+                          data-success
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg></button
+                    ></copy-text>
+                  </div>
+                  <a
+                    href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fform-validation%5D&amp;labels=feedback"
+                    target="_blank"
+                    rel="noopener"
+                    class="button"
+                    >Leave feedback<svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z"
+                        clip-rule="evenodd"
+                      ></path></svg
+                  ></a>
+                </div>
+              </header>
+              <div style="margin: 4rem 0" class="flow">
+                <p>
+                  In this workshop you’ll learn how to validate user input in
+                  the browser and present error messages accessibly.
+                </p>
+                <p>
+                  <img
+                    src="https://user-images.githubusercontent.com/9408641/90390317-09ebb000-e083-11ea-9bc5-06b465207690.png"
+                    alt="Final solution"
+                  />
+                </p>
+                <h2 id="setup">
+                  Setup
+                  <a class="heading-anchor" href="#setup">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <ol>
+                  <li>Download starter files</li>
+                  <li>Open <code>workshop/index.html</code> in your browser</li>
+                  <li>This is the form we’ll be adding validation to</li>
+                </ol>
+                <h2 id="why-validate-in-the-browser">
+                  Why validate in the browser?
+                  <a class="heading-anchor" href="#why-validate-in-the-browser">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Client-side validation is important for a good user
+                  experience—you can quickly give the user feedback when they
+                  need to change a value they’ve entered. For example if
+                  passwords must be a certain length you can tell them
+                  immediately, rather than waiting for the form to submit to the
+                  server and receive an invalid response.
+                </p>
+                <div class="box box-default content flow">
+                  <p>
+                    You <strong>should not</strong> rely entirely on client-side
+                    validation however. You can never trust anything that
+                    happens in the browser: users can use dev tools to mess with
+                    attributes and elements to bypass validation. You
+                    <strong>always</strong> need to validate user input on the
+                    server as well, for security.
+                  </p>
+                </div>
+                <h2 id="communicating-requirements">
+                  Communicating requirements
+                  <a class="heading-anchor" href="#communicating-requirements">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Our form has two inputs: one for an email address and one for
+                  a password. These are the requirements we need to validate:
+                </p>
+                <ol>
+                  <li>Both values are present</li>
+                  <li>The email value is a valid email address</li>
+                  <li>
+                    The password contains at least one number, and is at least 8
+                    characters long
+                  </li>
+                </ol>
+                <p>
+                  Before we implement validation we need to make sure the user
+                  is aware of the requirements, by labelling the inputs. There’s
+                  nothing more frustrating than trying to guess what you need to
+                  do to be able to submit a form.
+                </p>
+                <h3 id="required-values">
+                  Required values
+                  <a class="heading-anchor" href="#required-values">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Users generally expect required fields to be
+                  <a href="https://www.nngroup.com/articles/required-fields/"
+                    >marked with an asterisk</a
+                  >
+                  (<code>*</code>). We can add one inside the
+                  <code>&lt;label&gt;</code>. However this will cause screen
+                  readers to read out the label as “email star”, which is not
+                  correct. We should wrap the asterisk in an element with
+                  <code>aria-hidden=&quot;true&quot;</code> to ensure it is
+                  ignored by assistive technology.
+                </p>
+                <h3 id="different-types-of-value">
+                  Different types of value
+                  <a class="heading-anchor" href="#different-types-of-value">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  If we don’t list our password requirements users will have to
+                  guess what they are.
+                </p>
+                <p>
+                  The simplest way to list requirements is in a
+                  <code>&lt;div&gt;</code> following the label. This is fine for
+                  visual users but won’t be linked to the input, which means
+                  assistive tech will ignore it.
+                </p>
+                <p>
+                  We need to use the
+                  <a
+                    href="https://developer.paciellogroup.com/blog/2018/09/describing-aria-describedby/"
+                    ><code>aria-describedby</code></a
+                  >
+                  attribute on the input. This takes the IDs of other elements
+                  that provide additional info. It allows us to link the div to
+                  the input so screen readers read out the extra info as if it
+                  were part of the label.
+                </p>
+                <h4 id="challenge">
+                  Challenge
+                  <a class="heading-anchor" href="#challenge">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h4>
+                <ol>
+                  <li>Add a visual required indicator to both inputs.</li>
+                  <li>Add instructions containing our password requirements</li>
+                  <li>
+                    Associate the instructions with the input using
+                    <code>aria-describedby</code>
+                  </li>
+                </ol>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-html"
+                    ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  Password<br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">aria-hidden</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>*<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  Passwords must contain at least one letter and one number, and contain at<br>  least 8 characters.<br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span> <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+                  </details>
+                </div>
+                <p>
+                  If you inspect the password input in Chrome’s devtools you
+                  should be able to see the accessible name (from the label) and
+                  description (from the div) in the “Accessibility tab”.
+                </p>
+                <p>
+                  <img
+                    src="https://user-images.githubusercontent.com/9408641/78671737-99b06f00-78d7-11ea-8afa-bf4c13fea6ae.png"
+                    alt="Accessibility tab example"
+                  />
+                </p>
+                <h2 id="html-5-validation">
+                  HTML5 validation
+                  <a class="heading-anchor" href="#html-5-validation">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Now we need to tell the user when they enter invalid values.
+                  Browsers support lots of different types of validation.
+                </p>
+                <h3 id="requiring-values">
+                  Requiring values
+                  <a class="heading-anchor" href="#requiring-values">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  The <code>required</code> attribute will stop the user
+                  submitting the form if they haven’t entered this value yet.
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">required</span> <span class="token punctuation">/></span></span></code></pre>
+                <h3 id="types-of-values">
+                  Types of values
+                  <a class="heading-anchor" href="#types-of-values">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Browsers will validate certain input <code>type</code>s to
+                  make sure the value looks correct. For example:
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token comment">&lt;!-- checks the value is an email string --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token punctuation">/></span></span><br><span class="token comment">&lt;!-- checks the value is a URL string --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>url<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token punctuation">/></span></span></code></pre>
+                <h3 id="matching-a-pattern">
+                  Matching a pattern
+                  <a class="heading-anchor" href="#matching-a-pattern">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  We can specify a regex the value must match using the
+                  <code>pattern</code> attribute. For example this input will be
+                  invalid if it contains whitespace characters:
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">pattern</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>\S<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+                <h3 id="other-validation">
+                  Other validation
+                  <a class="heading-anchor" href="#other-validation">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Here’s a
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Intrinsic_and_basic_constraints"
+                    >full list of validation attributes</a
+                  >.
+                </p>
+                <p>
+                  You can even style inputs based on their validity using CSS
+                  pseudo-classes like <code>:invalid</code>,
+                  <code>:valid</code> and <code>:required</code>.
+                </p>
+                <h3 id="challenge-2">
+                  Challenge
+                  <a class="heading-anchor" href="#challenge-2">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Ensure each input meets our validation requirements above. If
+                  you submit the form with invalid values the browser will
+                  automatically stop the submission and show a warning.
+                </p>
+                <div class="box box-default content flow">
+                  <p>
+                    <strong>Hint</strong>: Here’s a regexp for validating that a
+                    string contains at least one number: <code>.*\d.*</code>
+                  </p>
+                </div>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-html"
+                    ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token punctuation">/></span></span><br><span class="token comment">&lt;!-- ... labels etc --></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span><br>  <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><br>  <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><br>  <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements<span class="token punctuation">"</span></span><br>  <span class="token attr-name">required</span><br>  <span class="token attr-name">pattern</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>.*\d.*<span class="token punctuation">"</span></span><br>  <span class="token attr-name">minlength</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>8<span class="token punctuation">"</span></span><br><span class="token punctuation">/></span></span></code></pre>
+                  </details>
+                </div>
+                <h2 id="custom-validation">
+                  Custom validation
+                  <a class="heading-anchor" href="#custom-validation">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Built-in validation is very simple to implement, and it works
+                  without JavaScript. However it has a few downsides. We cannot
+                  style the error message bubbles that pop up. The messages are
+                  <a
+                    href="https://adrianroselli.com/2019/02/avoid-default-field-validation.html"
+                    >not properly exposed to most screen readers</a
+                  >. Required inputs are marked invalid as soon as the page
+                  loads (since they are empty). We can definitely improve this
+                  user experience by enhancing our validation with JS.
+                </p>
+                <p>
+                  It’s still useful to <em>start</em> with the HTML5 validation
+                  attributes, so that if our JS fails to load or breaks the user
+                  at least gets basic validation.
+                </p>
+                <h3 id="hijacking-the-built-in-validation">
+                  Hijacking the built-in validation
+                  <a
+                    class="heading-anchor"
+                    href="#hijacking-the-built-in-validation"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  First we need to disable the native validation by setting the
+                  <code>novalidate</code> attribute on the form element. This
+                  prevents the built-in errors from appearing.
+                </p>
+                <p>
+                  Then we can listen for the form’s <code>submit</code> event
+                  and check whether any inputs are invalid using the form
+                  element’s <code>.checkValidity()</code> method.
+                </p>
+                <p>
+                  This method returns true if <em>all</em> inputs are valid,
+                  otherwise it returns false. If any of the inputs are invalid
+                  we want to call <code>event.preventDefault()</code> to stop
+                  the form from submitting. Don’t worry about showing error
+                  messages for now.
+                </p>
+                <h3 id="challenge-3">
+                  Challenge
+                  <a class="heading-anchor" href="#challenge-3">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>Open <code>workshop/index.js</code></li>
+                  <li>Disable the native form validation</li>
+                  <li>
+                    Listen for submit events and check whether all the inputs
+                    are valid
+                  </li>
+                  <li>
+                    Prevent the form from submitting if any inputs are invalid
+                  </li>
+                </ol>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">const</span> form <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"form"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>form<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"novalidate"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>form<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"submit"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">const</span> allInputsValid <span class="token operator">=</span> form<span class="token punctuation">.</span><span class="token function">checkValidity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>allInputsValid<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    event<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                  </details>
+                </div>
+                <h2 id="handling-invalid-inputs">
+                  Handling invalid inputs
+                  <a class="heading-anchor" href="#handling-invalid-inputs">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  We’ve managed to stop the form submitting invalid values, but
+                  we need to provide feedback to the user so they can fix their
+                  mistakes.
+                </p>
+                <p>
+                  First we need to actually mark the input as “invalid”. The
+                  <code>aria-invalid</code> attribute does this. Each input
+                  should have <code>aria-invalid=&quot;false&quot;</code> set at
+                  first, since the user hasn’t typed anything yet. Then we need
+                  to know when the input becomes <em>invalid</em>, so we can
+                  update to <code>aria-invalid=&quot;true&quot;</code>.
+                </p>
+                <p>
+                  We can listen for an input’s <code>invalid</code> event to run
+                  code when it fails validation. The browser will fire this
+                  event for all invalid inputs when you call the form element’s
+                  <code>checkValidity()</code> method. E.g.
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">inputElement<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"invalid"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>inputElement <span class="token operator">+</span> <span class="token string">" is now invalid"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  The final step is showing a validation message depending on
+                  what type of validation error occurred. We can access the
+                  default browser message via the
+                  <code>input.validationMessage</code> property. E.g. for a
+                  <code>required</code> input this might be
+                  <code>&quot;Please fill out this field&quot;</code>.
+                </p>
+                <h3 id="challenge-4">
+                  Challenge
+                  <a class="heading-anchor" href="#challenge-4">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>Loop through all the inputs</li>
+                  <li>Mark each as valid</li>
+                  <li>
+                    For each input listen for the <code>invalid</code> event
+                    <ul>
+                      <li>
+                        Mark the input as <em>invalid</em> when this event fires
+                      </li>
+                    </ul>
+                  </li>
+                </ol>
+                <div class="box box-default content flow">
+                  <p>
+                    <strong>Hint</strong>: you can use the
+                    <code>element.setAttribute</code> method to set ARIA
+                    attributes.
+                  </p>
+                </div>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js"><span class="token keyword">const</span> inputs <span class="token operator">=</span> form<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>inputs<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  input<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"aria-invalid"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  input<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"invalid"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    input<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"aria-invalid"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>input<span class="token punctuation">.</span>validationMessage<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                  </details>
+                </div>
+                <h2 id="validation-messages">
+                  Validation messages
+                  <a class="heading-anchor" href="#validation-messages">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  We need to actually tell the user what their mistake was. The
+                  simplest way to do this is to grab the built-in validation
+                  message from the browser. This will be available as the
+                  <code>element.validationMessage</code> property. For example
+                  if the user typed “hello” into this input:
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br>  input<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"invalid"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>input<span class="token punctuation">.</span>validationMessage<span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+                <p>
+                  The JS would log something like “Please include an ‘@’ in the
+                  email address”. These message vary across browsers.
+                </p>
+                <p>
+                  We need to put the message on the page so the user knows what
+                  they did wrong. The message should be associated with the
+                  correct input: we want it to be read out by a screen reader
+                  when the user focuses the input.
+                </p>
+                <p>
+                  We can achieve this using <code>aria-describedby</code> just
+                  like with our password requirements. This can take multiple
+                  IDs for multiple descriptions (the order of the IDs determines
+                  the order they will be read out).
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Password<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  Please enter at least 8 characters containing at least 1 number<br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span><br>  <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><br>  <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><br>  <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements passwordError<span class="token punctuation">"</span></span><br>  <span class="token attr-name">required</span><br><span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordError<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{insert the right message in here}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+                <p>
+                  Whenever this input is focused a screen reader will read out
+                  the label first, then the type of input, then any ARIA
+                  descriptions.
+                </p>
+                <h3 id="challenge-5">
+                  Challenge
+                  <a class="heading-anchor" href="#challenge-5">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>Create divs to contain the error messages</li>
+                  <li>
+                    Set attributes on the inputs and divs so they are linked
+                    together
+                  </li>
+                  <li>
+                    Put the validation messages inside the divs so the user can
+                    read them
+                  </li>
+                </ol>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-html"
+                    ><code class="language-html"><span class="token comment">&lt;!-- lots of stuff removed to simplify example --></span><br><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>emailError<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>emailError<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><br><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span> <span class="token attr-name">aria-describedby</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordRequirements passwordError<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>passwordError<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js">inputs<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token comment">// ...</span><br>  input<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"invalid"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token comment">// ...</span><br>    <span class="token keyword">const</span> errorId <span class="token operator">=</span> input<span class="token punctuation">.</span>id <span class="token operator">+</span> <span class="token string">"Error"</span><span class="token punctuation">;</span><br>    <span class="token comment">// find the div we're putting the error in</span><br>    <span class="token keyword">const</span> errorContainer <span class="token operator">=</span> form<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#"</span> <span class="token operator">+</span> errorId<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    errorContainer<span class="token punctuation">.</span>textContent <span class="token operator">=</span> input<span class="token punctuation">.</span>validationMessage<span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                  </details>
+                </div>
+                <h2 id="re-validating">
+                  Re-validating
+                  <a class="heading-anchor" href="#re-validating">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Right now it’s a little confusing for the user as the input
+                  stays marked invalid even when they type something new. We
+                  should mark each input as valid and remove the error message
+                  when the user inputs something.
+                </p>
+                <ol>
+                  <li>Add an event listener for <code>input</code> events</li>
+                  <li>Mark the input valid and remove the error message</li>
+                </ol>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js">inputs<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token comment">// ...</span><br>  input<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    input<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"aria-invalid"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>    <span class="token keyword">const</span> errorId <span class="token operator">=</span> input<span class="token punctuation">.</span>id <span class="token operator">+</span> <span class="token string">"Error"</span><span class="token punctuation">;</span><br>    <span class="token comment">// find the div we're removing the error from</span><br>    <span class="token keyword">const</span> errorContainer <span class="token operator">=</span> form<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#"</span> <span class="token operator">+</span> errorId<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    errorContainer<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                  </details>
+                </div>
+                <h2 id="styling">
+                  Styling
+                  <a class="heading-anchor" href="#styling">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  We have a functional, accessible solution now, but it could be
+                  improved with some styling. It’s common to style validation
+                  messages with a “danger” colour like red, and sometimes to
+                  mark invalid inputs with a different coloured border. You
+                  could also use warning icons to make errors even more obvious.
+                </p>
+                <h3 id="challenge-6">
+                  Challenge
+                  <a class="heading-anchor" href="#challenge-6">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>Style the error messages</li>
+                  <li>Style invalid inputs</li>
+                  <li>Add any other styles you like to make it look good</li>
+                </ol>
+                <div class="box box-default content flow">
+                  <p>
+                    <strong>Hint:</strong> you can target elements in CSS by
+                    their attributes:
+                  </p>
+                  <pre
+                    class="language-css"
+                  ><code class="language-css"><span class="token selector">div[some-attribute="true"]</span> <span class="token punctuation">{</span><br>  <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                </div>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-css"
+                    ><code class="language-css"><span class="token selector">input[aria-invalid="true"]</span> <span class="token punctuation">{</span><br>  <span class="token property">border-color</span><span class="token punctuation">:</span> <span class="token function">hsl</span><span class="token punctuation">(</span>340<span class="token punctuation">,</span> 70%<span class="token punctuation">,</span> 50%<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token selector">.error</span> <span class="token punctuation">{</span><br>  <span class="token property">margin-top</span><span class="token punctuation">:</span> 0.5rem<span class="token punctuation">;</span><br>  <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">hsl</span><span class="token punctuation">(</span>340<span class="token punctuation">,</span> 70%<span class="token punctuation">,</span> 50%<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                  </details>
+                </div>
+                <p>
+                  <img
+                    src="https://user-images.githubusercontent.com/9408641/90390223-e4f73d00-e082-11ea-8b29-19a208cbda95.png"
+                    alt="initial solution"
+                  />
+                </p>
+                <h2 id="stretch-goal-custom-messages">
+                  Stretch goal: custom messages
+                  <a
+                    class="heading-anchor"
+                    href="#stretch-goal-custom-messages"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  The default browser messages could be better. They don’t
+                  contain specific, actionable feedback. E.g. if a
+                  <code>pattern</code> doesn’t match the user sees “Please match
+                  the requested format”. It would be more useful to show “Please
+                  enter at least one number”.
+                </p>
+                <p>
+                  We need to know what <em>type</em> of error occurred to show
+                  the right custom message. The input element’s
+                  <code>.validity</code> property contains this information.
+                </p>
+                <p>
+                  This interface has properties for every kind of error. For
+                  example an empty <code>required</code> input will show:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token punctuation">{</span><br>  <span class="token literal-property property">valueMissing</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">typeMismatch</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">patternMismatch</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>  <span class="token comment">// ... etc</span><br><span class="token punctuation">}</span></code></pre>
+                <p>
+                  Here’s a list of
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/ValidityState"
+                    >all the validity properties</a
+                  >.
+                </p>
+                <p>
+                  We can write an <code>if</code>/<code>else</code> statement to
+                  check whether each property we’re interested in is true. If it
+                  is we can show a custom error on the page:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">let</span> message <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br><span class="token keyword">if</span> <span class="token punctuation">(</span>validity<span class="token punctuation">.</span>valueMissing<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  message <span class="token operator">=</span> <span class="token string">"Please enter an email address"</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>validity<span class="token punctuation">.</span>typeMismatch<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token comment">// ...</span><br><span class="token punctuation">}</span></code></pre>
+                <h3 id="challenge-7">
+                  Challenge
+                  <a class="heading-anchor" href="#challenge-7">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>
+                    Edit your <code>invalid</code> handler to check the
+                    <code>validity</code> interface
+                  </li>
+                  <li>
+                    Show custom error messages based on the input’s ID and what
+                    validation failed.
+                  </li>
+                </ol>
+                <p>
+                  <img
+                    src="https://user-images.githubusercontent.com/9408641/90390317-09ebb000-e083-11ea-9bc5-06b465207690.png"
+                    alt="Final solution"
+                  />
+                </p>
+                <h2 id="resources">
+                  Resources
+                  <a class="heading-anchor" href="#resources">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <ul>
+                  <li>
+                    <a
+                      href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation"
+                      >Constraint Validation | MDN</a
+                    >
+                    (built-in HTML validation)
+                  </li>
+                  <li>
+                    <a
+                      href="https://medium.com/samsung-internet-dev/native-form-validation-part-1-bf8e35099f1d"
+                      >Native form validation—part 1</a
+                    >
+                    (the limitations of HTML/CSS-only validation)
+                  </li>
+                  <li>
+                    <a
+                      href="https://developer.paciellogroup.com/blog/2019/02/required-attribute-requirements/"
+                      >Required attribute requirements</a
+                    >
+                    (explains the JS/ARIA stuff we need for accessible
+                    validation)
+                  </li>
+                  <li>
+                    <a
+                      href="https://developer.paciellogroup.com/blog/2018/09/describing-aria-describedby/"
+                      >Describing aria-describedby</a
+                    >
+                    (summarises how <code>aria-describedby</code> works)
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/assets/js/checkboxen.js"></script>
+    <script src="/assets/js/toggle-button.js"></script>
+    <script src="/assets/js/copy-text.js"></script>
+  </body>
+</html>

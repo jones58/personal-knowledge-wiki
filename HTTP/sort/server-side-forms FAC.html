@@ -1,351 +1,868 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Server-side forms</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Server-side forms</h1><p class="highlight fz-lg">Learn how to build interactive websites using forms and Node</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">js</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">html</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">http</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/server-side-forms/starter-files#main' server-side-forms" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fserver-side-forms%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Forms are the building blocks of interactivity on the web. Until client-side JavaScript gained the ability to make HTTP requests (in the early 2000s) forms were the only way to send user-generated data from the browser to the server. They’re still the simplest and most robust way to send data, since they work even if your JS fails to load, is blocked, or errors.</p>
-<h2 id="setup">Setup <a class="heading-anchor" href="#setup">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<ol>
-<li>Download the starter files</li>
-<li><code>cd</code> into the <code>workshop/</code> directory</li>
-<li><code>npm install</code> to install the dependencies</li>
-<li><code>npm run dev</code> to start the server with <a href="https://github.com/remy/nodemon#nodemon">nodemon</a>. This is a helper that auto-restarts your server when you save changes</li>
-</ol>
-<p>Before we get stuck into forms lets practice our Express basics. Open <code>workshop/server.js</code> in your editor. You should see a server that listens on port <code>3333</code>. There’s also an object containing data about different dogs imported from <code>dogs.js</code>.</p>
-<h3 id="challenge-1-server-setup">Challenge 1: server setup <a class="heading-anchor" href="#challenge-1-server-setup">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<ol>
-<li>Add a route for the homepage (<code>GET /</code>)</li>
-<li>Return an HTML string containing a <code>&lt;ul&gt;</code></li>
-<li>Each <code>&lt;li&gt;</code> in the list should contain a dogs name</li>
-</ol>
-<div class="box box-success content flow">
-<h4 id="hint">Hint <a class="heading-anchor" href="#hint">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h4>
-<p>You can use <code>Object.values(myObj)</code> to get an array of all the values. You can then generate a dynamic list by looping over that array:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> myObj <span class="token operator">=</span> <span class="token punctuation">{</span><br>  <span class="token literal-property property">first</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token string">"hi"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">second</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token string">"bye"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token keyword">let</span> items <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> thing <span class="token keyword">of</span> Object<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span>myObj<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  items <span class="token operator">+=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;li></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>thing<span class="token punctuation">.</span>test<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/li></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;ul></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>items<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/ul></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span></code></pre>
-<p>You could also combine <code>array.map</code> and <code>array.join</code> to create the string.</p>
-</div>
-<p>When you’re done you should be able to visit <a href="http://localhost:3333">http://localhost:3333</a> and see the list of dogs rendered.</p>
-<div class="box box-success content"><details class="disclosure flow"><summary>Toggle answer</summary>
-<pre class="language-js"><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">let</span> items <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br>  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> dog <span class="token keyword">of</span> Object<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span>dogs<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    items <span class="token operator">+=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;li></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dog<span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/li></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br>  <span class="token keyword">const</span> html <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  &lt;!doctype html><br>  &lt;html><br>    &lt;head><br>      &lt;meta charset="utf-8"><br>      &lt;title>Dogs!&lt;/title><br>    &lt;/head><br>    &lt;body><br>      &lt;ul></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>items<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/ul><br>    &lt;/body><br>  &lt;/html><br>  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-</details></div>
-<h2 id="get-requests"><code>GET</code> requests <a class="heading-anchor" href="#get-requests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Browsers support two types of HTTP requests (without JS): <code>GET</code> and <code>POST</code>. When a user navigates (either by clicking a link or typing a URL into the address bar) the browser will send a <code>GET</code> request, then render the response. There are also certain HTML tags that trigger <code>GET</code> requests for a resource to display <em>within</em> the page, e.g. <code>&lt;img&gt;</code>.</p>
-<p>Forms can also make <code>GET</code> requests. Here’s an example form:</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>myMessage<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
-<p>By default a form sends a <code>GET</code> request to the current page (when submitted). It will find all the inputs within the form and add them into the “search” part of the URL (the bit after the <code>?</code>). Assuming this form was rendered on <code>example.com</code> clicking the submit button would send this request:</p>
-<pre><code>GET example.com?myMessage=whatevertheusertyped HTTP/1.1
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server-side forms</title>
+    <link
+      rel="preload"
+      href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <header class="hstack jc-between pad-lg">
+        <a href="/" aria-label="Home"
+          ><img src="/assets/images/logo.svg" width="100" alt
+        /></a>
+        <nav id="global-nav">
+          <ul role="list" class="hstack">
+            <li>
+              <a class="global-nav__link" href="/course/introduction/"
+                >Course</a
+              >
+            </li>
+            <li>
+              <a class="global-nav__link" href="/resources/introduction/"
+                >Resources</a
+              >
+            </li>
+            <li><a class="global-nav__link" href="/about/">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="center">
+        <div class="layout">
+          <aside></aside>
+          <main id="main">
+            <div>
+              <header class="vstack gap-xl pad-xl stripes">
+                <div class="vstack" data-gap="md">
+                  <h1 class="highlight bg-primary">Server-side forms</h1>
+                  <p class="highlight fz-lg">
+                    Learn how to build interactive websites using forms and Node
+                  </p>
+                  <ul role="list" class="hstack gap-sm wrap">
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      js
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      html
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      http
+                    </li>
+                  </ul>
+                </div>
+                <div class="hstack wrap">
+                  <div class="vstack gap-none">
+                    <label
+                      for="download-command"
+                      class="highlight fw-bold"
+                      style="--bg: var(--bg-400)"
+                      >Download files via CLI</label
+                    ><copy-text class="hstack gap-none ai-stretch"
+                      ><input
+                        id="download-command"
+                        readonly
+                        value="npx degit 'foundersandcoders/coursebook/src/workshops/server-side-forms/starter-files#main' server-side-forms" /><button
+                        aria-label="Copy"
+                        title="Copy"
+                        hidden
+                      >
+                        <svg
+                          data-copy
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                          ></path></svg
+                        ><svg
+                          hidden
+                          data-success
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg></button
+                    ></copy-text>
+                  </div>
+                  <a
+                    href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fserver-side-forms%5D&amp;labels=feedback"
+                    target="_blank"
+                    rel="noopener"
+                    class="button"
+                    >Leave feedback<svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z"
+                        clip-rule="evenodd"
+                      ></path></svg
+                  ></a>
+                </div>
+              </header>
+              <div style="margin: 4rem 0" class="flow">
+                <p>
+                  Forms are the building blocks of interactivity on the web.
+                  Until client-side JavaScript gained the ability to make HTTP
+                  requests (in the early 2000s) forms were the only way to send
+                  user-generated data from the browser to the server. They’re
+                  still the simplest and most robust way to send data, since
+                  they work even if your JS fails to load, is blocked, or
+                  errors.
+                </p>
+                <h2 id="setup">
+                  Setup
+                  <a class="heading-anchor" href="#setup">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <ol>
+                  <li>Download the starter files</li>
+                  <li>
+                    <code>cd</code> into the <code>workshop/</code> directory
+                  </li>
+                  <li><code>npm install</code> to install the dependencies</li>
+                  <li>
+                    <code>npm run dev</code> to start the server with
+                    <a href="https://github.com/remy/nodemon#nodemon">nodemon</a
+                    >. This is a helper that auto-restarts your server when you
+                    save changes
+                  </li>
+                </ol>
+                <p>
+                  Before we get stuck into forms lets practice our Express
+                  basics. Open <code>workshop/server.js</code> in your editor.
+                  You should see a server that listens on port
+                  <code>3333</code>. There’s also an object containing data
+                  about different dogs imported from <code>dogs.js</code>.
+                </p>
+                <h3 id="challenge-1-server-setup">
+                  Challenge 1: server setup
+                  <a class="heading-anchor" href="#challenge-1-server-setup">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <ol>
+                  <li>Add a route for the homepage (<code>GET /</code>)</li>
+                  <li>
+                    Return an HTML string containing a <code>&lt;ul&gt;</code>
+                  </li>
+                  <li>
+                    Each <code>&lt;li&gt;</code> in the list should contain a
+                    dogs name
+                  </li>
+                </ol>
+                <div class="box box-success content flow">
+                  <h4 id="hint">
+                    Hint
+                    <a class="heading-anchor" href="#hint">
+                      <svg
+                        viewBox="0 0 32 32"
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="currentcolor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                        ></path>
+                      </svg>
+                    </a>
+                  </h4>
+                  <p>
+                    You can use <code>Object.values(myObj)</code> to get an
+                    array of all the values. You can then generate a dynamic
+                    list by looping over that array:
+                  </p>
+                  <pre
+                    class="language-js"
+                  ><code class="language-js"><span class="token keyword">const</span> myObj <span class="token operator">=</span> <span class="token punctuation">{</span><br>  <span class="token literal-property property">first</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token string">"hi"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token literal-property property">second</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token string">"bye"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token keyword">let</span> items <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> thing <span class="token keyword">of</span> Object<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span>myObj<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  items <span class="token operator">+=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;li></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>thing<span class="token punctuation">.</span>test<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/li></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;ul></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>items<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/ul></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span></code></pre>
+                  <p>
+                    You could also combine <code>array.map</code> and
+                    <code>array.join</code> to create the string.
+                  </p>
+                </div>
+                <p>
+                  When you’re done you should be able to visit
+                  <a href="http://localhost:3333">http://localhost:3333</a> and
+                  see the list of dogs rendered.
+                </p>
+                <div class="box box-success content">
+                  <details class="disclosure flow">
+                    <summary>Toggle answer</summary>
+                    <pre
+                      class="language-js"
+                    ><code class="language-js">server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token keyword">let</span> items <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span><br>  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> dog <span class="token keyword">of</span> Object<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span>dogs<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    items <span class="token operator">+=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;li></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dog<span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/li></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><br>  <span class="token keyword">const</span> html <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string"><br>  &lt;!doctype html><br>  &lt;html><br>    &lt;head><br>      &lt;meta charset="utf-8"><br>      &lt;title>Dogs!&lt;/title><br>    &lt;/head><br>    &lt;body><br>      &lt;ul></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>items<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/ul><br>    &lt;/body><br>  &lt;/html><br>  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>  response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                  </details>
+                </div>
+                <h2 id="get-requests">
+                  <code>GET</code> requests
+                  <a class="heading-anchor" href="#get-requests">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Browsers support two types of HTTP requests (without JS):
+                  <code>GET</code> and <code>POST</code>. When a user navigates
+                  (either by clicking a link or typing a URL into the address
+                  bar) the browser will send a <code>GET</code> request, then
+                  render the response. There are also certain HTML tags that
+                  trigger <code>GET</code> requests for a resource to display
+                  <em>within</em> the page, e.g. <code>&lt;img&gt;</code>.
+                </p>
+                <p>
+                  Forms can also make <code>GET</code> requests. Here’s an
+                  example form:
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>myMessage<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
+                <p>
+                  By default a form sends a <code>GET</code> request to the
+                  current page (when submitted). It will find all the inputs
+                  within the form and add them into the “search” part of the URL
+                  (the bit after the <code>?</code>). Assuming this form was
+                  rendered on <code>example.com</code> clicking the submit
+                  button would send this request:
+                </p>
+                <pre><code>GET example.com?myMessage=whatevertheusertyped HTTP/1.1
 </code></pre>
-<p>Each input is added to the search string in this format: <code>${inputName}=${inputValue}</code>. If you don’t add a <code>name</code> attribute the input won’t be submitted.</p>
-<p>There’s nothing special about the request: we could have achieved the same result by creating a link like this:</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>?myMessage=whatevertheusertyped<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Click me<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span></code></pre>
-<p>The advantage of a form is the search part of the URL is <em>dynamic</em>—it is typed by the user, not hard-coded into the HTML by the developer.</p>
-<p>Forms like this are mostly used for implementing search functionality. The <code>GET</code> method is for <em>retrieving</em> resources. It shouldn’t be used for creating/updating/deleting things, since browsers treat <code>GET</code>s differently (e.g. they cache them).</p>
-<h2 id="challenge-2-search">Challenge 2: search <a class="heading-anchor" href="#challenge-2-search">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Let’s add some search functionality to our dogs page. Express automatically parses the “search” part of the URL for each request. You can access this object at <code>request.query</code>. For example our request above would result in a query object like:</p>
-<pre class="language-js"><code class="language-js"><span class="token punctuation">{</span> <span class="token literal-property property">myMessage</span><span class="token operator">:</span> <span class="token string">"whatevertheusertyped"</span><span class="token punctuation">,</span> <span class="token punctuation">}</span></code></pre>
-<ol>
-<li>Add a search form to the homepage (with a single input)</li>
-<li>Retrieve the user-submitted value on the server</li>
-<li>Filter the list of dogs based on the user-submitted value</li>
-<li>Make sure the full list still displays if there’s no search value</li>
-</ol>
-<p>E.g. if the user searches for “o” the list should only include “rover” and “spot” (since they both contain the letter “o”).</p>
-<div class="box box-success content flow">
-<h3 id="hint-2">Hint <a class="heading-anchor" href="#hint-2">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>You can use <code>string.includes</code> to check if a string contains a given substring. E.g.</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> search <span class="token operator">=</span> <span class="token string">"rov"</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"rover"</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> match <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>search<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">if</span> <span class="token punctuation">(</span>match<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  items <span class="token operator">+=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;li></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/li></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-<p>Don’t forget this is case sensitive!</p>
-</div>
-<p>When you’re done you should be able to submit the form to filter the list of dogs on the page.</p>
-<h2 id="post-requests"><code>POST</code> requests <a class="heading-anchor" href="#post-requests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Forms can also send <code>POST</code> requests, which allows users to create or change data stored by the server. You can make a form send a <code>POST</code> by setting the <code>method</code> attribute.</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>myMessage<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
-<div class="box box-default content flow">
-<p><strong>Note</strong>: forms cannot use any other HTTP methods. This means we’ll be using <code>POST</code> for creating, updating <em>and</em> deleting things.</p>
-</div>
-<p>A <code>POST</code> request doesn’t include information in the URL. Instead it puts it in the request <em>body</em>. This means it’s not directly visible to the user, and won’t be logged or cached by things that store URLs. The information will be formatted in the same way as a <code>GET</code>, it’s just sent in a different place. E.g.</p>
-<pre><code>POST example.com HTTP/1.1
+                <p>
+                  Each input is added to the search string in this format:
+                  <code>${inputName}=${inputValue}</code>. If you don’t add a
+                  <code>name</code> attribute the input won’t be submitted.
+                </p>
+                <p>
+                  There’s nothing special about the request: we could have
+                  achieved the same result by creating a link like this:
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>?myMessage=whatevertheusertyped<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Click me<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span></code></pre>
+                <p>
+                  The advantage of a form is the search part of the URL is
+                  <em>dynamic</em>—it is typed by the user, not hard-coded into
+                  the HTML by the developer.
+                </p>
+                <p>
+                  Forms like this are mostly used for implementing search
+                  functionality. The <code>GET</code> method is for
+                  <em>retrieving</em> resources. It shouldn’t be used for
+                  creating/updating/deleting things, since browsers treat
+                  <code>GET</code>s differently (e.g. they cache them).
+                </p>
+                <h2 id="challenge-2-search">
+                  Challenge 2: search
+                  <a class="heading-anchor" href="#challenge-2-search">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Let’s add some search functionality to our dogs page. Express
+                  automatically parses the “search” part of the URL for each
+                  request. You can access this object at
+                  <code>request.query</code>. For example our request above
+                  would result in a query object like:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token punctuation">{</span> <span class="token literal-property property">myMessage</span><span class="token operator">:</span> <span class="token string">"whatevertheusertyped"</span><span class="token punctuation">,</span> <span class="token punctuation">}</span></code></pre>
+                <ol>
+                  <li>
+                    Add a search form to the homepage (with a single input)
+                  </li>
+                  <li>Retrieve the user-submitted value on the server</li>
+                  <li>
+                    Filter the list of dogs based on the user-submitted value
+                  </li>
+                  <li>
+                    Make sure the full list still displays if there’s no search
+                    value
+                  </li>
+                </ol>
+                <p>
+                  E.g. if the user searches for “o” the list should only include
+                  “rover” and “spot” (since they both contain the letter “o”).
+                </p>
+                <div class="box box-success content flow">
+                  <h3 id="hint-2">
+                    Hint
+                    <a class="heading-anchor" href="#hint-2">
+                      <svg
+                        viewBox="0 0 32 32"
+                        width="20"
+                        height="20"
+                        fill="none"
+                        stroke="currentcolor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                        ></path>
+                      </svg>
+                    </a>
+                  </h3>
+                  <p>
+                    You can use <code>string.includes</code> to check if a
+                    string contains a given substring. E.g.
+                  </p>
+                  <pre
+                    class="language-js"
+                  ><code class="language-js"><span class="token keyword">const</span> search <span class="token operator">=</span> <span class="token string">"rov"</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"rover"</span><span class="token punctuation">;</span><br><span class="token keyword">const</span> match <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>search<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">if</span> <span class="token punctuation">(</span>match<span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  items <span class="token operator">+=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;li></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/li></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                  <p>Don’t forget this is case sensitive!</p>
+                </div>
+                <p>
+                  When you’re done you should be able to submit the form to
+                  filter the list of dogs on the page.
+                </p>
+                <h2 id="post-requests">
+                  <code>POST</code> requests
+                  <a class="heading-anchor" href="#post-requests">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Forms can also send <code>POST</code> requests, which allows
+                  users to create or change data stored by the server. You can
+                  make a form send a <code>POST</code> by setting the
+                  <code>method</code> attribute.
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>myMessage<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
+                <div class="box box-default content flow">
+                  <p>
+                    <strong>Note</strong>: forms cannot use any other HTTP
+                    methods. This means we’ll be using <code>POST</code> for
+                    creating, updating <em>and</em> deleting things.
+                  </p>
+                </div>
+                <p>
+                  A <code>POST</code> request doesn’t include information in the
+                  URL. Instead it puts it in the request <em>body</em>. This
+                  means it’s not directly visible to the user, and won’t be
+                  logged or cached by things that store URLs. The information
+                  will be formatted in the same way as a <code>GET</code>, it’s
+                  just sent in a different place. E.g.
+                </p>
+                <pre><code>POST example.com HTTP/1.1
 
 myMessage=whatevertheusertyped
 </code></pre>
-<p>Since request bodies are sent in lots of small chunks (as they can sometimes be very large) our server doesn’t get it all in one go. This means you must use the built-in Express middleware for parsing request bodies. You can refer back to our <a href="/workshops/node-express-server/#request-body">Express introduction workshop</a> to see exactly how.</p>
-<h3 id="challenge-3-add-a-dog">Challenge 3: add a dog <a class="heading-anchor" href="#challenge-3-add-a-dog">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Let’s add a form for submitting new dogs to the site. We aren’t using a database to store our dogs persistently, so we’ll just store new dogs by adding them into the <code>dogs</code> object in-memory. This means the dogs will reset each time the server restarts.</p>
-<div class="box box-default content flow">
-<p><strong>Note</strong>: it’s important to always <strong>redirect</strong> after a <code>POST</code> request. This ensures the user only ever ends up on a page rendered via a <code>GET</code>. Otherwise if the user navigated back to the results page their browser would resend the <code>POST</code> and you’d get a double-submission. This is why lots of sites say “Don’t click back or you’ll be charged twice”!</p>
-</div>
-<ol>
-<li>Add a new route <code>GET /add-dog</code></li>
-<li>It should render another form with inputs for each property of a dog</li>
-<li>Add a new route for <code>POST /add-dog</code></li>
-<li>It should use the Express body-parsing middleware to access the submitted body</li>
-<li>Add the new dog to the <code>dogs</code> object</li>
-<li>Redirect back to the homepage so the user can see their new dog in the list</li>
-</ol>
-<p>When you’re done you should be able to visit <a href="http://localhost:3333/add-dog">http://localhost:3333/add-dog</a>, submit the information for a new dog, then be redirected to the homepage and see that information in the list.</p>
-<h2 id="deleting-resources">Deleting resources <a class="heading-anchor" href="#deleting-resources">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>So far we’ve only had one form per page. Each form has just submitted to the default URL—the current one. However if you want to use multiple forms on a page they’ll need different URLs to represent different actions.</p>
-<p>For example we might want to be able to delete dogs from our homepage. This action might happen via the <code>/delete-dog</code> URL. We can tell the form to send its request to this URL with the <code>action</code> attribute:</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/delete-dog<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
-<p>But how will our <code>/delete-dog</code> endpoint know <em>which</em> dog to delete? We need the request body to contain the name of the dog to remove, like this:</p>
-<pre><code>POST /delete-dog HTTP/1.1
+                <p>
+                  Since request bodies are sent in lots of small chunks (as they
+                  can sometimes be very large) our server doesn’t get it all in
+                  one go. This means you must use the built-in Express
+                  middleware for parsing request bodies. You can refer back to
+                  our
+                  <a href="/workshops/node-express-server/#request-body"
+                    >Express introduction workshop</a
+                  >
+                  to see exactly how.
+                </p>
+                <h3 id="challenge-3-add-a-dog">
+                  Challenge 3: add a dog
+                  <a class="heading-anchor" href="#challenge-3-add-a-dog">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Let’s add a form for submitting new dogs to the site. We
+                  aren’t using a database to store our dogs persistently, so
+                  we’ll just store new dogs by adding them into the
+                  <code>dogs</code> object in-memory. This means the dogs will
+                  reset each time the server restarts.
+                </p>
+                <div class="box box-default content flow">
+                  <p>
+                    <strong>Note</strong>: it’s important to always
+                    <strong>redirect</strong> after a <code>POST</code> request.
+                    This ensures the user only ever ends up on a page rendered
+                    via a <code>GET</code>. Otherwise if the user navigated back
+                    to the results page their browser would resend the
+                    <code>POST</code> and you’d get a double-submission. This is
+                    why lots of sites say “Don’t click back or you’ll be charged
+                    twice”!
+                  </p>
+                </div>
+                <ol>
+                  <li>Add a new route <code>GET /add-dog</code></li>
+                  <li>
+                    It should render another form with inputs for each property
+                    of a dog
+                  </li>
+                  <li>Add a new route for <code>POST /add-dog</code></li>
+                  <li>
+                    It should use the Express body-parsing middleware to access
+                    the submitted body
+                  </li>
+                  <li>Add the new dog to the <code>dogs</code> object</li>
+                  <li>
+                    Redirect back to the homepage so the user can see their new
+                    dog in the list
+                  </li>
+                </ol>
+                <p>
+                  When you’re done you should be able to visit
+                  <a href="http://localhost:3333/add-dog"
+                    >http://localhost:3333/add-dog</a
+                  >, submit the information for a new dog, then be redirected to
+                  the homepage and see that information in the list.
+                </p>
+                <h2 id="deleting-resources">
+                  Deleting resources
+                  <a class="heading-anchor" href="#deleting-resources">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  So far we’ve only had one form per page. Each form has just
+                  submitted to the default URL—the current one. However if you
+                  want to use multiple forms on a page they’ll need different
+                  URLs to represent different actions.
+                </p>
+                <p>
+                  For example we might want to be able to delete dogs from our
+                  homepage. This action might happen via the
+                  <code>/delete-dog</code> URL. We can tell the form to send its
+                  request to this URL with the <code>action</code> attribute:
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/delete-dog<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
+                <p>
+                  But how will our <code>/delete-dog</code> endpoint know
+                  <em>which</em> dog to delete? We need the request body to
+                  contain the name of the dog to remove, like this:
+                </p>
+                <pre><code>POST /delete-dog HTTP/1.1
 
 dogName=pongo
 </code></pre>
-<p>We <em>could</em> have the user type the name in, but that’s not a great experience. It would be better if each “delete button” could be a separate form with a hard-coded “name to delete”. That way the user can just click a button to send the delete request.</p>
-<p>There are two ways to hard-code data into a form. You can use inputs with <code>type=&quot;hidden&quot;</code>. These aren’t displayed to the user but will still be submitted to your server.</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/delete-dog<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hidden<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dogName<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pongo<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span>Delete<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
-<p>You can also set <code>name</code> and <code>value</code> attributes on directly on button elements. When that button is used to submit the form those values will be submitted in the request body.</p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/delete-dog<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dogName<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pongo<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Delete<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
-<p>It’s like a little self-contained form. The only thing the user sees is the button to click.</p>
-<h3 id="challenge-4-removing-dogs">Challenge 4: removing dogs <a class="heading-anchor" href="#challenge-4-removing-dogs">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Let’s add delete buttons next to each dog in the list on the homepage. You can remove a dog from the <code>dogs</code> object using the <code>delete</code> operator. E.g.</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"pongo"</span><span class="token punctuation">;</span><br><span class="token keyword">delete</span> dogs<span class="token punctuation">[</span>name<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
-<ol>
-<li>Add a delete form next to each dog’s name on the homepage</li>
-<li>Each one should send a <code>POST</code> to <code>/delete-dog</code> with the name of the dog to remove in the body</li>
-<li>Add a new route <code>POST /delete-dog</code></li>
-<li>It should get the name of the dog to remove from the request body</li>
-<li>Use the name to remove the dog from the <code>dogs</code> object</li>
-<li>Redirect back to the homepage so the user can see the dog is gone</li>
-</ol>
-<p>When you’re done you should be able to click the delete button next to each dog and see that dog disappear from the list.</p>
-<h2 id="modularisation">Modularisation <a class="heading-anchor" href="#modularisation">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Our <code>server.js</code> file is starting to get a little cluttered. We’ve got handlers and logic for several different routes, plus the code that starts our server listening. It’s not too hard to follow right now, but as an application grows you’ll want to split things up into separate files.</p>
-<p>You can import and register route handler functions like this:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> someHandler <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./someHandler.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">,</span> someHandler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>There are different philosophies on modularisation. Some people like dividing things up by the <em>type of code</em>. For example put all the route handlers in one place, all the database queries in another place, and all the HTML templates in another place. So you might have folders like <code>handlers/</code>, <code>database/</code> and <code>templates/</code>. A single feature “add a dog” might be divided across all three folders.</p>
-<p>Other people like to divide code up by <em>features</em>. For example put all the code related to a single feature (like “adding a dog”) into a single file. So you might just have a <code>routes/</code> folder containing <code>addDog.js</code>. This file would contain everything required for that feature—the route handlers, data access and HTML strings all together.</p>
-<h3 id="challenge-5-modularise-your-server">Challenge 5: modularise your server <a class="heading-anchor" href="#challenge-5-modularise-your-server">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Pick one of the methods above and move your route handlers out of <code>server.js</code>. Don’t forget to import/export everything!</p>
-<h2 id="stretch-goal-dog-pages">Stretch goal: dog pages <a class="heading-anchor" href="#stretch-goal-dog-pages">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>It would be nice if each dog had its own page that showed all the information about it. For example <code>GET /dogs/pongo</code> would show information about Pongo. You can achieve this with <a href="/workshops/node-express-server/#dynamic-route-paths">dynamic route paths</a>.</p>
-<ol>
-<li>Add a single extra route that can render any dog’s page</li>
-<li>It should respond with HTML containing all the info about that dog</li>
-<li>Add a link for each dog on the homepage so you can click through to each page</li>
-</ol>
-<p>Once that’s done it would be a better experience if the user was redirected to the relevant dog page after creating a new dog. For example if they created a new dog named “Bilbo” they should be redirected to <code>/dogs/bilbo</code> to see all the info about that dog.</p>
-<ol>
-<li>Amend your <code>POST /add-dog</code> handler to redirect to the relevant dog’s page</li>
-</ol>
-<h2 id="stretch-goal-server-side-validation">Stretch goal: server-side validation <a class="heading-anchor" href="#stretch-goal-server-side-validation">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>It’s important to check user-submitted information. It could be missing, incomplete, or even malicious. For example right now you can submit the “add dog” form with empty inputs, which results in the other pages looking broken.</p>
-<p>Client-side validation can help (e.g. adding <code>required</code> or <code>pattern</code> to inputs), however it’s easy to bypass (e.g. by editing the elements in dev tools).</p>
-<div class="box box-error content flow">
-<p>You should <strong>always</strong> validate your data on the server, since that’s the only place you can trust.</p>
-</div>
-<ol>
-<li>Amend your <code>POST</code> handlers to check your data is valid</li>
-<li>If the data is not valid redirect the user to a generic error page</li>
-<li>Create a generic error route that tells the user something went wrong</li>
-</ol>
-<p>It would be a better user-experience to send the user back to the same page, but highlight which inputs had validation errors. Unfortunately that’s a little more complex. HTTP requests are “stateless”, which means we can’t distinguish a normal <code>GET /add-todo</code> from a redirect to <code>GET /add-todo</code> after an error.</p>
-<p>We can use cookies to store information between requests. We could store the validation errors in a cookie before redirecting, then use that info to render error messages in the form. We’ll be looking at cookies in a later workshop, but feel free to attempt this now if you want a challenge.</p>
-</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>
+                <p>
+                  We <em>could</em> have the user type the name in, but that’s
+                  not a great experience. It would be better if each “delete
+                  button” could be a separate form with a hard-coded “name to
+                  delete”. That way the user can just click a button to send the
+                  delete request.
+                </p>
+                <p>
+                  There are two ways to hard-code data into a form. You can use
+                  inputs with <code>type=&quot;hidden&quot;</code>. These aren’t
+                  displayed to the user but will still be submitted to your
+                  server.
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/delete-dog<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hidden<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dogName<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pongo<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span>Delete<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
+                <p>
+                  You can also set <code>name</code> and
+                  <code>value</code> attributes on directly on button elements.
+                  When that button is used to submit the form those values will
+                  be submitted in the request body.
+                </p>
+                <pre
+                  class="language-html"
+                ><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/delete-dog<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dogName<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pongo<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Delete<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></code></pre>
+                <p>
+                  It’s like a little self-contained form. The only thing the
+                  user sees is the button to click.
+                </p>
+                <h3 id="challenge-4-removing-dogs">
+                  Challenge 4: removing dogs
+                  <a class="heading-anchor" href="#challenge-4-removing-dogs">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Let’s add delete buttons next to each dog in the list on the
+                  homepage. You can remove a dog from the
+                  <code>dogs</code> object using the
+                  <code>delete</code> operator. E.g.
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"pongo"</span><span class="token punctuation">;</span><br><span class="token keyword">delete</span> dogs<span class="token punctuation">[</span>name<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+                <ol>
+                  <li>
+                    Add a delete form next to each dog’s name on the homepage
+                  </li>
+                  <li>
+                    Each one should send a <code>POST</code> to
+                    <code>/delete-dog</code> with the name of the dog to remove
+                    in the body
+                  </li>
+                  <li>Add a new route <code>POST /delete-dog</code></li>
+                  <li>
+                    It should get the name of the dog to remove from the request
+                    body
+                  </li>
+                  <li>
+                    Use the name to remove the dog from the
+                    <code>dogs</code> object
+                  </li>
+                  <li>
+                    Redirect back to the homepage so the user can see the dog is
+                    gone
+                  </li>
+                </ol>
+                <p>
+                  When you’re done you should be able to click the delete button
+                  next to each dog and see that dog disappear from the list.
+                </p>
+                <h2 id="modularisation">
+                  Modularisation
+                  <a class="heading-anchor" href="#modularisation">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Our <code>server.js</code> file is starting to get a little
+                  cluttered. We’ve got handlers and logic for several different
+                  routes, plus the code that starts our server listening. It’s
+                  not too hard to follow right now, but as an application grows
+                  you’ll want to split things up into separate files.
+                </p>
+                <p>
+                  You can import and register route handler functions like this:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> someHandler <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./someHandler.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>server<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">,</span> someHandler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  There are different philosophies on modularisation. Some
+                  people like dividing things up by the <em>type of code</em>.
+                  For example put all the route handlers in one place, all the
+                  database queries in another place, and all the HTML templates
+                  in another place. So you might have folders like
+                  <code>handlers/</code>, <code>database/</code> and
+                  <code>templates/</code>. A single feature “add a dog” might be
+                  divided across all three folders.
+                </p>
+                <p>
+                  Other people like to divide code up by <em>features</em>. For
+                  example put all the code related to a single feature (like
+                  “adding a dog”) into a single file. So you might just have a
+                  <code>routes/</code> folder containing <code>addDog.js</code>.
+                  This file would contain everything required for that
+                  feature—the route handlers, data access and HTML strings all
+                  together.
+                </p>
+                <h3 id="challenge-5-modularise-your-server">
+                  Challenge 5: modularise your server
+                  <a
+                    class="heading-anchor"
+                    href="#challenge-5-modularise-your-server"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Pick one of the methods above and move your route handlers out
+                  of <code>server.js</code>. Don’t forget to import/export
+                  everything!
+                </p>
+                <h2 id="stretch-goal-dog-pages">
+                  Stretch goal: dog pages
+                  <a class="heading-anchor" href="#stretch-goal-dog-pages">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  It would be nice if each dog had its own page that showed all
+                  the information about it. For example
+                  <code>GET /dogs/pongo</code> would show information about
+                  Pongo. You can achieve this with
+                  <a href="/workshops/node-express-server/#dynamic-route-paths"
+                    >dynamic route paths</a
+                  >.
+                </p>
+                <ol>
+                  <li>
+                    Add a single extra route that can render any dog’s page
+                  </li>
+                  <li>
+                    It should respond with HTML containing all the info about
+                    that dog
+                  </li>
+                  <li>
+                    Add a link for each dog on the homepage so you can click
+                    through to each page
+                  </li>
+                </ol>
+                <p>
+                  Once that’s done it would be a better experience if the user
+                  was redirected to the relevant dog page after creating a new
+                  dog. For example if they created a new dog named “Bilbo” they
+                  should be redirected to <code>/dogs/bilbo</code> to see all
+                  the info about that dog.
+                </p>
+                <ol>
+                  <li>
+                    Amend your <code>POST /add-dog</code> handler to redirect to
+                    the relevant dog’s page
+                  </li>
+                </ol>
+                <h2 id="stretch-goal-server-side-validation">
+                  Stretch goal: server-side validation
+                  <a
+                    class="heading-anchor"
+                    href="#stretch-goal-server-side-validation"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  It’s important to check user-submitted information. It could
+                  be missing, incomplete, or even malicious. For example right
+                  now you can submit the “add dog” form with empty inputs, which
+                  results in the other pages looking broken.
+                </p>
+                <p>
+                  Client-side validation can help (e.g. adding
+                  <code>required</code> or <code>pattern</code> to inputs),
+                  however it’s easy to bypass (e.g. by editing the elements in
+                  dev tools).
+                </p>
+                <div class="box box-error content flow">
+                  <p>
+                    You should <strong>always</strong> validate your data on the
+                    server, since that’s the only place you can trust.
+                  </p>
+                </div>
+                <ol>
+                  <li>
+                    Amend your <code>POST</code> handlers to check your data is
+                    valid
+                  </li>
+                  <li>
+                    If the data is not valid redirect the user to a generic
+                    error page
+                  </li>
+                  <li>
+                    Create a generic error route that tells the user something
+                    went wrong
+                  </li>
+                </ol>
+                <p>
+                  It would be a better user-experience to send the user back to
+                  the same page, but highlight which inputs had validation
+                  errors. Unfortunately that’s a little more complex. HTTP
+                  requests are “stateless”, which means we can’t distinguish a
+                  normal <code>GET /add-todo</code> from a redirect to
+                  <code>GET /add-todo</code> after an error.
+                </p>
+                <p>
+                  We can use cookies to store information between requests. We
+                  could store the validation errors in a cookie before
+                  redirecting, then use that info to render error messages in
+                  the form. We’ll be looking at cookies in a later workshop, but
+                  feel free to attempt this now if you want a challenge.
+                </p>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/assets/js/checkboxen.js"></script>
+    <script src="/assets/js/toggle-button.js"></script>
+    <script src="/assets/js/copy-text.js"></script>
+  </body>
+</html>

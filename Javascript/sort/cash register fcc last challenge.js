@@ -33,9 +33,8 @@ function checkCashRegister(price, cash, cid) {
         continue;
       } else if (cid[i][1] > 0) {
         let changeDue =
-          Math.floor(
-            Math.min(changeNeeded, cid[i][1]) / currencyUnit[i][1]
-          ) * currencyUnit[i][1];
+          Math.floor(Math.min(changeNeeded, cid[i][1]) / currencyUnit[i][1]) *
+          currencyUnit[i][1];
         AnswerObject.change.push([currencyUnit[i][0], changeDue]);
         changeNeeded -= changeDue;
         changeNeeded = Number(changeNeeded.toFixed(2));

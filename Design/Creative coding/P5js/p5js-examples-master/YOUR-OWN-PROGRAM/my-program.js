@@ -11,5 +11,5 @@ function draw() {
   // code in draw runs in a loop after setup
   background(51);
   fill(random(255), random(255), random(255));
-  ellipse(width/2, height/2, 48, 48);
+  ellipse(width / 2, height / 2, 48, 48);
 }

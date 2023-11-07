@@ -1,165 +1,484 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Database testing</title><link rel="preload" href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2" as="font" type="font/woff2" crossorigin /><link rel="icon" href="/assets/favicon.svg" /><link href="/assets/css/styles.css" rel="stylesheet" /></head><body><div><header class="hstack jc-between pad-lg"><a href="/" aria-label="Home"><img src="/assets/images/logo.svg" width="100" alt /></a><nav id="global-nav"><ul role="list" class="hstack"><li><a class="global-nav__link" href="/course/introduction/">Course</a></li><li><a class="global-nav__link" href="/resources/introduction/">Resources</a></li><li><a class="global-nav__link" href="/about/">About</a></li></ul></nav></header><div class="center"><div class="layout"><aside></aside><main id="main"><div><header class="vstack gap-xl pad-xl stripes"><div class="vstack" data-gap="md"><h1 class="highlight bg-primary">Database testing</h1><p class="highlight fz-lg">Learn how to reset database state with Cypress tasks</p><ul role="list" class="hstack gap-sm wrap"><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">testing</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">database</li><li class="highlight fz-sm fw-bold" style="--bg: var(--bg-400)">cypress</li></ul></div><div class="hstack wrap"><div class="vstack gap-none"><label for="download-command" class="highlight fw-bold" style="--bg: var(--bg-400)">Download files via CLI</label><copy-text class="hstack gap-none ai-stretch"><input id="download-command" readonly value="npx degit 'foundersandcoders/coursebook/src/workshops/database-testing/starter-files#main' database-testing" /><button aria-label="Copy" title="Copy" hidden><svg data-copy width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><svg hidden data-success width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button></copy-text></div><a href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fdatabase-testing%5D&amp;labels=feedback" target="_blank" rel="noopener" class="button">Leave feedback<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd"></path></svg></a></div></header><div style="margin: 4rem 0" class="flow"><p>Most interesting apps are <em>stateful</em>. They save information for later in some kind of database. This can make them harder to test, since each test could change the state of the app, making subsequent tests unpredictable. We’re going to learn how to write tests that work with our database.</p>
-<h2 id="setup">Setup <a class="heading-anchor" href="#setup">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<ol>
-<li>Download the starter files</li>
-<li>Change into the <code>workshop</code> directory</li>
-<li>Create a local DB by running: <code>./scripts/create_db</code></li>
-<li>Populate the DB by running: <code>./scripts/populate_db</code></li>
-<li>Start the server with <code>npm run dev</code> and check it’s working</li>
-</ol>
-<p>There is a very minimal Cypress testing setup. You can start Cypress with <code>npm test</code>—you should see the single example test from <code>cypress/integration/test.js</code>.</p>
-<h2 id="isolating-tests">Isolating tests <a class="heading-anchor" href="#isolating-tests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>It’s easy to create tests that rely on each other. For example imagine we had an app for managing different types of dogs. Here are two example tests; one checks that creating a dog works, and one checks that deleting a dog works:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">"Dog forms"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"creates a new dog"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    cy<span class="token punctuation">.</span><span class="token function">visit</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    cy<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"input[name='dogName']"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">type</span><span class="token punctuation">(</span><span class="token string">"rover"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    cy<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"button[type='submit']"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"deletes a dog"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    cy<span class="token punctuation">.</span><span class="token function">visit</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    cy<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"button[aria-label='Delete rover']"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token comment">// make sure that Rover entry is removed from page</span><br>    cy<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"Rover"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">should</span><span class="token punctuation">(</span><span class="token string">"not.exist"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>These tests work fine <em>together</em>, but if we ran the delete test on its own it would fail. It expects there to already be a dog called “Rover” in the database, but this only happens if the creation test runs first.</p>
-<p>This is a bad idea since it makes tests brittle. If somebody comes along later and swaps the order of the tests (or removes a test) it could break things. Tests should always be self-contained and able to run on their own.</p>
-<h3 id="resetting-state-between-tests">Resetting state between tests <a class="heading-anchor" href="#resetting-state-between-tests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Cypress has a handy way to run some code <em>before</em> every test—the <code>beforeEach</code> method. You can pass this a function and Cypress will run it before each test:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">"Dog forms"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"I run before every test!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><br>  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"creates a dog"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span><span class="token punctuation">)</span><br>  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"deletes a dog"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span><span class="token punctuation">)</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>We can use this to reset our database before each new test runs.</p>
-<p>Unfortunately there’s a slight complication: all the code inside our test runs <em>in the browser</em>. The browser doesn’t have access to our Node environment, so it can’t talk to our database directly.</p>
-<p>However Cypress provides a way to execute code in your Node environment: “tasks”. These are special functions you can create and then call from inside tests. Tasks are defined inside <code>cypress/plugins/index.js</code>:</p>
-<pre class="language-js"><code class="language-js">module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">on<span class="token punctuation">,</span> config</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"task"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><br>    <span class="token function-variable function">resetDb</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Resetting DB..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>      <span class="token comment">// we have to return something or Cypress gets mad</span><br>      <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<p>We can then call this task in our tests like this:</p>
-<pre class="language-js"><code class="language-js"><span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  cy<span class="token punctuation">.</span><span class="token function">task</span><span class="token punctuation">(</span><span class="token string">"resetDb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>Try creating this task now, and make sure you can call it from inside a test. You should see the log show up in your terminal, not the test browser (remember tasks are for running Node code <em>outside</em> the browser).</p>
-<h4 id="running-the-populate-db-script">Running the populate_db script <a class="heading-anchor" href="#running-the-populate-db-script">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h4>
-<p>We already have a script that can reset our DB back to its initial state: <code>./scripts/populate_db</code>. We can re-use this within our Cypress task using Node’s <code>child_process</code> module. This allows us to run terminal commands from inside Node.</p>
-<p>In this case we want to use the <code>execFileSync</code> method to execute a given file:</p>
-<pre class="language-js"><code class="language-js"><span class="token comment">// cypress/plugins/index.js</span><br><br><span class="token keyword">const</span> <span class="token punctuation">{</span> execFileSync <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"child_process"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">on<span class="token punctuation">,</span> config</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"task"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><br>    <span class="token function-variable function">resetDb</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Resetting DB..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>      <span class="token keyword">return</span> <span class="token function">execFileSync</span><span class="token punctuation">(</span><span class="token string">"./scripts/populate_db"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h2 id="challenge-1-write-some-tests">Challenge 1: write some tests <a class="heading-anchor" href="#challenge-1-write-some-tests">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Now you can finally write some tests without worrying about the DB.</p>
-<ol>
-<li>Add a test verifying the <code>/</code> route displays a list of users</li>
-<li>Add a test verifying you can create a user from the <code>/create-user</code> route</li>
-<li>Add a test verifying you can delete a user from the <code>/</code> route</li>
-</ol>
-<div class="box box-default content flow">
-<p>Don’t forget to reset the DB before each test.</p>
-</div>
-<h2 id="modularising-database-queries">Modularising database queries <a class="heading-anchor" href="#modularising-database-queries">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h2>
-<p>Currently we’re querying our database directly within our route handler functions. It’s generally a good idea to separate out data access. Ideally our route handlers shouldn’t have to do anything more than call a function like <code>getUsers()</code>. That way we could e.g. swap from Postgres to a totally different DB without having to change our route handlers at all.</p>
-<p>The nice thing about already having tests is refactoring becomes much safer. You’ll find out quite quickly if you break something.</p>
-<p>Let’s extract the homepage’s query. Create a new file <code>workshop/database/model.js</code>. Since there aren’t many we’ll put all our SQL queries into this one file.</p>
-<p>Create a function named <code>getUsers</code>. Import your database pool object and use it to get all the users, just like before:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./connection.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM users"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span> getUsers <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<p>You can now import and use this function in <code>routes/home.js</code>:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> model <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/model.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  model<span class="token punctuation">.</span><span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> users <span class="token operator">=</span> result<span class="token punctuation">.</span>rows<span class="token punctuation">;</span><br>    <span class="token comment">// ...</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-<p>This should work, but we can improve it. Our handler is stuck dealing with database-specific details. I.e. it has to know about the Postgres <code>result.rows</code> property. Ideally we should do this data-processing inside <code>model.js</code> instead:</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./connection.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM users"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> result<span class="token punctuation">.</span>rows<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span> getUsers <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> model <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/model.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  model<span class="token punctuation">.</span><span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">users</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token comment">// ...</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-<h3 id="challenge-2-modularise-queries">Challenge 2: modularise queries <a class="heading-anchor" href="#challenge-2-modularise-queries">
-  <svg
-    viewBox="0 0 32 32"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentcolor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-  >
-    <path
-      d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
-    ></path>
-  </svg>
-</a></h3>
-<p>Move the rest of the DB queries into <code>model.js</code>. Make sure all the tests keep passing!</p>
-<ol>
-<li>Write a <code>createUser</code> function to insert new users</li>
-<li>Write a <code>deleteUser</code> function to delete a user</li>
-<li>Write a <code>getPosts</code> function to select all the blog posts</li>
-<li>Refactor your route handlers to use the new model functions</li>
-</ol>
-</div></div></main></div></div></div><script type="module" src="/assets/js/checkboxen.js"></script><script src="/assets/js/toggle-button.js"></script><script src="/assets/js/copy-text.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Database testing</title>
+    <link
+      rel="preload"
+      href="/assets/fonts/GT-Eesti-Text-Light-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div>
+      <header class="hstack jc-between pad-lg">
+        <a href="/" aria-label="Home"
+          ><img src="/assets/images/logo.svg" width="100" alt
+        /></a>
+        <nav id="global-nav">
+          <ul role="list" class="hstack">
+            <li>
+              <a class="global-nav__link" href="/course/introduction/"
+                >Course</a
+              >
+            </li>
+            <li>
+              <a class="global-nav__link" href="/resources/introduction/"
+                >Resources</a
+              >
+            </li>
+            <li><a class="global-nav__link" href="/about/">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="center">
+        <div class="layout">
+          <aside></aside>
+          <main id="main">
+            <div>
+              <header class="vstack gap-xl pad-xl stripes">
+                <div class="vstack" data-gap="md">
+                  <h1 class="highlight bg-primary">Database testing</h1>
+                  <p class="highlight fz-lg">
+                    Learn how to reset database state with Cypress tasks
+                  </p>
+                  <ul role="list" class="hstack gap-sm wrap">
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      testing
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      database
+                    </li>
+                    <li
+                      class="highlight fz-sm fw-bold"
+                      style="--bg: var(--bg-400)"
+                    >
+                      cypress
+                    </li>
+                  </ul>
+                </div>
+                <div class="hstack wrap">
+                  <div class="vstack gap-none">
+                    <label
+                      for="download-command"
+                      class="highlight fw-bold"
+                      style="--bg: var(--bg-400)"
+                      >Download files via CLI</label
+                    ><copy-text class="hstack gap-none ai-stretch"
+                      ><input
+                        id="download-command"
+                        readonly
+                        value="npx degit 'foundersandcoders/coursebook/src/workshops/database-testing/starter-files#main' database-testing" /><button
+                        aria-label="Copy"
+                        title="Copy"
+                        hidden
+                      >
+                        <svg
+                          data-copy
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                          ></path></svg
+                        ><svg
+                          hidden
+                          data-success
+                          width="20"
+                          height="20"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg></button
+                    ></copy-text>
+                  </div>
+                  <a
+                    href="https://github.com/foundersandcoders/coursebook/issues/new?title=%5Bworkshops%2Fdatabase-testing%5D&amp;labels=feedback"
+                    target="_blank"
+                    rel="noopener"
+                    class="button"
+                    >Leave feedback<svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902 1.168.188 2.352.327 3.55.414.28.02.521.18.642.413l1.713 3.293a.75.75 0 001.33 0l1.713-3.293a.783.783 0 01.642-.413 41.102 41.102 0 003.55-.414c1.437-.231 2.43-1.49 2.43-2.902V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0010 2zM6.75 6a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 2.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z"
+                        clip-rule="evenodd"
+                      ></path></svg
+                  ></a>
+                </div>
+              </header>
+              <div style="margin: 4rem 0" class="flow">
+                <p>
+                  Most interesting apps are <em>stateful</em>. They save
+                  information for later in some kind of database. This can make
+                  them harder to test, since each test could change the state of
+                  the app, making subsequent tests unpredictable. We’re going to
+                  learn how to write tests that work with our database.
+                </p>
+                <h2 id="setup">
+                  Setup
+                  <a class="heading-anchor" href="#setup">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <ol>
+                  <li>Download the starter files</li>
+                  <li>Change into the <code>workshop</code> directory</li>
+                  <li>
+                    Create a local DB by running:
+                    <code>./scripts/create_db</code>
+                  </li>
+                  <li>
+                    Populate the DB by running:
+                    <code>./scripts/populate_db</code>
+                  </li>
+                  <li>
+                    Start the server with <code>npm run dev</code> and check
+                    it’s working
+                  </li>
+                </ol>
+                <p>
+                  There is a very minimal Cypress testing setup. You can start
+                  Cypress with <code>npm test</code>—you should see the single
+                  example test from <code>cypress/integration/test.js</code>.
+                </p>
+                <h2 id="isolating-tests">
+                  Isolating tests
+                  <a class="heading-anchor" href="#isolating-tests">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  It’s easy to create tests that rely on each other. For example
+                  imagine we had an app for managing different types of dogs.
+                  Here are two example tests; one checks that creating a dog
+                  works, and one checks that deleting a dog works:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">"Dog forms"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"creates a new dog"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    cy<span class="token punctuation">.</span><span class="token function">visit</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    cy<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"input[name='dogName']"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">type</span><span class="token punctuation">(</span><span class="token string">"rover"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    cy<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"button[type='submit']"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"deletes a dog"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    cy<span class="token punctuation">.</span><span class="token function">visit</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    cy<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"button[aria-label='Delete rover']"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token comment">// make sure that Rover entry is removed from page</span><br>    cy<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"Rover"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">should</span><span class="token punctuation">(</span><span class="token string">"not.exist"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  These tests work fine <em>together</em>, but if we ran the
+                  delete test on its own it would fail. It expects there to
+                  already be a dog called “Rover” in the database, but this only
+                  happens if the creation test runs first.
+                </p>
+                <p>
+                  This is a bad idea since it makes tests brittle. If somebody
+                  comes along later and swaps the order of the tests (or removes
+                  a test) it could break things. Tests should always be
+                  self-contained and able to run on their own.
+                </p>
+                <h3 id="resetting-state-between-tests">
+                  Resetting state between tests
+                  <a
+                    class="heading-anchor"
+                    href="#resetting-state-between-tests"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Cypress has a handy way to run some code <em>before</em> every
+                  test—the <code>beforeEach</code> method. You can pass this a
+                  function and Cypress will run it before each test:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">"Dog forms"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"I run before every test!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><br>  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"creates a dog"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span><span class="token punctuation">)</span><br>  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"deletes a dog"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span><span class="token punctuation">)</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+                <p>
+                  We can use this to reset our database before each new test
+                  runs.
+                </p>
+                <p>
+                  Unfortunately there’s a slight complication: all the code
+                  inside our test runs <em>in the browser</em>. The browser
+                  doesn’t have access to our Node environment, so it can’t talk
+                  to our database directly.
+                </p>
+                <p>
+                  However Cypress provides a way to execute code in your Node
+                  environment: “tasks”. These are special functions you can
+                  create and then call from inside tests. Tasks are defined
+                  inside <code>cypress/plugins/index.js</code>:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js">module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">on<span class="token punctuation">,</span> config</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"task"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><br>    <span class="token function-variable function">resetDb</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Resetting DB..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>      <span class="token comment">// we have to return something or Cypress gets mad</span><br>      <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+                <p>We can then call this task in our tests like this:</p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  cy<span class="token punctuation">.</span><span class="token function">task</span><span class="token punctuation">(</span><span class="token string">"resetDb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  Try creating this task now, and make sure you can call it from
+                  inside a test. You should see the log show up in your
+                  terminal, not the test browser (remember tasks are for running
+                  Node code <em>outside</em> the browser).
+                </p>
+                <h4 id="running-the-populate-db-script">
+                  Running the populate_db script
+                  <a
+                    class="heading-anchor"
+                    href="#running-the-populate-db-script"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h4>
+                <p>
+                  We already have a script that can reset our DB back to its
+                  initial state: <code>./scripts/populate_db</code>. We can
+                  re-use this within our Cypress task using Node’s
+                  <code>child_process</code> module. This allows us to run
+                  terminal commands from inside Node.
+                </p>
+                <p>
+                  In this case we want to use the
+                  <code>execFileSync</code> method to execute a given file:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token comment">// cypress/plugins/index.js</span><br><br><span class="token keyword">const</span> <span class="token punctuation">{</span> execFileSync <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"child_process"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">on<span class="token punctuation">,</span> config</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>  <span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"task"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><br>    <span class="token function-variable function">resetDb</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Resetting DB..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>      <span class="token keyword">return</span> <span class="token function">execFileSync</span><span class="token punctuation">(</span><span class="token string">"./scripts/populate_db"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+                <h2 id="challenge-1-write-some-tests">
+                  Challenge 1: write some tests
+                  <a
+                    class="heading-anchor"
+                    href="#challenge-1-write-some-tests"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Now you can finally write some tests without worrying about
+                  the DB.
+                </p>
+                <ol>
+                  <li>
+                    Add a test verifying the <code>/</code> route displays a
+                    list of users
+                  </li>
+                  <li>
+                    Add a test verifying you can create a user from the
+                    <code>/create-user</code> route
+                  </li>
+                  <li>
+                    Add a test verifying you can delete a user from the
+                    <code>/</code> route
+                  </li>
+                </ol>
+                <div class="box box-default content flow">
+                  <p>Don’t forget to reset the DB before each test.</p>
+                </div>
+                <h2 id="modularising-database-queries">
+                  Modularising database queries
+                  <a
+                    class="heading-anchor"
+                    href="#modularising-database-queries"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h2>
+                <p>
+                  Currently we’re querying our database directly within our
+                  route handler functions. It’s generally a good idea to
+                  separate out data access. Ideally our route handlers shouldn’t
+                  have to do anything more than call a function like
+                  <code>getUsers()</code>. That way we could e.g. swap from
+                  Postgres to a totally different DB without having to change
+                  our route handlers at all.
+                </p>
+                <p>
+                  The nice thing about already having tests is refactoring
+                  becomes much safer. You’ll find out quite quickly if you break
+                  something.
+                </p>
+                <p>
+                  Let’s extract the homepage’s query. Create a new file
+                  <code>workshop/database/model.js</code>. Since there aren’t
+                  many we’ll put all our SQL queries into this one file.
+                </p>
+                <p>
+                  Create a function named <code>getUsers</code>. Import your
+                  database pool object and use it to get all the users, just
+                  like before:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./connection.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM users"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span> getUsers <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+                <p>
+                  You can now import and use this function in
+                  <code>routes/home.js</code>:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> model <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/model.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  model<span class="token punctuation">.</span><span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token keyword">const</span> users <span class="token operator">=</span> result<span class="token punctuation">.</span>rows<span class="token punctuation">;</span><br>    <span class="token comment">// ...</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                <p>
+                  This should work, but we can improve it. Our handler is stuck
+                  dealing with database-specific details. I.e. it has to know
+                  about the Postgres <code>result.rows</code> property. Ideally
+                  we should do this data-processing inside
+                  <code>model.js</code> instead:
+                </p>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> db <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./connection.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> db<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM users"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token operator">=></span> result<span class="token punctuation">.</span>rows<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span> getUsers <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+                <pre
+                  class="language-js"
+                ><code class="language-js"><span class="token keyword">const</span> model <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../database/model.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">function</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  model<span class="token punctuation">.</span><span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">users</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><br>    <span class="token comment">// ...</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+                <h3 id="challenge-2-modularise-queries">
+                  Challenge 2: modularise queries
+                  <a
+                    class="heading-anchor"
+                    href="#challenge-2-modularise-queries"
+                  >
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentcolor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"
+                      ></path>
+                    </svg>
+                  </a>
+                </h3>
+                <p>
+                  Move the rest of the DB queries into <code>model.js</code>.
+                  Make sure all the tests keep passing!
+                </p>
+                <ol>
+                  <li>
+                    Write a <code>createUser</code> function to insert new users
+                  </li>
+                  <li>
+                    Write a <code>deleteUser</code> function to delete a user
+                  </li>
+                  <li>
+                    Write a <code>getPosts</code> function to select all the
+                    blog posts
+                  </li>
+                  <li>
+                    Refactor your route handlers to use the new model functions
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/assets/js/checkboxen.js"></script>
+    <script src="/assets/js/toggle-button.js"></script>
+    <script src="/assets/js/copy-text.js"></script>
+  </body>
+</html>

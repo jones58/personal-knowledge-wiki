@@ -3,7 +3,7 @@ function setup() {
 }
 
 function draw() {
-  if(mouseX > width/2) {
+  if (mouseX > width / 2) {
     background(0);
     stroke(255);
   } else {
@@ -11,7 +11,7 @@ function draw() {
     stroke(0);
   }
   strokeWeight(5);
-  line(width/2, 0, width/2, height);
+  line(width / 2, 0, width / 2, height);
   stroke(255, 0, 0);
   line(mouseX, 0, mouseX, height);
 }

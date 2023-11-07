@@ -4,7 +4,7 @@
 
 Before we dive into using the command line, it's important to discuss the distinction between using a UNIX-based computer (Mac, any Linux including Ubuntu, etc.) or a PC running Windows. In these lessons, we're assuming you're using a Mac as it's the most common platform among web developers. With the technologies we cover at Makers – a Mac is the tool of choice. If absolutely required, you can use Ubuntu, but you may encounter minor problems along the way that we won't usually cover at Makers. This does not imply that Mac is somehow superior to Linux when it comes to web development. It is simply different, so the instructions provided for a Mac may not always work on a different system.
 
-If you don't have access to either a Mac or Linux machine you may find it easier to work with a cloud hosted solution such as [C9](https://aws.amazon.com/cloud9/?origin=c9io).  This might run a little slower, but the C9 terminal is a good substitute and can be used from PCs and even Chromebooks.
+If you don't have access to either a Mac or Linux machine you may find it easier to work with a cloud hosted solution such as [C9](https://aws.amazon.com/cloud9/?origin=c9io). This might run a little slower, but the C9 terminal is a good substitute and can be used from PCs and even Chromebooks.
 
 ## What is the command line?
 
@@ -24,9 +24,7 @@ As you can see, it will show you the name of your computer ("Makers Academy lapt
 
 Note: you can get something similar at the bottom of the Nitrous Web IDE:
 
-
 ![Nitrous command line](https://www.dropbox.com/s/qdvp81om2571pn7/Screenshot%202014-10-15%2010.45.09.png?dl=1 "Nitrous command line")
-
 
 Directories in the command line are just a different way to access the directories (or folders) you already have on your computer. So, for example, you can see in the screenshot that I'm currently in the "Desktop" directory. If I were to delete a file that's in that directory from the command line, it will delete it from the user-interface that you're used to using as well.
 
