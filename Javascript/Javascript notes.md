@@ -50,7 +50,7 @@ Line break in Javascript with: `\n`
 
 ## Running Javascript
 
-To run javascript in vs code (using code runner extension) - just do `cmd-shift-p` and type run code and it will come up in output
+To run javascript in vs code just click play button in top right.
 
 NB scripts go to bottom of body in HTML, like so: `<script src="scripts/main.js"></script>`
 
