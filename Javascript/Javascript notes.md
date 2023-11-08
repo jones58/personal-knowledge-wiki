@@ -18,14 +18,6 @@ If in head, got to use `defer`, e.g.
 
 `  <script src="myscript.js" defer></script>`
 
-## Stating variables
-
-Let - variable that can be changed.
-
-Const - variables you don't want the value to be changed, keep it constant.
-
-var - sets variable. Avoid using for now.
-
 ## Properties and Methods
 
 Properties
@@ -35,6 +27,8 @@ Properties
 Methods
 
 - actions - do something to / with the data
+
+## Naming in Javascript
 
 In javascript everything is case-sensitive, and for variable names we use camelCase - thisIsCamelCase. First word is lowercase and all subsequent words start with uppercase. Look like camel humps. kebab-case and other examples for other coding languages.
 
@@ -47,15 +41,22 @@ In javascript everything is case-sensitive, and for variable names we use camelC
 
 Line break in Javascript with: `\n`
 
-##
+## Comments
+
+- Use `//` for single line comments
+- Use `/* */` for multi line comments
 
 ///
 
+## Running Javascript
+
 To run javascript in vs code (using code runner extension) - just do `cmd-shift-p` and type run code and it will come up in output
 
-NB scripts go to bottom of body in HTML, like so: <script src="scripts/main.js"></script>
+NB scripts go to bottom of body in HTML, like so: `<script src="scripts/main.js"></script>`
 
-8 types of variable in Javascript:
+## Primitive Data Types
+
+8 primitive data types in js:
 
 - `undefined`
 - `null`
@@ -66,15 +67,19 @@ NB scripts go to bottom of body in HTML, like so: <script src="scripts/main.js">
 - `number`
 - `object`
 
-In JavaScript all variables and function names are case sensitive.
-`let variable='some string'`
-`let`can be reassigned
-`const` is a constant that can't be reassigned or changed - it's read only. It can be changed in terms of changing values in arrays/objects. Just can't change variable identifier/name
+bigint is a big integer, number with more than 15 digits - e.g. `9007199254740991n`
 
-or can just write `var x = "";` where x is variable name - but this can be easily overridden so best not to use in big codebase. When you override with let it tells you.
+Symbols are used to create unique identifiers, e.g. `Symbol('name')` or `Symbol.for('name')` to create a unique symbol.
 
-`var` means it's declared globally, or locally within a function.
-`let` is limited to block, statement or expression if declared there.
+## Variable declarations
+
+Let - variable that can be changed.
+
+Const - variables you don't want the value to be changed, keep it constant.
+
+var - sets variable. Avoid using for now.
+
+## Operators
 
 `++` operator - using this operator, we write `x++;` which is equivalent to `x=x+1;`
 likewise `--` operator: `x--;` is same as `x=x-1;`
@@ -85,6 +90,24 @@ similarly `/=` operator `x/=5` is same as `x=x/5`
 
 These work like this because everything to right of equals sign is evaluated first.
 remainder operator - `%` eg. `5 % 2= 1;`
+
+`+` operator used with strings is called concatenation operator
+can also use `+=` operator to concatenate
+
+you can put variables between strings using `+` concatenation operator or `+=` operator
+
+## String methods
+
+Write `.length` after a string to get the character count of a string.
+and `example.length` to get length of string attached to the example variable
+
+use bracket notation to get character in a string. Starts counting at 0 as in most programming languages, rather than one.
+
+string values are immutable so can't change [0] value, can only reassign the whole string.
+
+In order to get the last letter of a string, you can subtract one from the string's length, so `[x.length-1]`
+
+## Escape characters
 
 when you need a quote or double quote within a string `
 `"this is a string"`you use \ backslash to escape the quote. So,`"this is a string \"with a quote\""`- it is always`\"`` whether at start or end of quote
@@ -101,23 +124,10 @@ There are other forms of the escape character too -
 `\b` - backspace
 `\f` - form feed
 
-`+` operator used with strings is called concatenation operator
-can also use `+=` operator to concatenate
-
-you can put variables between strings using `+` concatenation operator or `+=` operator
-
-Write `.length` after a string to get the character count of a string.
-and `example.length` to get length of string attached to the example variable
-
-use bracket notation to get character in a string. Starts counting at 0 as in most programming languages, rather than one.
-
-string values are immutable so can't change [0] value, can only reassign the whole string.
-
-In order to get the last letter of a string, you can subtract one from the string's length, so `[x.length-1]`
+## Arrays
 
 Use array to store several bits of data in one place
 array, e.g. `x=['a','b', 'c']`
-no "" for numbers
 
 can also nest arrays within arrays, known as a multidimensional array
 access array data using indexes, using square bracket notation. `x=[["a",1],["b",2]]`. NB square brackets arround array.
@@ -125,6 +135,8 @@ access array data using indexes, using square bracket notation. `x=[["a",1],["b"
 individual data in arrays can be changed - mutable, unlike characters in strings.
 
 you can acess arrays within arrays using the notation, e.g. `x[0][0]`
+
+## Array Methods
 
 `.push()` takes one or more parameters and "pushes" them onto the end of the array
 `.unshift()` to add element to start of array - just like push.
@@ -142,6 +154,8 @@ can be written like `var1.shift(var2 here)` where var1 is variable to change and
 Can be written as `toLocaleString()` when needs to meet local number format (like local date)
 
 and `.toString(radix)` can output to different formats - like 2 is binary, 8 is octal and 16 is hexadecimal format.
+
+## Functions
 
 can write reusable code called functions,
 e.g. `function functionName() {console.log("Hello World");}`
@@ -166,8 +180,6 @@ you can have both local and global variables with the same name - local will ove
 undefined values are when there isn't a return statement - just get an edit to the global variable
 
 queue - data structure where items are kept in order - new items are at back of queue and old items at the front
-
-boolean values - true or false
 
 if statements tell javascript whether to play code
 
@@ -344,7 +356,9 @@ If a negative **number** is used as an index, then the index is counted from the
 - .indexOf() - returns first index at which a value is present, or -1 if it's not present
 - .reverse () - reverses the order of elements in array
 
-## For loops
+## Loops and Iterations
+
+### For loops
 
 ```javascript
 for (start; stop; step) {
@@ -391,6 +405,33 @@ for (let j = 0; j < arr[i].length; j++) {
     console.log(arr[i][j]);
 ```
 
+## While loops
+
+while loop executes statement when test condition is true.
+e.g.
+
+```javascript
+while (n < 5) {
+  n++;
+  console.log("n = " + n);
+}
+```
+
+## Do while loops
+
+Executes until the test condition is false - so will run at least once
+
+```Javascript
+do {
+i++;
+console.log("i = " + i);
+}
+while (i < 5);
+```
+
+can write in `if ( condition) continue`, continue takes back to start of the loop, whereas
+`break` stops it
+
 ## Objects
 
 `const variable = { key : value } `
@@ -436,33 +477,6 @@ remember escape keys! 'Anne's' written as 'Anne\'s'
 
 Same as above, just loop through key values instead of key names
 In arrays for in will just give the indexes, while for of will give the values.
-
-## While loops
-
-while loop executes statement when test condition is true.
-e.g.
-
-```javascript
-while (n < 5) {
-  n++;
-  console.log("n = " + n);
-}
-```
-
-## Do while loops
-
-Executes until the test condition is false - so will run at least once
-
-```Javascript
-do {
-i++;
-console.log("i = " + i);
-}
-while (i < 5);
-```
-
-can write in `if ( condition) continue`, continue takes back to start of the loop, whereas
-`break` stops it
 
 ## Functions
 

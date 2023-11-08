@@ -1,15 +1,50 @@
-let myNumber = 1001;
-let stringNumber = myNumber.toString()
-let reverseNumber =stringNumber.split("").reverse().join("");
-switch (myNumber) {
-  case reverseNumber:
-    console.log("palindrome");
-    break;
-  default:
-    console.log("not a palindrome");
-    break;
+
+/** setting fav films */
+const favFilms = [
+  "Trainspotting",
+  "Wild Child",
+  "The Internet's Own Boy",
+  "Berlin Calling",
+  "Close-up",
+];
+/* adding two more films with the push method */
+favFilms.push("Get Back", "Star Wars");
+/* using a for loop to go through the array and console log each item */
+for (let i = 0; i < favFilms.length; i++) {
+  console.log(favFilms[i]);
 }
 
-console.log(stringNumber === reverseNumber ? "palindrome" : "not a palindrome");
+/** 2: Use a loop to generate 10 random numbers between 1-100 and log them to the console. **/
+for (let i = 0; i < 10; i++) {
+  console.log(Math.floor(Math.random() * 100) + 1);
+}
 
+/** 3: Use a loop to count backwards from 20-0 logging each number to the console. **/
+for (let i = 20; i >= 0; i--) {
+  console.log(i);
+}
 
+/** 4: Use a loop to generate 5 random numbers between 1-50.
+For each number generated, check if the number is divisible by 5 or not.
+Log whether it is divisible or not to the console. **/
+
+/** make an array to store the random numbers  */
+const randomNums = [];
+
+/** using a for loop to generate 5 random numbers between 1-50 and push them to the array  */
+for (let i = 0; i < 5; i++) {
+  randomNums.push(Math.floor(Math.random() * 50) + 1);
+}
+/** stating the random numbers with console.log */
+console.log(randomNums);
+
+/** using a for loop to check if the number is divisible by 5 or not */
+for (let i = 0; i < 5; i++) {
+  if (randomNums[i] % 5 === 0) {
+    console.log(randomNums[i] + " is divisible by 5");
+  } else {
+    console.log(randomNums[i] + " is not divisible by 5");
+  }
+}
+
+/** 5: Research a for each loop and put together a working example. **/
