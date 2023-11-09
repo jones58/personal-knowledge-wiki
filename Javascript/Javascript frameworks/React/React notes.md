@@ -139,6 +139,24 @@ props passed to class component are available as: `this.props`
 ## State
 
 - Local variable just within given component
+- State is any data that changes over time. Used to update UI when data changes.
+- You declare state by setting in the constructor
+- State property is an object.
+- Declare like this:
+
+```jsx
+this.state = {};
+```
+
+- can also access with `this.state`
+- accessing state in return method means you have to use curly braces {}
+- Use setState to change state, e.g.
+
+```jsx
+this.setState({
+  username: "Lewis",
+});
+```
 
 ## Hooks
 
@@ -209,10 +227,59 @@ const myElement = (
 );
 ```
 
+```jsx
 {count && 2 === 0 ? <h1>Count is even</h1> }
-
 ```
 
+## Loops
+
+Most common way to loop in React is with array map:
+
+```jsx
+const data = [
+  { id: 1, name: "Fido 🐕" },
+  { id: 2, name: "Snowball 🐈" },
+  { id: 3, name: "Murph 🐈‍⬛" },
+  { id: 4, name: "Zelda 🐈" },
+];
+
+function ListOfAnimals() {
+  return (
+    <ul>
+      {data && // Only render if there's data - see 'Conditional Rendering'
+        data.map(({ id, name }) => {
+          return <li key={id}>{name}</li>;
+        })}
+    </ul>
+  );
+}
+```
+
+Here the key attribute gives each element a unique identifier so React can keep track of it in case the name value changes.
+
+## Events
+
+Usually use getElementById and event listener in vanilla js, but in React we use event handlers.
+
+```jsx
+<button onClick={handleClick}>Click me</button>
+```
+
+We can then define the handleClick function and pass it to the onClick attribute.
+
+```jsx
+function handleClick() {
+  alert("hello");
+}
+```
+
+We could also do this all in the onClick attribute:
+
+```jsx
+return <button onClick={(event) => alert("hello")}> Click </button>;
+```
+
+can pass a function as a prop from parent to child too.
 
 ## React Bootstrap
 
@@ -232,6 +299,12 @@ To read more:
 - https://react.dev/reference/react/Component
 - https://react.dev/learn/passing-props-to-a-component
 - https://www.freecodecamp.org/news/jsx-in-react-introduction/
+
+```
+
+```
+
+```
 
 ```
 
