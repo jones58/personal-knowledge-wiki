@@ -469,6 +469,21 @@ as well as assigning and reassigning values to properties can delete. e.g. `dele
 
 objects can be nested within other objects, using `{ }` inside followed by usual `key : value` then access as `variable.key.key`
 
+Can write functions within objects and then call them, e.g.
+
+```
+const person = {
+  firstName: "John",
+  lastName: "Doe",
+  id: 5566,
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+```
+
+this is known as an object method. When we call it we write `person.fullName()`.
+
 ## For...in loops
 
 ``for (const key in variableName) { code to be executed}
