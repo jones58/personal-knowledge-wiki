@@ -482,7 +482,7 @@ const person = {
 };
 ```
 
-this is known as an object method. When we call it we write `person.fullName()`.
+this is known as an object method. When we call it we write `person.fullName()`
 
 ## For...in loops
 
