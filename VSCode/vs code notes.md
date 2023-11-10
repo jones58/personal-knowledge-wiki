@@ -4,13 +4,28 @@ Type _code_ in terminal to open vs code
 
 open current directory with `code . `
 
-_Cmd p_ to open palette to search files
+_Cmd + p_ to open palette to search files
 
-_Cmd shift p_ to open settings and extensions search / or _cmd p_ and > This is very powerful for working out how to do what you want to in the editor.
+_Cmd + shift + p_ to open settings and extensions search / or _cmd + p_ and > This is very powerful for working out how to do what you want to in the editor.
 
-_cmd shift @_ to search symbols in current file - this can be good to look between headings in markdown or symbols in code. This is quicker than scrolling.
+_cmd + shift + @_ to search symbols in current file - this can be good to look between headings in markdown or symbols in code. This is quicker than scrolling.
 
 can get js logs to show with cmd shift p and js repl run
+
+_cmd + b_ to open explorer
+
+_cmd + w_ to close file
+
+_cmd + o_ to open file or folder/repo
+
+_cmd + s_ to save file
+
+Can press collapse all button in file explorer to close folders.
+
+can set keyboard shortcuts in settings. Default ones in this folder.
+
+_ctrl + space_ to force intellisense (autocomplete) to show up.
+Use arrow keys to go through list of autosuggestions and tab to select.
 
 //////
 
