@@ -1,8 +1,20 @@
-press shift tab to unindent, or tab to indent.
+# Vscode notes
 
 Type _code_ in terminal to open vs code
 
-_Cmd p_ to open palette to search
+open current directory with `code . `
+
+_Cmd p_ to open palette to search files
+
+_Cmd shift p_ to open settings and extensions search / or _cmd p_ and > This is very powerful for working out how to do what you want to in the editor.
+
+_cmd shift @_ to search symbols in current file - this can be good to look between headings in markdown or symbols in code. This is quicker than scrolling.
+
+can get js logs to show with cmd shift p and js repl run
+
+//////
+
+press shift tab to unindent, or tab to indent.
 
 - > to search all settings
 -     *format document* to sort out indents

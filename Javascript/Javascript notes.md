@@ -155,6 +155,22 @@ Can be written as `toLocaleString()` when needs to meet local number format (lik
 
 and `.toString(radix)` can output to different formats - like 2 is binary, 8 is octal and 16 is hexadecimal format.
 
+.join() to join elements of array together. e.g. `x.join(' ')` will make a string with each element separated by a space.
+
+.sort() to sort array in ascending order, e.g.
+
+```js
+x.sort((a, b) => a - b);
+```
+
+this will sort the array in ascending order, numerically.
+
+for letters we can just use sort, e.g.
+
+```js
+x.sort();
+```
+
 ## Functions
 
 can write reusable code called functions,
@@ -478,6 +494,20 @@ remember escape keys! 'Anne's' written as 'Anne\'s'
 Same as above, just loop through key values instead of key names
 In arrays for in will just give the indexes, while for of will give the values.
 
+```js
+for (const value of variableName) { code to be executed}
+```
+
+can also be used on arrays, like so:
+
+```js
+const array1 = ["a", "b", "c"];
+
+for (const element of array1) {
+  console.log(element);
+}
+```
+
 ## Functions
 
 invoke a function by writing `functionName()`
@@ -507,21 +537,11 @@ NB when put return in a loop it stops it looping - don't do it!
 `alert("Ouch! Stop poking me!");
 ``});
 
-`function ()` this is an anonymous function cos it doesn't have a name
-can also be written as `() =>` - an arrow function
+## Arrow functions
 
-these anonymous functions are useful when don't need to name functions to use elsewhere, epecially when passing function as argument to another function
+Arrow functions differ in that they don't have a name in the same way and they don't use the `function` keyword. They also cannot be hoisted - must be defined before use.
 
-so e.g.:
-
-```js
-const myFunc = function () {
-  const myVar = "value";
-  return myVar;
-};
-```
-
-can be rewritten as:
+e.g.
 
 ```js
 const myFunc = () => {
@@ -530,7 +550,7 @@ const myFunc = () => {
 };
 ```
 
-can be simplified further - since no function body and only a return value we can omit the keyword return and brackets.
+can be simplified further - since no function body and only a return value we can omit the keyword return and brackets cos return is implicit in arrow function.
 
 ```js
 const myFunc = () => "value";
@@ -554,6 +574,21 @@ Can also pass two values, like so:
 ```js
 const multiplier = (item, multi) => item * multi;
 multiplier(4, 2);
+```
+
+## Anonymous functions
+
+`function ()` this is an anonymous function cos it doesn't have a name
+
+these anonymous functions are useful when don't need to name functions to use elsewhere, epecially when passing function as argument to another function
+
+so e.g.:
+
+```js
+const myFunc = function () {
+  const myVar = "value";
+  return myVar;
+};
 ```
 
 ## Switch statements
@@ -628,7 +663,27 @@ or can use `in` - `property in object` will return true or false
 
 Recursion states that a function can be expressed in terms of itself, a function within function
 
-We use n-1 in recursive calls because arrays are zero-indexed, so need to go one back.
+e.g.
+
+```js
+function solve(a, b) {
+  if (a === 0 || b === 0) {
+    return [a, b];
+  } else if (a >= 2 * b) {
+    a = a - 2 * b;
+    return solve(a, b);
+  } else if (b >= 2 * a) {
+    b = b - 2 * a;
+    return solve(a, b);
+  } else {
+    return [a, b];
+  }
+}
+```
+
+NB when using recursion we must use return when calling the function - e.g. `return solve(a, b);` here.
+
+In recursion, it keeps going until it reaches a base case, e.g. here the base case is when a = 0 or b = 0.
 
 ## Generating random numbers
 
@@ -707,6 +762,14 @@ const greeting = (name = "Anonymous") => "Hello " + name;
 
 Will give hello Annonymous unless name is otherwise specified
 
+Can also be written in normal functions as so:
+
+```js
+function greeting(name = "Anonymous") {
+  return "Hello " + name;
+}
+```
+
 ## Rest parameter
 
 Represent an indefinite number of arguments in a function. Useful to define any length of array, e.g.
@@ -725,10 +788,6 @@ console.log(sum(1, 2, 3, 4)); // Output: 10
 ## Spread operator
 
 Used to expand or "spread" elements from an array using `...`
-
-## Template literals
-
-`${variable}`
 
 ## setTimeout and setInterval
 
@@ -757,6 +816,26 @@ Will keep repeating until `clearInterval()` is called with the corresponding int
 ```javascript
 const intervalId = setInterval(intervalFunction, 1000);
 clearInterval(intervalId);
+```
+
+## Closures
+
+Closures are functions that can access variables from outside of their scope, even when the function has finished executing.
+
+Often used to encapsulate private variables.
+
+stored in heap memory rather than stack memory (long term vs short term)
+
+e.g.
+
+```js
+function encapsulatedState(x) {
+  let state = 10;
+  return function () {
+    state += x;
+    return state;
+  };
+}
 ```
 
 See also:
