@@ -484,6 +484,37 @@ const person = {
 
 this is known as an object method. When we call it we write `person.fullName()`
 
+## This keyword
+
+The this keyword is used to refer to the current object. In a method, `this` refers to the owner object.
+
+In global use, `this` refers to the global object (usually window in a browser or global in Node.js).
+
+In a function, `this` refers to the object that the function is a method of. For example, if you have an object myObject and you call myObject.myMethod(), `this` in this inside myMethod refers to myObject.
+
+- In an event handler, `this` refers to the element that triggered the event - e.g. onClick()
+
+- In a constructor function (used with the new keyword), `this` refers to the newly created instance of an object.
+
+- arrow functions don't have their own `this` keyword - `this` refers to the global object.
+
+Example use of this keyword in an object function:
+
+```javascript
+const alarm = {
+  weekdayAlarm: "Get up at 7:00am.",
+  weekendAlarm: "Sleep in! It's the weekend!",
+  checkAlarm: function (day) {
+    if (day === "Saturday" || day === "Sunday") {
+      return this.weekendAlarm;
+    } else {
+      return this.weekdayAlarm;
+    }
+  },
+};
+console.log(alarm.checkAlarm("Saturday"));
+```
+
 ## For...in loops
 
 ``for (const key in variableName) { code to be executed}
