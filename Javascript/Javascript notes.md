@@ -884,5 +884,373 @@ function encapsulatedState(x) {
 }
 ```
 
-See also:
-[[Regular-expressions]]
+## The DOM (document object model)
+
+Document Object Model (DOM) is a representation of an HTML document as a tree of nodes.
+
+//accessing HTML element DOM Node by its Id
+const firstParagraph=document•getElementById('p1');
+// firstParagraph.innerHTML='Change using IS';
+console.log(firstParagraph);
+
+//accessing HTML element by its Class
+const Headings=document.getElementsByClassName('headings');
+console.log(Headings);
+
+// accessing HTML element by Tag name
+const listItems=document.getElementsByTagName('1i');
+console.log(listItems[1]);
+
+with .getElementByTagName got to use tagname[index]
+
+// accessing HTML element by CSS selector
+const listItems=document.querySelector('li');
+console.log(listItems);
+
+// changing CSS property of HTML element
+const listItems=document.querySelector('li');
+listItems.style.color='red';
+console.log(listItems);
+
+```
+const paragraphs = document.querySelectorAll("p");
+```
+
+This returns all the paragraph (p) elements in the document
+
+built using multiple APIs (Application Programming Interface) that work together
+
+Most web developers will use javascript with the DOM, but it also works with other programming languages like Python.
+
+Can be thought of as a tree - parent child sibling, body head etc.
+
+almost always starts with `document`, so is `document.someMethod()`
+
+1. `document.getElementById()`
+   e.g. `document.GetElementById('main heading')`
+   can set this to equal `const title`
+   and then `console.log(title)`
+
+can also be written as `document.querySelector('# ID name')`
+
+2. `document.getElementsByClassName()`
+   e.g. `document.getElementsByClassName('list-items')`
+
+3. `document.getElementsByTagName()`
+   e.g. `document.getElementsByTagName('li')`
+
+4. `document.querySelector()`
+   select with CSS selector, e.g. `("button")`
+   selects the first item which matches
+
+5. `document.querySelectorAll()`
+   select multiple elements with same CSS selector. returns a NodeList of matching elements. e.g. `("button")` or `("li", "button")`. Can then looop through them. e.g. `for(let i=0; i<listItems.length; i++)`
+
+Element is the javascript representation of element on page, once set to variable
+
+You can get the id, className of an element using DOM.
+e.g.
+
+```
+const btn = document.querySelector("button");
+console.log(btn.className, btn.textContent, btn.clientHeight);
+// "btn--primary", "Hello", 44
+```
+
+Using for loop to change CSS of multiple elements:
+
+```
+const taskParagraph=document. getElementsByClassName('task');
+for(let i=0; i‹taskParagraph.length; i++)
+｛
+taskParagraph[i].style.cssText="color:orange;
+background-color: gray; font-size:40px";
+｝
+```
+
+`element.addEventLister` allows us to react to user actions for HTML elements
+
+addEventListener requires: 1. Type - click, submit etc. 2. Listener - function run when event happens
+
+```
+btn.addEventListener("click", handleClick);
+```
+
+some common events:
+click - usually button trigger
+keydown - add keyboard controls
+change - reacting to updates in an input
+submit - get results of submitted form
+
+can write function as part of event listener, e.g.:
+
+```
+div.addEventListener('click', function changeDiv(){
+div.style.backgroundColor="red" ;
+div.innerHTML="Go Away!"
+});
+```
+
+## Updating the DOM
+
+### adding classes
+
+can use `element.classList.add` to add multuple class names, or add one without overwriting previous, e.g.
+
+```
+btn.classList.add("btn--primary");
+```
+
+remove : `element.classList.remove`
+
+toggle: `element.classList.toggle`
+if it exists, will remove. If not, will add it
+
+`.hidden` decides if something is hidden completely in browser, e.g. `button.hidden = true;
+
+### adding attributes
+
+can use `element.setAttribute` to add attributes and remove with `element.removeAttribute`, e.g.
+
+```JavaScript
+const btn = document.querySelector("button");
+btn.setAttribute("disabled", true);
+btn.removeAttribute("disabled");
+
+```
+
+Can set ids with this too, e.g.
+
+```
+const btn = document.querySelector("button");
+btn.setAttribute("id", "myButton");
+```
+
+### DOM Traversal
+
+access parent element with: listItem2.parentElement
+access child element with: listItem2.childNodes or listItem2.children, can be accessed by index too like listItem2.children[0] or list.firstChild or list.lastChild
+
+### Creating elements
+
+You can also create new elements in JavaScript with the `document.createElement` method.e.g.
+
+```
+const newDiv = document.createElement('div');
+```
+
+You add it to the DOM using `element.appendChild` method e.g.
+
+```
+document.body.appendChild(newDiv);
+```
+
+Basic to do list showing DOM manipulation in action
+https://codepen.io/jones58/pen/rNqdwYJ
+
+We use input.value to get the value of the input box, this can be any htmlElement.value. Can also set it to empty with "" or null.
+
+### Deleting elements
+
+There are multiple ways to remove elements from the DOM:
+
+#### 1. Using element.remove():
+
+The remove() method is available on DOM elements and allows you to remove the element from the DOM directly.
+
+```javascript
+const elementToRemove = document.getElementById("myElement");
+elementToRemove.remove();
+```
+
+#### 2. Using element.parentElement.removeChild(element):
+
+Alternatively, you can use the parentElement.removeChild(element) method. This method removes the specified child element from its parent.
+
+Example:
+
+```javascript
+const parentElement = document.getElementById();
+const elementToRemove = document.getElementById("myElement");
+parentElement.removeChild(elementToRemove);
+```
+
+can also use list.firstElementChild or list.lastElementChild to select first or last element of list. so it would be:
+
+```javascript
+parentElement.removeChild(list.firstElementChild);
+```
+
+which can also be rewritten as:
+
+```javascript
+list.lastChild.remove();
+```
+
+The remove() method provides a more straightforward way to remove an element, while parentElement.removeChild(element) offers more control by explicitly specifying the parent element from which the child element needs to be removed.
+
+## forEach selector
+
+e.g.
+
+```
+buttons.forEach(function buttonClicked(button)){
+button.addEventListener("click", handleClick => {
+button.style.backgroundColor = "green";});
+};
+```
+
+# Local storage
+
+Stores key value pairs in browser, doesn't expire at end of session like sessionstorage does.
+Saves it in SQLite file format.
+
+```js
+localStorage.setItem("key", "value");
+```
+
+```js
+localStorage.getItem("key");
+```
+
+```js
+localStorage.removeItem("key");
+```
+
+```js
+localStorage.clear();
+```
+
+```js
+localStorage.length;
+```
+
+```js
+localStorage.key(i);
+```
+
+Has to be stored as string in local storage.
+
+# Regex
+
+Match parts of strings by creating patterns to help matching.
+
+Multiple methods, one of which is `.test()` which applies regex to string and returns true or false, e.g.
+
+```js
+let testStr = "freeCodeCamp";
+let testRegex = /Code/;
+testRegex.test(testStr);
+```
+
+you can use the or operator to search for more than one thing: e.g. `/yes|no|maybe/` is yes or no or maybe
+
+flag that ignores case - the `i` flag - add this to end of the regex, e.g. `/Code/i`
+
+Can also use the `.match()` method, which is opposite of `.test()` method and returns the actual match of the regex. e.g.
+
+```js
+let ourStr = "Regular expressions";
+let ourRegex = /expressions/;
+ourStr.match(ourRegex);
+```
+
+will return `["expressions"]`
+
+Use the global search - `g` flag to search/extract pattern more than once.
+
+NB can have multiple flags, so e.g. `/Code/ig`
+
+Can use wildcard character to match any one character, e.g. `/hu./` matches `hug`, `huh`, `hut`, and `hum`
+
+Use character classes to match group of characters inside `[]` square brackets - e.g. `/b[aiu]g/` matches bag big and bug but not bog.
+
+match a group of characters with -, e.g `[a-e]` matches letters a to e.
+
+can also search for range of numbers, and combine with letters like so: `let myRegex = /[a-z0-9]/ig;`
+
+create a set of characters you don't want to match with negated character sets - using caret character `^`
+e.g. `/[^aeiou]/gi` matches all non-vowels
+
+`+` - Match characters that occur one or more times with (has to be consecutive).
+`*` - Match characters that occur zero or more times (e.g. `/go*/` matches "goal", "gut", but not "over".)
+
+## Lazy matching
+
+so far, has been greedy matching returns the longest possible string which matches the pattern. Lazy matching gives smallest possible with the `?` character. e.g. `/t[a-z]*?i/` on titanic returns `["ti"]` not `[titani]` as it would be without the `?` .
+
+Can also use `^` outside of character set square brackets, just to see if something is first in string.
+
+```js
+let firstString = "Ricky is first and can be found.";
+let firstRegex = /^Ricky/;
+```
+
+Can use `$` at end to see if at end of string:
+
+```js
+let theEnding = "This is a never ending story";
+let storyRegex = /story$/;
+```
+
+shorthand character class for alphanumeric characters is `\w` which is equal to `[A-Za-z0-9_]`
+opposite of alphanumeric characters can be represented as `\W` which is equal to `[^A-Za-z0-9_]`
+
+can look for just numbers/digits with `\d` which is equal to `[0-9]`
+to look for non-digits, us `\D` which is equal to `[^0-9]`
+
+The character class `[ \r\t\f\n\v]` represents a set of characters that includes whitespace and control characters. Let's break down the individual components:
+
+- (space): Matches a regular space character.
+- `\r` (carriage return): Matches the carriage return control character, which is commonly used in certain text file formats.
+- `\t` (tab): Matches the tab control character, which is used for indentation or spacing purposes.
+- `\f` (form feed): Matches the form feed control character, which is used for page breaks or similar purposes.
+- `\n` (newline): Matches the newline control character, which is typically used to start a new line in text.
+- `\v` (vertical tab): Matches the vertical tab - rarely used but can be present in certain text files.
+
+`\s` is a shorthand character class that searches for whitespace, as well as carriage return, tab, form feed, and new line characters.
+`\S` will search for everything except whitespace, carriage return, tab, form feed, and new line characters.
+
+Search for lower and upper range of patterns with quantitity specifiers, which go in `{}` curly brackets, e.g. `/a{3,5}h/` to match a occuring 3-5 times in string.
+if you only want to specify lower number - just omit larger one, like so: `/a{3,}h/`
+if you want to specify only one number - omit comma, so `/a{3}h/`
+
+Check for zero or one of an element, basically an optional element using `?`, e.g. `
+`/colou?r/`` will match both color and colour, the u is optional.
+
+## Lookaheads
+
+Lookaheads to look for pattern ahead. Can be positive and negative.
+Postive lookead will check to see if pattern is there but won't match it `(?=...)` where `...` is the thing you want to check,e.g. `a`
+Negative lookahead will check to see if pattern is not there `(?!...)` where `...` is the thing you want to check isn't there
+
+Better use of lookaheads is to check two or more patterns in string, e.g. `let checkPass = /(?=\w{3,6})(?=\D*\d)/;`
+
+Found this bit of Regex very difficult:
+`let myRegex = /(Franklin|Eleanor) (([A-Z]\.?|[A-Z][a-z]+) )?Roosevelt/;`
+
+## Capture Groups
+
+Find repeated patterns using Capture Groups, which enclose repeated bit in paratheses - so repeated alphanumeric sequence `\w+` becomes `/(\w+)/`
+substring matched is saved to temporaty variable, accessible via the backslash and number of capture group - e.g. `\1` . auto numbered by position of opening paretheses (left to right) starting at 1.
+e.g. this shows a repeating word, that repeats three times `
+`let repeatRegex = /(\w+) \1 \1/;`
+
+Can replace text you match with capture group, using `.replace()` on string. e.g.
+
+```js
+let wrongText = "The sky is silver.";
+let silverRegex = /silver/;
+wrongText.replace(silverRegex, "blue");
+```
+
+this would return `the sky is blue.`
+can also access capture groups with dollar sign + number of capture group.
+
+Regular Expressions explained by Fireship: https://www.youtube.com/watch?v=sXQxhojSdZM
+
+Regex cheatsheet: https://fireship.io/lessons/regex-cheat-sheet-js/
+
+Regexr to understand and test regex: https://regexr.com/
+
+`\b`: This is a word boundary assertion that ensures the pattern occurs at the end of a word. It prevents a match if the pattern is followed by another alphanumeric character.

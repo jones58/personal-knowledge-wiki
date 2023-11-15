@@ -27,6 +27,8 @@ can set keyboard shortcuts in settings. Default ones in this folder.
 _ctrl + space_ to force intellisense (autocomplete) to show up.
 Use arrow keys to go through list of autosuggestions and tab to select.
 
+_ctrl + shift + space_ to bring up parameter hints
+
 //////
 
 press shift tab to unindent, or tab to indent.
