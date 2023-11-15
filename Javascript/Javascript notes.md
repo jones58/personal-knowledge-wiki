@@ -1175,6 +1175,15 @@ Date().toLocaleString("en-GB", {
 });
 ```
 
+date.getFullYear();//2023
+date.getMonth();//10
+date.getDate();//15
+date.getDay();// 3
+date.getHours();//16
+date.getMinutes();//30
+date.getSeconds();//0
+date.getMilliseconds();//0
+
 # Regex
 
 Match parts of strings by creating patterns to help matching.
