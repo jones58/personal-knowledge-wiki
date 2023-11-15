@@ -1131,6 +1131,50 @@ localStorage.key(i);
 
 Has to be stored as string in local storage.
 
+can use a for loop to go through values, e.g.
+
+```js
+for (let i = 0; i < localStorage.length; i++) {
+  const key = localStorage.key(i);
+  const value = localStorage.getItem(key)(i);
+  console.log(key, value);
+}
+```
+
+use `location.reload` to reload local storage values when adding or removing items.
+
+# date and time
+
+use `new Date()` to get current date and time
+e.g. const date = new Date();
+
+We can place 7 numbers inside the brackets:
+
+- new Date(year, month, day, hours, minutes, seconds, ms)
+- BUT must have at least 2 (Year, Month)
+
+Example of creating a Date object:
+const date1 = new Date(2022, 3, 15); // Year: 2022, Month: April (0-indexed, so 3 represents April), Day: 15
+const date2 = new Date(2022, 3, 15, 10, 30, 0); // Year: 2022, Month: April, Day: 15, Hour: 10, Minute: 30, Second: 0
+const date3 = new Date(2022, 3); // Year: 2022, Month: April (day defaults to 1, time components to 00:00:00)
+
+NB: JavaScript months are zero-indexed, so January is 0, February is 1.
+
+can get date in different formats with `date.toDateString()`, `date.toTimeString()`, `date.toLocaleDateString()`, `date.toLocaleTimeString()`
+
+using tolocaleString():
+`const localDate=date.toLocaleString('default', {month: 'long'});` November
+`const localDate=date.toLocaleString('default', {month: 'short'});` Nov
+`const localDate=date.toLocaleString('default', {month: 'narrow'});` N
+
+Setting time zone:
+
+```js
+Date().toLocaleString("en-GB", {
+  timeZone: "Europe/London",
+});
+```
+
 # Regex
 
 Match parts of strings by creating patterns to help matching.
