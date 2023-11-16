@@ -158,6 +158,25 @@ this.setState({
 });
 ```
 
+- setState takes an object as an argument, which will be merged with the current state
+
+We can also use useState to set state in functional components.
+
+e.g.
+
+```jsx
+function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+```
+
 ## Hooks
 
 React Hooks mean we can have state in Function component.
