@@ -1,6 +1,7 @@
 ## Javascript notes
 
 You can do frontend, backend, mobile apps - pretty much every area of development you can use javascript for.
+https://www.tate.org.uk/whats-on/tate-britain/women-in-revolt
 
 ### Web browser
 
@@ -148,7 +149,6 @@ you can acess arrays within arrays using the notation, e.g. `x[0][0]`
 can be written like `var1.shift(var2 here)` where var1 is variable to change and var2 is variable to add
 
 `example.replace` to change the variable, then ('x', 'y') after to change part of the string x to y.
-`Math.round()` rounds to nearest integer
 `example.toString()` makes number a string
 
 Can be written as `toLocaleString()` when needs to meet local number format (like local date)
@@ -569,9 +569,6 @@ in a for loop, use answer = false or answer = true and then return answer instea
 
 in javascript `...` is known as the spread operator - `...myArray ` means all the values in an array are passed into function as individual elements.
 
-Math.floor() - round down
-Math.ceiling() - round up
-
 NB must put return...function at end of function
 NB when putting new key and value in an object, must put key in " "
 NB when adding keys to object, should be 'seat': not 'seat: ' basically colon shouldn't be in quote marks
@@ -731,17 +728,6 @@ NB when using recursion we must use return when calling the function - e.g. `ret
 
 In recursion, it keeps going until it reaches a base case, e.g. here the base case is when a = 0 or b = 0.
 
-## Generating random numbers
-
-Use `Math.random()` to create a random decimal between 0 and 1. Can be 0 but can't be 1.
-
-From there can make a random number less than 20 by using `Math.floor(Math.random() * 20);`
-`Math.floor()` rounds number down to nearest whole number
-
-can do this between a range of two number using min and max values, like so:
-
-`Math.floor(Math.random() * (max - min + 1)) + min`
-
 ## Prevent object mutation
 
 Use `Object.freeze(objectName)` - this will stop any variables in the object being redeclared
@@ -834,35 +820,6 @@ console.log(sum(1, 2, 3, 4)); // Output: 10
 ## Spread operator
 
 Used to expand or "spread" elements from an array using `...`
-
-## setTimeout and setInterval
-
-`SetTimeout` executes a function or a piece of code once after a delay. e.g.
-
-```javascript
-setTimeout(() => {
-  console.log(
-    "This will be executed after 1000 milliseconds (1 second)."
-  );
-}, 1000);
-```
-
-`setInterval` function is used to repeatedly execute a function or a piece of code at a specified interval. e.g.
-
-```javascript
-setInterval(() => {
-  console.log(
-    "This will be executed every 1000 milliseconds (1 second)."
-  );
-}, 1000);
-```
-
-Will keep repeating until `clearInterval()` is called with the corresponding interval Id or the program ends. e.g.
-
-```javascript
-const intervalId = setInterval(intervalFunction, 1000);
-clearInterval(intervalId);
-```
 
 ## Closures
 
@@ -1183,6 +1140,104 @@ date.getHours();//16
 date.getMinutes();//30
 date.getSeconds();//0
 date.getMilliseconds();//0
+
+## setTimeout and setInterval
+
+`SetTimeout` executes a function or a piece of code once after a delay. e.g.
+
+```javascript
+setTimeout(() => {
+  console.log(
+    "This will be executed after 1000 milliseconds (1 second)."
+  );
+}, 1000);
+```
+
+You can also define the function andthen put the function in the setTimeout.
+
+If function has parameter and want to pass parameter to function after a time delay:
+
+```js
+setTimeout(greeating1, 5000, "John");
+```
+
+function, delay, parameter
+
+always in milliseconds, but you can write as
+to make it shorter:
+
+```js
+const delay = 60 * 100;
+setTimeout(greeating1, delay, "John");
+```
+
+Put into a variable so you can use clear timeout to remove the timeout:
+
+```js
+const timeout = setTimeout(greeating1, delay, "John");
+clearTimeout(timeout);
+```
+
+`setInterval` function is used to repeatedly execute a function or a piece of code at a specified interval. e.g.
+
+```javascript
+setInterval(() => {
+  console.log(
+    "This will be executed every 1000 milliseconds (1 second)."
+  );
+}, 1000);
+```
+
+Will keep repeating until `clearInterval()` is called with the corresponding interval Id or the program ends. e.g.
+
+```javascript
+const intervalId = setInterval(intervalFunction, 1000);
+clearInterval(intervalId);
+```
+
+call a fupction four times
+
+```jsx
+let count=1;
+function welcome){
+console.log('Welcome to JavaScript');
+if (count==4)
+}
+clearInterval (call);
+｝
+count++;
+｝
+const call=setInterval (welcome, 2000);
+```
+
+## Math functions
+
+Math.floor() - round down
+Math.ceiling() - round up
+
+Use `Math.random()` to create a random decimal between 0 and 1. Can be 0 but can't be 1.
+
+From there can make a random number less than 20 by using `Math.floor(Math.random() * 20);`
+`Math.floor()` rounds number down to nearest whole number
+
+can do this between a range of two number using min and max values, like so:
+
+`Math.floor(Math.random() * (max - min + 1)) + min`
+
+- .min() - used to find lowest value in list of arguments e.g. (0,150, -200, -50,50) would return -200
+- .max() - used to find highest value in list of
+  arguments e.g. (0,150, -200, -50,50) would return 150
+- .round() - returns the value of (x) where x is a
+  number rounded to the nearest integer (whole number) 3.4, 3.
+- .sqrt() - used to return the square root of a number
+  (x) rounded to the nearest integer (whole number)
+  /
+- .pow() - takes (x, y), returns value of x to the
+  power of y (e.g. pow(3,4)= 3 × 3 × 3 × 3 = 81)
+- .floor() - takes (x), rounds value of x down to nearest integer (e.g. 4.7 -> 4 or 8.6 -> 8)
+- .random() - returns random number between 0-1
+- .ceil() - takes x, returns value of x rounded up to
+  nearest integer (e.g. 4.4 -> 5)
 
 # Regex
 
