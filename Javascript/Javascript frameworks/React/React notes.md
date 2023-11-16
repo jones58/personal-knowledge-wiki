@@ -177,6 +177,52 @@ function App() {
   );
 ```
 
+## Lifecycle and events
+
+mount, update, unmount from component tree
+
+e.g. in class component:
+
+```jsx
+class Lifecycle extends React.Component {
+  componentDidMount() {
+    // Initialize
+  }
+
+  componentDidUpdate() {
+    // Updated
+  }
+
+  componentWillUnmount() {
+    // Removed
+  }
+}
+```
+
+You can't do this in functional components, instead you can use `useEffect`:
+
+```jsx
+function Lifecycle() {
+  useEffect();
+}
+```
+
+takes function as an argument, then array of dependencies then another function when destroyed, e.g.
+
+```jsx
+const [count] = useState(0);
+
+useEffect(() => {
+
+    console.log('count updated!')
+
+    return () => console.log('destroyed!')
+
+}, [count]);
+
+}
+```
+
 ## Hooks
 
 React Hooks mean we can have state in Function component.
