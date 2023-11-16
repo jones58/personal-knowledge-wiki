@@ -223,6 +223,53 @@ useEffect(() => {
 }
 ```
 
+## Context
+
+- Context is a way to pass data through the component tree without having to pass props down manually at every level.
+- Happens on API level with a function called `createContext`.
+- e.g. :
+
+```jsx
+const ThemeContext = createContext();
+```
+
+- use with `useContext`
+
+```jsx
+function PropDrilling() {
+  const [count] = useState(0);
+
+  return (
+    <CountContext.Provider value={count}>
+      <Child />
+    </CountContext.Provider>
+  );
+}
+
+function Child() {
+  return <GrandChild />;
+}
+
+function GrandChild() {
+  const count = useContext(CountContext);
+
+  return <div>{count}</div>;
+}
+```
+
+## Error Boundaries
+
+Not often required but can be useful for debugging and making sure everything is working correctly.
+
+## React Query
+
+- used to fetch data
+- e.g. :
+
+```jsx
+import { useQuery } from "react-query";
+```
+
 ## Hooks
 
 React Hooks mean we can have state in Function component.
