@@ -1230,8 +1230,6 @@ can do this between a range of two number using min and max values, like so:
 - .round() - returns the value of (x) where x is a
   number rounded to the nearest integer (whole number) 3.4, 3.
 - .sqrt() - used to return the square root of a number
-  (x) rounded to the nearest integer (whole number)
-  /
 - .pow() - takes (x, y), returns value of x to the
   power of y (e.g. pow(3,4)= 3 × 3 × 3 × 3 = 81)
 - .floor() - takes (x), rounds value of x down to nearest integer (e.g. 4.7 -> 4 or 8.6 -> 8)
