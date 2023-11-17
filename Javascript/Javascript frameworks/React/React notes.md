@@ -47,6 +47,16 @@ React is called Electron on desktop and React native on mobile. For web - react.
 
 - each component has to be children nested in parent element, not just children. e.g. put paragraphs in a div.
 
+N.b need parentheses around multi line jsx:
+e.g.
+
+const myElement = ```jsx
+<a href="https://www.example.com">
+
+  <h1>Click me!</h1>
+</a>
+```
+
 ## Two ways to create component
 
 ### 1. Functional components
@@ -83,6 +93,8 @@ function Headline() {
   return <h1>{greeting}</h1>;
 }
 ```
+
+NB can't write class in jsx - have to write className because class is a reserved word in js.
 
 ### 2. Class components
 
