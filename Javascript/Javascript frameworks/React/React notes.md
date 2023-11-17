@@ -8,6 +8,41 @@ Must be compiled into javascript with a transpiler like Babel.
 
 React is called Electron on desktop and React native on mobile. For web - react.js or just react.
 
+## JSX
+
+NB can't write class in jsx - have to write className because class is a reserved word in js.
+
+Often use variables to set attributes, e.g.:
+
+```jsx
+const sideLength = "200px";
+
+const panda = (
+  <img
+    src="images/panda.jpg"
+    alt="panda"
+    height={sideLength}
+    width={sideLength}
+  />
+);
+```
+
+this can be useful when setting images, or referencing an object, like so:
+
+```jsx
+const pics = {
+  panda: "http://bit.ly/1Tqltv5",
+  owl: "http://bit.ly/1XGtkM3",
+  owlCat: "http://bit.ly/1Upbczi",
+};
+
+const panda = <img src={pics.panda} alt="Lazy Panda" />;
+
+const owl = <img src={pics.owl} alt="Unimpressed Owl" />;
+
+const owlCat = <img src={pics.owlCat} alt="Ghastly Abomination" />;
+```
+
 ## Building a React App
 
 ### Common Build tools
@@ -93,8 +128,6 @@ function Headline() {
   return <h1>{greeting}</h1>;
 }
 ```
-
-NB can't write class in jsx - have to write className because class is a reserved word in js.
 
 ### 2. Class components
 
@@ -336,7 +369,7 @@ const x = 5;
 const myElement = <h1>{x < 10 ? "Hello" : "Goodbye"}</h1>;
 ```
 
-Great when you have two conditions to choose between
+This is great when you have two conditions to choose between.
 
 3. Logical And
 
@@ -354,6 +387,8 @@ const myElement = (
 ```jsx
 {count && 2 === 0 ? <h1>Count is even</h1> }
 ```
+
+This is great when you want to either show something, or nothing at all. It can also be used for two conditions though a bit more complicated than ternary operator.
 
 ## Loops
 

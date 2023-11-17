@@ -148,7 +148,7 @@ you can acess arrays within arrays using the notation, e.g. `x[0][0]`
 
 can be written like `var1.shift(var2 here)` where var1 is variable to change and var2 is variable to add
 
-`example.replace` to change the variable, then ('x', 'y') after to change part of the string x to y.
+`example.replace` to change the variable, then ('x', 'y') after to change part of the string x to y. Only replaces first, unless you use `.replaceAll()`
 `example.toString()` makes number a string
 
 Can be written as `toLocaleString()` when needs to meet local number format (like local date)
@@ -170,6 +170,10 @@ for letters we can just use sort, e.g.
 ```js
 x.sort();
 ```
+
+`.substring()` to get part of a string, e.g. `x.substring(0,3)` will get the first 3 characters
+
+`.trim()` to remove whitespace from start and end of string.
 
 ## Functions
 
@@ -366,7 +370,7 @@ If a negative **number** is used as an index, then the index is counted from the
 ## Array Methods
 
 - `.slice()` - use to extract information from an array into new array. The first argument is the array **index** that the slice should start; the second argument is the array index the slice should go up to, but not include. ie, .slice(0, 2) - will read first and second values, up to but not including third
-- .splice () - The **`splice()`** method changes the contents of an array by removing or replacing existing elements and/or adding new elements [in place](https://en.wikipedia.org/wiki/In-place_algorithm). It can take two variables - index position and number of elements to remove. Or it can take three variables, where third is element to add. Can be as many numbers here as you want Returns a new array.
+- `.splice ()` - The **`splice()`** method changes the contents of an array by removing or replacing existing elements and/or adding new elements [in place](https://en.wikipedia.org/wiki/In-place_algorithm). It can take two variables - index position and number of elements to remove. Or it can take three variables, where third is element to add. Can be as many numbers here as you want Returns a new array.
 - .flat () - The **`flat()`** method creates a new array with all sub-array elements concatenated into it, in effect flattening all nested arrays into a single array.
 - .includes() - determines whether an array includes a certain value, gives `true` or `false`
 - .indexOf() - returns first index at which a value is present, or -1 if it's not present
@@ -1360,3 +1364,35 @@ Regex cheatsheet: https://fireship.io/lessons/regex-cheat-sheet-js/
 Regexr to understand and test regex: https://regexr.com/
 
 `\b`: This is a word boundary assertion that ensures the pattern occurs at the end of a word. It prevents a match if the pattern is followed by another alphanumeric character.
+
+## JSON
+
+JSON stands for JavaScript Object Notation and is a lightweight format for storing and transporting data.
+
+JSON is a text format that is language independent and can be parsed by computers.
+
+```json
+let jsonObj= {"firstName": "John", "lastName": "Math"
+"Education":true}';
+```
+
+```js
+let jsObj = { firstName: "John", lastName: "Math", Education: true };
+```
+
+JSON and JS look similar but are different.
+
+JSON.parse() will convert JSON string to JavaScript object.
+
+JSON.stringify() will convert JavaScript object to JSON string.
+
+Often JSON is used for APIs and config files.
+
+JSON supports:
+
+- arrays
+- objects
+- numbers
+- strings
+- booleans
+- null
