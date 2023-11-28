@@ -103,8 +103,8 @@ Graphical representation / picture of database is called the schema.
 ## Data Types
 
 VARCHAR(X) - string text length of x - VARCHAR(5)-
-• INT - Whole number
-• DATE - Date 'yyyy-mm-dd' - 1995-01-01'
+INT - Whole number
+DATE - Date 'yyyy-mm-dd' - 1995-01-01'
 TIMESTAMP - Date and time - 'yyyy-mm-dd hh:mm:ss'
 ht
 DECIMAL(m,n) - Decimal number - Decimal(3, 1) - 15.5
@@ -179,3 +179,44 @@ SELECT columns FROM TableName WHERE condition;
 ```
 
 This sequence ensures that the operations are performed in a logical order, preventing errors related to missing objects or incorrect references. Adjustments may be necessary based on specific use cases or dependencies between tasks within a script.
+
+## Key constraints
+
+Different data types have their own constraints, but we can add constraints too.
+
+NOT NULL - Ensures that a column cannot have a NULL value
+UNIQUE KEY- Ensures that all values in a column are different. Can be null once.
+PRIMARY KEY - cannot be null. A combination of a NOT NULL and UNIQUE.
+FOREIGN KEY - Prevents actions that would destroy links between tables
+CHECK - Ensures that the values in a column satisfies a specific condition
+DEFAULT - Sets a default value for a column if no value is specified
+AUTO_INCREMENT - not a constraint - it is an extra feature. it allows a unique
+number to be generated automatically when a record gets inserted into the table.
+
+## Editing MYSQL
+
+Best way to edit MYSQL is through the command line, though can also do through VSCode or MySQL Workbench.
+
+## AUTO_INCREMENT
+
+Will automatically increment when a new row is inserted. Cannot insert data into this column manually, it will be done automatically.
+
+```sql
+CREATE TABLE table_name (
+idNumber INT AUTO_INCREMENT,
+PRIMARY KEY
+)
+```
+
+## FOREIGN KEY
+
+References another table.
+
+```sql
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    total_amount DECIMAL(10, 2),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+```
