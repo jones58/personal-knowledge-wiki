@@ -308,6 +308,8 @@ ALTER TABLE table_name
 ADD FOREIGN KEY (column_name) REFERENCES table_name(column_name);
 ```
 
+Primary keys are underlined in schema.
+
 ## Undo changes
 
 Use `ROLLBACK`; to undo changes that haven't been committed.
