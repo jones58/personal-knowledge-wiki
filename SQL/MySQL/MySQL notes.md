@@ -261,6 +261,10 @@ e.g.
 UPDATE Employee SET employeeName='Ender' WHERE employeeName='Abdul';
 ```
 
+```sql
+UPDATE trainer set trainerName='Cris' WHERE NAME='Zalf' OR lastName='Pardis';
+```
+
 ## Adding columns with ALTER TABLE:
 
 ```sql
@@ -298,6 +302,19 @@ This will remove all data from the table.
 
 ```sql
 TRUNCATE TABLE table_name;
+```
+
+## DELETE
+
+Used to delete a record from a
+table. Only delete the rows/ data
+from a table. The structure of the
+table remains unaffected. We can
+add where clause with this.
+
+```sql
+DELETE FROM table_name
+WHERE condition;
 ```
 
 ## Make a backup of mysql and restore it
