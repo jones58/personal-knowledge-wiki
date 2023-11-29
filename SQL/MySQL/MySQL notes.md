@@ -301,7 +301,12 @@ ALTER TABLE City DROP PRIMARY KEY;
 
 we can use DESCRIBE to see the structure of a table and check alteration has been successful.
 
-Best way to add foreign key is with `ALTER TABLE`.
+Best way to add foreign key is with `ALTER TABLE`:
+
+```sql
+ALTER TABLE table_name
+ADD FOREIGN KEY (column_name) REFERENCES table_name(column_name);
+```
 
 ## Undo changes
 
