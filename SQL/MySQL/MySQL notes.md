@@ -1,12 +1,3 @@
-What we will be learning in this MySQL course?
-
-1. Introduction / What is a database?
-2. Tables & Keys
-3. SQL Basics
-4. Creating Tables
-5. Inserting Data
-6. Constraints
-7. Update & Delete
 8. Alter Command
 9. Delete VS Drop VS Truncate
 10. Basic Queries
@@ -215,8 +206,128 @@ References another table.
 ```sql
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
     total_amount DECIMAL(10, 2),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    user_id INT, FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+```
+
+```sql
+CREATE TABLE City(cityId INT PRIMARY KEY AUTO_INCREMENT, cityName VARCHAR(20) NOT NULL,
+countryId INT, FOREIGN KEY (countryId) REFERENCES Country(id));
+
+INSERT INTO City(cityName, countryId) VALUES('London',1),('Manchester',1),('New York',2);
+
+SELECT * FROM `City`;
+```
+
+### Task
+
+users
+id int
+name varchar (100)
+
+connect to
+
+pets
+id int
+name varchar (100)
+owner_id int foreign key to users (id)
+
+```sql
+CREATE TABLE users (
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name varchar(100) NOT NULL UNIQUE
+);
+CREATE TABLE pets (
+        name varchar(100) NOT NULL,
+        owner_id int NOT NULL,
+        FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+```
+
+## Updating tables:
+
+To update a table, you need to specify the table name and the column and the value you want to update.
+
+```sql
+UPDATE table_name
+SET column1 = value1, column2 = value2
+WHERE condition;
+```
+
+e.g.
+
+```sql
+UPDATE Employee SET employeeName='Ender' WHERE employeeName='Abdul';
+```
+
+## Adding columns with ALTER TABLE:
+
+```sql
+ALTER TABLE table_name
+ADD column_name datatype;
+```
+
+## Undo changes
+
+Use `ROLLBACK`; to undo changes that haven't been committed.
+
+## commit changes
+
+Use `COMMIT`;
+
+## DROP TABLE
+
+To delete table
+
+```sql
+DROP TABLE table_name;
+```
+
+## DROP DATABASE
+
+To delete database
+
+```sql
+DROP DATABASE database_name;
+```
+
+## TRUNCATE TABLE
+
+This will remove all data from the table.
+
+```sql
+TRUNCATE TABLE table_name;
+```
+
+## Make a backup of mysql and restore it
+
+```bash
+mysqldump -u root -p --all-databases > backup.sql
+```
+
+or just one database:
+
+```bash
+mysqldump -u root -p databaseName > backup.sql
+```
+
+we restore the backup with:
+
+```bash
+mysql -u root -p newDataBaseName < backup.sql
+```
+
+so a typical workflow would look like this:
+
+Export data from the old database:
+
+```bash
+mysqldump -u username -p old_database_name > backup
+```
+
+Import data into the new database:
+
+```bash
+mysql -u username -p new_database_name < backup.sql
 ```
