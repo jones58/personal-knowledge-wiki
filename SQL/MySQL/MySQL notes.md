@@ -265,12 +265,43 @@ UPDATE Employee SET employeeName='Ender' WHERE employeeName='Abdul';
 UPDATE trainer set trainerName='Cris' WHERE NAME='Zalf' OR lastName='Pardis';
 ```
 
-## Adding columns with ALTER TABLE:
+## ALTER command:
 
 ```sql
 ALTER TABLE table_name
 ADD column_name datatype;
 ```
+
+-change table name, columna name, can delete,add column to an existing table
+
+- change data type and length of a data type for a column
+- delete and add primary key and foreign key
+
+- E.g.:
+
+```sql
+ALTER TABLE Country ADD COLUMN Population INT;
+  -- Add countryCode column after id column
+  ALTER TABLE Country ADD COLUMN CountryCode VARCHAR(5) AFTER id;
+  -- Add a column as first column
+  ALTER TABLE Country ADD COLUMN CountryId INT FIRST
+  -- delete column
+  ALTER TABLE Country DROP COLUMN CountryId;
+  -- rename name column of country table to CountryName
+ALTER TABLE Country RENAME COLUMN name TO CountryName
+  -- Rename country table to Countries
+ALTER TABLE Country RENAME TO Countries;
+-- Change the data type of CountryCode column to varchar(30)
+ALTER TABLE Countries MODIFY COLUMN CountryCode VARCHAR(30);
+
+-- Delete primary from the city table
+ALTER TABLE City DROP PRIMARY KEY;
+
+```
+
+we can use DESCRIBE to see the structure of a table and check alteration has been successful.
+
+Best way to add foreign key is with `ALTER TABLE`.
 
 ## Undo changes
 
@@ -298,7 +329,7 @@ DROP DATABASE database_name;
 
 ## TRUNCATE TABLE
 
-This will remove all data from the table.
+This will remove all data from the table, leaving the column headers intact.
 
 ```sql
 TRUNCATE TABLE table_name;
@@ -316,6 +347,8 @@ add where clause with this.
 DELETE FROM table_name
 WHERE condition;
 ```
+
+if don't specify condition, it will delete all rows. This can be rolledback with `ROLLBACK`, but truncate is faster.
 
 ## Make a backup of mysql and restore it
 

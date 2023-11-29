@@ -8,7 +8,7 @@
 - Don’t use font-color, just use color.
 - X > y { targets y elements within x elements.
 - Common pattern for screen reader only text: -`position: absolute;
-width: 1px; 
+width: 1px;
 height: 1px;
 padding: 0;
 margin: -1px;
@@ -62,10 +62,10 @@ Can use as many property pairs as you want to style an element.
 
 Width, height, background-color, font-family, font-size
 
-Inline styles - style using style attribute, eg. `<Div style=“color:red”> in the html doc, is very messy tho so don’t do it. 
+Inline styles - style using style attribute, eg. `<Div style=“color:red”> in the html doc, is very messy tho so don’t do it.
 Or with rulesets, eg. Div {Color:red} where select the element. Can do in the html doc, eg. Div {Color:red} and with `<style type=“text/css”> div {Color:red} </style>`` in the head element. This is not a good idea tho, best to do in separate css document.
 
-Use class=“x”, in elements and then .x {} . Is the selector.  
+Use class=“x”, in elements and then .x {} . Is the selector.
 Eg. <h1 class=“x”> </h1>
 `[attribute="value"]` selector targets any element with an attribute of specific value. So can go `x [attribute="value"`] to target x class with specific attribute and value
 
@@ -550,31 +550,30 @@ Can also use `animation` property to set these all at once: the `animation-name`
 
 e.g:
 
-````css
-* Animation */
-
-.animation {
-background-color: brown;
-width: 100px;
-height: 100px;
-animation-name: move;
-animation-duration: 2s;
+```css
+* Animation */ .animation {
+  background-color: brown;
+  width: 100px;
+  height: 100px;
+  animation-name: move;
+  animation-duration: 2s;
 }
 
 @keyframes move {
-from {
-margin-left: 0px;
-}
+  from {
+    margin-left: 0px;
+  }
 
-to {
-margin-left: 200px;
+  to {
+    margin-left: 200px;
+  }
 }
-} ```
+```
 
 this is with from being 0% and to being 100%, but can also set with percentages:
 
 ```css
-```@keyframes move {
+@keyframes move {
 0{}
 20%{
 margin-left: 100px; I
@@ -585,14 +584,18 @@ margin-left: 200px;
 60%{
 margin-left: 200px;
 margin-top: 100px;
-｝```
+｝
+```
+
+Good site for CSS animations: https://cssanimotion.pages.dev/
 
 ## CSS Transform Property
 
 Can skew, scale and translate, rotate.
 
 **Translate (move)**: `translateX()` and `translateY()` functions move the element horizontally and vertically, respectively. For example:
-```css
+
+````css
 transform: translateX(50px) translateY(20px);```
 
 **Scale**: `scale()` function scales the element in both the X and Y axes. You can specify different values for scaling in the X and Y directions, which allows for non-uniform scaling. For example:
