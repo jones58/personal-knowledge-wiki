@@ -66,23 +66,23 @@ Example: MongoDB and Cassandra.
 
 Create database with command line as follows:
 
-```bash
+```sql
 mysql -u root -p
-CREATE DATABASE your_database_name;
+CREATE DATABASE yourdatabasename;
 ```
 
 ## Delete SQL Database
 
 Delete database with:
 
-```bash
+```sql
 mysql -u root -p
-DROP DATABASE your_database_name;
+DROP DATABASE yourdatabasename;
 ```
 
 ## List all databases
 
-```bash
+```sql
 mysql -u root -p
 SHOW DATABASES;
 ```
@@ -113,10 +113,10 @@ id INT,
 name VARCHAR(20),
 year INT,
 director VARCHAR(20),
-is_good BOOLEAN
+isgood BOOLEAN
 );
 
-INSERT INTO FilmList(id, name, year, director, is_good) VALUES
+INSERT INTO FilmList(id, name, year, director, isgood) VALUES
 (1, 'Submarine', 2006, 'Ayoade', false),
 (2, 'Submarinesd', 2006, 'Ayoade', false),
 (3, 'Submarindfse', 2006, 'Ayoade', false),
@@ -131,7 +131,7 @@ SELECT \* FROM FilmList;
 ## Connect to a Database or Use a Database:
 
         Before performing any operations within a database, you need to connect to it or specify which database you want to work with using the USE statement.
-        For instance: USE MY_DB;
+        For instance: USE MYDB;
 
 ### Create Tables or Modify Database Structure:
 
@@ -153,7 +153,7 @@ Here's an example script that follows this order:
 
 ```sql
 -- Connect to the database
-USE MY_DB;
+USE MYDB;
 
 -- Create a table
 CREATE TABLE TableName (
@@ -181,20 +181,20 @@ PRIMARY KEY - cannot be null. A combination of a NOT NULL and UNIQUE.
 FOREIGN KEY - Prevents actions that would destroy links between tables
 CHECK - Ensures that the values in a column satisfies a specific condition
 DEFAULT - Sets a default value for a column if no value is specified
-AUTO_INCREMENT - not a constraint - it is an extra feature. it allows a unique
+AUTOINCREMENT - not a constraint - it is an extra feature. it allows a unique
 number to be generated automatically when a record gets inserted into the table.
 
 ## Editing MYSQL
 
 Best way to edit MYSQL is through the command line, though can also do through VSCode or MySQL Workbench.
 
-## AUTO_INCREMENT
+## AUTOINCREMENT
 
 Will automatically increment when a new row is inserted. Cannot insert data into this column manually, it will be done automatically.
 
 ```sql
-CREATE TABLE table_name (
-idNumber INT AUTO_INCREMENT,
+CREATE TABLE tablename (
+idNumber INT AUTOINCREMENT,
 PRIMARY KEY
 )
 ```
@@ -205,14 +205,14 @@ References another table.
 
 ```sql
 CREATE TABLE orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY,
-    total_amount DECIMAL(10, 2),
-    user_id INT, FOREIGN KEY (user_id) REFERENCES users(user_id)
+    orderid INT AUTOINCREMENT PRIMARY KEY,
+    totalamount DECIMAL(10, 2),
+    userid INT, FOREIGN KEY (userid) REFERENCES users(userid)
 );
 ```
 
 ```sql
-CREATE TABLE City(cityId INT PRIMARY KEY AUTO_INCREMENT, cityName VARCHAR(20) NOT NULL,
+CREATE TABLE City(cityId INT PRIMARY KEY AUTOINCREMENT, cityName VARCHAR(20) NOT NULL,
 countryId INT, FOREIGN KEY (countryId) REFERENCES Country(id));
 
 INSERT INTO City(cityName, countryId) VALUES('London',1),('Manchester',1),('New York',2);
@@ -231,17 +231,17 @@ connect to
 pets
 id int
 name varchar (100)
-owner_id int foreign key to users (id)
+ownerid int foreign key to users (id)
 
 ```sql
 CREATE TABLE users (
-  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id int NOT NULL AUTOINCREMENT PRIMARY KEY,
   name varchar(100) NOT NULL UNIQUE
 );
 CREATE TABLE pets (
         name varchar(100) NOT NULL,
-        owner_id int NOT NULL,
-        FOREIGN KEY (owner_id) REFERENCES users(id)
+        ownerid int NOT NULL,
+        FOREIGN KEY (ownerid) REFERENCES users(id)
 );
 ```
 
@@ -250,7 +250,7 @@ CREATE TABLE pets (
 To update a table, you need to specify the table name and the column and the value you want to update.
 
 ```sql
-UPDATE table_name
+UPDATE tablename
 SET column1 = value1, column2 = value2
 WHERE condition;
 ```
@@ -265,11 +265,14 @@ UPDATE Employee SET employeeName='Ender' WHERE employeeName='Abdul';
 UPDATE trainer set trainerName='Cris' WHERE NAME='Zalf' OR lastName='Pardis';
 ```
 
+UPDATE employees set employeeName ="Yousuf" WHERE NAME = "Chris"
+Write a query to update employeeName from chris to 'Yousuf' Jack
+
 ## ALTER command:
 
 ```sql
-ALTER TABLE table_name
-ADD column_name datatype;
+ALTER TABLE tablename
+ADD columnname datatype;
 ```
 
 -change table name, columna name, can delete,add column to an existing table
@@ -304,8 +307,8 @@ we can use DESCRIBE to see the structure of a table and check alteration has bee
 Best way to add foreign key is with `ALTER TABLE`:
 
 ```sql
-ALTER TABLE table_name
-ADD FOREIGN KEY (column_name) REFERENCES table_name(column_name);
+ALTER TABLE tablename ADD CONSTRAINT FKcolumnname
+ADD FOREIGN KEY (columnname) REFERENCES tablename(columnname);
 ```
 
 Primary keys are underlined in schema.
@@ -314,7 +317,7 @@ Primary keys are underlined in schema.
 
 Use `ROLLBACK`; to undo changes that haven't been committed.
 
-## commit changes
+## Commit changes
 
 Use `COMMIT`;
 
@@ -323,7 +326,7 @@ Use `COMMIT`;
 To delete table
 
 ```sql
-DROP TABLE table_name;
+DROP TABLE tablename;
 ```
 
 ## DROP DATABASE
@@ -331,7 +334,7 @@ DROP TABLE table_name;
 To delete database
 
 ```sql
-DROP DATABASE database_name;
+DROP DATABASE databasename;
 ```
 
 ## TRUNCATE TABLE
@@ -339,7 +342,7 @@ DROP DATABASE database_name;
 This will remove all data from the table, leaving the column headers intact.
 
 ```sql
-TRUNCATE TABLE table_name;
+TRUNCATE TABLE tablename;
 ```
 
 ## DELETE
@@ -351,7 +354,7 @@ table remains unaffected. We can
 add where clause with this.
 
 ```sql
-DELETE FROM table_name
+DELETE FROM tablename
 WHERE condition;
 ```
 
@@ -359,19 +362,19 @@ if don't specify condition, it will delete all rows. This can be rolledback with
 
 ## Make a backup of mysql and restore it
 
-```bash
+```sql
 mysqldump -u root -p --all-databases > backup.sql
 ```
 
 or just one database:
 
-```bash
+```sql
 mysqldump -u root -p databaseName > backup.sql
 ```
 
 we restore the backup with:
 
-```bash
+```sql
 mysql -u root -p newDataBaseName < backup.sql
 ```
 
@@ -379,12 +382,87 @@ so a typical workflow would look like this:
 
 Export data from the old database:
 
-```bash
-mysqldump -u username -p old_database_name > backup
+```sql
+mysqldump -u username -p olddatabasename > backup
 ```
 
 Import data into the new database:
 
-```bash
-mysql -u username -p new_database_name < backup.sql
+```sql
+mysql -u username -p newdatabasename < backup.sql
 ```
+
+## Just display certain info from a table
+
+```sql
+SELECT FNAME, LNAME FROM Employee;
+```
+
+e.g. SELECT \* FROM Employee WHERE SALARY=25000 AND SEX='F';
+
+## -- LIMIT the info displayed
+
+-- Limit number of row to be displayed
+`SELECT * FROM Employee LIMIT 3;`
+`SELECT * FROM Employee LIMIT 3 OFFSET 3;`
+
+## Sorting data in SQL
+
+-- Ascending - ASC => A-Z (from lowest number to highest number)
+-- Descending - DESC => Z-A (from highest number to lowest number)
+
+`SELECT * FROM Employee ORDER BY SALARY ASC;`
+`SELECT * FROM Employee ORDER BY SALARY DESC;`
+
+Can order by multiple columns:
+`SELECT * FROM Employee ORDER BY FNAME ASC, LNAME ASC;`
+
+-- select an employee who is receiving highest salary
+`SELECT * FROM Employee ORDER BY SALARY DESC LIMIT 1;`
+-- select an employee who is receiving lowest salary
+`SELECT * FROM Employee ORDER BY SALARY ASC LIMIT 1;`
+-- select top five employs who are receiving highest salary
+`SELECT * FROM Employee ORDER BY SALARY DESC LIMIT 5;`
+
+-- select female employee who is receiving highest salary
+`SELECT  FROM Employee WHERE SEX='F' ORDER BY SALARY DESC LIMIT 1;`
+-- select male employee who is receiving lowest salary
+`SELECT  FROM Employee WHERE SEX='M' ORDER BY SALARY ASC LIMIT 1;`
+-- -- select any employee who's FNAME IS 'John', 'Franklin',
+`SELECT * FROM Employee WHERE FNAME IN ('John', 'Franklin');`
+
+- this will select any employee name includes 'John' or 'Franklin'.
+
+-- display full name of employees
+`SELECT CONCAT (FNAME,' ',LNAME) AS 'Full Name' FROM Employee;`
+-- Display all different salaries
+`SELECT DISTINCT SALARY FROM Employee WHERE SALARY IS NOT NULL;`
+`SELECT FNAME, LNAME , CONCAT('£' ,SALARY,' per year') FROM Employee;`
+
+## Aggregate functions
+
+AVG(), MAX(), MIN(), SUM(), COUNT()
+
+-- what is the highest salary that you pay to your employees
+`SELECT MAX(SALARY) AS 'Max Salary' FROM Employee;`
+-- How many employees are working in your company
+`SELECT COUNT(\*) AS 'No of Employees' FROM Employee;`
+`SELECT COUNT(SALARY) AS 'No of Employees' FROM Employee;`
+
+-- display maximum and minimum salary that you pay to your employee
+
+`SELECT MAX(SALARY) AND MIN(SALARY) AS 'Max and Min Salary' FROM Employee;`
+
+-- display total amount of salaries for female employees.
+
+`SELECT SUM(SALARY) AS 'Total Salary to Female Employees' FROM Employee WHERE SEX='F';`
+
+-- Increase the salary of all employees 10 percent
+
+`UPDATE Employee SET SALARY=SALARY*1.1;`
+
+disable safe update mode in MYSQL - SET SQL_SAFE_UPDATES=0;
+
+## Resources
+
+https://sqlbolt.com/
