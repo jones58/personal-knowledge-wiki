@@ -463,6 +463,14 @@ AVG(), MAX(), MIN(), SUM(), COUNT()
 
 disable safe update mode in MYSQL - SET SQL_SAFE_UPDATES=0;
 
+## GROUP BY
+
+Used to group data based on similar values
+
+-- Display the number of all female and male employee
+SELECT COUNT(_), SEX FROM Employee GROUP BY SEX;
+SELECT _ FROM Employee;
+
 ## Resources
 
 https://sqlbolt.com/
