@@ -398,7 +398,7 @@ mysql -u username -p newdatabasename < backup.sql
 SELECT FNAME, LNAME FROM Employee;
 ```
 
-e.g. SELECT \* FROM Employee WHERE SALARY=25000 AND SEX='F';
+e.g. `SELECT * FROM Employee WHERE SALARY=25000 AND SEX='F';`
 
 ## -- LIMIT the info displayed
 
@@ -425,9 +425,9 @@ Can order by multiple columns:
 `SELECT * FROM Employee ORDER BY SALARY DESC LIMIT 5;`
 
 -- select female employee who is receiving highest salary
-`SELECT  FROM Employee WHERE SEX='F' ORDER BY SALARY DESC LIMIT 1;`
+`SELECT * FROM Employee WHERE SEX='F' ORDER BY SALARY DESC LIMIT 1;`
 -- select male employee who is receiving lowest salary
-`SELECT  FROM Employee WHERE SEX='M' ORDER BY SALARY ASC LIMIT 1;`
+`SELECT * FROM Employee WHERE SEX='M' ORDER BY SALARY ASC LIMIT 1;`
 -- -- select any employee who's FNAME IS 'John', 'Franklin',
 `SELECT * FROM Employee WHERE FNAME IN ('John', 'Franklin');`
 
@@ -446,7 +446,7 @@ AVG(), MAX(), MIN(), SUM(), COUNT()
 -- what is the highest salary that you pay to your employees
 `SELECT MAX(SALARY) AS 'Max Salary' FROM Employee;`
 -- How many employees are working in your company
-`SELECT COUNT(\*) AS 'No of Employees' FROM Employee;`
+`SELECT COUNT(*) AS 'No of Employees' FROM Employee;`
 `SELECT COUNT(SALARY) AS 'No of Employees' FROM Employee;`
 
 -- display maximum and minimum salary that you pay to your employee
@@ -468,8 +468,63 @@ disable safe update mode in MYSQL - SET SQL_SAFE_UPDATES=0;
 Used to group data based on similar values
 
 -- Display the number of all female and male employee
-SELECT COUNT(_), SEX FROM Employee GROUP BY SEX;
-SELECT _ FROM Employee;
+SELECT COUNT(\_), SEX FROM Employee GROUP BY SEX;
+SELECT \* FROM Employee;
+
+-- Display total amount of salaries for both male and female employees.
+
+SELECT SUM(SALARY), SEX FROM Employee GROUP BY SEX;
+
+-- Display Average, Maximum, Minimum salary for both male and female employees;
+
+SELECT AVG(SALARY), MAX(SALARY), MIN(SALARY), SEX FROM Employee GROUP BY SEX;
+
+## BETWEEN
+
+- Selects values within a given range. The values can be numbers, text, or
+  dates. The BETWEEN operator is inclusive: begin and end values are included \_/
+
+  -- Display all employeess who are born on/between 1960 and 1980;
+
+SELECT \* FROM Employee WHERE BDATE BETWEEN '1960' AND '1980';
+
+## Wildcards and LIKE OPERATOR
+
+WILDCARDS: A way of defining patterns that we want to match the specific data to.
+LIKE: Special SQL Keyword used as wild card.
+
+% (Percentage) = any number of character
+(underscore) = one character.
+
+WHERE CustomerName LIKE 'a%' - Finds any values that start with "a"
+WHERE CustomerName LIKE '%a' - Finds any values that end with "a"
+WHERE CustomerName LIKE '%or%' - Finds any values that have "or" in
+any position
+WHERE CustomerName LIKE '_r%' - Finds any values that have "r" in the
+second position
+WHERE CustomerName LIKE 'a_%' - Finds any values that start with "a"
+and are at least 2 characters in
+length
+WHERE ContactName LIKE 'a%o' - Finds any values that start with "a"
+and ends with "o"
+
+- display all employee who's name start with I and thier name should be at least 5 characters
+  `SELECT * FROM Employee WHERE FNAME LIKE 'J____%';`
+  or `SELECT * FROM Employee WHERE FNAME LIKE 'J%' AND length(FNAME)>=5;`
+
+-- Select record of Employee who is born in 1965.
+`SELECT * FROM Employee WHERE BDATE LIKE '1965%';`
+-- Display all employees who's first Name starts with A and ends with d.
+` SELECT * FROM Employee WHERE FNAME LIKE 'A%d';`
+-- Display all employees who's first Name start with J and does not ends with n.
+`SELECT * FROM Employee WHERE FNAME LIKE 'J%' AND FNAME NOT LIKE '%n';`
+-- SELECT Employee who's full name start with 'Jennifer';
+`SELECT * FROM Employee WHERE CONCAT(FNAME,' ',LNAME) LIKE 'Jennifer%';`
+
+Which of the following LIKE statements will return a result containing "banana" or "BANANA"?
+
+A. WHERE item_name LIKE '%banana%'
+с. WHERE item_name LIKE '%BANANA%"
 
 ## Resources
 
