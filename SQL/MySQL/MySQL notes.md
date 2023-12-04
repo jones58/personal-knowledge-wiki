@@ -526,6 +526,21 @@ Which of the following LIKE statements will return a result containing "banana" 
 A. WHERE item_name LIKE '%banana%'
 с. WHERE item_name LIKE '%BANANA%"
 
+## Alias
+
+Alias is used to give a temporary name to a column or table.
+
+e.g. SELECT FNAME AS 'First Name', LNAME AS 'Last Name' FROM Employee;
+
+Having
+Join
+UNION
+String methods
+Date methods
+Case expression
+Store procedure
+Nested
+
 ## Resources
 
 https://sqlbolt.com/
