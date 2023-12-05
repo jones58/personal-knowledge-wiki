@@ -308,7 +308,7 @@ Best way to add foreign key is with `ALTER TABLE`:
 
 ```sql
 ALTER TABLE tablename ADD CONSTRAINT FKcolumnname
-ADD FOREIGN KEY (columnname) REFERENCES tablename(columnname);
+FOREIGN KEY (columnname) REFERENCES tablename(columnname);
 ```
 
 Primary keys are underlined in schema.
@@ -532,14 +532,38 @@ Alias is used to give a temporary name to a column or table.
 
 e.g. SELECT FNAME AS 'First Name', LNAME AS 'Last Name' FROM Employee;
 
-Having
-Join
-UNION
-String methods
-Date methods
-Case expression
-Store procedure
-Nested
+## Nested - Subqueries
+
+e.g. `SELECT * FROM members WHERE MemberID IN(SELECT MemberID FROM downloads);`
+
+## Describe and Explain
+
+Both the same, shows the structure of the table, e.g. either:
+
+- DESC members;
+- EXPLAIN members;
+
+## Join and inner join
+
+https://www.youtube.com/watch?v=G3lJAxg1cy8
+
+Join will join two tables together based on a common column.
+
+e.g.
+
+- SELECT \* FROM members INNER JOIN downloads ON members.MemberID = downloads.MemberID;
+
+CONCAT and Join
+
+## Union
+
+## Having
+
+## Date
+
+## Case expression
+
+## Store procedure
 
 ## Resources
 
