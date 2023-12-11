@@ -1,0 +1,48 @@
+Programming Part 1: Sequence 
+Sequence  
+Variables and Variable naming convention 
+Input ()  
+Data types 
+Lists
+Strings
+Formatting strings: Read f-strings documentation and formatting output
+Casting and/or conversion  
+
+
+Programming Part 2: Selection 
+Arithmetic Expression 
+Logical expression 
+Comparison operators
+Selection (if, elif, else) 
+Nested Selection
+Python libraries 
+
+Programming Part 3: Iteration 
+While Loops  
+For Loops (Lists)
+Data Validation 
+
+Programming Part 4_5: Subroutines 
+Subroutines/Subprograms 
+Functions 
+Scope: Local and Global Variables 
+
+
+Programming Part 6: Strings and lists 
+String Handling 
+Arrays and Lists 
+List methods 
+2D Array and List
+
+Programming Part 7:  Data files and Dictionaries  
+Reading and writing to files 
+Collections 1 : Records and dictionaries 
+
+Programming Part 8  Set, Tuples and Exception Handling
+Collections 2 : Set and Tuples 
+Exception Handling
+
+Programming Part 9-10: DB Operations
+Database Operations  
+SQLite
+

@@ -536,6 +536,8 @@ e.g. SELECT FNAME AS 'First Name', LNAME AS 'Last Name' FROM Employee;
 
 e.g. `SELECT * FROM members WHERE MemberID IN(SELECT MemberID FROM downloads);`
 
+Put a selection in a selection.
+
 ## Describe and Explain
 
 Both the same, shows the structure of the table, e.g. either:
@@ -555,15 +557,37 @@ e.g.
 
 CONCAT and Join
 
-## Union
+## Union
 
-## Having
+SELECT _ FROM members M
+JOIN downloads d ON d.MemberID=m.MemberID
+UNION
+SELECT _ FROM songs s
+JOIN downloads d ON d.SongID=s.SongID;
 
-## Date
+Here the single characters are representing aliases. e.g. `m.MemberID` and `d.MemberID` are members and downloads respectively.
+
+## Having
+
+Having is used to filter data.
+
+e.g.
+
+```sql
+SELECT COUNT(SongID) AS 'Artists with 2 or more songs', Artist
+FROM songs
+GROUP BY Artist
+HAVING COUNT(*) ≥=2;
+SELECT * FROM songs WHERE Artist = 'Harry Styles';
+```
+
+## Date methods
 
 ## Case expression
 
 ## Store procedure
+
+## View
 
 ## Resources
 
