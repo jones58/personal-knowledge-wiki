@@ -2,7 +2,7 @@
 "" '' #Variables and Variable naming convention
 "" '' #Use meaningful identifiers
 "" '' #Determine the need for variables
-"" '' #Distinguish between declaration, initialisation, and assignment of variables 
+"" '' #Distinguish between declaration, initialisation, and assignment of variables
 "" '' #Demonstrate appropriate use of naming conventions
 "" '' #Output data (e.g. print (myVvar))
 
@@ -58,7 +58,7 @@ print(
 
 "You have now seen the how to assign multiple values(objects) to multiple variables and chained assignment."
 "In your own words, can you explain the difference between the two?"
-#The differences 
+#The differences
 
 
 "Object references 2"
@@ -76,13 +76,16 @@ print(id(num1))
 print(id(num4))
 
 
+
 # num1 = "10"
 # print(type(num1))
 # num1 = 10.0
 # print(type(num1))
 
+
+
 "What is the evivalent of python type in JavaScript?"
-#The equivalent of 
+#The equivalent of typeof in python is type()
 
 
 "Knowledge Check"
@@ -98,7 +101,7 @@ username = "user1"  # meaningful name
 userName = "user2"
 
  # use snake case/underscore when the variable is a combination of two words
-user_name = "user3" 
+user_name = "user3"
 
 user4 = "paul0045"  # meaningful name
 
@@ -122,7 +125,7 @@ User = "muser"  # dont start variable with upper case
 
 
 
-"Research:" 
+"Research:"
 "To DO: Is there a difference in using dollar or any other currency symbol to declare variable in JS vs python?"
 
 
@@ -138,5 +141,5 @@ print("\nOriginal age is", AGE)
 AGE = 15
 print("\nAge is now", AGE)
 
-"Research:" 
+"Research:"
 "To DO: Investigate how python use make use of constants to answer if there is any similarity with constant use in JavaScript?"

@@ -18,9 +18,19 @@ indentation is important!
 e.g. `f"hello {name}"`
 The python version of template literals in js.
 
-## Resources
+## Type
 
-https://roadmap.sh/python
+The equivalent of typeof in python is type().
+
+## New lines
+
+\n - new line in python.
+
+# Roadmap
+
+Fill this in as learn: https://roadmap.sh/python
+
+## Resources
 
 Python documentation: https://docs.python.org/3/tutorial/datastructures.html
 
