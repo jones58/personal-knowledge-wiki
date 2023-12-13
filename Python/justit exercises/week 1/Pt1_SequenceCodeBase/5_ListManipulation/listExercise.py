@@ -1,5 +1,5 @@
 # https://www.w3docs.com/learn-python/python-lists.html
-"""You can think of list methods as special functions that are applied to lists. 
+"""You can think of list methods as special functions that are applied to lists.
 To call a list method, you need to use dot notation (as in the examples that follow).  """
 
 "Objectives"
@@ -27,7 +27,7 @@ print(emptyList)
 
 
 # declare list2 variable and assign it a list datatype with two items
-listOfModules = ["SDLC","HTML"] 
+listOfModules = ["SDLC","HTML"]
 print(type(listOfModules))
 print(listOfModules)
 
@@ -45,18 +45,19 @@ print(listOfModules)
 listOfElements = ["Paul", "Kane", "Anna", 1, 2, 34.7, -8, "Luke","Abdul", "Tim", "Zak", "Waqas","Narayan","Christian","Richie"]
 print(listOfElements[1])
 
-"To Do: Task 1a: Accessing list items" 
+"To Do: Task 1a: Accessing list items"
 # print Anna from list3 using the index position/value
 # print Kane from list3 using the negative index position/value
 
 "Modify:"
-"To Do: Task 1b: modifying list items" 
+"To Do: Task 1b: modifying list items"
 #Complete the code below to add your name(replace kate with your name) to the list using the '=' assignment operator
-listOfElements[?] = "YourName"
+listOfElements[2] = "YourName"
+print(listOfElements[2])
 
 
 # List operations
-"Appending items to list" 
+"Appending items to list"
 
 listOfModules.append("CSS")  # use append method to add item("CSS") to the list, listOfModules.
 print(listOfModules)
@@ -66,8 +67,8 @@ print(listOfModules)
 "Add 'NoSQL Database' to the listOfModules using the append method and print the list"
 
 
-"Inserting items to list" 
-listOfModules.insert(3,"JS")  # use insert method to insert JS in listOfModules(requires item position and item) 
+"Inserting items to list"
+listOfModules.insert(3,"JS")  # use insert method to insert JS in listOfModules(requires item position and item)
 print(listOfModules)
 
 "Make"
@@ -79,7 +80,8 @@ print(listOfModules)
 
 "To Do:Task 3a: "
 #Complete the code below to return the length of the list using the len function
-print("The length of the list is:", ?(listOfElements))
+listOfElements = ["Paul", "Kane", "Anna", 1, 2, 34.7, -8, "Luke","Abdul", "Tim", "Zak", "Waqas","Narayan","Christian","Richie"]
+print("The length of the list is:", len(listOfElements))
 
 
 "Slicing a list"
@@ -98,15 +100,15 @@ print(countries)
 print(listOfElements)
 "Modify:"
 "To Do:Task 3b: "
-# Complete the code below to remove item in index position 3 using del statement and print the list 
-? listOfElements[?]  # use del statement to delete by index position
-                 
+# Complete the code below to remove item in index position 3 using del statement and print the list
+del(listOfElements[3])  # use del statement to delete by index position
+print(listOfElements)
 
-# Complete the code below to remove items in index position 3 and index position 5 print the list 
-"Modify:"   
-"To Do: What item did you remove at index position 3 b"             
+# Complete the code below to remove items in index position 3 and index position 5 print the list
+"Modify:"
+"To Do: What item did you remove at index position 3 b"
 ? (listOfElements[?], listOfElements[?])
-                                     
+
 
 
 "Remove list items as per item value"

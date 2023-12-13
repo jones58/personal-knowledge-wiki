@@ -57,6 +57,8 @@ print(set1)
 
 # Dictionary stored data as key value pairs
 # to retrieve a specific value from a dictionary you need to know the key
+# very similar to javascript object
+
 
 # create a dictionary with key value pairs
 dictionary1 = {1: "John", 2: "Anna", 3: "Peter"}
@@ -78,9 +80,8 @@ print(dictionary2)
 # Create a set with five elements(items)
 # Create a dictionary with five key value pairs items
 "To DO:Extension"
-"Why and when would you use a:" 
-# list 
-# tuple 
+"Why and when would you use a:"
+# list
+# tuple
 # set
 # dictionary
-
