@@ -9,7 +9,7 @@ print("What is your name? ")  # display what is your name
 
 # dynamically asking for user input instead of hardcoded values
 "To DO: Task1: Debug the two lines of code below"
-naem = input(())  # invoke the input funtion and assign to name variable
+name = input(())  # invoke the input funtion and assign to name variable
 print("Your name is: ", name)
 
 
