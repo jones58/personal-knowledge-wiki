@@ -10,3 +10,6 @@ print(f"The random value is: {}")
 "To Do: Task 1: Use randint from random module to generate random numbers"
 # Modify the code above to generate ramdom numbers between 25 to 50
 
+import random
+number = random.randint(25, 50)
+print (f"The random value is: {number}")
