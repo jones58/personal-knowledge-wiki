@@ -16,13 +16,18 @@
 
 - using prettier with tailwind will automatically organise the class list for us.
 
-- shift alt down arrow to copy current element down one line. Might have to select text if need to copy multiple lines.
+- scroll-mt-20 - scroll margin helps set scrolling to id location properly.
 
+## Some vs code tips:
+
+- cmd + / to comment something out when it's selected - toggle.
+- cmd d when selecting to select other instances of it
+- shift alt down arrow to copy current element down one line. Might have to select text if need to copy multiple lines.
 - press cmd j in vs code to hide show terminal
 - press up down arrow keys to scroll through previous commands
 - press alt z to wrap code - can be useful to see stuff when on split screen.
 
-Resources:
+## Resources:
 
 - Colours in Tailwind CSS: https://tailwindcss.com/docs/customizing-colors
 - Tailwind docs: https://tailwindcss.com/

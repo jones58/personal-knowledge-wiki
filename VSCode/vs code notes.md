@@ -72,3 +72,10 @@ _ctrl `_ to open new terminal
 - up arrow to go to last command/scroll between them with up and down
 
 from [here](https://www.youtube.com/watch?v=ifTF3ags0XI)
+
+- shift alt down arrow to copy current element down one line. Might have to select text if need to copy multiple lines.
+- press cmd j in vs code to hide show terminal
+- press up down arrow keys to scroll through previous commands
+- press alt z to wrap code - can be useful to see stuff when on split screen.
+
+cmd d when selecting to select other instances of it
