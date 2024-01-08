@@ -26,6 +26,24 @@ The equivalent of typeof in python is type().
 
 \n - new line in python.
 
+## Snake case
+
+Python generally uses snake case for variables - e.g. `snake_case`
+
+## Using Translation table
+
+Have to set the translation table and then use the translate function
+
+```python
+my_string = "tamperlot"
+translation_table = str.maketrans({'t': 'c', 'l': 'b'})
+translated_string = my_string.translate(translation_table)
+```
+
+## Functions
+
+Remember to write def when writing a function, e.g. `def my_function():`
+
 # Roadmap
 
 Fill this in as learn: https://roadmap.sh/python
