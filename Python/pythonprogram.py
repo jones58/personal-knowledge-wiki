@@ -52,9 +52,9 @@ Design your program
 *You will need to research how to add today's date to the ticket (Hint: import datetime or date).
 
 """
-import datetime
 
 def ticketBot():
+    import datetime
     print("Welcome to Adventure Theme Park")
     print("Entrance Ticket Prices:")
     print("Adult: £20")
@@ -108,4 +108,5 @@ def ticketBot():
         print(f"Here's your car parking pass for the car park on {datetime.date.today()}")
     print("Thank you for your purchase")
 
-ticketBot()
+if __name__ == "__main__":
+    ticketBot()

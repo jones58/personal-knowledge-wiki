@@ -42,9 +42,25 @@ translated_string = my_string.translate(translation_table)
 
 ## Functions
 
-Remember to write def when writing a function, e.g. `def my_function():`
+Remember to write def when writing a function, e.g. `def my_function():` and have import modules at the top of the file, outside the main function. Use if**name**=="**main**": to run the function and not the contents of the import modules.
+
+```python
+def my_function():
+    print("hello")
+    print("how are you?")
+
+if __name__ == "__main__":
+    my_function()
+```
 
 ## Comments
+
+`#` is a comment in python
+`"""` or `'''` is a multiline comment
+
+## Single underscore
+
+`_` is a single underscore and is used for private variables you don't care about in python.
 
 # Roadmap
 
