@@ -44,6 +44,8 @@ translated_string = my_string.translate(translation_table)
 
 Remember to write def when writing a function, e.g. `def my_function():`
 
+## Comments
+
 # Roadmap
 
 Fill this in as learn: https://roadmap.sh/python
