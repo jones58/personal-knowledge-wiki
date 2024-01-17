@@ -446,6 +446,8 @@ Predesigned components in HTML, CSS and Javascript
 
 ## Resources
 
+- Best place for reading about React: <https://react.dev/learn>
+
 - <https://www.skillshare.com/en/classes/Learn-React-From-Beginner-Concepts-to-Building-a-Full-React-App/196289883/reviews>
 - <https://fireship.io/courses/react/>
 - <https://react.dev/learn/writing-markup-with-jsx>
