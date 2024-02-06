@@ -10,3 +10,30 @@
 - tsc --init to create a tsconfig.json
   - target - can be changed depending on where deploying to.
 - tsc --watch to watch for changes
+- can set type for an array and have to do this for empty arrays e.g. let numbers: number[] = [];
+
+New built in types:
+
+- any - can be anything. This means you don't get type safety, so best to avoid. Can use it to turn off errors.
+- unknown
+- never
+- enum - used to create a list of values, e.g. enum Direction {North, South, East, West}, where north becomes 0, south becomes 1 etc. It sets automatically. If change first one can change other two automatically. Using with const will generate more optimised js code.
+- tuple - An array with fixed length where each element has a type.Often useful for two values, like key value pairs.
+
+Don't always have to specify the variable type, like number etc.
+
+Functions - can annotate them to add type for easy compilation.
+e.g. function add(n1: number, n2: number) {
+return n1 + n2;
+}
+
+Objects - can annotate them to add type for easy compilation.
+e.g. const person: {
+name: string;
+age: number;
+} = {
+name: 'Max',
+age: 30,
+};
+
+[Roadmap to fill in as learn](https://roadmap.sh/typescript)
