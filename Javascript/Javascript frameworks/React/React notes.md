@@ -165,15 +165,13 @@ return (
 
 props - short for properties
 
-Use props to pass data from parent element.
+Use props to pass data into components
 
 can be string, number, object, or another react component.
 
 Similar to using a global variable in javascript.
 
 put in curly brackets so don't need . notation.
-
-Props are useful because of virtual dom and react fibre engine, which allow it to re-render props when they change.
 
 props go from parent to child.
 
@@ -183,29 +181,7 @@ props passed to class component are available as: `this.props`
 
 ## State
 
-- Local variable just within given component
-- State is any data that changes over time. Used to update UI when data changes.
-- You declare state by setting in the constructor
-- State property is an object.
-- Declare like this:
-
-```jsx
-this.state = {};
-```
-
-- can also access with `this.state`
-- accessing state in return method means you have to use curly braces {}
-- Use setState to change state, e.g.
-
-```jsx
-this.setState({
-  username: "Lewis",
-});
-```
-
-- setState takes an object as an argument, which will be merged with the current state
-
-We can also use useState to set state in functional components.
+- State is any data that changes over time within a given component. Used to update UI when data changes.
 
 e.g.
 
@@ -221,6 +197,14 @@ function App() {
     </div>
   );
 ```
+
+state is updated when `setCount` is called. `setCount` takes a function as an argument.
+
+```jsx
+setCount((count) => count + 1);
+```
+
+- Can pass state from parent to child with props but cannot pass state from child to parent. Must edit state in parent.
 
 ## Lifecycle and events
 
@@ -446,6 +430,8 @@ Predesigned components in HTML, CSS and Javascript
 
 ## Resources
 
+[React Roadmap](https://roadmap.sh/react)
+
 - Best place for reading about React: <https://react.dev/learn>
 
 - <https://www.skillshare.com/en/classes/Learn-React-From-Beginner-Concepts-to-Building-a-Full-React-App/196289883/reviews>
@@ -460,19 +446,3 @@ To read more:
 - https://react.dev/reference/react/Component
 - https://react.dev/learn/passing-props-to-a-component
 - https://www.freecodecamp.org/news/jsx-in-react-introduction/
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
