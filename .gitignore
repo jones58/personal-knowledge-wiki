@@ -6,3 +6,5 @@ seeds
 pods/service-connections
 Javascript/Javascript frameworks/React/counter app in react
 Javascript/.DS_Store
+
+*storybook.log

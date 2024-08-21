@@ -1,6 +1,6 @@
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
-  stories: ["../**/*.stories.@(js|jsx)"],
+  stories: ["../src/components/**/*.stories.@(js|jsx)"],
   staticDirs: ["../public"],
   addons: [
     "@storybook/addon-links",
@@ -11,9 +11,6 @@ const config = {
   framework: {
     name: "@storybook/react-vite",
     options: {},
-  },
-  docs: {
-    autodocs: "tag",
   },
 };
 export default config;

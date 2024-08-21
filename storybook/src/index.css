@@ -10,7 +10,8 @@ body {
   padding: 0;
   font-size: 100%;
   outline: none;
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-style: 400;
   color: #333;
   font-size: 16px;
@@ -36,7 +37,8 @@ label {
   vertical-align: middle;
   line-height: normal;
   overflow: visible;
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 
 button::-moz-focus-inner,
@@ -99,17 +101,20 @@ input[type="submit"] {
 }
 
 .type-light {
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-weight: 300;
 }
 
 .type-bold {
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-weight: 800;
 }
 
 .type-italic {
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-weight: 400;
   font-style: italic;
 }
@@ -120,7 +125,8 @@ input[type="password"],
 textarea {
   font-size: 14px;
   line-height: 20px;
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-style: 400;
   padding: 0.75rem 0;
   line-height: 1.5rem !important;
@@ -219,7 +225,8 @@ textarea {
 @font-face {
   font-family: "percolate";
   src: url("./assets/icon/percolate.eot?-5w3um4");
-  src: url("./assets/icon/percolate.eot?#iefix5w3um4")
+  src:
+    url("./assets/icon/percolate.eot?#iefix5w3um4")
       format("embedded-opentype"),
     url("./assets/icon/percolate.woff?5w3um4") format("woff"),
     url("./assets/icon/percolate.ttf?5w3um4") format("truetype"),
@@ -255,7 +262,8 @@ textarea {
   letter-spacing: 0.3em;
   text-indent: 0.3em;
   text-transform: uppercase;
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-weight: 800;
   font-size: 11px;
   padding-left: 15px;
@@ -327,12 +335,16 @@ textarea {
 }
 
 .list-item.TASK_ARCHIVED input[type="text"] {
-  color: #a0aec0;
+  color: #4a5568;
   text-decoration: line-through;
 }
 
 .list-item:hover {
-  background-image: linear-gradient(to bottom, #e5f9f7 0%, #f0fffd 100%);
+  background-image: linear-gradient(
+    to bottom,
+    #e5f9f7 0%,
+    #f0fffd 100%
+  );
 }
 
 .list-item:hover .checkbox {
@@ -415,7 +427,8 @@ textarea {
 .wrapper-message .title-message {
   font-size: 16px;
   line-height: 24px;
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-weight: 800;
   color: #4a5568;
 }
@@ -449,7 +462,8 @@ textarea {
   line-height: 2rem;
   cursor: pointer;
   white-space: nowrap;
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 800;
