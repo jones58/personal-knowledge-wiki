@@ -6,3 +6,5 @@ Storybook is often used by big companies for their component libraries. There's 
 Storybook aligns with the concept of [Component Driven UIs](https://componentdriven.org) - building a component and then making components and pages from those components.
 
 The most useful Storybook tutorial, which I followed is [here](https://storybook.js.org/tutorials/intro-to-storybook/react/en/get-started)
+
+we can do testing in storybook [in various ways](https://storybook.js.org/tutorials/ui-testing-handbook/)
