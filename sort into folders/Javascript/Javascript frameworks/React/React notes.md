@@ -1,3 +1,7 @@
+---
+title: React Notes
+---
+
 # React notes
 
 Uses .jsx, a version of javascript

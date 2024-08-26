@@ -1,3 +1,7 @@
+---
+title: How To Do Accessibility Colour Scheme
+---
+
 To create an accessibility color scheme change on a website using HTML and CSS, you can follow these steps:
 
 1.  Choose the color palette that will be used for the accessibility feature. This may include high contrast color combinations or colors that are easier to distinguish for users with color vision deficiencies.

@@ -1,4 +1,8 @@
 ---
+title: Compile Time Caching
+---
+
+---
 title: Compile-time caching
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---

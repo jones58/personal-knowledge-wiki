@@ -1,4 +1,8 @@
 ---
+title: Temporal Paradoxes
+---
+
+---
 title: Temporal paradoxes
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---

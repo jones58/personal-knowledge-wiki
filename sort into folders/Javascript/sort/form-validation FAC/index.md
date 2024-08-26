@@ -1,4 +1,8 @@
 ---
+title: Index
+---
+
+---
 title: Form validation
 description: Learn how to validate user input in the browser and present error messages accessibly.
 tags:

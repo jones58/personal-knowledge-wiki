@@ -1,3 +1,7 @@
+---
+title: Jupyter
+---
+
 Documenting my progress learning Jupyter Notebooks.
 
 Resources:

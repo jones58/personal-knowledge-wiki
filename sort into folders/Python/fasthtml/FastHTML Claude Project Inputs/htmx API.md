@@ -1,3 +1,7 @@
+---
+title: Htmx Api
+---
+
 +++
 title = "Javascript API"
 +++

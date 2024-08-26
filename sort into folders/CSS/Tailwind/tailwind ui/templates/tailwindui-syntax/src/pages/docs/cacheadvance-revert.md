@@ -1,4 +1,8 @@
 ---
+title: Cacheadvance Revert
+---
+
+---
 title: CacheAdvance.revert()
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---

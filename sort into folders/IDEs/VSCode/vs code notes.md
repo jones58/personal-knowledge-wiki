@@ -1,3 +1,7 @@
+---
+title: Vs Code Notes
+---
+
 # Vscode notes
 
 Type _code_ in terminal to open vs code

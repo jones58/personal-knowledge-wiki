@@ -1,3 +1,7 @@
+---
+title: Notes
+---
+
 built in database - sqlite which runs in a file on system, low latency.
 
 Worth reading:

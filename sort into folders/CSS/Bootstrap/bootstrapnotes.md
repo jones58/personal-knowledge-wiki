@@ -1,3 +1,7 @@
+---
+title: Bootstrapnotes
+---
+
 You can add Bootstrap to any app by adding the following code to the top of your HTML:
 
 ```html

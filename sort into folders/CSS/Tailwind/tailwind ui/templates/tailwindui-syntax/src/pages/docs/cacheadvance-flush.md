@@ -1,4 +1,8 @@
 ---
+title: Cacheadvance Flush
+---
+
+---
 title: CacheAdvance.flush()
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---

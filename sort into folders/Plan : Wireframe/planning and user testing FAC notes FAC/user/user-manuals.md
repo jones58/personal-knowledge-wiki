@@ -1,3 +1,7 @@
+---
+title: User Manuals
+---
+
 # User Manuals
 
 Personal user manuals! Keep them updated, read them well 📒

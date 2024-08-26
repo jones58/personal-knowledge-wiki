@@ -1,3 +1,7 @@
+---
+title: User Research
+---
+
 # User Research & Usability Testing
 
 There are two kinds of user feedback sessions in the design sprint: User Research, and Usability Testing.

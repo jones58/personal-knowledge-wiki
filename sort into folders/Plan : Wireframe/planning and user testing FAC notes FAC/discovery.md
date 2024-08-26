@@ -1,4 +1,8 @@
 ---
+title: Discovery
+---
+
+---
 title: Discovery Workshop
 description: Facilitating the Discovery Workshop during Design Week
 layout: mentor-notes

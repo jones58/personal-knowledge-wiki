@@ -1,3 +1,7 @@
+---
+title: Html Notes
+---
+
 - Write ! to write boilerplate code in html - this is an emmet abbreviation
  - cmd - / will make a comment in html
  - to write a paragraph of lorem ipsum just write lorem and press return

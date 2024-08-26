@@ -1,4 +1,8 @@
 ---
+title: Cacheadvance Predict
+---
+
+---
 title: CacheAdvance.predict()
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---

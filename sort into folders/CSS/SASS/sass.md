@@ -1,3 +1,7 @@
+---
+title: Sass
+---
+
 ## Variable names
 
 In Sass, variables start with a `$` followed by the variable name.

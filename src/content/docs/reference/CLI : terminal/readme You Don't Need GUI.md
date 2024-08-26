@@ -1,4 +1,8 @@
 ---
+title: Readme You Don'T Need Gui
+---
+
+---
 title: Example Reference
 description: A reference page in my new Starlight docs site.
 ---

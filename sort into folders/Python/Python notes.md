@@ -1,3 +1,7 @@
+---
+title: Python Notes
+---
+
 # Python notes
 
 ## Running Python Scripts

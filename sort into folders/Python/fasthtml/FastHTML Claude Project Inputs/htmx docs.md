@@ -1,3 +1,7 @@
+---
+title: Htmx Docs
+---
+
 +++
 title = "Documentation"
 [extra]

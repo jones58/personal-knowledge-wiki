@@ -1,3 +1,7 @@
+---
+title: Debugging Fac Guide Fac
+---
+
 # Debugging
 
 One of the most important programming skills to develop is how to figure out what went wrong with your code.

@@ -1,3 +1,7 @@
+---
+title: Htmx Reference
+---
+
 +++
 title = "Reference"
 +++

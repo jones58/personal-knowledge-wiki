@@ -1,3 +1,7 @@
+---
+title: Html Forms
+---
+
 https://www.w3schools.com/html/html_forms.asp
 
 When writing form, use `for = ""` to link label with the input element

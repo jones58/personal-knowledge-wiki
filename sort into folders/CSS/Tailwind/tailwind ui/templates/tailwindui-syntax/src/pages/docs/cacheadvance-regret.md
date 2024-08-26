@@ -1,4 +1,8 @@
 ---
+title: Cacheadvance Regret
+---
+
+---
 title: CacheAdvance.regret()
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---

@@ -1,3 +1,7 @@
+---
+title: Learning Storybook
+---
+
 [Storybook docs](https://storybook.js.org/docs)
 Interesting perspective on the alternatives to Storybook [here](https://www.youtube.com/watch?v=XxBi_Up325g&t=198s)]
 

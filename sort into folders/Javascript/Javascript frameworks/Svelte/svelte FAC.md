@@ -1,3 +1,7 @@
+---
+title: Svelte Fac
+---
+
 # Svelte
 
 Learn how to use Svelte to build dynamic client-side applications.

@@ -1,3 +1,7 @@
+---
+title: Jquery Notes
+---
+
 ```html
 <script>
   $(document).ready(function () {});

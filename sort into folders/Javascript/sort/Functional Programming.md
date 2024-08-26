@@ -1,3 +1,7 @@
+---
+title: Functional Programming
+---
+
 - input -> process -> output, no changes outside function scope like with normal functions
 - isolated functions - no global variables changing, rely only on internal values, e.g what is fed directly into it.
 - functions with limited side effects - any changes happen within the function

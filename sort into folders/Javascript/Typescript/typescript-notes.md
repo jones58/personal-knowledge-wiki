@@ -1,3 +1,7 @@
+---
+title: Typescript Notes
+---
+
 # Typescript
 
 - Has typechecking

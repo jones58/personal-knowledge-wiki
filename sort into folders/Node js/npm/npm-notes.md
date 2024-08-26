@@ -1,3 +1,7 @@
+---
+title: Npm Notes
+---
+
 # NPM notes
 
 - Package managers emerged to solve the issue of automating download and upgrade of libraries from central repository. In other words, you can manage dependencies (external code) that project needs to run correctly.

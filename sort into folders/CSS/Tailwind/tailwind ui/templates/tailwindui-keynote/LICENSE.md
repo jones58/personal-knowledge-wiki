@@ -1,3 +1,7 @@
+---
+title: License
+---
+
 # Tailwind UI License
 
 ## Personal License

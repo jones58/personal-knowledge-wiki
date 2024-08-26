@@ -1,3 +1,7 @@
+---
+title: Css Notes
+---
+
 - Three main ways to format content with CSS:
   - [[CSS Flexbox]]
   - [[CSS Grid]]

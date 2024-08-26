@@ -1,4 +1,8 @@
 ---
+title: Definition
+---
+
+---
 title: Definition Workshop
 description: Facilitating the Definition workshop
 layout: mentor-notes

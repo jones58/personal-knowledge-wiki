@@ -1,3 +1,7 @@
+---
+title: Git Notes
+---
+
 ## Basic commands
 
 - `git init` turns git on for current directory

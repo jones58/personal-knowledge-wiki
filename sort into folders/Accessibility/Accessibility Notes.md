@@ -1,3 +1,7 @@
+---
+title: Accessibility Notes
+---
+
 https://webaim.org/techniques/alttext/
 
 Accessibility

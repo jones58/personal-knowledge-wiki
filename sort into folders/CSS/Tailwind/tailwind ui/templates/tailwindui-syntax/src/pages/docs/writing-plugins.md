@@ -1,4 +1,8 @@
 ---
+title: Writing Plugins
+---
+
+---
 title: Writing plugins
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---

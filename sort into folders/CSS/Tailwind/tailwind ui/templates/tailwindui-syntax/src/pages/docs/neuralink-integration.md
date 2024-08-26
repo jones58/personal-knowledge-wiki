@@ -1,4 +1,8 @@
 ---
+title: Neuralink Integration
+---
+
+---
 title: Neuralink integration
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---

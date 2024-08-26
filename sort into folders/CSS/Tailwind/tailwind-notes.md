@@ -1,3 +1,7 @@
+---
+title: Tailwind Notes
+---
+
 # Tailwind
 
 - People find it easier to customise than Bootstrap. Can use SASS with Bootstrap but Tailwind is much more customisable by itself.

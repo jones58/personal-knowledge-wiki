@@ -1,4 +1,8 @@
 ---
+title: Sqlite Database Intro
+---
+
+---
 title: Persisting data with SQLite and Node
 description: Learn how to use the SQLite database to persist data for your Node apps
 tags:

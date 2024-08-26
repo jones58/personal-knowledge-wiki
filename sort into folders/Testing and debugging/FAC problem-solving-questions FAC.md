@@ -1,3 +1,7 @@
+---
+title: Fac Problem Solving Questions Fac
+---
+
 # Questions for problem solving
 
 ## Reading a function

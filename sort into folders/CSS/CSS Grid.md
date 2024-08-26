@@ -1,3 +1,7 @@
+---
+title: Css Grid
+---
+
 Helps us make two dimensional layout, when flexbox only lets us do one dimension. Rows and columns rather than just one or the other in flex.
 
 `gap:` gives space between grid rows and columns

@@ -1,3 +1,7 @@
+---
+title: Readme
+---
+
 # Learning Resources
 
 Resources that I've found useful in learning to code. Includes a lot of links and my own notes in Markdown format.

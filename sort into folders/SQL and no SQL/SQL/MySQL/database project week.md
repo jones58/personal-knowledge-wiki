@@ -1,3 +1,7 @@
+---
+title: Database Project Week
+---
+
 • Course (CourseID, Level, Sessions, Instructor, startDate, LessonTime)
 • Lessons (LessonID, CourseID, MemberID)
 • Members (MemberID, Firstname, Surname, DOB, Address, City)

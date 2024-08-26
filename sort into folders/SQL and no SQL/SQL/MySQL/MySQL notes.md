@@ -1,3 +1,7 @@
+---
+title: Mysql Notes
+---
+
 8. Alter Command
 9. Delete VS Drop VS Truncate
 10. Basic Queries
