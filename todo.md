@@ -18,4 +18,4 @@ add sitemap
 
 explore other astro addons
 
-Maybe an edit this page, you click and it takes you to the md file in github.
+Maybe an edit this page, you click and it takes you to the md file in github. - like on starlight docs where it says edit page at bottom [here](https://starlight.astro.build/guides/authoring-content/).
