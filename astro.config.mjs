@@ -24,10 +24,11 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: "Reference",
+          label: "Topics",
           autogenerate: {
             directory: "reference",
           },
+          collapsed: true,
         },
       ],
     }),
