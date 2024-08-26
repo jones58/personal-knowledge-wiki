@@ -2,13 +2,6 @@
 title: Command Line Notes
 ---
 
----
-title: Example Reference
-description: A reference page in my new Starlight docs site.
----
-
-# Command Line Notes
-
 - `pwd` print working directory
 - `mkdir x` to make a new folder, x
 - `cd x` to change directory to that folder, x

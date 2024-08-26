@@ -2,34 +2,7 @@
 title: Terminal Mac Cheatsheet
 ---
 
----
-title: Example Reference
-description: A reference page in my new Starlight docs site.
----
-
-# Terminal Cheatsheet for Mac (Basics)
-
-This cheatsheet is available in many languages. Since the translation rely on volunteers, the content between the available languages may vary. Choose one below:
-
-- [English Version](#english-version)
-- [Version en Español](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Español)
-- [Version Française](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Français)
-- [Wersja Polska](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Polskie)
-- [Versão em Português](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Português)
-- [Versioni Shqip](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Shqiptar)
-- [Phiên bản Tiếng Việt](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Tiếng%20Việt)
-- [Türkçe Versiyonu](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Türk)
-- [Русская Версия](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Русский)
-- [Українська Версія](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Українська)
-- [한국어판](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/한국어)
-- [中文版](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/中文)
-- [日本語](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/日本語)
-- [繁體中文版](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/繁體中文)
-- [Bahasa Indonesia](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Indonesia)
-- [Deutsch](https://github.com/0nn0/terminal-mac-cheatsheet/tree/master/Deutsch)
-
-## English Version
-
+[Original Source](https://github.com/0nn0/terminal-mac-cheatsheet)
 _Letters are shown capitalized for readability only._ _Capslock should be off._
 
 ---

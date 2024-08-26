@@ -1,24 +1,10 @@
 ---
-title: Readme You Don'T Need Gui
+title: You Don't Need GUI
 ---
 
----
-title: Example Reference
-description: A reference page in my new Starlight docs site.
----
-
-[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/you-dont-need/GUI)
-
-[中文版请看这里](readme-zh_CN.md)
-
-<details>
-It's for noobs :)
-</details>
-<br />
+[Original Source](https://github.com/you-dont-need/You-Dont-Need-GUI)
 
 Graphical user interfaces are super friendly to computer users. They were introduced in reaction to the perceived steep learning curve of command-line interfaces (CLIs).
-
-![Xerox Star 8010 workstations](Xerox_Star_8010_workstations.jpg)
 
 However, they often require more resources, are less powerful and hard to automate via scripting.
 
@@ -468,8 +454,6 @@ $ less apps/settings.py
 $ grep -i "Query" file.txt
 ```
 
-![grep](grep.jpg)
-
 [Go to table of contents 🔼](#quick-links)
 
 ## search in all files in current working directory, quickly (entire disk in less than 15 minutes)
@@ -621,8 +605,6 @@ $ whois www.google.com
 [Go to table of contents 🔼](#quick-links)
 
 ## Quick tips
-
-![CLI tips](cli_tips.jpg)
 
 [Go to table of contents 🔼](#quick-links)
 

@@ -1,37 +1,12 @@
----
-title: Readme
----
-
-# Learning Resources
+# My Knowledge WIki
 
 Resources that I've found useful in learning to code. Includes a lot of links and my own notes in Markdown format.
 
-## How to use this repo (for now)
+Thanks to Kyle Malloy (and the Astro community Discord) for the very handy [Python script](https://gist.github.com/kmalloy24/6a4e20d30a773a7fc13ebdd4331cc73d) to add title frontmatter to my existing Markdown files.
 
-- Download the repo. Access it with your finder/file explorer. That's how I access it on my computer so that's how it's organised.
-
-## To do
-
-- I want to get this to the point where it's more usable for everyday users and Windows users on Github directly.
-- I plan to do this by:
-  - Working out a better way to display links in finder that can be viewed on github (ie. not url or webloc)
-  - Organising the folders more clearly
-    - A decent file structure map on this readme
-
-# Starlight Starter Kit: Basics
+Used Astro Starlight Starter Kit: [https://github.com/withastro/starlight](https://github.com/withastro/starlight)
 
 [![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
-
-```
-npm create astro@latest -- --template starlight
-```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/withastro/starlight&create_from_path=examples/basics)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
 ## 🚀 Project Structure
 
