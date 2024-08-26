@@ -1,3 +1,7 @@
+---
+title: Green Software Foundation
+---
+
 Still early on so good to talk about it, be open and public about it. Write in readme etc. 
 
 Carbon score for website, can add to site 

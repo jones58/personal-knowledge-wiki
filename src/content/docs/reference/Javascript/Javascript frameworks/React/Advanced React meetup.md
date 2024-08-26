@@ -1,3 +1,7 @@
+---
+title: Advanced React Meetup
+---
+
 
 More than 3 seconds to load - will lose visitors 
 

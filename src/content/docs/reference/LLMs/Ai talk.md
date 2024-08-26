@@ -1,3 +1,7 @@
+---
+title: Ai Talk
+---
+
 Public data is running out 
 Private/proprietary data is the future of ai
 Ai is most useful when fully integrated 

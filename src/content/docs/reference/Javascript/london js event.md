@@ -1,3 +1,7 @@
+---
+title: London Js Event
+---
+
 
 6000 ish members
 
