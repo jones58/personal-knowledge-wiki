@@ -17,19 +17,29 @@ def generate_title(filename):
 def add_frontmatter(file_path):
     # Extract the filename
     filename = os.path.basename(file_path)
-    # Generate the title
-    title = generate_title(filename)
-    # Create the frontmatter content
-    frontmatter = f"---\ntitle: {title}\n---\n\n"
 
     # Read the original file content with utf-8 encoding
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
 
+    # Check if frontmatter with title already exists
+    if content.startswith('---') and 'title:' in content.split('---')[1]:
+        print(f"Frontmatter with title already exists in {filename}. Skipping.")
+        return
+
+    # Generate the title
+    title = generate_title(filename)
+    # Create the frontmatter content
+    frontmatter = f"---\ntitle: {title}\n---\n\n"
+
+
+
+
+
     # Write the frontmatter followed by the original content with utf-8 encoding
     with open(file_path, 'w', encoding='utf-8') as file:
-        file.write(frontmatter + content)
 
+        file.write(frontmatter + content)
 # Function to process all markdown and mdx files in the directory and its subdirectories
 def process_all_files(directory):
     for root, _, files in os.walk(directory):
