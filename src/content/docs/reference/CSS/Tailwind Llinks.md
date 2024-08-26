@@ -1,5 +1,5 @@
 ---
-title: Links
+title: Tailwind Links
 ---
 
 - [aniftyco:awesome-tailwindcss- 😎 Awesome things related to Tailwind CSS](https://github.com/aniftyco/awesome-tailwindcss)
