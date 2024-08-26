@@ -4,8 +4,36 @@ title: Welcome!
 
 This is my personal wiki, with all the links and notes that I find useful.
 
-Click a category to begin.
+Click a category to begin or type `cmd+k` to open the search bar.
 
-Type `cmd+k` to open the search bar.
+### How I Built This Site
 
-[View the Code](https://github.com/jones58/Learning-resources)
+- Used Astro Starlight Starter Kit: https://github.com/withastro/starlight
+- Thanks to Kyle Malloy (and the Astro community Discord) for the very handy Python script to add title frontmatter to my existing Markdown files.
+- I also had a massive amount of webloc files which I wanted to turn into md files with links, so I used a Python script for that too.
+
+### Project Structure
+
+Inside of your Astro + Starlight project, you'll see the following folders and files:
+
+```
+.
+├── public/
+├── src/
+│ ├── assets/
+│ ├── content/
+│ │ ├── docs/
+│ │ └── config.ts
+│ └── env.d.ts
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
+```
+
+Starlight looks for .md or .mdx files in the src/content/docs/ directory. Each file is exposed as a route based on its file name.
+
+Images can be added to src/assets/ and embedded in Markdown with a relative link.
+
+Static assets, like favicons, can be placed in the public/ directory.
+
+[Click to Read More](https://github.com/jones58/Learning-resources)
