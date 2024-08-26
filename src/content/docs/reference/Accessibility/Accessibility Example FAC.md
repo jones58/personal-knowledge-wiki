@@ -9,6 +9,8 @@ keywords:
   - fundamentals
 ---
 
+Notes from Founders and Coders Coursebook.
+
 It's important to remember that the web is for everybody. You should strive to build interfaces that are _accessible_ to as many people as possible. This means specifically including users who often get left out: those with disabilities.
 
 As developers we have both a moral and legal imperative to make sure our applications are accessible. A UI that can only be used by a sighted person with a mouse should be considered _broken_, just like a UI that _isn't_ usable with a mouse would be considered broken.
