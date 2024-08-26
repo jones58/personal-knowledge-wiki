@@ -2,8 +2,6 @@
 title: Links
 ---
 
-# Links:
-
 - [aniftyco:awesome-tailwindcss- 😎 Awesome things related to Tailwind CSS](https://github.com/aniftyco/awesome-tailwindcss)
 - [fireship-io:tailwind-dashboard- Discord inspired dashboard built with Tailwind CSS and React](https://github.com/fireship-io/tailwind-dashboard)
 - [SvelteKit & TailwindCSS Tutorial – Build & Deploy a Web Portfolio - YouTube](https://www.youtube.com/watch?v=-2UjwQzxvBQ)

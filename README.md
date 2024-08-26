@@ -1,8 +1,14 @@
+---
+title: Readme
+---
+
 # My Knowledge WIki
 
 Resources that I've found useful in learning to code. Includes a lot of links and my own notes in Markdown format.
 
 Thanks to Kyle Malloy (and the Astro community Discord) for the very handy [Python script](https://gist.github.com/kmalloy24/6a4e20d30a773a7fc13ebdd4331cc73d) to add title frontmatter to my existing Markdown files.
+
+I also had a massive amount of webloc files which I wanted to turn into md files with links, so I used a Python script for that too.
 
 Used Astro Starlight Starter Kit: [https://github.com/withastro/starlight](https://github.com/withastro/starlight)
 
