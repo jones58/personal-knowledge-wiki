@@ -1,7 +1,3 @@
----
-title: Todo
----
-
 [follow this](https://starlight.astro.build/getting-started/)
 
 fix deploy on netlify.
@@ -12,4 +8,8 @@ style differently, maybe Dracula CSS.
 
 Change favicon.
 
-make more like intersect robb knight
+make more like intersect robb knight https://intersect.rknight.me
+
+add sitemap
+
+explore other astro addons
