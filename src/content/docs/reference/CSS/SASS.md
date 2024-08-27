@@ -47,10 +47,48 @@ SASS can help write stylesheets that are both readable and maintainable.
             background: $color;
             }
         ```
+    - Functions
         - can write if else blocks.
+            - ```scss
+            @function color($color) {
+                @if $color == red {
+                    @return red;
+                } @else {
+                    @return black;
+                }
+            }
+            $color: color(red);
+            ```
+        - can extract into function, like so:
+            ```scss
+            @function color($color) {
+                @if $color == red {
+                    @return red;
+                } @else {
+                    @return black;
+                }
+            }
+            $color: color(red);
+            ```
+        - can also use `@each` to loop through values, like so:
+            ```scss
+            @each $color in red, green, blue {
+                .item-#{$color} {
+                    background: $color;
+                }
+            }
+            ```
+        - SASS has some built in functions, like lighten and darken for colours and round for numbers:
+            ```scss
+            $base-color: green;
+
+            .card {
+                background: darken($base-color, 25%);
+            }
 
 ### Reference Links:
 
 - [100 second guide](https://www.youtube.com/watch?v=akDIJa0AP5c)
 - [SASS docs](https://sass-lang.com/documentation/)
 - [Key Concepts](https://sass-lang.com/guide/)
+- [Using SASS and Tailwind with PostCSS](https://www.elian.codes/blog/21-04-13-writing-your-own-components-with-tailwind-sass/)
