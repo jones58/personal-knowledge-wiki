@@ -85,6 +85,25 @@ SASS can help write stylesheets that are both readable and maintainable.
             .card {
                 background: darken($base-color, 25%);
             }
+        - Partials
+            - Partials are SASS files that contain snippets of CSS that you can include in other SASS files
+            - Partial filenames start with an underscore, e.g. _partial.scss
+            - Use @import to include partials in other files
+            - Partials help organize and modularize your stylesheets
+            - e.g:
+
+              ```scss
+                // _colors.scss
+                $primary-color: #3498db;
+                $secondary-color: #2ecc71;
+
+                // main.scss
+                @import 'colors';
+
+                body {
+                    background-color: $primary-color;
+                }
+                ```
 
 ### Reference Links:
 
