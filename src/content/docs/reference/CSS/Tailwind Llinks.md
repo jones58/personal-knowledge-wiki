@@ -15,3 +15,4 @@ title: Tailwind Links
 - [Installation - Tailwind CSS](https://tailwindcss.com/docs/installation)
 - [tailwindcomponents.com:cheatsheet](https://tailwindcomponents.com/cheatsheet)
 - [Flowbite - Build websites even faster with components on top of Tailwind CSS](https://flowbite.com/)
+- [LinkedIn Carousel on Tailwind](https://www.linkedin.com/feed/update/urn:li:activity:7217046943389085697/?utm_source=share&utm_medium=member_android)

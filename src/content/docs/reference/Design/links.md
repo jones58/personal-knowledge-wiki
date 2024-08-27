@@ -13,3 +13,4 @@ title: Links
 - [world's shortest Figma course - YouTube](https://www.youtube.com/watch?v=1pW_sk-2y40)
 - [Learn p5.js for Creative Coding – 5 Beginner Projects - YouTube](https://www.youtube.com/watch?v=o5t7PxRJSXk)
 - [CSS Tools for Enhanced Web Design - DEV Community](https://dev.to/lilxyzz/useful-css-tools-17bc?ref=dailydev)
+- [Design Principles](https://principles.design/)

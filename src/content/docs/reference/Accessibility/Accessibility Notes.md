@@ -16,4 +16,5 @@ Accessibility
 - options to highlight to help focus - maybe there’s a plugin
 - Recite me
 
-[[how to do accessibility colour scheme]]
+
+[Fair Framework for leanring Accessibility quickly](https://mrfirthy.me/blog/fair-framework)

@@ -3,7 +3,7 @@ title: More Links
 ---
 
 # Links:
-
+- [Python Roadmap](https://roadmap.sh/python)
 - [Learn Python For Free - Interactive Tutorial 2](https://scrimba.com/learn/python)
 - [Python Expertise Level - Self-Assessment](https://safjan.com/python-expertise-level-self-assessment/)
 - [Pytest Tutorial – How to Test Python Code - YouTube](https://www.youtube.com/watch?v=cHYq1MRoyI0)

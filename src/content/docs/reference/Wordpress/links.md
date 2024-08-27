@@ -11,3 +11,7 @@ title: Links
 - [Install Wordpress on Your Own Mac or Pc with "Local" - YouTube](https://www.youtube.com/watch?v=tkf0fbrttsU)
 - [PHP Full Course for non-haters 🐘 (2023) - YouTube](https://www.youtube.com/watch?v=zZ6vybT1HQs)
 - [Services - Lennart Horst's internet newsletter](https://www.lennarthorst.com/p/services)
+- [A Brand New Way to Learn Wordpress](https://wordpress.org/news/2024/08/a-brand-new-way-to-learn-wordpress/)
+- [Awesome Wordpress](https://github.com/miziomon/awesome-wordpress)
+- [CK Wordpress Starter Template](https://github.com/commonknowledge/wordpress-starter-template)
+- [CK Wordpress Learning](https://annacunnane.co.uk/what-ive-learnt-about-wordpress-development/)
