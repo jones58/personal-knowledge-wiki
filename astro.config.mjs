@@ -15,6 +15,7 @@ export default defineConfig({
         src: "/public/favicon.svg",
       },
       title: "My Knowledge Wiki",
+      customCss: ["./src/styles/custom.css"],
       social: {
         github: "https://github.com/jones58/personal-knowledge-wiki",
       },
