@@ -9,13 +9,15 @@ Worth reading:
 - [Convert HTML to FastTags](https://h2f.answer.ai/)
 - [Web dev quick start](https://docs.fastht.ml/tutorials/quickstart_for_web_devs.html)
 
-- [HTMX docs](https://htmx.org/reference/#attributes) for attributes.
+- [HTMX docs](https://htmx.org/reference/#attributes) for attributes and [HTMX intro](https://calmcode.io/course/htmx/introduction)
 - [PicoCSS](https://picocss.com/) as it's added by default to FastHTML apps.
 - [FastHTML Component Extensions](https://docs.fastht.ml/api/xtend.html)
 - [FastHTML docs](https://fasthtml.dev/)
 - [HyperMedia Systems](https://hypermedia.systems/book/contents/)
   - keep reading[from here:](https://hypermedia.systems/hypermedia-a-reintroduction/)
+- [Python Tailwind](https://pypi.org/project/pytailwindcss/)
 
-Watch:
+- For using with Claude: [these files](https://github.com/AnswerDotAI/fasthtml/raw/main/mds.zip)
+  Watch:
 
 - [HTMX is changing the web](https://www.youtube.com/watch?v=WuipZMUch18)
