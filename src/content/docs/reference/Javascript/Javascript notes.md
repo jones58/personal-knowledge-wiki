@@ -5,7 +5,6 @@ title: Javascript Notes
 ## Javascript notes
 
 You can do frontend, backend, mobile apps - pretty much every area of development you can use javascript for.
-https://www.tate.org.uk/whats-on/tate-britain/women-in-revolt
 
 ### Web browser
 
