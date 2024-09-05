@@ -39,6 +39,27 @@ There are lots of matchers, like toBe(), toEqual(), toContain(), etc.
 - Callbacks
   - The done parameter is passed to the callback.
 - Promises
+  - use resolves and rejects
+- Async
+  - use async and await
+  - Cleaner testing
+
+## Mock Functions and Spies
+
+Mocking isolates the unit of code which is being tested. Replace slow or unavailable functions.
+Use jest.fn to write a mock function.
+
+```js
+test("mock implementation of a function", () => {
+  const mock = jest.fn((x) => 42 + x);
+  expect(mock(1)).toBe(43);
+  expect(mock).toHaveBeenCalledWith(1);
+});
+```
+
+Use toHaveBeenCalledWith to check if a function was called with certain arguments.
+
+Use spy to see if a function was called. Spy.mockRestore() to restore the original function.
 
 ## Resources
 
@@ -52,3 +73,7 @@ There are lots of matchers, like toBe(), toEqual(), toContain(), etc.
 [Jest GUI: Majestic](https://github.com/Raathigesh/majestic)
 [Jest Preview](https://www.jest-preview.com/)
 [Awesome Jest Reources](https://github.com/jest-community/awesome-jest)
+
+```
+
+```
