@@ -111,3 +111,4 @@ SASS can help write stylesheets that are both readable and maintainable.
 - [SASS docs](https://sass-lang.com/documentation/)
 - [Key Concepts](https://sass-lang.com/guide/)
 - [Using SASS and Tailwind with PostCSS](https://www.elian.codes/blog/21-04-13-writing-your-own-components-with-tailwind-sass/)
+- [SASS Guidelines](https://sass-guidelin.es/)
