@@ -2,9 +2,9 @@
 title: Frontend Coding Interview
 ---
 
-You can find some sites that I use below:
+You can find some sites that I use to prepare for technical interviews below.
 
-[Testdome](https://www.testdome.com/library?page=1&skillArea=31) - Site used by hiring teams with plenty of practice questions. Focussed on running tests and solving issues. This is a great place to start for all kinds of technical tests - whether frontend or backednd.
+[Testdome](https://www.testdome.com/library?page=1&skillArea=31) - This site is used by hiring teams and has plenty of practice questions. Focussed on running tests and solving issues. This is a great place to start for all kinds of technical tests - whether frontend or backednd.
 
 Some Leetcode style sample tests for frontend (mostly React):
 
