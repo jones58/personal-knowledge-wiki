@@ -2,7 +2,9 @@
 title: Frontend Coding Interview
 ---
 
-You can find some sites that I
+You can find some sites that I use below:
+
+[Testdome](https://www.testdome.com/library?page=1&skillArea=31) - Site used by hiring teams with plenty of practice questions. Focussed on running tests and solving issues. This is a great place to start for all kinds of technical tests - whether frontend or backednd.
 
 Some Leetcode style sample tests for frontend (mostly React):
 
@@ -12,8 +14,6 @@ Some Leetcode style sample tests for frontend (mostly React):
 - [React Practice](https://reactpractice.dev/)
 - [I code this](https://icodethis.com/)
 - [Decode Frontend](https://decode-frontend.vercel.app/problems/two-sum)
-- [text](https://www.testdome.com/tests/react-js-online-test/104)
-
 - [example interview](https://www.youtube.com/watch?v=XEt09iK8IXs&list=WL&index=2)
 
 JavaScript and Typescript exercises (more similar to traditional Leetcode style test):
