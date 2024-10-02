@@ -2,6 +2,13 @@
 title: Frontend Coding Interview
 ---
 
+- Improve your overall coding skill, it's all about problem solving and how you break a problem down.
+- Don't use AI to write your code, maybe as a teacher, but not just to spit out everything.
+- Work on debugging without AI, using console.log() and tests.
+- Code more!
+- Unusual to use Typescript in junior dev interview, can focus on js. You can also look at how to manipulate HTML using JS.
+- In the Testing IDE, you should use tests to help you code step by step, as well as the instructions. Focus on meeting one test at a time.
+
 You can find some sites that I use to prepare for technical interviews below.
 
 [Testdome](https://www.testdome.com/library?page=1&skillArea=31) - This site is used by hiring teams and has plenty of practice questions. Focussed on running tests and solving issues. This is a great place to start for all kinds of technical tests - whether frontend or backednd.
