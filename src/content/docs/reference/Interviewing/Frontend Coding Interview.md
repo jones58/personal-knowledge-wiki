@@ -2,6 +2,14 @@
 title: Frontend Coding Interview
 ---
 
+## First Stage/Informal Interviews
+
+- Stop before answering questions, to make sure you know what to say.
+- If you have an online interview, can be helpful to have notes open on your computer.
+- How to work with non technical people is worth thinking about.
+
+## Techical Interviews
+
 - Improve your overall coding skill, it's all about problem solving and how you break a problem down.
 - Don't use AI to write your code, maybe as a teacher, but not just to spit out everything.
 - Work on debugging without AI, using console.log() and tests.
