@@ -17,3 +17,4 @@ title: Tailwind Links
 - [Flowbite - Build websites even faster with components on top of Tailwind CSS](https://flowbite.com/)
 - [LinkedIn Carousel on Tailwind](https://www.linkedin.com/feed/update/urn:li:activity:7217046943389085697/?utm_source=share&utm_medium=member_android)
 - [Another LinkedIn Carousel](https://www.linkedin.com/posts/ayushpatel97_tailwindcss-tailwindcsstips-tailwindcss-activity-7233469005544456192-3uWv?utm_source=share&utm_medium=member_desktop)
+- [Tailwind Flex - free Tailwind examples](https://tailwindflex.com/)
