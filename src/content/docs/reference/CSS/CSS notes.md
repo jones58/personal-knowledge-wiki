@@ -621,8 +621,4 @@ transform: skewX(20deg) skewY(-10deg);
 
 **transform-origin** : using `transform-origin` to specify the point around which the transformations are applied.
 
-other notes:
-[[common-css-properties.pdf]]
-[[CSS Grid]]
-[[CSS Float]]
-[[CSS Flexbox]]
+[CSS Protips](https://github.com/AllThingsSmitty/css-protips)

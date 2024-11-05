@@ -14,3 +14,5 @@ The most useful Storybook tutorial, which I followed is [here](https://storybook
 we can do testing in storybook [in various ways](https://storybook.js.org/tutorials/ui-testing-handbook/)
 
 [addons](https://storybook.js.org/addons)
+
+[Component Testing](https://storybook.js.org/blog/component-testing/)

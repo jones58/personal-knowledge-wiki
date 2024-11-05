@@ -22,3 +22,4 @@ useDispatch() - const dispatch = useDispatch() - then access the dispatchj acion
 # Links
 
 [Redux docs are a good place to start](https://redux.js.org/tutorials/essentials)
+[Fundamentals of Redux](https://egghead.io/courses/fundamentals-of-redux-course-from-dan-abramov-bd5cc867)
