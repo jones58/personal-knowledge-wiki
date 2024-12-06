@@ -3,6 +3,7 @@ title: Tailwind Links
 ---
 
 - [aniftyco:awesome-tailwindcss- 😎 Awesome things related to Tailwind CSS](https://github.com/aniftyco/awesome-tailwindcss)
+- [Tailwind Plugins](https://daisyui.com/blog/9-best-tailwind-css-plugins-for-developers/)
 - [fireship-io:tailwind-dashboard- Discord inspired dashboard built with Tailwind CSS and React](https://github.com/fireship-io/tailwind-dashboard)
 - [SvelteKit & TailwindCSS Tutorial – Build & Deploy a Web Portfolio - YouTube](https://www.youtube.com/watch?v=-2UjwQzxvBQ)
 - [konstaui:konsta- Mobile UI components made with Tailwind CSS](https://github.com/konstaui/konsta)
@@ -18,3 +19,4 @@ title: Tailwind Links
 - [LinkedIn Carousel on Tailwind](https://www.linkedin.com/feed/update/urn:li:activity:7217046943389085697/?utm_source=share&utm_medium=member_android)
 - [Another LinkedIn Carousel](https://www.linkedin.com/posts/ayushpatel97_tailwindcss-tailwindcsstips-tailwindcss-activity-7233469005544456192-3uWv?utm_source=share&utm_medium=member_desktop)
 - [Tailwind Flex - free Tailwind examples](https://tailwindflex.com/)
+- [Container Queries in Tailwind](https://www.youtube.com/watch?v=q5ZaauBpSlU)
