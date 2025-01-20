@@ -3,7 +3,7 @@ title: Learning Storybook
 ---
 
 [Storybook docs](https://storybook.js.org/docs)
-Interesting perspective on the alternatives to Storybook [here](https://www.youtube.com/watch?v=XxBi_Up325g&t=198s)]
+Interesting perspective on the alternatives to Storybook [here](https://www.youtube.com/watch?v=XxBi_Up325g&t=198s)
 
 Storybook is often used by big companies for their component libraries. There's a collection [here](https://storybook.js.org/showcase/projects). Of note is the [GOV.UK](https://govuk-react.github.io/govuk-react/?path=/docs/welcome--docs) component library.
 
