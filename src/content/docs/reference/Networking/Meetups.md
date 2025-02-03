@@ -4,7 +4,7 @@ title: Meetups
 
 Meetups are an important way of learning and meeting other developers.
 
-My list of meetups in London is [here](https://jones58.github.io/londontechmeetups.github.io/).
+My list of meetups in London is [here](https://jackkershaw.github.io/londontechmeetups.github.io/).
 
 I regularly check:
 
